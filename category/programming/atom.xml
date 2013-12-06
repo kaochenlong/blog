@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Programming | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/programming/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/programming/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Code Reading @ RubyKaigi 2013]]></title>
-    <link href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/05/code-reading-in-rubykaigi2013/"/>
     <updated>2013-06-05T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/06/05/code-reading-in-rubykaigi2013</id>
     <content type="html"><![CDATA[<p>很高興這次能有機會到日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>，我分享的題目是："<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>"，算是個滿冷門的題目，主要是分享我自己從閱讀 Ruby 原始程式碼中學習到的一些經驗。不過當天還有不少朋友來捧場，讓場子看起來不會太冷清，真是太意外了(其實我也搞不清楚到底有多少人，我當時已經緊張到沒辦法算數了)。<br />
 <span class="translate">Really glad to go to Japan and join the <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>, the topic of my talk is "<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>", which I don't think it's a popular topic, and it's about my experience while reading Ruby source code. Thanks to those friends who are willing to come to my talk.(Actually I was too nervous to count how many people already)</span></p>
 
@@ -98,9 +98,9 @@ Anyway, I learned a lot on this trip to Japan, and I'll write them down in next 
   
   <entry>
     <title type="html"><![CDATA[我選擇的程式語言]]></title>
-    <link href="http://blog.eddie.com.tw/2011/04/11/my-programming-languages/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/04/11/my-programming-languages/"/>
     <updated>2011-04-11T13:54:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/04/11/my-programming-languages</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/04/11/my-programming-languages</id>
     <content type="html"><![CDATA[<p><img src="/images/2011/tools.jpg" alt="image" /></p>
 
 <p>這篇文章並沒有要比較哪個程式語言比較威，選擇適合自己的，寫得開心才是王道。</p>
@@ -198,9 +198,9 @@ Anyway, I learned a lot on this trip to Japan, and I'll write them down in next 
   
   <entry>
     <title type="html"><![CDATA[Programming Language Popularity]]></title>
-    <link href="http://blog.eddie.com.tw/2006/04/03/programming-language-popularity/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2006/04/03/programming-language-popularity/"/>
     <updated>2006-04-03T23:12:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2006/04/03/programming-language-popularity</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2006/04/03/programming-language-popularity</id>
     <content type="html"><![CDATA[<p>幾個有趣的統計資料連結，貼給自己看</p>
 
 <ul>

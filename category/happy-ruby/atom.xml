@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Happy Ruby | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/happy-ruby/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/happy-ruby/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Public, Protected and Private Method in Ruby]]></title>
-    <link href="http://blog.eddie.com.tw/2011/07/26/public-protected-and-private-method-in-ruby/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/07/26/public-protected-and-private-method-in-ruby/"/>
     <updated>2011-07-26T15:45:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/07/26/public-protected-and-private-method-in-ruby</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/07/26/public-protected-and-private-method-in-ruby</id>
     <content type="html"><![CDATA[<p>如果你曾經在別的程式語言寫過OOP，你也許對類別的方法存取限制不會太陌生。類別的方法的存取限制常見的有三種：public、protected以及private。</p>
 
 <p>這三種存取限制，比較常聽到的解釋大概會是像這樣：
@@ -282,9 +282,9 @@ father是Father類別生出來的實體，而實體的public方法如所預期�
   
   <entry>
     <title type="html"><![CDATA[Ruby裡的方法呼叫]]></title>
-    <link href="http://blog.eddie.com.tw/2011/06/16/method-call-in-ruby/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/06/16/method-call-in-ruby/"/>
     <updated>2011-06-16T15:02:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/06/16/method-call-in-ruby</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/06/16/method-call-in-ruby</id>
     <content type="html"><![CDATA[<p>Ruby裡的方法呼叫雖然還滿直覺的，不過偶爾可能會因為位置、角色的不同而會有不同的結果。</p>
 
 <h3>雙胞胎?</h3>

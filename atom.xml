@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Object, Class and Meta Class in Objective-C]]></title>
-    <link href="http://blog.eddie.com.tw/2013/12/05/object-class-and-meta-class-in-objective-c/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/12/05/object-class-and-meta-class-in-objective-c/"/>
     <updated>2013-12-05T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/12/05/object-class-and-meta-class-in-objective-c</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/12/05/object-class-and-meta-class-in-objective-c</id>
     <content type="html"><![CDATA[<p>寫了一陣子的 Objective-C/iOS app，這次讓我們回頭來看點基礎的東西 :)</p>
 
 <h3>什麼是 id?</h3>
@@ -205,7 +205,7 @@
 
 <p>而 Meta Class 其實也是一種類別，所以也跟一般的類別一樣有 <code>isa</code> 跟 <code>super_class</code> 指針&#8230; 所以就可以把這整個的關係用一張圖表來解釋：</p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/objective-c-object-model.png" alt="image" /></p>
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/objective-c-object-model.png" alt="image" /></p>
 
 <p>看圖說故事：</p>
 
@@ -327,10 +327,10 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[分心 FanXin app]]></title>
-    <link href="http://blog.eddie.com.tw/2013/10/18/fanxin-app/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/10/18/fanxin-app/"/>
     <updated>2013-10-18T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/10/18/fanxin-app</id>
-    <content type="html"><![CDATA[<p><img src="http://blog.eddie.com.tw/images/2013/fanxin-app.jpg" alt="image" /></p>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/10/18/fanxin-app</id>
+    <content type="html"><![CDATA[<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/fanxin-app.jpg" alt="image" /></p>
 
 <p>今年二月份剛好有機會到朋友的公司幫忙開發 iOS app：「分心 FanXin」。顧名思義，就是一個可以讓你一邊看電視，一邊分心地跟朋友聊劇情的 app。</p>
 
@@ -343,7 +343,7 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
 <p>這回幾乎把一些常見的 iOS app 常用的東西都再磨過一輪。UI customization 當然是免不了的，另外，從 Facebook SDK 到 remote &amp; local notification，從 HTTP API 的串接到 streaming messaging protocol 的訊息處理，從 Core Data 到 NoSQL 等等，甚至也很幸運的遇到了 iOS 7 的 migration，完全體會到做玩具跟做產品的差別。</p>
 
 <p>這個 app 雖然不是全新打造的，但由於舊版的 app 架構有些不適合新改版的功能需求，所以最後幾乎是整個砍掉重練，從無到有手刻了超過三萬五千多行的程式碼(不包含3rd party library)：
-<img src="http://blog.eddie.com.tw/images/2013/fanxin-cloc.png" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/fanxin-cloc.png" alt="image" />
 雖然跟一些大型專案比起來還差很遠，但對我個人來說已是個里程碑，除了提昇了不少寫 code 的手感外，也更了解 Objective-C 跟 Cocoa framework 是怎麼回事。</p>
 
 <p><a href="http://fanxin.tv/">分心團隊</a>雖然是個新創團隊，但裡面的成員都不會太新手，有眼光犀利的UI、UX designer 讓整個 app 看起來很精緻，使用起來也更直覺；有優秀的工程師負責處理 API，也有專門負責行銷及想點子的同事，讓開發人員可以 專心的開發 app；除此之外，還有 Web 平台的開發人員，讓 Web 跟 Mobile 都有一樣的功能。在這短短的八個多月的時間跟大家學到不少。</p>
@@ -361,10 +361,10 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[HHKB Pro2 鍵盤使用心得]]></title>
-    <link href="http://blog.eddie.com.tw/2013/06/29/about-hhkb-pro2/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/29/about-hhkb-pro2/"/>
     <updated>2013-06-29T10:02:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/06/29/about-hhkb-pro2</id>
-    <content type="html"><![CDATA[<p><img src="http://blog.eddie.com.tw/images/2013/hhkb-pro2-1.jpg" alt="image" /></p>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/06/29/about-hhkb-pro2</id>
+    <content type="html"><![CDATA[<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/hhkb-pro2-1.jpg" alt="image" /></p>
 
 <p>我每天的工作是敲打鍵盤之類的文書工作，所以幫自己找一隻順手的鍵盤也是剛剛好的藉口。</p>
 
@@ -384,12 +384,12 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
 <p>第二個不習慣的點，是 <kbd>DELETE</kbd> 鍵的位置在 <kbd>ENTER</kbd> 鍵上方，一開始常常會打錯。為什麼這樣設計呢? 其實我也不清楚，反正我現在也都是儘量使用 <kbd>CTRL</kbd> + <kbd>h</kbd> 來替代 <kbd>DELETE</kbd> 鍵。</p>
 
 <p>最後，就是它的 <kbd>~</kbd> 跟 <kbd>|</kbd> 鍵的位置也跟一般鍵盤不一樣，附上一張 HHKB 的鍵盤配置圖：
-<img src="http://blog.eddie.com.tw/images/2013/hhkb-layout.png" alt="image" /></p>
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/hhkb-layout.png" alt="image" /></p>
 
 <p>HHKB 鍵盤最讓人卻步的，應該就是它沒有方向鍵。雖然沒有直接的方向鍵，但透過 <kbd>fn</kbd> 鍵的組合也是可以打得出來。一開始我也會覺得每次要上下左右之前還得再按一下 <kbd>fn</kbd> 很麻煩，但其實習慣之後也還好，而且對我自己的工作習慣來說，方向鍵使用的機會其實並沒想像中的多。</p>
 
 <p>另外，鍵盤後面另外還有兩個 USB 插槽，剛好解決 MBP 的 USB 接孔不足的問題，像我就是拿來接無線滑鼠：
-<img src="http://blog.eddie.com.tw/images/2013/hhkb-pro2-usb-slots.jpg" alt="image" /></p>
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/hhkb-pro2-usb-slots.jpg" alt="image" /></p>
 
 <h2>為什麼選無刻?</h2>
 
@@ -419,7 +419,7 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
 <h2>使用</h2>
 
 <p>平常使用鍵盤大多是就放在桌上，或是大腿上，如果空間不夠，我也會學 Richard Stallman 一樣把鍵盤架在筆電上：
-<img src="http://blog.eddie.com.tw/images/2013/hhkb-pro2-with-mbpr.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/hhkb-pro2-with-mbpr.jpg" alt="image" />
 可惜沒辦法架在原本的鍵盤上(會壓到筆電本身的鍵盤，據說 MBA 11&#8221; 的可以，不過我沒試過)</p>
 
 <p>另外，我也很騷包的從友人那邊取得了一條會發光的 mini USB 線：<iframe width="420" height="315" src="http://www.youtube.com/embed/hEepCFj7vKc" frameborder="0" allowfullscreen></iframe></p>
@@ -434,14 +434,14 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[RubyKaigi 2013]]></title>
-    <link href="http://blog.eddie.com.tw/2013/06/14/rubykaigi-2013/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/14/rubykaigi-2013/"/>
     <updated>2013-06-14T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/06/14/rubykaigi-2013</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/06/14/rubykaigi-2013</id>
     <content type="html"><![CDATA[<p class="info">本篇文章已刊載於 <a href="http://www.openfoundry.org/tw/foss-forum/9002-rubykaigi-2013" target="_blank">OpenFoundry 電子報自由專欄</a>，刊登之內容由專業的 OpenFoundry 團隊潤稿，此篇為原文。</p>
 
 
 <p>今年日本的 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a> 在 5/29(四)、5/30(五)、6/1(六)舉辦，議程是雙軌同時進行，共計有超過五十場演講及十場 Lightning Talk，並包括三場主題演講 (Keynote)，跟上一屆一樣也是三天。這次有超過 500 位 Ruby 開發者參加，其中有超過 100 位是從國外來的，這樣的規模短期內在台灣可能還是沒辦法達到(全台灣真的有在用 Ruby 工作的開發者加起來總數說不定都還不到 500 人)。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-opening.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-opening.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <!-- more -->
@@ -454,15 +454,15 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <h2>Pre-event</h2>
 
 <p>在 RubyKaigi 正式開始前一天晚上，<a href="http://qwik.jp/asakusarb/" target="_blank">Asakusa.rb</a> 主辦了一個暖身活動(<a href="http://www.tokyorubyistmeetup.org/events/3954" target="_blank">報名網站</a>)，地點在日本相當知名的食譜網站公司 <a href="http://cookpad.com/" target="_blank">Cookpad</a>。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-cookpad.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-cookpad.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>現場來了許多只能在網路上才能見到的高手，而且連 Ruby 的老爸 <a href="https://twitter.com/yukihiro_matz" target="_blank">Matz</a> 也來了。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-matz.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-matz.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>現場氣氛十分熱絡，Cookpad 的廚師還親自動手作飯給大家吃，真的是太切題了。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-cookpad-meal.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-cookpad-meal.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h2>RubyKaigi</h2>
@@ -470,11 +470,11 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <h3>地點</h3>
 
 <p>RubyKaigi 的舉辦地點是在日本東京的國際交流館：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-location.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-location.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>主會議廳有上下兩層樓：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-architecture.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-architecture.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>本次大會主席角谷信太郎(<a href="https://twitter.com/kakutani" target="_blank">@kakutoni</a>)開場就說到：「那些平常只有在教課書裡才會出現的人物，現在很可能就坐在你身邊」。高手、大神們出沒的密度，遠超過我的想像。</p>
@@ -482,7 +482,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <h3>T-shirt</h3>
 
 <p>大會發給每位會眾一人一件 T-shirt，擺放在報到處，會眾自己報到的時候就自己拿一件，而我因為講者的身份，我又多賺到一件。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-t-shirt.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-t-shirt.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>可惜大會只提供 M 跟 L 尺寸，我太胖了，L 號的穿不太下..</p>
@@ -490,7 +490,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <h3>名牌</h3>
 
 <p>往年聽說就是用名信片大小的空白名牌讓大家自己手寫，不但可以省下印刷的時間跟成本，而且還可讓大家發揮自己的創意。另外，裝名牌的袋子背後的有個拉鏈，裡面可以放一些名片，這樣要跟現場的朋友交換名片的時候就方便多了。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-nametag.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-nametag.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h3>行動應用</h3>
@@ -500,7 +500,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <h3>訊息牆</h3>
 
 <p>在演講廳講台旁邊，設立了兩道訊息牆，一邊是來自 Twitter 的資料，另一邊則是來自 IRC。當沒有同步翻譯的的時候，訊息牆會貼心的出現善心人士的即時文字翻譯。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-message-wall.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-message-wall.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h3>RubyFriends</h3>
@@ -508,7 +508,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <p>網址：<a href="http://rubyfriends.com/" target="_blank">http://rubyfriends.com/</a></p>
 
 <p>Ruby 開發者(通常又稱 Rubyist)大多有使用 twitter 的習慣，只要 twitter 發文的內容裡有標記 #rubyfriends 這個 tag 就會被拉進來，並且在現場播放。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-projector.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-projector.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>我本來以為播放的是超薄的電視機，後來才知道原來用投影機加上 Android Smart TV 的組合就能做出這樣的效果，效果很不錯，而且成本比想像中的便宜 (<a href="http://hmsk.hatenablog.com/entry/2013/06/02/202411" target="_blank">參考資料來源</a>)。</p>
@@ -518,22 +518,22 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <p>網址：<a href="http://rubyistokei.herokuapp.com/" target="_blank">http://rubyistokei.herokuapp.com/</a></p>
 
 <p>參考 uniqlo 的 &#8220;UNIQLOCK&#8221; 概念製作的時鐘，目的是希望讓每位前來參加的 Rubyist 都有出現在螢幕上的機會，讓大家更有參與感。加照片的方式也很簡單，就自己直接 fork 一份指定的 <a href="https://github.com/darashi/rubyistokei" target="_blank">github repository</a>，加完照片資訊後發 pull request 就行了，這對習慣使用 git 做為版控工具的 Rubyist 們來說相當方便，也很切題。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-rubyistokei.jpg" alt="image" /></p>
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-rubyistokei.jpg" alt="image" /></p>
 
 <h3>世界 Rubyist Sticker</h3>
 
 <p>RubyKaigi 的會眾來自世界各地，這個設計也可以讓與會者更有參與感。台灣雖然不大，但我們這回可是來了五、六個人，當然一定要去衝一下人氣：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-world-sticker.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-world-sticker.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h3>塌塌米</h3>
 
 <p>如果你不想聽議程，或是想到外面透透氣，又或是在會場見到許久不見的好友想好好聊一下，在會議廳外面亦備有塌塌米可以隨時坐下來休息或工作，再走過去幾步就有 Microsoft 提供的免費飲料：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-tatami-1.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-tatami-1.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>中午用餐時間塌塌米則轉變成野餐型式：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-tatami-2.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-tatami-2.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h3>講師</h3>
@@ -543,10 +543,10 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <h3>議程</h3>
 
 <p>三天共計有三場主題演講(Keynote)，四十餘場一般演講以及十場 Lightning Talk，二軌議程同時進行。身為地主國而且又是 Ruby 之父的 Matz 當然是免不了一定要來一場 Keynote 的：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-matz-keynote.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-matz-keynote.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
-<p>至於其它精彩內容也不需要多做介紹，直接參考 <a href="http://rubykaigi.org/2013/schedule" target="_blank">RubyKaigi 議程</a>頁面會得到更多的資訊。順便厚臉皮的來偷偷廣告一下<a href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/" target="_blank">我自己的主題</a>。</p>
+<p>至於其它精彩內容也不需要多做介紹，直接參考 <a href="http://rubykaigi.org/2013/schedule" target="_blank">RubyKaigi 議程</a>頁面會得到更多的資訊。順便厚臉皮的來偷偷廣告一下<a href="http://kaochenlong.github.com/eddie-blog/2013/06/05/code-reading-in-rubykaigi2013/" target="_blank">我自己的主題</a>。</p>
 
 <h3>演講</h3>
 
@@ -557,7 +557,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <h3>Lightning Talk</h3>
 
 <p>每個人只有五分鐘的時間，而且必須用英文演講。時間一到旁邊的「ドラ娘」會敲鑼，並將強制中斷投影機訊號：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-dora.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-dora.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>常參加國內技術研討會的朋友對 LT 應該不陌生，很可惜大家時間都控制得很好，十個 LT 裡只有一個被拔線。</p>
@@ -565,7 +565,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <h3>Ruby Committer v.s. the World</h3>
 
 <p>Ruby 不愧是發源自日本的程式語言，平常要有機會可以跟 Ruby Committer 近距離接觸可能沒那麼容易，這次活動議程裡有一場叫做「Ruby Committers vs. the World」，就是請這些 Committer 們全部一起上台跟大家互動，或是討論 Ruby 之後的方向。一口氣看到台上大概二、三十位的 Ruby Core Committer 排排坐，雖然他們討論的內容是日文我沒能全部聽懂(這個時段沒有同步翻譯)，但依舊感到十分熱血。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-ruby-committers.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-ruby-committers.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h3>TRICK 2013</h3>
@@ -577,19 +577,19 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <p>請不要誤會，這裡的「變態」是稱讚意味。TRICK 這個比賽並不是要寫出什麼偉大的程式，而是希望參賽者在限定的檔案大小內，儘可能使用 Ruby 神奇或鮮為人知的技巧來寫程式。每個得獎作品，真的都非常變態，讓現場的大家驚嘆怎麼會有人想得出來把 Ruby 寫成這樣。</p>
 
 <p>評審陣容同樣也是非常豪華：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-trick-judges.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-trick-judges.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h3>Official Party</h3>
 
 <p>Official Party 是在第二天的晚上舉行，地點就在會場附近，活動由 Github 贊助，每個人都可以自由參加。加上因為我自己的演講結束了，輕鬆很多，可以放心大膽的吃吃喝喝，也在現場用我破破的英文認識不少日本朋友。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-official-party.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-official-party.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h3>書商</h3>
 
 <p>近年國內的技術研討會也都有書商的出現，RubyKaigi 則是請淳久堂在現場賣書。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-books.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-books.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>有趣的是，淳久堂帶來的這些書，書的作者本人幾乎都有在現場，買完書可以馬上厚臉皮的找作者簽名，相當方便。</p>
@@ -601,19 +601,19 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <p>除了現金贊助之外，也有一些其它的物資贊助，例如，Heroku 贊助大會三天活動的便當、Microsoft 讓大家在會場有免費的飲料可以喝，:DeNA 贊助現場的 WiFi，Ricoh 贊助現場的投影相關設備，Github 則是贊助 Official Party。</p>
 
 <p>不得不提一下，這回大會的便當不錯吃，而且還挺高級的(據說是日本知名的燒肉便當)：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-heroku-bento.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-heroku-bento.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h2>RubyHiroba (Hiroba日文為&#8221;廣場&#8221;意思)</h2>
 
 <p>這個活動是接在 RubyKaigi 的隔天，需要報名，但免費參加的活動。活動在日本 Microsoft 舉辦：
-<img src="http://blog.eddie.com.tw/images/2013/rubyhiroba-microsoft.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubyhiroba-microsoft.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>令我有些意外，原來日本 Microsoft 對 Ruby 有這麼多的贊助，除了前面提到贊助 RubyKaigi 的免費飲料外，也提供 RubyHiroba 的場地使用，這在台灣可能比較少見。</p>
 
 <p>不愧是大公司，雖然這只是一個角落的照片，還是可以看得出來工作環境相當不錯：
-<img src="http://blog.eddie.com.tw/images/2013/rubyhiroba-env.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubyhiroba-env.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>照片右下角不小心入鏡的正是 Ruby 的核心成員之一，Rubygems 跟 RDoc 的維護者 <a href="https://twitter.com/drbrain" target="_blank">Eric Hodel</a>。</p>
@@ -621,11 +621,11 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <p>上網回答問題的話(Ruby 程式相關的問題，網址：<a href="https://codeiq.jp/ace/ramen_burger/q330" target="_blank">https://codeiq.jp/ace/ramen_burger/q330</a>)，中餐可以得到一份&#8221;拉麵漢堡&#8221;。</p>
 
 <p>另外，活動也有製作很可愛的貼紙：
-<img src="http://blog.eddie.com.tw/images/2013/rubyhiroba-stickers.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubyhiroba-stickers.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>基本上 RubyHiroba 並沒有任何即定的議程，跟 RubyKaigi 比起來相對比較輕鬆。除了很多的 Lightning Talk 之外，在這個「廣場」的各個角落有一些同好會的聚集(例如 dRuby 或是地區 Ruby 社群)，，如果不想參與，也可以自己找個角落坐下來寫寫程式，或是去跟偶像們搭訕、請益。我在現場還跟著一位前輩學著折了紙做的紅寶石：
-<img src="http://blog.eddie.com.tw/images/2013/rubyhiroba-paper.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubyhiroba-paper.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>可惜我的日文能力太差，不然應該還可以認識更多的新朋友。</p>
@@ -638,15 +638,15 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 
 <p>Rails Girls Tokyo 在 RubyHiroba 也有一個角落，一開始我本來以為這會是台上講師講課，然後其它人坐在台下聽的方式進行，後來經由 organizer <a href="https://twitter.com/yotii23" target="_blank">Yuki Torii</a> 的說明才知道，原來她們並不一定每次都會像在學校&#8221;上課&#8221;的形式，反而是由一個教練(Coach)帶一到兩位學員進行小班制教學，以維持較好的學習品質。</p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/railsgirls-1.jpg" alt="image" />
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/railsgirls-1.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a>
-<img src="http://blog.eddie.com.tw/images/2013/railsgirls-2.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/railsgirls-2.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a>
-<img src="http://blog.eddie.com.tw/images/2013/railsgirls-3.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/railsgirls-3.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a>
-<img src="http://blog.eddie.com.tw/images/2013/railsgirls-4.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/railsgirls-4.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a>
-<img src="http://blog.eddie.com.tw/images/2013/railsgirls-5.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/railsgirls-5.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <h2>心得</h2>
@@ -656,7 +656,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <p>除了 RubyKaigi 這種年度大型的聚會外，日本<a href="http://regional.rubykaigi.org/" target="_blank">地區性的 Ruby 社群</a>也相當活躍，例如 <a href="http://qwik.jp/asakusarb/" target="_blank">Asakusa.rb</a>、<a href="http://qwik.jp/okinawarb/" target="_blank">okinawa.rb</a> 等社群，各有各的活動跟當地特色。</p>
 
 <p>在 RubyKaigi，資深前輩或高手出現的密度，真的可以用滿地都是來形容。我沒誇張，除了 Ruby Core Committer 之外，我大概書架上所有的日文 Ruby 相關書籍的作者我都遇到本人了(我還跟 Ruby Hacking Guide 一書的作者青木峰郎握到手了)，而且這些高手們都十分的客氣。我在會場看到我的偶像 <a href="https://twitter.com/tenderlove" target="_blank">Aaron Patterson</a>，就馬上厚臉皮的衝上前去拍照：
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-me-and-aaron.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-me-and-aaron.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>可以跟這麼一大群來自各地而且喜歡 Ruby 而且厲害的朋友聚在一起，雖然彼此說著不同國家的語言，但仍有著 Ruby 這個共同的語言，溝通起來並沒想像中的困難。</p>
@@ -666,7 +666,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <p>另外，關於活動贊助這件事，我自己曾主辦過一些中、小型活動，知道贊助一向都是活動最麻煩的事。以 RubyKaigi 的贊助來說，即使是最大贊助商，也只有在 Keynote 之前上台的幾分鐘的致詞(sponsor appeal)，或者是換得一場五分鐘的 Lightning Talk。將贊助跟議程分開，我個人覺得這是很棒的事。我認為 Keynote (主題演講，日文稱做&#8221;基調講演&#8221;) 是整場活動的主軸，如果因為贊助而出售給贊助商，贊助商很可能會因為為了推廣自家產品而讓主題演講的主軸有所偏差，我想這是主辦單位跟會眾們所不願樂見的。</p>
 
 <p>雖然這回 RubyKaigi 的門票不算太便宜，但我覺得這樣三天的活動非常值得，2014 年再舉辦的話，我一定會再報名參加。
-<img src="http://blog.eddie.com.tw/images/2013/rubykaigi-2014.jpg" alt="image" />
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-2014.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
 <p>最後，感謝 RubyKaigi 的籌辦團隊，給我們這群喜愛 Ruby 的人帶來了一個這麼好的活動，辛苦了。
@@ -683,9 +683,9 @@ At last, thank you RubyKaigi team, you gave us a AWESOME conference, お疲れ�
   
   <entry>
     <title type="html"><![CDATA[Code Reading @ RubyKaigi 2013]]></title>
-    <link href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/05/code-reading-in-rubykaigi2013/"/>
     <updated>2013-06-05T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/06/05/code-reading-in-rubykaigi2013</id>
     <content type="html"><![CDATA[<p>很高興這次能有機會到日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>，我分享的題目是：&#8221;<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>&#8220;，算是個滿冷門的題目，主要是分享我自己從閱讀 Ruby 原始程式碼中學習到的一些經驗。不過當天還有不少朋友來捧場，讓場子看起來不會太冷清，真是太意外了(其實我也搞不清楚到底有多少人，我當時已經緊張到沒辦法算數了)。<br />
 <span class="translate">Really glad to go to Japan and join the <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>, the topic of my talk is &#8221;<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>&#8221;, which I don&#8217;t think it&#8217;s a popular topic, and it&#8217;s about my experience while reading Ruby source code. Thanks to those friends who are willing to come to my talk.(Actually I was too nervous to count how many people already)</span></p>
 
@@ -693,7 +693,7 @@ At last, thank you RubyKaigi team, you gave us a AWESOME conference, お疲れ�
 <span class="translate">
 Before I jump into my topic, I asked everyone how many of you have been to Taiwan before, to my surprise, there&#8217;re more than 15 people raised their hand, which is about 20% of the attendees in this hall(I think).</span></p>
 
-<p><a href="https://speakerdeck.com/eddie/code-reading" target="_blank"><img src="http://blog.eddie.com.tw/images/2013/rubykaigi-code-reading.jpg" alt="image" /></a>
+<p><a href="https://speakerdeck.com/eddie/code-reading" target="_blank"><img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-code-reading.jpg" alt="image" /></a>
 <a href="https://speakerdeck.com/eddie/code-reading" target="_blank">View on Speaker Deck</a> | <a href="https://speakerd.s3.amazonaws.com/presentations/0186a390abc5013057536ee43d4d4638/Code_Reading.pdf" target="_blank">Download PDF</a></p>
 
 <p>雖然之前有一些些上台演講的經驗，但這是第一次出國演講，而且還是全程用英文演講，我知道有很多的大神甚至 Ruby Committer 就坐在台下，所以我相當緊張。我那個「上台的前一天不會睡」的魔咒果然還是依舊存在，所以演講當天凌晨四點，我拿著筆電到飯店的大廳練習對著空氣講，練到早上七點，但還是覺得不夠穩。<br />
@@ -716,7 +716,7 @@ I think I might make some mistakes while presenting, so I recorded the code revi
 After finishing my talk, there&#8217;s something surprised me. In my speech, I mentioned some interesting naming in the Ruby source code just for fun. I know it might be entertaining but still a little worried about if there would be any bad consequence. Then in the afternoon, I saw this <a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">tweet</a>:
 </span></p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/rubykaigi-zzak.png" alt="image" /></p>
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-zzak.png" alt="image" /></p>
 
 <p>哇!! 我有嚇到的感覺了，不過因為我個人覺得這樣好像有些失禮，所以當晚的 Official Party，我就親自去跟 @nobu 說聲不好意思，希望沒有造成他的困擾。其實我也是想趁這個機會認識一下只有在網路上才能看得到的傳說大神，而且他好像一點也不在意。<br />
 <span class="translate">
@@ -728,7 +728,7 @@ Wow! That&#8217;s really really surprised me!! and I don&#8217;t know if this wo
 In the last day, I was planning to attend <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a>&#8217;s talk, whihc is the author of the book &#8221;<a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a>&#8221;. After sitting in the hall, I suddenly found my name was quoted in the slide:
 </span></p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/rubykaigi-jim-gay.jpg" alt="image" /></p>
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-jim-gay.jpg" alt="image" /></p>
 
 <p>再度有被嚇到的感覺。<br />
 <span class="translate">
@@ -740,7 +740,7 @@ Yes, Supprised me again.
 the Organizing Director of RubyKaigi 2013 Shintaro Kakutani also <a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">tweeted this</a>:
 </span></p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/rubykaigi-kakutani.png" alt="image" /></p>
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-kakutani.png" alt="image" /></p>
 
 <p>再次看到自己的名字被提到，有些驚訝也有些不好意思，不過這個&#8221;Conference-Driven Development(CDD)&#8221; 聽起來好像不錯，而且我喜歡 &#8220;RubyKaigi made Ruby Better&#8221;，如果有朝一日我有能力，我也希望可以多貢獻一些心力。<br />
 <span class="translate">
@@ -752,7 +752,7 @@ I feel surprised again and also little embarrassing, but the &#8220;Conference-D
 Thanks to Naoto Takai(<a href="https://twitter.com/takai" target="_blank">@takai</a>) to take a photo for me so that I can have a nice picture on the <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist Tokei</a>.
 </span></p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/rubykaigi-rubyist-clock.jpg" alt="image" />
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubykaigi-rubyist-clock.jpg" alt="image" />
 photoed by <a href="https://twitter.com/takai" target="_blank">@takai</a></p>
 
 <p>這趟日本之行有學習到不少東西，收獲很多，會在接下來的幾篇文章介紹。最後，有講的不好的地方，還請多多指教。<br >
@@ -766,28 +766,28 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[HHKB Pro 2 鍵盤入手]]></title>
-    <link href="http://blog.eddie.com.tw/2013/06/03/hhkb-pro2-keyboard/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/03/hhkb-pro2-keyboard/"/>
     <updated>2013-06-03T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/06/03/hhkb-pro2-keyboard</id>
-    <content type="html"><![CDATA[<p><img src="http://blog.eddie.com.tw/images/2013/hhkb-pro2-1.jpg" alt="image" /></p>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/06/03/hhkb-pro2-keyboard</id>
+    <content type="html"><![CDATA[<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/hhkb-pro2-1.jpg" alt="image" /></p>
 
 <p>其實沒什麼，只是敗家紀錄一下，就前幾天去日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi</a> 時候順便帶回來的。而且還特別挑了個無刻的回來：</p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/hhkb-pro2-2.jpg" alt="image" /></p>
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/hhkb-pro2-2.jpg" alt="image" /></p>
 
 <p>鍵盤很小一個，只有 60 顆鍵帽；沒有上下左右鍵，沒有 <kbd>Page Up</kbd>、<kbd>Page Down</kbd> 鍵；<kbd>Ctrl</kbd> 鍵的位置不一樣(跟日本鍵盤一樣，在一般鍵盤的 <kbd>Caps Lock</kbd> 的位置)，<kbd>ESC</kbd> 鍵在數字 <kbd>1</kbd> 的左手邊；沒有最上面一排的 <kbd>F1</kbd> ~ <kbd>F12</kbd> 等種種跟一般鍵盤的差異，我也不太懂為什麼我要練這種折磨人的鍵盤，因為練這個可能得把之前的習慣整個砍掉重練，跟練 Vim 有點像，一但只要習慣它，就沒辦法習慣一般鍵盤了。</p>
 
 <p>不過我很喜歡它打起來的手感，所以.. 喜歡就不需要太多理由了，還在習慣中 :)</p>
 
-<p><a href="http://blog.eddie.com.tw/2013/06/29/about-hhkb-pro2/">一個月後的使用心得</a></p>
+<p><a href="http://kaochenlong.github.com/eddie-blog/2013/06/29/about-hhkb-pro2/">一個月後的使用心得</a></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Delegation in Objective-C]]></title>
-    <link href="http://blog.eddie.com.tw/2013/05/24/delegation-in-objective-c/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/05/24/delegation-in-objective-c/"/>
     <updated>2013-05-24T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/05/24/delegation-in-objective-c</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/05/24/delegation-in-objective-c</id>
     <content type="html"><![CDATA[<p>在開發 iOS app 的過程中，Delegation(委任) 幾乎是避不掉的東西，例如在 ViewController 裡處理 UITableView 的時候，大家一定都寫過像這樣的程式碼：</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -820,7 +820,7 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 
 <p>或是直接在 Storyboard 用拉的也行：</p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/drag-delegate-to-viewcontroller.png" alt="image" /></p>
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/drag-delegate-to-viewcontroller.png" alt="image" /></p>
 
 <p>這樣就完成了 delegation 的設定啦!</p>
 
@@ -835,7 +835,7 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>關於 Protocol，大家可以參考之前寫的<a href="http://blog.eddie.com.tw/2010/12/11/protocol-in-objective-c/">這篇</a></p>
+<p>關於 Protocol，大家可以參考之前寫的<a href="http://kaochenlong.github.com/eddie-blog/2010/12/11/protocol-in-objective-c/">這篇</a></p>
 
 <p>但是，<code>UITableViewDelegate</code> 這個 protocol 到底定義了哪些東西? 讓我們按著鍵盤的 Cmd 鍵加上滑鼠點擊 <code>UITableViewDelegate</code> 就可以連過去看一下它的定義(部份程式碼省略)：</p>
 
@@ -940,7 +940,7 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 
 <p>我開了一個新的 Xcode 專案，選了 <code>Single View Application</code>，裡面應該只有預設的 <code>ViewController.h</code> 跟 <code>ViewController.m</code>，接著我新增了一個繼承自 UIView 的類別，叫做 <code>AnimationSquareView</code>：</p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/animationsquareview.jpg" alt="image" /></p>
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/animationsquareview.jpg" alt="image" /></p>
 
 <p>並且在上面加了一個叫做 <code>run</code> 的 public method：</p>
 
@@ -1073,7 +1073,7 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 
 <p>執行一下，應該會看到一個黑色的方塊緩緩的往右程動，過三秒鐘之後就停下來了：</p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/animation-square-run.png" alt="image" /></p>
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/animation-square-run.png" alt="image" /></p>
 
 <h3>加上 delegate</h3>
 
@@ -1247,7 +1247,7 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 
 <p>透過 delegation，可以降低類別與類別之間的耦合，但仍然可方便的讓類別之間有&#8221;溝通&#8221;的效果，而且也很容易的可以把要溝通的&#8221;訊息&#8221;一併傳回。</p>
 
-<p><a href="http://blog.eddie.com.tw/downloads/files/2013/DelegateDemo.zip">範例檔下載</a></p>
+<p><a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2013/DelegateDemo.zip">範例檔下載</a></p>
 
 <p>以上，希望這篇文章能讓大家對 delegation 有更進一步的了解。如果有哪邊寫錯，還請前輩先進指點。</p>
 ]]></content>
@@ -1255,12 +1255,12 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[CreateJS, 從 Flash 到 Javascript]]></title>
-    <link href="http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/05/20/createjs-from-flash-to-javascript/"/>
     <updated>2013-05-20T09:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/05/20/createjs-from-flash-to-javascript</id>
     <content type="html"><![CDATA[<p>這是我在本次 JSDC 的分享的題目，應該是本次議題裡少數跟 Javascript 比較沒直接關係，而且技術含量也相對較低的一場演講。</p>
 
-<p><a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank"><img src="http://blog.eddie.com.tw/images/2013/jsdc-createjs-from-flash-to-javascript.png" alt="image" /></a>
+<p><a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank"><img src="http://kaochenlong.github.com/eddie-blog/images/2013/jsdc-createjs-from-flash-to-javascript.png" alt="image" /></a>
 <a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/createjs-from-flash-to-javascript" target="_blank">View on Slideshare</a> | <a href="https://speakerd.s3.amazonaws.com/presentations/37f197f0a28b0130c57922855344e59c/JSDC_2013_-_CreateJS.pdf" target="_blank">Download PDF</a></p>
 
 <p>認識我的朋友可能知道我是靠 Ruby 跟 Rails 在討生活的(目前改靠 iOS app 開發混飯吃)。不過，如果以寫程式的時間來說，佔我目前生命中最久時間的，應該是 Flash/ActionScript了。</p>
@@ -1303,16 +1303,16 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[第一回 Ruby/Rails 有心人訓練課程]]></title>
-    <link href="http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/04/22/1st-ruby-and-rails-training-course/"/>
     <updated>2013-04-22T09:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/04/22/1st-ruby-and-rails-training-course</id>
     <content type="html"><![CDATA[<p class="info">
 第一梯次的課程已在 3/23 開始，並於 4/14 告一段落，感謝大家的參與。
 </p>
 
 
-<p><img src="http://blog.eddie.com.tw/images/2013/ruby-course-classroom-2.jpg" alt="image" />
-關於這個課程怎麼來的，詳情請參見<a href="http://blog.eddie.com.tw/2013/02/08/new-rubyist-wanted/">前文</a>。</p>
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/ruby-course-classroom-2.jpg" alt="image" />
+關於這個課程怎麼來的，詳情請參見<a href="http://kaochenlong.github.com/eddie-blog/2013/02/08/new-rubyist-wanted/">前文</a>。</p>
 
 <p>為期一個月的 Ruby/Rails 訓練課程，算是告一段落了。</p>
 
@@ -1322,14 +1322,14 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 
 <p>訓練課程沒有跟大家收取費用。就以往的經驗，通常這類型的免費活動很容易到最後出席率會很難看，特別是安排在週六、日，如果遇到氣候不佳就更慘了。但令我感到意外的，簽到本上面總是簽的滿滿的，每回的出席率幾乎都是 100%，在這種挑戰出席率的下雨天，又是在週末的休假時間，再加上上課地點也不算太近(這回還有同學是每星期都從雲林北上來參加的)，實在是令人非常的感動。</p>
 
-<p><img src="http://blog.eddie.com.tw/images/2013/fju-mei.png" alt="image" />
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/fju-mei.png" alt="image" />
 輔大資工系梅教授的這段話，讓我想起 Ruddy Lee 老師在今年一月 <a href="http://webconf.tw" target="_blank">WebConf Taiwan</a> 講的：「一群犧牲假日熱情洋溢的年輕人，讓人覺得臺灣好有希望〜」</p>
 
 <p>感謝輔大 <a href="http://www.nisra.net/" target="_blank">NISRA</a> 社團同學的熱血的奔走幫忙以及現場技術支援，我們才有輔大資工系出借的電腦教室可以使用，很棒的硬體設備。
-<img src="http://blog.eddie.com.tw/images/2013/ruby-course-classroom-1.jpg" alt="image" /></p>
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/ruby-course-classroom-1.jpg" alt="image" /></p>
 
 <p>另外，也感謝 Ruby 社群的幾位先進的火力支援 <a href="https://twitter.com/ryudoawaru" target="_blank">Ryudo</a>, <a href="https://twitter.com/changmason" target="_blank">Mason</a>, <a href="https://twitter.com/ihower" target="_blank">iHower</a>, <a href="https://twitter.com/weijenlu" target="_blank">Weijenlu</a>.. etc
-<img src="http://blog.eddie.com.tw/images/2013/awesome-rubyists.jpg" alt="image" /></p>
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/awesome-rubyists.jpg" alt="image" /></p>
 
 <p>這回十分感謝大家的幫忙與捧場，希望六月之後還可以再來規劃第二梯次 :)</p>
 ]]></content>
@@ -1337,15 +1337,15 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[徵求 Ruby/Rails 有心人]]></title>
-    <link href="http://blog.eddie.com.tw/2013/02/08/new-rubyist-wanted/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/02/08/new-rubyist-wanted/"/>
     <updated>2013-02-08T09:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/02/08/new-rubyist-wanted</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/02/08/new-rubyist-wanted</id>
     <content type="html"><![CDATA[<p class="info">
 感謝大家的支持，因來信報名人數已經超過七十人，礙於場地限制以及顧及上課品質，最後不得於僅能選出二十人，訓練課程於 3/23 開始，並於 4/14 結束。
 </p>
 
 
-<p><img src="http://blog.eddie.com.tw/images/2013/ruby.jpg" alt="image" />
+<p><img src="http://kaochenlong.github.com/eddie-blog/images/2013/ruby.jpg" alt="image" />
 <span class="photo_by">photo by <a href="http://www.flickr.com/photos/jobafunky/" target="_blank">JOBAfunkey</a></span></p>
 
 <p>感謝大家的不嫌棄，近來手邊的 Ruby/Rails 的案件/工作量已經增加到超出我所能負荷的範圍。 問了身邊本來就在寫 Ruby/Rails 的朋友，不是已經在大公司上班，就是自己也是忙到爆炸沒空理我。</p>
@@ -1417,14 +1417,14 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[RubyConf Taiwan 2012]]></title>
-    <link href="http://blog.eddie.com.tw/2013/01/28/rubyconf-taiwan-2012/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/01/28/rubyconf-taiwan-2012/"/>
     <updated>2013-01-28T21:27:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/01/28/rubyconf-taiwan-2012</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/01/28/rubyconf-taiwan-2012</id>
     <content type="html"><![CDATA[<p>這是在 2012 年年底在 <a href="http://rubyconf.tw/2012/" target="_blank">RubyConf Taiwan</a> 的演講，是說都已經 2013 年了，現在才貼好像有點晚.. orz</p>
 
 <p>投影片：<br />
-<a href="https://speakerdeck.com/eddie/may-the-source-be-with-you" target="_blank"><img src="http://blog.eddie.com.tw/images/2013/rubyconf-taiwan-2012-may-the-source-be-with-you.jpg" alt="image" /></a>
-<a href="https://speakerdeck.com/eddie/may-the-source-be-with-you" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/may-the-sourcebewithyou" target="_blank">View on Slideshare</a> | <a href="http://blog.eddie.com.tw/downloads/files/2013/may_the_source_be_with_you.pdf" target="_blank">Download PDF</a><br />
+<a href="https://speakerdeck.com/eddie/may-the-source-be-with-you" target="_blank"><img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubyconf-taiwan-2012-may-the-source-be-with-you.jpg" alt="image" /></a>
+<a href="https://speakerdeck.com/eddie/may-the-source-be-with-you" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/may-the-sourcebewithyou" target="_blank">View on Slideshare</a> | <a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2013/may_the_source_be_with_you.pdf" target="_blank">Download PDF</a><br />
 這回的演講的題目是 &#8220;May the Source Be with You&#8221;，大概內容是希望可以藉由閱讀 Ruby 的原始程式碼，來更了解 Ruby 的內部運作機制跟原理。</p>
 
 <p>錄影檔：<br /></p>
@@ -1437,16 +1437,16 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 <p>能跟偶像一起同台演出，而且還有凹到 <a href="https://twitter.com/yukihiro_matz" target="_blank">Matz</a> 的簽名跟合照，真的是太榮幸了!!</p>
 
 <p>大神加持中!
-<img src="http://blog.eddie.com.tw/images/2013/rubyconf-taiwan-2012-1.jpg" alt="image" /></p>
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubyconf-taiwan-2012-1.jpg" alt="image" /></p>
 
 <p>合照
-<img src="http://blog.eddie.com.tw/images/2013/rubyconf-taiwan-2012-2.jpg" alt="image" /></p>
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubyconf-taiwan-2012-2.jpg" alt="image" /></p>
 
 <p>不知道這樣以後寫 Ruby 會不會變得比較厲害!
-<img src="http://blog.eddie.com.tw/images/2013/rubyconf-taiwan-2012-3.jpg" alt="image" /></p>
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubyconf-taiwan-2012-3.jpg" alt="image" /></p>
 
 <p>而且也有簽到書
-<img src="http://blog.eddie.com.tw/images/2013/rubyconf-taiwan-2012-4.jpg" alt="image" /></p>
+<img src="http://kaochenlong.github.com/eddie-blog/images/2013/rubyconf-taiwan-2012-4.jpg" alt="image" /></p>
 
 <p>感謝主辦的 <a href="http://twitter.com/ihower" target="_blank">@ihower</a> 跟 <a href="http://twitter.com/ryudoawaru" target="_blank">@ryudoawaru</a>，
 這回的 RubyConf Taiwan 2012 除了有精彩的議程、好吃的餐點，還能跟偶像近距離接觸，這次來參加真的是賺到了 :)</p>
@@ -1455,10 +1455,10 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[哈囉，2013!]]></title>
-    <link href="http://blog.eddie.com.tw/2013/01/01/hello-2013/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/01/01/hello-2013/"/>
     <updated>2013-01-01T09:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/01/01/hello-2013</id>
-    <content type="html"><![CDATA[<p>在 2012 年的最後一天被小朋友傳染了感冒，父子兩個人坐在床上面對面咳嗽其實還滿浪漫的。翻了一下去年的<a href="http://blog.eddie.com.tw/2011/12/30/hello-2012/">許願清單</a>，完成度似乎不到 50%。</p>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/01/01/hello-2013</id>
+    <content type="html"><![CDATA[<p>在 2012 年的最後一天被小朋友傳染了感冒，父子兩個人坐在床上面對面咳嗽其實還滿浪漫的。翻了一下去年的<a href="http://kaochenlong.github.com/eddie-blog/2011/12/30/hello-2012/">許願清單</a>，完成度似乎不到 50%。</p>
 
 <h2>今年幹了哪些事</h2>
 
@@ -1502,10 +1502,10 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[關於WebConf]]></title>
-    <link href="http://blog.eddie.com.tw/2012/10/30/webconf/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/10/30/webconf/"/>
     <updated>2012-10-30T07:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/10/30/webconf</id>
-    <content type="html"><![CDATA[<p><img src="http://blog.eddie.com.tw/images/2012/webconf_dm.jpg" alt="image" /></p>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/10/30/webconf</id>
+    <content type="html"><![CDATA[<p><img src="http://kaochenlong.github.com/eddie-blog/images/2012/webconf_dm.jpg" alt="image" /></p>
 
 <p>話說，自從去年跟<a href="http://www.plurk.com/pct">pct</a>一起辦了第一屆的<a href="http://phpconf.tw/2011/">PHPConf Taiwan</a>之後，我們就開始在肖想是不是也許可以再把範圍更擴大一些，讓主題不僅是PHP，而是可以讓更多對Web開發、建置相關主題有興趣的朋友也可以一起來參與，認識更多的朋友。</p>
 
@@ -1561,15 +1561,15 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[第十二回AS讀書會之關於Event這回事]]></title>
-    <link href="http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/06/27/there-is-something-about-event/"/>
     <updated>2012-06-27T02:48:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/06/27/there-is-something-about-event</id>
     <content type="html"><![CDATA[<p>這是在<a href="http://registrano.com/events/12th-as-study-group">第十二回AS讀書會</a>上用到的投影片，主題是在Flash/ActionScript3裡Event的基本介紹。</p>
 
-<p><a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank"><img src="http://blog.eddie.com.tw/images/2012/there-is-something-about-event.jpg" alt="image" /></a>
+<p><a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank"><img src="http://kaochenlong.github.com/eddie-blog/images/2012/there-is-something-about-event.jpg" alt="image" /></a>
 <a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/there-is-something-about-event" target="_blank">View on Slideshare</a><br />
-<a href="http://blog.eddie.com.tw/downloads/files/2012/there_is_something_about_event.pdf" target="_blank">PDF</a> |
-<a href="http://blog.eddie.com.tw/downloads/files/2012/12-flash-fash-example-files.zip" target="_blank">Sample Code</a></p>
+<a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2012/there_is_something_about_event.pdf" target="_blank">PDF</a> |
+<a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2012/12-flash-fash-example-files.zip" target="_blank">Sample Code</a></p>
 
 <p>有講的不好或是誤導的部份，還請先進、前輩們不吝指教 :)</p>
 ]]></content>
@@ -1577,9 +1577,9 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[爽爽快快學Vim(3) - Vim Plugins]]></title>
-    <link href="http://blog.eddie.com.tw/2012/06/01/screencast-3-vim-plugins/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/06/01/screencast-3-vim-plugins/"/>
     <updated>2012-06-01T17:42:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/06/01/screencast-3-vim-plugins</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/06/01/screencast-3-vim-plugins</id>
     <content type="html"><![CDATA[<p>這一集我來分享一下我自己常在用的Plugin</p>
 
 <iframe width="420" height="315" src="http://www.youtube.com/embed/0QFR-_wUoA0" frameborder="0" allowfullscreen></iframe>
@@ -1681,9 +1681,9 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[Happy Programming with Coffeescript]]></title>
-    <link href="http://blog.eddie.com.tw/2012/05/20/happy-programming-with-coffeescript/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/05/20/happy-programming-with-coffeescript/"/>
     <updated>2012-05-20T07:44:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/05/20/happy-programming-with-coffeescript</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/05/20/happy-programming-with-coffeescript</id>
     <content type="html"><![CDATA[<p>不得不說JSDC的主辦單位超用心，還有幫講者加中文字幕</p>
 
 <iframe width="420" height="315" src="http://www.youtube.com/embed/2FmCJysWyww" frameborder="0" allowfullscreen></iframe>
@@ -1695,8 +1695,8 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 
 
 <p>這是今天我在台灣第一屆的JavaScript開發者大會<a href="http://jsdc.tw/2012/">JSDC</a>上用到的投影片。雖然主題跟在去年的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>的一樣，但因為這回的聽眾可都是熟悉JavaScript的，依舊沒辦法用同一招繼續騙吃騙喝(同一招不能對聖鬥士用兩次)，加上時間也只有30分鐘，所以投影片又幾乎整個敲掉重做。
-<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank"><img src="http://blog.eddie.com.tw/images/2012/speakerdeck-happy-programming-with-coffeescript.jpg" alt="image" /></a>
-<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/happy-programming-with-coffeescript" target="_blank">View on Slideshare</a> | <a href="http://blog.eddie.com.tw/downloads/files/2012/happy_programming_with_coffeescript.pdf" target="_blank">Download PDF</a></p>
+<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank"><img src="http://kaochenlong.github.com/eddie-blog/images/2012/speakerdeck-happy-programming-with-coffeescript.jpg" alt="image" /></a>
+<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/happy-programming-with-coffeescript" target="_blank">View on Slideshare</a> | <a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2012/happy_programming_with_coffeescript.pdf" target="_blank">Download PDF</a></p>
 
 <p>原以為30分鐘講一百多張投影片會講不完結果就一直衝，衝到最後發現我竟然20分鐘就講完了，希望大家還喜歡，有什麼問題，也歡迎諸位前輩先進不吝給予建議，感謝!</p>
 ]]></content>
@@ -1704,9 +1704,9 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[爽爽快快學Vim(2)]]></title>
-    <link href="http://blog.eddie.com.tw/2012/05/11/screencast-2-file-window-and-buffer/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/05/11/screencast-2-file-window-and-buffer/"/>
     <updated>2012-05-11T08:29:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/05/11/screencast-2-file-window-and-buffer</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/05/11/screencast-2-file-window-and-buffer</id>
     <content type="html"><![CDATA[<iframe width="420" height="315" src="http://www.youtube.com/embed/D8fQMtPdurY" frameborder="0" allowfullscreen></iframe>
 
 
@@ -1767,9 +1767,9 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[爽爽快快學Vim(1)]]></title>
-    <link href="http://blog.eddie.com.tw/2012/04/27/screencast-1-learning-vim-from-the-beginning/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/04/27/screencast-1-learning-vim-from-the-beginning/"/>
     <updated>2012-04-27T06:46:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/04/27/screencast-1-learning-vim-from-the-beginning</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/04/27/screencast-1-learning-vim-from-the-beginning</id>
     <content type="html"><![CDATA[<iframe width="420" height="315" src="http://www.youtube.com/embed/vMqqYw7wdO0" frameborder="0" allowfullscreen></iframe>
 
 
@@ -1894,17 +1894,17 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[Ruby without Rails]]></title>
-    <link href="http://blog.eddie.com.tw/2012/04/25/ruby-without-rails/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/04/25/ruby-without-rails/"/>
     <updated>2012-04-25T15:16:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/04/25/ruby-without-rails</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/04/25/ruby-without-rails</id>
     <content type="html"><![CDATA[<p>這是在<a href="http://registrano.com/events/webdev-party-03">WebDev Party #3</a>上分享的內容，主題是雖然Rails很威很好用，但如果沒有Rails的話，還可以拿Ruby做些什麼其它的事。</p>
 
 <iframe src="http://player.vimeo.com/video/40948397?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
 
 
 <p>投影片：
-<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank"><img src="http://blog.eddie.com.tw/images/2012/slideshare-ruby-without-rails.jpg" alt="image" /></a>
-<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank">View on Slideshare</a> | <a href="http://blog.eddie.com.tw/downloads/files/2012/ruby_without_rails.pdf" target="_blank">Download PDF</a></p>
+<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank"><img src="http://kaochenlong.github.com/eddie-blog/images/2012/slideshare-ruby-without-rails.jpg" alt="image" /></a>
+<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank">View on Slideshare</a> | <a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2012/ruby_without_rails.pdf" target="_blank">Download PDF</a></p>
 
 <p>希望對大家有幫助。如果有哪邊講錯的還請各位先進前輩不吝給予指正。</p>
 
@@ -1914,9 +1914,9 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   
   <entry>
     <title type="html"><![CDATA[Vim與我的工作環境]]></title>
-    <link href="http://blog.eddie.com.tw/2012/04/21/screencast-0-vim-and-my-working-environment/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/04/21/screencast-0-vim-and-my-working-environment/"/>
     <updated>2012-04-21T01:35:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/04/21/screencast-0-vim-and-my-working-environment</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/04/21/screencast-0-vim-and-my-working-environment</id>
     <content type="html"><![CDATA[<p>我果然是個愛玩又愛現的人，開始來獻曝了，有講的不好的地方(例如聲音不好聽或是長相太嚇人)，還請見諒。</p>
 
 <iframe width="420" height="315" src="http://www.youtube.com/embed/iaLjVHrXyAw" frameborder="0" allowfullscreen></iframe>
@@ -1942,7 +1942,7 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 <h2>相關連結</h2>
 
 <ul>
-<li><a href="http://blog.eddie.com.tw/2012/01/04/my-toolbox/">我的工具箱</a></li>
+<li><a href="http://kaochenlong.github.com/eddie-blog/2012/01/04/my-toolbox/">我的工具箱</a></li>
 <li><a href="https://github.com/robbyrussell/oh-my-zsh">oh my zsh</a></li>
 <li><a href="http://www.vim.org/">Vim</a></li>
 <li><a href="http://code.google.com/p/macvim/">MacVim</a></li>

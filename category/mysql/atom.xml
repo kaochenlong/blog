@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: MySQL | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/mysql/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/mysql/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Crontab & At]]></title>
-    <link href="http://blog.eddie.com.tw/2005/01/19/crontab-and-at/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2005/01/19/crontab-and-at/"/>
     <updated>2005-01-19T17:38:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2005/01/19/crontab-and-at</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2005/01/19/crontab-and-at</id>
     <content type="html"><![CDATA[<p>在Linux系統，<code>crontab</code>跟<code>at</code>都是可以用來做排程，但這兩者的差異是：</p>
 
 <p>at：工作僅執行一次後就會系統中的排程中取消，工作排程會寫入到/var/spool/at目錄下。

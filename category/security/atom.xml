@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Security | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/security/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/security/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[SQL Injection Cheat Sheet]]></title>
-    <link href="http://blog.eddie.com.tw/2007/04/09/sql-injection-cheat-sheet/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2007/04/09/sql-injection-cheat-sheet/"/>
     <updated>2007-04-09T03:15:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2007/04/09/sql-injection-cheat-sheet</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2007/04/09/sql-injection-cheat-sheet</id>
     <content type="html"><![CDATA[<p>SQL Injection小抄，很精彩的資料</p>
 
 <p><a href="http://ferruh.mavituna.com/makale/sql-injection-cheatsheet/">http://ferruh.mavituna.com/makale/sql-injection-cheatsheet/</a></p>

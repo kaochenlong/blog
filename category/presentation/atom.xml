@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Presentation | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/presentation/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/presentation/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CreateJS, 從 Flash 到 Javascript]]></title>
-    <link href="http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/05/20/createjs-from-flash-to-javascript/"/>
     <updated>2013-05-20T09:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/05/20/createjs-from-flash-to-javascript</id>
     <content type="html"><![CDATA[<p>這是我在本次 JSDC 的分享的題目，應該是本次議題裡少數跟 Javascript 比較沒直接關係，而且技術含量也相對較低的一場演講。</p>
 
 <p><a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank"><img src="/images/2013/jsdc-createjs-from-flash-to-javascript.png" alt="image" /></a>
@@ -63,9 +63,9 @@
   
   <entry>
     <title type="html"><![CDATA[Happy Programming with Coffeescript]]></title>
-    <link href="http://blog.eddie.com.tw/2012/05/20/happy-programming-with-coffeescript/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/05/20/happy-programming-with-coffeescript/"/>
     <updated>2012-05-20T07:44:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/05/20/happy-programming-with-coffeescript</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/05/20/happy-programming-with-coffeescript</id>
     <content type="html"><![CDATA[<p>不得不說JSDC的主辦單位超用心，還有幫講者加中文字幕
 <iframe width="420" height="315" src="http://www.youtube.com/embed/2FmCJysWyww" frameborder="0" allowfullscreen></iframe></p>
 
@@ -74,7 +74,7 @@
 
 <p>這是今天我在台灣第一屆的JavaScript開發者大會<a href="http://jsdc.tw/2012/">JSDC</a>上用到的投影片。雖然主題跟在去年的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>的一樣，但因為這回的聽眾可都是熟悉JavaScript的，依舊沒辦法用同一招繼續騙吃騙喝(同一招不能對聖鬥士用兩次)，加上時間也只有30分鐘，所以投影片又幾乎整個敲掉重做。
 <a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank"><img src="/images/2012/speakerdeck-happy-programming-with-coffeescript.jpg" alt="image" /></a>
-<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/happy-programming-with-coffeescript" target="_blank">View on Slideshare</a> | <a href="http://blog.eddie.com.tw/downloads/files/2012/happy_programming_with_coffeescript.pdf" target="_blank">Download PDF</a></p>
+<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/happy-programming-with-coffeescript" target="_blank">View on Slideshare</a> | <a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2012/happy_programming_with_coffeescript.pdf" target="_blank">Download PDF</a></p>
 
 <p>原以為30分鐘講一百多張投影片會講不完結果就一直衝，衝到最後發現我竟然20分鐘就講完了，希望大家還喜歡，有什麼問題，也歡迎諸位前輩先進不吝給予建議，感謝!</p>
 ]]></content>
@@ -82,9 +82,9 @@
   
   <entry>
     <title type="html"><![CDATA[Automated Testing in Javascript]]></title>
-    <link href="http://blog.eddie.com.tw/2011/12/22/automated-testing-in-javascript/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/12/22/automated-testing-in-javascript/"/>
     <updated>2011-12-22T05:30:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/12/22/automated-testing-in-javascript</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/12/22/automated-testing-in-javascript</id>
     <content type="html"><![CDATA[<p>這是在<a href="http://www.jaceju.net/blog/" target="_blank">大澤木小鐵(Jace)</a>主辦的第一回<a href="http://registrano.com/events/webdev-party-01" target="_blank">WebDev Party</a>上用到的投影片：
 <a href="http://speakerdeck.com/u/eddie/p/automated-testing-in-javascript" target="_blank"><img src="/images/2011/speakerdeck-automated-testing-in-javascript.jpg" alt="image" /></a>
 <a href="http://speakerdeck.com/u/eddie/p/automated-testing-in-javascript" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/automated-testing-in-javascript.pdf">Download PDF</a> | <a href="/downloads/files/2011/automated-test-in-javascript.zip">Download ScreenCast</a></p>
@@ -112,9 +112,9 @@
   
   <entry>
     <title type="html"><![CDATA[第九回AS讀書會之測試你的Robotlegs專案]]></title>
-    <link href="http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/12/14/test-your-robotlegs-project/"/>
     <updated>2011-12-14T02:42:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/12/14/test-your-robotlegs-project</id>
     <content type="html"><![CDATA[<p>這是在第九回的Flash/AS讀書會上用到的投影片：
 <a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank"><img src="/images/2011/speakerdeck-test-in-robotlegs.jpg" alt="image" /></a>
 <a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/test-your-robotlegs-project.pdf">Download PDF</a></p>
@@ -127,9 +127,9 @@
   
   <entry>
     <title type="html"><![CDATA[書摘：slide:ology中文版]]></title>
-    <link href="http://blog.eddie.com.tw/2011/11/30/slideology/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/30/slideology/"/>
     <updated>2011-11-30T06:23:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/11/30/slideology</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/11/30/slideology</id>
     <content type="html"><![CDATA[<p><img src="/images/2011/book-slideology.jpg" alt="image" /><br />
 書名：slide:ology中文版<br />視覺溝通：讓簡報與聽眾形成一種對話</p>
 

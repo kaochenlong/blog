@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Objective-C | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/objective-c/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/objective-c/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Object, Class and Meta Class in Objective-C]]></title>
-    <link href="http://blog.eddie.com.tw/2013/12/05/object-class-and-meta-class-in-objective-c/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/12/05/object-class-and-meta-class-in-objective-c/"/>
     <updated>2013-12-05T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/12/05/object-class-and-meta-class-in-objective-c</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/12/05/object-class-and-meta-class-in-objective-c</id>
     <content type="html"><![CDATA[<p>寫了一陣子的 Objective-C/iOS app，這次讓我們回頭來看點基礎的東西 :)</p>
 
 <h3>什麼是 id?</h3>
@@ -341,9 +341,9 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[Delegation in Objective-C]]></title>
-    <link href="http://blog.eddie.com.tw/2013/05/24/delegation-in-objective-c/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/05/24/delegation-in-objective-c/"/>
     <updated>2013-05-24T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/05/24/delegation-in-objective-c</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/05/24/delegation-in-objective-c</id>
     <content type="html"><![CDATA[<p>在開發 iOS app 的過程中，Delegation(委任) 幾乎是避不掉的東西，例如在 ViewController 裡處理 UITableView 的時候，大家一定都寫過像這樣的程式碼：</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -897,9 +897,9 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[近期讀書書目]]></title>
-    <link href="http://blog.eddie.com.tw/2010/12/27/some-resources-about-ios-development/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2010/12/27/some-resources-about-ios-development/"/>
     <updated>2010-12-27T00:27:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2010/12/27/some-resources-about-ios-development</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2010/12/27/some-resources-about-ios-development</id>
     <content type="html"><![CDATA[<p><img src="/images/2010/mybook.jpg" alt="image" /></p>
 
 <p>提供一點近期我自己讀過、正在讀或是打算要讀，覺得不錯的iOS開發工具書及網路資源供大家參考。我個人對這些工具書的作者並沒有利益關係，他們賣再多本我也抽不到趴，僅以我個人的角度提供一些的看法(也可能不夠客觀)，至於我沒讀過或沒翻過的書我就沒辦法了。</p>
@@ -956,9 +956,9 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[在你的app裡加入廣告]]></title>
-    <link href="http://blog.eddie.com.tw/2010/12/20/add-iad-in-your-app/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2010/12/20/add-iad-in-your-app/"/>
     <updated>2010-12-20T00:15:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2010/12/20/add-iad-in-your-app</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2010/12/20/add-iad-in-your-app</id>
     <content type="html"><![CDATA[<p><img src="/images/2010/iad_logo.jpg" alt="image" /></p>
 
 <p>蘋果的App Store上有許多的軟體，有的重量級的大作是直接掛個價錢就上架，有的是先提供免費的試玩版，滿意再買正式版，其中有些則是不收費，但會放一些廣告在裡面。這些軟體的開發者有的是真的佛心，有的是純練功，不過置入廣告來賺取一些生活費並沒什麼對錯的問題，畢竟大家也都是要過日子。放個廣告上來只要不影響整個app的使用也沒應該沒什麼大礙，畢竟這些開發者也還是需要一些”動力”才能繼續幫大家開發更好用的軟體。</p>
@@ -995,9 +995,9 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[iPhone app實作練習-幫你的地圖app加上大頭針]]></title>
-    <link href="http://blog.eddie.com.tw/2010/12/20/add-annotation-to-the-map/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2010/12/20/add-annotation-to-the-map/"/>
     <updated>2010-12-20T00:01:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2010/12/20/add-annotation-to-the-map</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2010/12/20/add-annotation-to-the-map</id>
     <content type="html"><![CDATA[<p><img src="/images/2010/marker.jpg" alt="image" /></p>
 
 <p>前面幾篇有提到一些<a href="/2010/12/16/category-in-objective-c/">@category</a>跟<a href="/2010/12/11/protocol-in-objective-c/">@progocol</a>，還有一些記憶體管理的東西，我自己也看得頭很花，不過看一堆的理論還不如直接實作來得快。所以，接下來我們就來把前面那個陽春的<a href="/2010/11/26/create-map-application-with-mapkit-framework/">地圖</a>功能，加上一些註解或大頭針的功能，讓整個畫面看起來豐富、實用一些。</p>

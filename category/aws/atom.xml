@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: AWS | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/aws/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/aws/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Amazon Web Services之門外漢心得]]></title>
-    <link href="http://blog.eddie.com.tw/2011/03/07/amazon-web-services/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/03/07/amazon-web-services/"/>
     <updated>2011-03-07T12:21:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/03/07/amazon-web-services</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/03/07/amazon-web-services</id>
     <content type="html"><![CDATA[<p><img src="/images/2011/cloud.png" alt="image" /></p>
 
 <p>雲端，雲端，大家都在講雲端，不過我這種第三類組畢業的學生，沒有什麼的理論基礎，也不喜歡講理論(不過聽李教授說人死了之後就會在雲端了)，僅就我自己最近試玩幾天Amazon的EC2心得與大家分享。</p>

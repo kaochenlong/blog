@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Linux | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/linux/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/linux/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[中文亂碼問題]]></title>
-    <link href="http://blog.eddie.com.tw/2005/03/31/chinese-character-problem/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2005/03/31/chinese-character-problem/"/>
     <updated>2005-03-31T21:26:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2005/03/31/chinese-character-problem</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2005/03/31/chinese-character-problem</id>
     <content type="html"><![CDATA[<p>前不久把CentOS4裝起來玩看看，但在要啟動某個service的時候發現中文字會出現亂碼，但看了一下locale的資料好像也沒什問題，後來才知道原來是<code>/etc/sysconfig/i18n</code>這個檔案設定的問題(在Fedora Core3上面好像也有類似的問題)。</p>
 
 <pre><code>&gt; service smb restart
@@ -48,9 +48,9 @@ SUPPORTED=”zh_TW.Big5:zh_TW:zh”
   
   <entry>
     <title type="html"><![CDATA[方便的套件更新程式-Yum]]></title>
-    <link href="http://blog.eddie.com.tw/2005/03/28/yum/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2005/03/28/yum/"/>
     <updated>2005-03-28T21:22:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2005/03/28/yum</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2005/03/28/yum</id>
     <content type="html"><![CDATA[<p>之前有提到在linux上，常常會有安裝軟體A之前，需要安裝軟體B的問題，稱之為相依性(dependency)，要解決相依性的問題，除了之前提到的APT外，Yum也是個很好用的工具。</p>
 
 <p>以下以<a href="http://www.centos.org/">CentOS4</a>為例：</p>
@@ -91,9 +91,9 @@ SUPPORTED=”zh_TW.Big5:zh_TW:zh”
   
   <entry>
     <title type="html"><![CDATA[Win32 gnu tools]]></title>
-    <link href="http://blog.eddie.com.tw/2005/03/08/win32-gnu-tools/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2005/03/08/win32-gnu-tools/"/>
     <updated>2005-03-08T21:16:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2005/03/08/win32-gnu-tools</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2005/03/08/win32-gnu-tools</id>
     <content type="html"><![CDATA[<p>跟cygwin不同的是，它是在Windows的native code,這樣一來，讓 Windows的command line模式變得好用多了。</p>
 
 <p>網址：<a href="http://unxutils.sourceforge.net/">http://unxutils.sourceforge.net/</a></p>
@@ -108,9 +108,9 @@ SUPPORTED=”zh_TW.Big5:zh_TW:zh”
   
   <entry>
     <title type="html"><![CDATA[CentOS]]></title>
-    <link href="http://blog.eddie.com.tw/2005/03/02/centos/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2005/03/02/centos/"/>
     <updated>2005-03-02T21:14:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2005/03/02/centos</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2005/03/02/centos</id>
     <content type="html"><![CDATA[<p>RedHat宣布不再推出個人免費版本，並把原先RedHat9的相關技術，移至Fedora計劃，目前已推出到Fedora Core3；同時也針對高階伺服器市場推出Red Hat Enterprise Linux(RHEL)。RHEL有AS、ES及WS三種版本，AS是最高階的企業級伺服器，最多可以支援到16個CPU及64G的記憶體，WS則是桌面 工作站，ES則適用於一般中小型企業的社群級伺服器版本。當然，這個RHEL就是要收錢的(軟體費用及技術支援費用)，可以參考一下<a href="http://www.shinewave.net.tw/linux/linux-redhat.htm">這個網站</a>或是<a href="http://www.redhat.com/">RedHat官方網站</a>的價錢。</p>
 
 <p>CentOS : Community ENTerprise Operating System</p>
@@ -131,9 +131,9 @@ SUPPORTED=”zh_TW.Big5:zh_TW:zh”
   
   <entry>
     <title type="html"><![CDATA[Postfix的Relay Control]]></title>
-    <link href="http://blog.eddie.com.tw/2005/03/01/postfix-relay-control/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2005/03/01/postfix-relay-control/"/>
     <updated>2005-03-01T21:02:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2005/03/01/postfix-relay-control</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2005/03/01/postfix-relay-control</id>
     <content type="html"><![CDATA[<p>Postfix的Relay控制，是在<code>/etc/postfix/main.cf</code>裡面做設定，主要有四個部份：</p>
 
 <ol>

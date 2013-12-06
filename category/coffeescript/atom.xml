@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: CoffeeScript | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/coffeescript/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/coffeescript/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Happy Programming with Coffeescript]]></title>
-    <link href="http://blog.eddie.com.tw/2012/05/20/happy-programming-with-coffeescript/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/05/20/happy-programming-with-coffeescript/"/>
     <updated>2012-05-20T07:44:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/05/20/happy-programming-with-coffeescript</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/05/20/happy-programming-with-coffeescript</id>
     <content type="html"><![CDATA[<p>不得不說JSDC的主辦單位超用心，還有幫講者加中文字幕
 <iframe width="420" height="315" src="http://www.youtube.com/embed/2FmCJysWyww" frameborder="0" allowfullscreen></iframe></p>
 
@@ -26,7 +26,7 @@
 
 <p>這是今天我在台灣第一屆的JavaScript開發者大會<a href="http://jsdc.tw/2012/">JSDC</a>上用到的投影片。雖然主題跟在去年的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>的一樣，但因為這回的聽眾可都是熟悉JavaScript的，依舊沒辦法用同一招繼續騙吃騙喝(同一招不能對聖鬥士用兩次)，加上時間也只有30分鐘，所以投影片又幾乎整個敲掉重做。
 <a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank"><img src="/images/2012/speakerdeck-happy-programming-with-coffeescript.jpg" alt="image" /></a>
-<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/happy-programming-with-coffeescript" target="_blank">View on Slideshare</a> | <a href="http://blog.eddie.com.tw/downloads/files/2012/happy_programming_with_coffeescript.pdf" target="_blank">Download PDF</a></p>
+<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/happy-programming-with-coffeescript" target="_blank">View on Slideshare</a> | <a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2012/happy_programming_with_coffeescript.pdf" target="_blank">Download PDF</a></p>
 
 <p>原以為30分鐘講一百多張投影片會講不完結果就一直衝，衝到最後發現我竟然20分鐘就講完了，希望大家還喜歡，有什麼問題，也歡迎諸位前輩先進不吝給予建議，感謝!</p>
 ]]></content>
@@ -34,9 +34,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHPConf Taiwan 2011之CoffeeScript影片]]></title>
-    <link href="http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011/"/>
     <updated>2011-11-25T18:16:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011</id>
     <content type="html"><![CDATA[<p>這是在第一屆的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>上講的CoffeeScript的錄影，感謝辛苦的拍攝及後製人員，畫質及收音效果相當的好。
 <iframe width="420" height="315" src="http://www.youtube.com/embed/8i3qTKTr2tk" frameborder="0" allowfullscreen></iframe></p>
 
@@ -54,14 +54,14 @@
   
   <entry>
     <title type="html"><![CDATA[CoffeeScript @ 20th Ruby Tuesday]]></title>
-    <link href="http://blog.eddie.com.tw/2011/11/22/coffeescript-at-ruby-tuesday/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/22/coffeescript-at-ruby-tuesday/"/>
     <updated>2011-11-22T12:56:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/11/22/coffeescript-at-ruby-tuesday</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/11/22/coffeescript-at-ruby-tuesday</id>
     <content type="html"><![CDATA[<p>感謝<a href="http://ihower.tw/blog/">ihower</a>的邀請，這是今天我在<a href="http://registrano.com/events/ruby-tuesday-20">Ruby Tuesday</a>上用到的投影片。雖然主題跟在<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>的一樣，但因為聽眾們大多對Ruby已經很熟悉，而且CoffeeScript在新版的Rails已經是內建的功能了，沒辦法用同一招繼續騙吃騙喝(同一招不能對聖鬥士用兩次啊)，所以有再特別為Rubyist們調整了內容。
 <a href="http://speakerdeck.com/u/eddie/p/coffeescript-in-ruby-tuesday" target="_blank"><img src="/images/2011/speakerdeck-coffeescript-in-ruby-tuesday.jpg" alt="image" /></a>
 <a href="http://speakerdeck.com/u/eddie/p/coffeescript-in-ruby-tuesday" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/coffeescriptrubytuesday" target="_blank">View on Slideshare</a><br />
-<a href="http://blog.eddie.com.tw/downloads/files/2011/coffeescript-ruby-tuesday.pdf" target="_blank">Download PDF</a> |
-<a href="http://blog.eddie.com.tw/downloads/files/2011/coffeescript-ruby-tuesday-screen.zip" target="_blank">Download Screencast</a></p>
+<a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2011/coffeescript-ruby-tuesday.pdf" target="_blank">Download PDF</a> |
+<a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2011/coffeescript-ruby-tuesday-screen.zip" target="_blank">Download Screencast</a></p>
 
 <p>因為Speaker Deck沒辦法全螢幕播放，所以另外也上傳了一份到Slideshare。不過傳到Slideshare的字型好像會跑掉，變超醜..</p>
 
@@ -71,9 +71,9 @@
   
   <entry>
     <title type="html"><![CDATA[幫你的類別增加功能]]></title>
-    <link href="http://blog.eddie.com.tw/2011/11/19/extend-functionality-for-your-class/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/19/extend-functionality-for-your-class/"/>
     <updated>2011-11-19T01:29:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/11/19/extend-functionality-for-your-class</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/11/19/extend-functionality-for-your-class</id>
     <content type="html"><![CDATA[<p>CoffeeScript很有趣也很好寫，雖然它提供了許多的語法糖衣(Syntactic sugar)，讓你用短短的幾行程式碼就能換來原來你在JavaScript要做的事。但說白了它本質上還是JavaScript，JavaScript做不到的事，用CoffeeScript一樣也做不到。</p>
 
 <p>不過有些很常做的工作，例字串變換大小寫，雖然JavaScript的字串本身已經有<code>toUpperCase()</code>以及<code>toLowerCase()</code>的功能，但我已經寫習慣Ruby的<code>upcase</code>跟<code>downcase</code>，要記那麼多個名字實在很辛苦，每次都得去google一才下知道要怎麼寫；又如果我想把某個字串重複10次，在Ruby有<code>*</code>可以用，但在JavaScript似乎沒有原生的function可以用.. 有沒有辦法也自己做一些讓自己順手的小工具，讓自己寫程式的時候順利一些呢?</p>
@@ -164,9 +164,9 @@
   
   <entry>
     <title type="html"><![CDATA[CoffeeScript裡的全域變數]]></title>
-    <link href="http://blog.eddie.com.tw/2011/11/18/global-variables-in-coffeescript/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/18/global-variables-in-coffeescript/"/>
     <updated>2011-11-18T23:54:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/11/18/global-variables-in-coffeescript</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/11/18/global-variables-in-coffeescript</id>
     <content type="html"><![CDATA[<p>在CoffeeScript裡，即使是一個空的.coffee檔，它也會被編譯成這樣：</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

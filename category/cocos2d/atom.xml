@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Cocos2D | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/cocos2d/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/cocos2d/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS Game Development with Cocos2d]]></title>
-    <link href="http://blog.eddie.com.tw/2011/03/17/ios-game-development-with-cocos2d/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/03/17/ios-game-development-with-cocos2d/"/>
     <updated>2011-03-17T13:03:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/03/17/ios-game-development-with-cocos2d</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/03/17/ios-game-development-with-cocos2d</id>
     <content type="html"><![CDATA[<p><img src="/images/2011/cocos2d_logo.png" alt="image" /></p>
 
 <p>以開發iOS game來說，<a href="http://www.cocos2d-iphone.org/">Cocos2D for iPhone</a>是個很方便的framework，把許多的細節都包起來了，可以省下不少時間。不過即使Cocos2D再方便、再強大，objective-c跟cocoa framework還是得學一下的，不然會非常容易卡關的。</p>

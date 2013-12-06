@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Robotlegs | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/robotlegs/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/robotlegs/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[第九回AS讀書會之測試你的Robotlegs專案]]></title>
-    <link href="http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/12/14/test-your-robotlegs-project/"/>
     <updated>2011-12-14T02:42:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/12/14/test-your-robotlegs-project</id>
     <content type="html"><![CDATA[<p>這是在第九回的Flash/AS讀書會上用到的投影片：
 <a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank"><img src="/images/2011/speakerdeck-test-in-robotlegs.jpg" alt="image" /></a>
 <a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/test-your-robotlegs-project.pdf">Download PDF</a></p>
@@ -30,9 +30,9 @@
   
   <entry>
     <title type="html"><![CDATA[第八回AS讀書會之Hello Robotlegs]]></title>
-    <link href="http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/07/robotlegs-introduction-in-8th-as-study-party/"/>
     <updated>2011-11-07T01:16:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/11/07/robotlegs-introduction-in-8th-as-study-party</id>
     <content type="html"><![CDATA[<p>時間很快，已經到第八回了，雖然這回是在週末舉辦，依舊還是相當多的朋友來捧場，相當感動 :)</p>
 
 <p><img src="/images/2011/8th-as-party-1.jpg" alt="image" /></p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Javascript | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/javascript/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/javascript/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CreateJS, 從 Flash 到 Javascript]]></title>
-    <link href="http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/05/20/createjs-from-flash-to-javascript/"/>
     <updated>2013-05-20T09:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/05/20/createjs-from-flash-to-javascript</id>
     <content type="html"><![CDATA[<p>這是我在本次 JSDC 的分享的題目，應該是本次議題裡少數跟 Javascript 比較沒直接關係，而且技術含量也相對較低的一場演講。</p>
 
 <p><a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank"><img src="/images/2013/jsdc-createjs-from-flash-to-javascript.png" alt="image" /></a>

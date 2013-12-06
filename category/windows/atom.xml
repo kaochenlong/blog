@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Windows | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/windows/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/windows/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ASP Recordset輸出至EXCEL]]></title>
-    <link href="http://blog.eddie.com.tw/2006/03/21/asp-recordset-to-excel/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2006/03/21/asp-recordset-to-excel/"/>
     <updated>2006-03-21T23:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2006/03/21/asp-recordset-to-excel</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2006/03/21/asp-recordset-to-excel</id>
     <content type="html"><![CDATA[<p>只在ASP裡面加上這行：</p>
 
 <pre><code>Response.ContentType="application/vnd.ms-excel"
@@ -33,9 +33,9 @@
   
   <entry>
     <title type="html"><![CDATA[Sc-bytes extended logging property is 0 for ASP?]]></title>
-    <link href="http://blog.eddie.com.tw/2005/03/17/sc-bytes-extended-logging-property-is-0-for-asp/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2005/03/17/sc-bytes-extended-logging-property-is-0-for-asp/"/>
     <updated>2005-03-17T21:19:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2005/03/17/sc-bytes-extended-logging-property-is-0-for-asp</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2005/03/17/sc-bytes-extended-logging-property-is-0-for-asp</id>
     <content type="html"><![CDATA[<p>在用<a href="http://awstats.sourceforge.net/">AWStats</a>做流量統計時，發現只要是ASP的檔案，<code>sc-bytes</code>的都是0。後來才發現是Microsoft IIS的問題，在Microsoft找到答案：
 解決方法有兩種：</p>
 
@@ -74,9 +74,9 @@
   
   <entry>
     <title type="html"><![CDATA[Win32 gnu tools]]></title>
-    <link href="http://blog.eddie.com.tw/2005/03/08/win32-gnu-tools/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2005/03/08/win32-gnu-tools/"/>
     <updated>2005-03-08T21:16:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2005/03/08/win32-gnu-tools</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2005/03/08/win32-gnu-tools</id>
     <content type="html"><![CDATA[<p>跟cygwin不同的是，它是在Windows的native code,這樣一來，讓 Windows的command line模式變得好用多了。</p>
 
 <p>網址：<a href="http://unxutils.sourceforge.net/">http://unxutils.sourceforge.net/</a></p>

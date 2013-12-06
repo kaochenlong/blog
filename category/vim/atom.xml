@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Vim | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/vim/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/vim/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[爽爽快快學Vim(3) - Vim Plugins]]></title>
-    <link href="http://blog.eddie.com.tw/2012/06/01/screencast-3-vim-plugins/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/06/01/screencast-3-vim-plugins/"/>
     <updated>2012-06-01T17:42:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/06/01/screencast-3-vim-plugins</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/06/01/screencast-3-vim-plugins</id>
     <content type="html"><![CDATA[<p>這一集我來分享一下我自己常在用的Plugin</p>
 
 <p><iframe width="420" height="315" src="http://www.youtube.com/embed/0QFR-_wUoA0" frameborder="0" allowfullscreen></iframe></p>
@@ -118,9 +118,9 @@
   
   <entry>
     <title type="html"><![CDATA[爽爽快快學Vim(2)]]></title>
-    <link href="http://blog.eddie.com.tw/2012/05/11/screencast-2-file-window-and-buffer/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/05/11/screencast-2-file-window-and-buffer/"/>
     <updated>2012-05-11T08:29:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/05/11/screencast-2-file-window-and-buffer</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/05/11/screencast-2-file-window-and-buffer</id>
     <content type="html"><![CDATA[<p><iframe width="420" height="315" src="http://www.youtube.com/embed/D8fQMtPdurY" frameborder="0" allowfullscreen></iframe>
 建議直接到<a href="http://www.youtube.com/watch?v=D8fQMtPdurY">Youtube</a>並切換至HD畫質觀看。另外也傳了一份到 <a href="https://vimeo.com/41953763">Vimeo</a> 以及 <a href="http://v.youku.com/v_show/id_XMzk0NTMwNzE2.html">youku</a></p>
 
@@ -179,9 +179,9 @@
   
   <entry>
     <title type="html"><![CDATA[爽爽快快學Vim(1)]]></title>
-    <link href="http://blog.eddie.com.tw/2012/04/27/screencast-1-learning-vim-from-the-beginning/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/04/27/screencast-1-learning-vim-from-the-beginning/"/>
     <updated>2012-04-27T06:46:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/04/27/screencast-1-learning-vim-from-the-beginning</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/04/27/screencast-1-learning-vim-from-the-beginning</id>
     <content type="html"><![CDATA[<p><iframe width="420" height="315" src="http://www.youtube.com/embed/vMqqYw7wdO0" frameborder="0" allowfullscreen></iframe>
 建議直接到<a href="http://www.youtube.com/watch?v=vMqqYw7wdO0">youtube</a>並切換至HD畫質觀看。另外也傳了一份到<a href="https://vimeo.com/41121476">vimeo</a>以及<a href="http://v.youku.com/v_show/id_XMzg3Njg2MjU2.html">youku</a></p>
 
@@ -304,9 +304,9 @@
   
   <entry>
     <title type="html"><![CDATA[Vim與我的工作環境]]></title>
-    <link href="http://blog.eddie.com.tw/2012/04/21/screencast-0-vim-and-my-working-environment/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/04/21/screencast-0-vim-and-my-working-environment/"/>
     <updated>2012-04-21T01:35:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/04/21/screencast-0-vim-and-my-working-environment</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/04/21/screencast-0-vim-and-my-working-environment</id>
     <content type="html"><![CDATA[<p>我果然是個愛玩又愛現的人，開始來獻曝了，有講的不好的地方(例如聲音不好聽或是長相太嚇人)，還請見諒。</p>
 
 <p><iframe width="420" height="315" src="http://www.youtube.com/embed/iaLjVHrXyAw" frameborder="0" allowfullscreen></iframe></p>
@@ -372,9 +372,9 @@
   
   <entry>
     <title type="html"><![CDATA[Some Vim Tips and Learning Resources]]></title>
-    <link href="http://blog.eddie.com.tw/2012/04/02/some-vim-tips-and-learning-resources/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2012/04/02/some-vim-tips-and-learning-resources/"/>
     <updated>2012-04-02T01:52:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/04/02/some-vim-tips-and-learning-resources</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2012/04/02/some-vim-tips-and-learning-resources</id>
     <content type="html"><![CDATA[<p>I'm still pretty new to Vim and keep practicing Vim everyday, and also started to learn some VimScript by myself, I found some nice learning resources and some easy but AWESOME key combinations.</p>
 
 <h2>Learning Resources</h2>

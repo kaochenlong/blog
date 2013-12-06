@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: iOS App Development | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/ios-app-development/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/ios-app-development/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Object, Class and Meta Class in Objective-C]]></title>
-    <link href="http://blog.eddie.com.tw/2013/12/05/object-class-and-meta-class-in-objective-c/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/12/05/object-class-and-meta-class-in-objective-c/"/>
     <updated>2013-12-05T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/12/05/object-class-and-meta-class-in-objective-c</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/12/05/object-class-and-meta-class-in-objective-c</id>
     <content type="html"><![CDATA[<p>寫了一陣子的 Objective-C/iOS app，這次讓我們回頭來看點基礎的東西 :)</p>
 
 <h3>什麼是 id?</h3>
@@ -341,9 +341,9 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[分心 FanXin app]]></title>
-    <link href="http://blog.eddie.com.tw/2013/10/18/fanxin-app/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/10/18/fanxin-app/"/>
     <updated>2013-10-18T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/10/18/fanxin-app</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/10/18/fanxin-app</id>
     <content type="html"><![CDATA[<p><img src="/images/2013/fanxin-app.jpg" alt="image" /></p>
 
 <p>今年二月份剛好有機會到朋友的公司幫忙開發 iOS app：「分心 FanXin」。顧名思義，就是一個可以讓你一邊看電視，一邊分心地跟朋友聊劇情的 app。</p>
@@ -375,9 +375,9 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[Delegation in Objective-C]]></title>
-    <link href="http://blog.eddie.com.tw/2013/05/24/delegation-in-objective-c/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2013/05/24/delegation-in-objective-c/"/>
     <updated>2013-05-24T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/05/24/delegation-in-objective-c</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2013/05/24/delegation-in-objective-c</id>
     <content type="html"><![CDATA[<p>在開發 iOS app 的過程中，Delegation(委任) 幾乎是避不掉的東西，例如在 ViewController 裡處理 UITableView 的時候，大家一定都寫過像這樣的程式碼：</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -931,9 +931,9 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[在Titanium Studio使用CoffeeScript來寫app]]></title>
-    <link href="http://blog.eddie.com.tw/2011/08/03/using-coffeescript-in-titanium-studio/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/08/03/using-coffeescript-in-titanium-studio/"/>
     <updated>2011-08-03T18:13:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/08/03/using-coffeescript-in-titanium-studio</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/08/03/using-coffeescript-in-titanium-studio</id>
     <content type="html"><![CDATA[<p>即然<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>寫出來的東西就是一般的JavaScript，之前就在猜想是不是也可以把CoffeeScript用在<a href="http://www.appcelerator.com/">Titanium Studio</a>裡，果然，有善心人士用Python寫了給Titanium Studio的外掛。</p>
 
 <h2>安裝</h2>
@@ -1040,9 +1040,9 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
   
   <entry>
     <title type="html"><![CDATA[Color Themes for Xcode 4]]></title>
-    <link href="http://blog.eddie.com.tw/2011/04/09/color-themes-for-xcode-4/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/04/09/color-themes-for-xcode-4/"/>
     <updated>2011-04-09T13:34:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/04/09/color-themes-for-xcode-4</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/04/09/color-themes-for-xcode-4</id>
     <content type="html"><![CDATA[<p>Xcode更新到4.0之後的版本，原來的顏色主題跑掉了，連放的位置變了，我愛的<a href="http://slinky.imukuppi.org/zenburn/">zenburn</a>配色變成預設的配色了。還好在網路上找到有善心人士處理好的theme可以直接下載來用。</p>
 
 <p>網址：<a href="http://allara.blogspot.com/2011/02/zenburn-theme-for-xcode-4.html">http://allara.blogspot.com/2011/02/zenburn-theme-for-xcode-4.html</a></p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: PHP | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/php/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/php/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHPConf Taiwan 2011之CoffeeScript影片]]></title>
-    <link href="http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011/"/>
     <updated>2011-11-25T18:16:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011</id>
     <content type="html"><![CDATA[<p>這是在第一屆的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>上講的CoffeeScript的錄影，感謝辛苦的拍攝及後製人員，畫質及收音效果相當的好。
 <iframe width="420" height="315" src="http://www.youtube.com/embed/8i3qTKTr2tk" frameborder="0" allowfullscreen></iframe></p>
 
@@ -35,9 +35,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHPConf Taiwan 2011 is Launching]]></title>
-    <link href="http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/14/phpconf-taiwan-2011-is-launching/"/>
     <updated>2011-10-14T01:05:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/10/14/phpconf-taiwan-2011-is-launching</id>
     <content type="html"><![CDATA[<p><img src="/images/2011/phpconf.jpg" alt="image" /></p>
 
 <p>網址：<a href="http://phpconf.tw/2011">http://phpconf.tw/2011</a></p>
@@ -56,9 +56,9 @@
   
   <entry>
     <title type="html"><![CDATA[Misunderstanding about Flash]]></title>
-    <link href="http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2010/10/27/misunderstanding-about-flash/"/>
     <updated>2010-10-27T16:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2010/10/27/misunderstanding-about-flash</id>
     <content type="html"><![CDATA[<p>今晚在<a href="http://groups.google.com/group/zf-tw/">PHP讀書會</a>上分享的主題：</p>
 
 <div style="width:425px" id="__ss_5576350"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/amf-5576350" title="AMF" target="_blank">AMF</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5576350" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
@@ -79,9 +79,9 @@
   
   <entry>
     <title type="html"><![CDATA[Doctrine, the PHP ORM Framework]]></title>
-    <link href="http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2008/12/23/doctrine-the-php-orm-framework/"/>
     <updated>2008-12-23T14:14:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2008/12/23/doctrine-the-php-orm-framework</id>
     <content type="html"><![CDATA[<p><img src="/images/2008/doctrine-logo.png" alt="image" /></p>
 
 <p><a href="http://www.doctrine-project.org/">Doctrine</a>是一個在PHP上的資料庫ORM(Object Relational Mapper)，最近手邊的幾個小案子透過Doctrine來實作。ORM的確是讓開發者少寫不少的SQL查詢，但相對的效能一定是比簡單的SQL要來得 差，我想魚跟熊掌要兼得並不容易，便利跟效能之間總有個天平讓開發者來自已調整，所以ORM好不好用就見人見志囉。</p>
@@ -422,9 +422,9 @@
   
   <entry>
     <title type="html"><![CDATA[AMFPHP-搭起Flash與PHP的美麗橋樑]]></title>
-    <link href="http://blog.eddie.com.tw/2008/10/12/amfphp-tutorial/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2008/10/12/amfphp-tutorial/"/>
     <updated>2008-10-12T11:24:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2008/10/12/amfphp-tutorial</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2008/10/12/amfphp-tutorial</id>
     <content type="html"><![CDATA[<p><img src="/images/2008/amfphp_logo.gif" alt="image" /></p>
 
 <p>Flash在跟Server在交換資料，比較常見的是一般的文字訊息或是XML，我自己在趕時間的時候，會偷懶的隨便echo一個字出來知會Flash說server程式已經做完了或是程式執行之後的結果，不趕時間且資料量較多的時候，則會乖乖的用XML。不過，最近開始我比較常用的是AMF跟<a href="http://www.json.org/">JSON</a>這兩個方法，其實都還滿方便的，各有其優缺點。</p>

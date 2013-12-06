@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: jQuery | 高見龍]]></title>
-  <link href="http://blog.eddie.com.tw/category/jquery/atom.xml" rel="self"/>
-  <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-07T07:19:17+08:00</updated>
-  <id>http://blog.eddie.com.tw/</id>
+  <link href="http://kaochenlong.github.com/eddie-blog/category/jquery/atom.xml" rel="self"/>
+  <link href="http://kaochenlong.github.com/eddie-blog/"/>
+  <updated>2013-12-07T07:33:11+08:00</updated>
+  <id>http://kaochenlong.github.com/eddie-blog/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[當jQuery遇上CoffeeScript]]></title>
-    <link href="http://blog.eddie.com.tw/2011/11/14/when-jquery-meets-coffeescript/"/>
+    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/14/when-jquery-meets-coffeescript/"/>
     <updated>2011-11-14T11:57:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/11/14/when-jquery-meets-coffeescript</id>
+    <id>http://kaochenlong.github.com/eddie-blog/2011/11/14/when-jquery-meets-coffeescript</id>
     <content type="html"><![CDATA[<p>上週的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>，有幾位朋友在會後問我<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>要怎麼樣跟jQuery之類的framework整合在一起，會不會打架? 基本上是不會的，CoffeeScript寫出來的東西就是JavaScript，如果會打架，那表示你即使不用CoffeeScript來寫也一樣打架了。</p>
 
 <p>我們來看看要怎麼把jQuery跟CoffeeScript放一起。</p>
