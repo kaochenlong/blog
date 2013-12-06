@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Book</title>
+</head>
+<body>
+{% load humanize %}
+<a href="/">回列表頁</a>
+<h1>書名：{{ book.title }}</h1>
+<ul>
+  <li>頁數：{{ book.page }}頁</li>
+  <li>售價：{{ book.price|intcomma }}元</li>
+  <li>出版日期：{{ book.publish_date|date:"Y/m/d" }}</li>
+</ul>
+<h1>作者：{{ book.author.name }}</h1>
+聯絡資訊：
+<ul>
+  <li>電話：{{ book.author.tel }}</li>
+  <li>Email：{{ book.author.email }}</li>
+  <li>地址：{{ book.author.address }}</li>
+</ul>
+
+</body>
+</html>

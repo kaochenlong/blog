@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>EaselJS Demo 003</title>
+  <script type="text/javascript" src="/javascripts/easeljs/easel.js"></script>
+  <style type="text/css" media="screen">
+    #my_canvas{background-color: gray;}
+  </style>
+  <script type="text/javascript">
+    var stage;
+
+    function init()
+    {
+      var canvas = document.getElementById("my_canvas");
+      stage = new Stage(canvas);
+
+      var frameData = {
+        run:[0,4]
+      };
+      var img = new Image()
+      img.src = "/images/slides/easeljs/hero.png";
+      var spriteSheet = new SpriteSheet(img,48,68,frameData);
+
+      var hero = new BitmapSequence(spriteSheet);
+      hero.gotoAndPlay("run");
+
+      stage.addChild(hero);
+      stage.update();
+
+      Ticker.setFPS(24);
+      Ticker.addListener(this);
+    }
+
+    function tick()
+    {
+      stage.update();
+    }
+  </script>
+</head>
+<body onload="javascript:init();">
+<canvas width="200" height="80" id="my_canvas"></canvas>
+</body>
+</html>

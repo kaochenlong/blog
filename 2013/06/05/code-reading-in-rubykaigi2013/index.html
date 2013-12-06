@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Code Reading @ RubyKaigi 2013 - 高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="很高興這次能有機會到日本參加 RubyKaigi 2013，我分享的題目是：&#8221;Code Reading, Learning More about Ruby by Reading Ruby Source Code&#8220;，算是個滿冷門的題目，主要是分享我自己從閱讀 Ruby &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <p class="meta">
+    
+      <a class="basic-alignment left" href="/2013/06/03/hhkb-pro2-keyboard/" title="Previous Post: HHKB Pro 2 鍵盤入手">&laquo; HHKB Pro 2 鍵盤入手</a>
+    
+    
+      <a class="basic-alignment right" href="/2013/06/14/rubykaigi-2013/" title="next Post: RubyKaigi 2013">RubyKaigi 2013 &raquo;</a>
+    
+  </p>
+  
+  <header>
+    
+      <h1 class="entry-title">Code Reading @ RubyKaigi 2013</h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2013-06-05T01:55:00+08:00" pubdate>Jun 5<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>很高興這次能有機會到日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>，我分享的題目是：&#8221;<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>&#8220;，算是個滿冷門的題目，主要是分享我自己從閱讀 Ruby 原始程式碼中學習到的一些經驗。不過當天還有不少朋友來捧場，讓場子看起來不會太冷清，真是太意外了(其實我也搞不清楚到底有多少人，我當時已經緊張到沒辦法算數了)。<br />
+<span class="translate">Really glad to go to Japan and join the <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>, the topic of my talk is &#8221;<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>&#8221;, which I don&#8217;t think it&#8217;s a popular topic, and it&#8217;s about my experience while reading Ruby source code. Thanks to those friends who are willing to come to my talk.(Actually I was too nervous to count how many people already)</span></p>
+
+<p>在進入主題之前，我問大家有多少人曾經來過台灣，結果在場有十來個人舉手，就以現場人數的比例來說不算少。<br />
+<span class="translate">
+Before I jump into my topic, I asked everyone how many of you have been to Taiwan before, to my surprise, there&#8217;re more than 15 people raised their hand, which is about 20% of the attendees in this hall(I think).</span></p>
+
+<p><a href="https://speakerdeck.com/eddie/code-reading" target="_blank"><img src="/images/2013/rubykaigi-code-reading.jpg" alt="image" /></a>
+<a href="https://speakerdeck.com/eddie/code-reading" target="_blank">View on Speaker Deck</a> | <a href="https://speakerd.s3.amazonaws.com/presentations/0186a390abc5013057536ee43d4d4638/Code_Reading.pdf" target="_blank">Download PDF</a></p>
+
+<p>雖然之前有一些些上台演講的經驗，但這是第一次出國演講，而且還是全程用英文演講，我知道有很多的大神甚至 Ruby Committer 就坐在台下，所以我相當緊張。我那個「上台的前一天不會睡」的魔咒果然還是依舊存在，所以演講當天凌晨四點，我拿著筆電到飯店的大廳練習對著空氣講，練到早上七點，但還是覺得不夠穩。<br />
+<span class="translate">
+Although I have a some experience about having public speech, but it&#8217;s my first time to have a presentation abroad and do my speech in English, and I also know there might be lots of awesome rubyists sitting there, including some Ruby core committer, so I really feel nervous. And I have a curse that &#8220;I won&#8217;t sleep if I have a public presentation on the next day&#8221;, so I practiced in the lobby of the hotel from 4 A.M. to 7 A.M., but still not stable enough.
+</span></p>
+
+<p>我的演講廳是小間的，所以壓力有稍微小一點點。<br />
+<span class="translate">
+My presentation hall is the smaller one, so my pressure is also slightly smaller, too.
+</span></p>
+
+<p>為了怕現場出包，所以在 code review 展示的部份我是用預錄的，不過事後想想好像直接現場操作比較容易掌控時間<br />
+<span class="translate">
+I think I might make some mistakes while presenting, so I recorded the code review demo in advance, but I think the real live demo might be easier for me to control time.
+</span></p>
+
+<p>上午的演講結束後，下午發生的小插曲讓我抖了好大一下。我在演講內容裡有提到一些在 Ruby 的原始碼裡面有一些小地方的命名不太優，當下大家笑得很開心，雖然娛樂效果達到了，但我其實也有點擔心會不會有什麼不好的副作用。結果上午的講場結束，下午就看到<a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">這則</a>：<br />
+<span class="translate">
+After finishing my talk, there&#8217;s something surprised me. In my speech, I mentioned some interesting naming in the Ruby source code just for fun. I know it might be entertaining but still a little worried about if there would be any bad consequence. Then in the afternoon, I saw this <a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">tweet</a>:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-zzak.png" alt="image" /></p>
+
+<p>哇!! 我有嚇到的感覺了，不過因為我個人覺得這樣好像有些失禮，所以當晚的 Official Party，我就親自去跟 @nobu 說聲不好意思，希望沒有造成他的困擾。其實我也是想趁這個機會認識一下只有在網路上才能看得到的傳說大神，而且他好像一點也不在意。<br />
+<span class="translate">
+Wow! That&#8217;s really really surprised me!! and I don&#8217;t know if this would cause any trouble for committer, so I went to @nobu and said sorry to him on the official party in the night, and hope didn&#8217;t cause extra trouble for him. In fact, I went to him also want to know him by this chance, and actually he didn&#8217;t mind at all.
+</span></p>
+
+<p>第三天的議程，我本來就打算要來聽 <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a> 的主題(他是 <a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a> 一書的作者 )，沒想到坐下來沒多久竟然看到自己的名字跟前一天講的東西出現在投影片上：<br />
+<span class="translate">
+In the last day, I was planning to attend <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a>&#8217;s talk, whihc is the author of the book &#8221;<a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a>&#8221;. After sitting in the hall, I suddenly found my name was quoted in the slide:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-jim-gay.jpg" alt="image" /></p>
+
+<p>再度有被嚇到的感覺。<br />
+<span class="translate">
+Yes, Supprised me again.
+</span></p>
+
+<p>活動結束後，RubyKaigi 2013 的頭目角谷<a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">也推了一篇</a>：<br />
+<span class="translate">
+the Organizing Director of RubyKaigi 2013 Shintaro Kakutani also <a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">tweeted this</a>:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-kakutani.png" alt="image" /></p>
+
+<p>再次看到自己的名字被提到，有些驚訝也有些不好意思，不過這個&#8221;Conference-Driven Development(CDD)&#8221; 聽起來好像不錯，而且我喜歡 &#8220;RubyKaigi made Ruby Better&#8221;，如果有朝一日我有能力，我也希望可以多貢獻一些心力。<br />
+<span class="translate">
+I feel surprised again and also little embarrassing, but the &#8220;Conference-Driven Development(CDD)&#8221; sounds workable, and I love the &#8220;RubyKaigi made Ruby Better&#8221;, I hope I can do more contributions to Ruby and this community someday if possible.
+</span></p>
+
+<p>感謝高井さん(<a href="https://twitter.com/takai" target="_blank">@takai</a>)幫我拍的照片，讓我在 <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist 時計</a>上也可以有一張漂亮的照片。<br />
+<span class="translate">
+Thanks to Naoto Takai(<a href="https://twitter.com/takai" target="_blank">@takai</a>) to take a photo for me so that I can have a nice picture on the <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist Tokei</a>.
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-rubyist-clock.jpg" alt="image" />
+photoed by <a href="https://twitter.com/takai" target="_blank">@takai</a></p>
+
+<p>這趟日本之行有學習到不少東西，收獲很多，會在接下來的幾篇文章介紹。最後，有講的不好的地方，還請多多指教。<br >
+<span class="translate">
+Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in next blog posts. At last, if there&#8217;s any bad or something wrong about my speech, please feel free to comment.
+</span></p>
+
+<p>Thank you all, RubyKaigi team, you&#8217;re all AWESOME!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">高見龍</span></span>
+      
+
+
+
+
+  
+<time datetime="2013-06-05T01:55:00+08:00" pubdate>Jun 5<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/category/programming/'>Programming</a>, <a class='category' href='/category/ruby/'>Ruby</a>, <a class='category' href='/category/rubykaigi/'>RubyKaigi</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/" data-via="eddiekao" data-counturl="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/06/03/hhkb-pro2-keyboard/" title="Previous Post: HHKB Pro 2 鍵盤入手">&laquo; HHKB Pro 2 鍵盤入手</a>
+      
+      
+        <a class="basic-alignment right" href="/2013/06/14/rubykaigi-2013/" title="next Post: RubyKaigi 2013">RubyKaigi 2013 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現...<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/';
+        var disqus_url = 'http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: PHPConf Taiwan | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/phpconf-taiwan/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PHPConf Taiwan 2011之CoffeeScript影片]]></title>
+    <link href="http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011/"/>
+    <updated>2011-11-25T18:16:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011</id>
+    <content type="html"><![CDATA[<p>這是在第一屆的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>上講的CoffeeScript的錄影，感謝辛苦的拍攝及後製人員，畫質及收音效果相當的好。
+<iframe width="420" height="315" src="http://www.youtube.com/embed/8i3qTKTr2tk" frameborder="0" allowfullscreen></iframe></p>
+
+<p>投影片在這裡：
+<a href="http://speakerdeck.com/u/eddie/p/coffeescript-a-better-way-to-write-javascript" target="_blank"><img src="/images/2011/speakerdeck-coffeescript-in-phpconf-taiwan.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/coffeescript-a-better-way-to-write-javascript" target="_blank">View on Speaker Deck</a> | <a href="/downloads/files/2011/coffeescript.pdf">Download PDF</a></p>
+
+<p>如果想要看得更清楚的話，可以到Youtube切換成HD 1080p模式觀賞。</p>
+
+<p><a href="http://www.youtube.com/watch?v=EbmV-QCYkps&feature=BFa&list=PL9E199DE807DFD9E2&lf=plpp_play_all" target="_blank">全部PHPConf Taiwan 2011的影片播放清單</a></p>
+
+<p>如果大家對於內容有什麼問題，也歡迎在這裡留言，大家一起研究討論 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHPConf Taiwan 2011 is Launching]]></title>
+    <link href="http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching/"/>
+    <updated>2011-10-14T01:05:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching</id>
+    <content type="html"><![CDATA[<p><img src="/images/2011/phpconf.jpg" alt="image" /></p>
+
+<p>網址：<a href="http://phpconf.tw/2011">http://phpconf.tw/2011</a></p>
+
+<p><strong>第一屆的台灣 PHP 開發者年會起跑囉！</strong></p>
+
+<p>在一群熱血朋友的支持與踴躍參與下，我們開始籌措了 PHPConf Taiwan 2011 ，從原先計畫的 20 至 30 人的小聚會，到現在居然有將近 150 人說要參加，而且在 OSSF 大力奔走下，第一屆就可以跟其他大型研討會一樣辦在中研院！</p>
+
+<p>11/12 (六) 在中研院「人文社會科學館」的第二會議室，我們一同來參與這場盛會！</p>
+
+<p>報名時間︰10/21 (五) 下午 01:30 ，報名人數︰ 100 人。</p>
+
+<p>歡迎有興趣的朋友們一起來吧!</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Play Canvas with EaselJS</title>
+  <meta name="description" content="HTML5, Play Canvas with EaselJS">
+  <meta name="author" content="高見龍">
+
+  <meta name="viewport" content="width=1024, user-scalable=no">
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.core.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.navigation.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.menu.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.hash.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.status.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/style/swiss.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/transition/vertical-slide.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/slide.css" type="text/css" />
+
+</head>
+<body class="deck-container">
+
+  <header>
+    <nav>
+      <ul>
+        <li><a href="http://easeljs.com/docs/" target="_blank">API documents</a></li>
+        <li><a href="https://github.com/gskinner/EaselJS/downloads" target="_blank">Download EaselJS</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="slide" id="begin">
+    <h1>Play Canvas with EaselJS</h1>
+    <span class="slide_bottom">you can get more slides on <br /><a href="http://www.eddie.com.tw/slides">www.eddie.com.tw/slides</a></span>
+  </div>
+
+  <div class="slide" id="slide-url">
+    <h1>you can get this slide on <a href="http://www.eddie.com.tw/slides"><small>www.eddie.com.tw/slides</small></a></h1>
+  </div>
+
+  <div class="slide" id="about-this-slide">
+    <h2>About This Slide</h2>
+    <ul>
+      <li class="slide" id="build-with-deckjs"><h3>This slide is build with <a href="http://imakewebthings.github.com/deck.js/" target="_blank">deck.js</a>.</h3></li>
+      <li class="slide" id="please-use-non-ie-browsers"><h3>For better viewer experience, please switch your browser to full-screen mode, and <span style="color: red">Non-IE browsers</span> are recommended.</h3></li>
+    </ul>
+  </div>
+
+  <div class="slide" id="who-am-i">
+    <h1>WHO AM I</h1>
+  </div>
+
+  <div class="slide" id="intro">
+    <h2>I'm 高見龍</h2>
+    <img src="images/eddie-194x192.jpg" />
+    <div class="slide" id="profile">
+    <h3>a.k.a <u>Eddie</u> or <u>Aquarianboy</u></h3>
+    <ul>
+      <li>Live and work in Taipei, Taiwan.</li>
+      <li>Serving in my own little tiny company named <a href="http://digik.tw" target="_blank">高思數位網路 Kaos' Digital Network</a>.</li>
+      <li>FLASH / AS3 / Ruby / Rails programming for living, and a little bit Objective-C for personal interests.</li>
+      <li>Technical Education and Consultant.</li>
+      <li>PTT Flash BM (since 2007/4).</li>
+      <li>Certificated Adobe Flash Developer (Since 2006/7).</li>
+      <li>Linux Professional Institute Certification (Since 2005/3).</li>
+    </ul>
+    </div>
+
+    <div class="slide" id="contacts">
+    <h3>Contacts</h3>
+    <h5>You can find me in those places (so many places, I know..Orz)</h5>
+    <ul>
+      <li>Website: <a href="http://www.eddie.com.tw" target="_blank">http://www.eddie.com.tw</a></li>
+      <li>Blog: <a href="http://blog.eddie.com.tw" target="_blank">http://blog.eddie.com.tw</a></li>
+      <li>Plurk: <a href="http://www.plurk.com/aquarianboy" target="_blank">http://www.plurk.com/aquarianboy</a></li>
+      <li>Facebook: <a href="http://www.facebook.com/eddiekao" target="_blank">http://www.facebook.com/eddiekao</a></li>
+      <li>Google Plus: <a href="http://www.eddie.com.tw/+" target="_blank">http://www.eddie.com.tw/+</a></li>
+      <li>Twitter: <a href="https://twitter.com/#!/eddiekao" target="_blank">https://twitter.com/#!/eddiekao</a></li>
+      <li>Email: <u>eddie@digik.com.tw</u></li>
+      <li>Mobile: <u>+886-928-617-687</u></li>
+    </ul>
+    <h5>or just google me with keyword "高見龍"</h5>
+    </div>
+  </div>
+
+  <div class="slide" id="before-we-start">
+    <h1>Before We Start this topic..</h1>
+  </div>
+
+  <div class="slide" id="why-not-flash">
+    <h1>Why today's topic is NOT about <span class="flash-red">FLASH/AS3</span>?</h1>
+  </div>
+
+  <div class="slide" id="i-love-flash">
+    <h1>I love <span class="flash-red">FLASH</span> for sure!</h1>
+  </div>
+
+  <div class="slide" id="try-something-new">
+    <h1>But sometimes we still can try something else..</h1>
+  </div>
+
+  <div class="slide" id="the-flash-killer">
+    <h1>HTML5 ?! <br />The <span class="flash-red">FLASH</span> Killer?</h1>
+  </div>
+
+  <div class="slide" id="html5-can-not-kill-anything">
+    <h1>I DON'T THINK SO!</h1>
+  </div>
+
+  <div class="slide" id="i-dont-care-about-the-war-between-them">
+    <h1>and<br /> I DON'T CARE!</h1>
+  </div>
+
+  <div class="slide" id="about-whats-js">
+    <h1>What's EaselJS?</h1>
+  </div>
+
+  <div class="slide" id="whats-easeljs">
+    <h2>What's EaselJS?</h2>
+
+    <blockquote cite="Oxford Dictionary" class="slide" id="easel-in-oxford-dictionary">
+      <p><u>Easel</u> &nbsp;<span style="font-weight: normal; font-style: normal;">/ˈiːz(ə)l/</span></p>
+      <p>A wooden frame for holding an artist's work while it is being painted or drawn.</p>
+      <p><cite>Oxford Dictionary</cite></p>
+    </blockquote>
+
+    <blockquote cite="http://easeljs.com" class="slide" id="easeljs-is-a-js-library">
+      <p><u>EaselJS</u></p>
+      <p>A Javascript Library for Working with the HTML5 Canvas Element.</p>
+      <p><cite>EaselJS.com</cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="why-we-need-it">
+    <h2>Why We Need It?</h2>
+    <blockquote cite="http://easeljs.com" class="slide" id="because-it-will-make-life-easier">
+      <p>Canvas is powerful, but it could be not easy to work with.</p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="about-why-and-why-not">
+    <h1>Why and Why Not</h1>
+  </div>
+
+  <div class="slide" id="why-and-why-not">
+    <h2>Why and Why Not</h2>
+    <h3 class="slide" id="why">Why?</h3>
+    <ul>
+      <li class="slide" id="why-1"><h4>developed by <u>Grant Skinner</u>! AWESOME!</h4></li>
+      <li class="slide" id="why-2"><h4>FLASH-like APIs. AWESOME!</h4></li>
+      <li class="slide" id="why-3"><h4>Documented and Handy, easy to learn.</h4></li>
+      <li class="slide" id="why-4"><h4>Open Source, with MIT license.</h4></li>
+      <li class="slide" id="why-5"><h4>Ready for production. <a href="http://pirateslovedaisies.com/" target="_blank">Pirates Love Daisies</a></h4></li>
+    </ul>
+
+    <h3 class="slide" id="why-not">Why Not?</h2>
+    <ul>
+      <li class="slide" id="why-not-1"><h4>You might need to spend more time to study something new, like javascript or HTML.</h4></li>
+      <li class="slide" id="why-not-2"><h4>But I don't think that's a problem!</h4></li>
+    </ul>
+  </div>
+
+  <div class="slide" id="about-skills-requirements">
+    <h1>Skills Requirements?</h1>
+  </div>
+
+  <div class="slide" id="skills-requirements">
+    <h2>Skills Requirements?</h2>
+    <h3 class="slide" id="basic-skills">Basic</h3>
+    <ul>
+      <li class="slide" id="basic-skill-html"><h4>HTML</h4></li>
+      <li class="slide" id="basic-skill-javascript"><h4>JavaScript</h4></li>
+      <li class="slide" id="basic-skill-clear-mind"><h4>... and a clear mind!</h4></li>
+    </ul>
+    <br />
+    <h3 class="slide" id="plus-skills">Would be a plus</h3>
+    <ul>
+      <li class="slide" id="plus-skills-html5-and-css"><h4>HTML5 and CSS</h4></li>
+      <li class="slide" id="plus-skills-flash-and-as3"><h4>FLASH/AS3</h4></li>
+    </ul>
+  </div>
+
+  <div class="slide" id="html5-and-browsers">
+    <h1>ちょっと待って! <br />Since we're talking about HTML5..</h1>
+  </div>
+
+  <div class="slide" id="browser-compatibility">
+    <h1>What about the Browser Compatibility?</h1>
+  </div>
+
+  <div class="slide" id="ie-sucks">
+    <h1>I mean <span class="ie-blue">IE</span>, of course!</h1>
+  </div>
+
+  <div class="slide" id="i-hate-ie">
+    <h1>I DON'T REALLY CARE!</h1>
+  </div>
+
+  <div class="slide" id="in-the-future">
+    <h1>I think(and hope) it won't be a problem someday.</h1>
+  </div>
+
+  <div class="slide" id="flash-is-much-better">
+    <h1>I Love <span class="flash-red">FLASH</span>, again!</h1>
+  </div>
+
+  <div class="slide" id="lets-begin">
+    <h1>無駄な話を言うな！<br />Let's Begin!</h1>
+  </div>
+
+  <div class="slide" id="install-easeljs">
+    <h2>Install EaselJS</h2>
+    <h3 class="slide" id="no-need-to-install-easeljs">Actually, You don't really need to install anything..</h3>
+    <ul>
+      <li class="slide" id="goto-easeljs-website"><h4>Just go to <a href="http://easeljs.com" target="_blank">EaselJS</a> website or its <a href="https://github.com/gskinner/EaselJS/" target="_blank">Github repo</a>.</h4></li>
+      <li class="slide" id="download-easeljs"><h4>Download and Unpack it! (Current Version 0.3.2)</h4></li>
+      <li class="slide" id="done-with-easeljs"><h4>Done!</h4></li>
+    </ul>
+  </div>
+
+  <div class="slide" id="some-import-classes">
+    <h1>Some Important Classes</h1>
+  </div>
+
+  <div class="slide" id="displayobject">
+    <h2>DisplayObject</h2>
+    <blockquote cite="http://easeljs.com/docs/DisplayObject.html" class="slide" id="displayobject-note">
+      <p>DisplayObject is an abstract class that should not be constructed directly. Instead construct subclasses such as Sprite, Bitmap, and Shape. DisplayObject is the base class for all display classes in the CanvasDisplay library. <br /><br /> It defines the core properties and methods that are shared between all display objects. </p>
+      <p><cite>Doc: <a href="http://easeljs.com/docs/DisplayObject.html" target="_blank">DisplayObject</a></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="stage">
+    <h2>Stage</h2>
+    <blockquote cite="http://easeljs.com/docs/Stage.html" class="slide" id="stage-note">
+      <p>A stage is the root level Container for a display list. Each time its tick method is called, it will render its display list to its target canvas. </p>
+      <p><cite>Doc: <a href="http://easeljs.com/docs/Stage.html" target="_blank">Stage</a></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="container">
+    <h2>Container</h2>
+    <blockquote cite="http://easeljs.com/docs/Container.html" class="slide" id="container-note">
+      <p>A Container is a nestable display lists that allows you to work with compound display elements. <br /><br />Containers have some overhead, so you generally shouldn't create a Container to hold a single child. </p>
+      <p><cite>Doc: <a href="http://easeljs.com/docs/Container.html" target="_blank">Container</a></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="bitmap">
+    <h2>Bitmap</h2>
+    <blockquote cite="http://easeljs.com/docs/Bitmap.html" class="slide" id="bitmap-note">
+      <p>A Bitmap represents an Image, Canvas, or Video in the display list.</p>
+      <p><cite>Doc: <a href="http://easeljs.com/docs/Bitmap.html" target="_blank">Bitmap</a></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="bitmapsequence">
+    <h2>BitmapSequence</h2>
+    <blockquote cite="http://easeljs.com/docs/BitmapSequence.html" class="slide" id="bitmapsequence-note">
+      <p>Displays frames or sequences of frames from a sprite sheet image. A sprite sheet is a series of images (usually animation frames) combined into a single image on a regular grid.</p>
+      <p><cite>Doc: <a href="http://easeljs.com/docs/BitmapSequence.html" target="_blank">BitmapSequence</a></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="shape">
+    <h2>Shape</h2>
+    <blockquote cite="http://easeljs.com/docs/Shape.html" class="slide" id="shape-note">
+      <p>A Shape allows you to display vector art in the display list. It composites a Graphics instance which exposes all of the vector drawing methods. <br /><br />The Graphics instance can be shared between multiple Shape instances to display the same vector graphics with different positions or transforms. </p>
+      <p><cite>Doc: <a  href="http://easeljs.com/docs/Shape.html" target="_blank">Shape</a></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="text">
+    <h2>Text</h2>
+    <blockquote cite="http://easeljs.com/docs/Text.html" class="slide" id="text-note">
+      <p>Allows you to display one or more lines of dynamic text (not user editable) in the display list. </p>
+      <p><cite>Doc: <a href="http://easeljs.com/docs/Text.html" target="_blank">Text</a></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="displayobject-hierarchy">
+    <h2>Inheritance Hierarchy of DisplayObject</h2>
+    <br />
+    <img class="slide" id="displayobject-hierarchy-image" src="images/display_object.png" />
+  </div>
+
+  <div class="slide" id="graphics">
+    <h2>Graphics</h2>
+    <blockquote cite="http://easeljs.com/docs/Graphics.html" class="slide" id="graphics-note">
+      <p>The Graphics class exposes an easy to use API for generating vector drawing instructions and drawing them to a specified context.<br /><br />
+      All drawing methods in Graphics return the Graphics instance, so they can be chained together. </p>
+      <p><cite>Doc: <a href="http://easeljs.com/docs/Graphics.html" target="_blank">Graphics</a></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="spritesheet">
+    <h2>SpriteSheet</h2>
+    <blockquote cite="http://easeljs.com/docs/SpriteSheet.html" class="slide" id="spritesheet-note">
+      <p>A sprite sheet is a series of images (usually animation frames) combined into a single image on a regular grid.
+      <br /><br />Sprite sheets might also include a frameData property, which provides named frames and animations which can be played and sequenced together.</p>
+      <p><cite>Doc: <a href="http://easeljs.com/docs/SpriteSheet.html" target="_blank">SpriteSheet</a></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="ticker">
+    <h2>Ticker</h2>
+    <blockquote cite="http://easeljs.com/docs/Ticker.html" class="slide" id="ticker-note">
+      <p>Provides a centralized tick or heartbeat broadcast at a set interval. Listeners can subscribe to the tick event to be notified when a set time interval has elapsed.</p>
+      <p><cite>Doc: <a href="http://easeljs.com/docs/Ticker.html" target="_blank">Ticker</a></cite></p>
+      <p><cite></cite></p>
+    </blockquote>
+  </div>
+
+  <div class="slide" id="coding-time">
+    <h1>Coding Time!</h1>
+  </div>
+
+  <div class="slide" id="demo-empty-skeleton">
+    <h2>Demo - Empty Skeleton</h2>
+    <code><pre>
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
+
+    &lt;title&gt;EaselJS Demo&lt;/title&gt;
+    <span class="slide code-color-1" id="demo-empty-skeleton-1">&lt;script type=&quot;text/javascript&quot; src=&quot;easel.js&quot;&gt;&lt;/script&gt;</span>
+    &lt;style type=&quot;text/css&quot; media=&quot;screen&quot;&gt;
+
+      #my_canvas{
+        background-color: gray;
+      }
+    &lt;/style&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+    function init(){
+      ...
+    }
+    &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body onload=&quot;javascript:init();&quot;&gt;
+
+    <span class="slide code-color-2" id="demo-empty-skeleton-2">&lt;canvas width=&quot;300&quot; height=&quot;300&quot; id=&quot;my_canvas&quot;&gt;&lt;/canvas&gt;</span>
+    &lt;/body&gt;
+    &lt;/html&gt;</pre>
+
+    </code>
+  </div>
+
+  <div class="slide" id="code-hello-world">
+    <h2>Demo - Hello World!</h2>
+    <code>
+    <pre>
+    &lt;script type=&quot;text/javascript&quot;&gt;
+
+      function init(){
+        <span class="slide code-color-1" id="code-hello-world-1">var canvas = document.getElementById(&quot;my_canvas&quot;);
+        var stage = new Stage(canvas);</span>
+
+        <span class="slide code-color-2" id="code-hello-world-2">var hello_text = new Text();
+        hello_text.text = &quot;Hello, EaselJS!&quot;;
+        hello_text.color = &quot;#fff&quot;;
+        hello_text.font = &quot;36px bold Arial&quot;;
+        hello_text.x = 60;
+        hello_text.y = 150;</span>
+
+        <span class="slide code-color-3" id="code-hello-world-3">stage.addChild(hello_text);</span>
+        <span class="slide code-color-4" id="code-hello-world-4">stage.update();</span>
+      }
+    &lt;/script&gt;</pre>
+    </code>
+  </div>
+
+  <div class="slide" id="demo-000">
+    <h2>Demo - Hello, World</h2>
+    <h3>may NOT work in <span class="ie-blue">IE</span></h3>
+    <iframe src="/slides/easeljs/examples/demo001.html" width="320" height="320" frameborder="0"></iframe>
+    link: <a href="http://blog.eddie.com.tw/slides/easeljs/examples/demo001.html" target="_blank">http://blog.eddie.com.tw/slides/easeljs/examples/demo001.html</a>
+  </div>
+
+  <div class="slide" id="code-lets-rotate-the-world">
+    <h2>Demo - Rotate the world!</h2>
+    <code>
+      <pre>
+    &lt;script type=&quot;text/javascript&quot;&gt;
+      <span class="slide code-color-1" id="code-lets-rotate-the-world-1">var stage;
+      var box;
+      var box_width = 50;</span>
+      function init(){
+        <span class="slide code-color-2" id="code-lets-rotate-the-world-2">var canvas = document.getElementById(&quot;my_canvas&quot;);
+        stage = new Stage(canvas);</span>
+        <span class="slide code-color-3" id="code-lets-rotate-the-world-3">var graphics = new Graphics();
+        graphics.setStrokeStyle(3);
+        graphics.beginStroke(Graphics.getRGB(255,255,255,0.8));
+        graphics.drawRect(0, 0, box_width, box_width);</span>
+        <span class="slide code-color-4" id="code-lets-rotate-the-world-4">box = new Shape(graphics);
+        box.regX = box.regY = box_width / 2;
+        box.x = canvas.width / 2;
+        box.y = canvas.height / 2;</span>
+        <span class="slide">stage.addChild(box);
+        stage.update();</span>
+        <span class="slide code-color-5" id="code-lets-rotate-the-world-5">Ticker.setFPS(30);
+        Ticker.addListener(window);</span>
+      }
+      <span class="slide" id="code-lets-rotate-the-world-6">
+
+      function <span class="code-color-1">tick()</span>{
+        <span class="code-color-3">box.rotation += 4;
+        stage.update();</span>
+      }</span>
+    &lt;/script&gt;</pre>
+    </code>
+  </div>
+
+  <div class="slide" id="demo-001">
+    <h2>Demo - Rock it, Baby</h2>
+    <h3>may NOT work in <span class="ie-blue">IE</span></h3>
+    <iframe src="/slides/easeljs/examples/demo002.html" width="320" height="320" frameborder="0"></iframe>
+    link: <a href="http://blog.eddie.com.tw/slides/easeljs/examples/demo002.html" target="_blank">http://blog.eddie.com.tw/slides/easeljs/examples/demo002.html</a>
+  </div>
+
+  <div class="slide" id="about-spritesheet">
+    <h1>SpriteSheet</h1>
+  </div>
+
+  <div class="slide" id="whats-spritesheet">
+    <h2>What's SpriteSheet</h2>
+    <ul>
+      <li class="slide" id="sequence-images"><h3>Just some pictures put together in one image file with some sort of sequence.</h3><br /><img src="images/hero_spritesheet.png" />powered by <a href="http://masolin.blogspot.com/" target="_blank">Maso</a></li>
+
+      <li class="slide" id="put-them-together"><h3>You can make those tiny little man to became international action movie star!</h3></li>
+      <li class="slide" id="frame-data-definition"><h3>And you just need some definitions like this:</h3>
+        <code>
+            <pre>
+    var frameData = {
+      stand:[0,7],
+      run:[8,12],
+      jump:[13,19, false],
+      crouch:[20,26, false],
+      crouch_move:[27,37],
+      attack_0:[38,44, false],
+      attack_1:[45,52, false],
+      attack_2:[53,60, false],
+      attack_air:[61,70, false],
+      attack_gun:[71,90, false],
+      attack_crouch:[91,103, false],
+      attack_special:[104,123, false]
+    };</pre>
+          </code>
+      </li>
+    </ul>
+  </div>
+
+  <div class="slide" id="code-sprite-sheet">
+    <h2>Make your thing move!</h2>
+    <code>
+      <pre>
+    &lt;script type=&quot;text/javascript&quot;&gt;
+
+      <span class="slide code-color-1" id="code-sprite-sheet-1">var stage;</span>
+      function init()
+      {
+        <span class="slide" id="code-sprite-sheet-2">var canvas = document.getElementById(&quot;my_canvas&quot;);
+        stage = new Stage(canvas);</span>
+
+        <span class="slide code-color-1" id="code-sprite-sheet-3">var frameData = {
+          run:[0,4]
+        };</span>
+        <span class="slide code-color-3" id="code-sprite-sheet-4">var img = new Image();
+        img.src = &quot;hero.png&quot;;
+        var spriteSheet = new SpriteSheet(img,48,68,frameData);</span>
+
+        <span class="slide code-color-5" id="code-sprite-sheet-5">var hero = new BitmapSequence(spriteSheet);
+        hero.gotoAndPlay(&quot;run&quot;);</span>
+
+        <span class="slide" id="code-sprite-sheet-6">stage.addChild(hero);
+        stage.update();
+
+        Ticker.setFPS(24);
+        Ticker.addListener(window);</span>
+      }
+
+      <span class="slide" id="code-sprite-sheet-7">function tick()
+      {
+        stage.update();
+      }</span>
+    &lt;/script&gt;</pre>
+    </code>
+  </div>
+
+  <div class="slide" id="demo-002">
+    <h2>Demo - Run! Mr. Laio!</h2>
+    <h3>may NOT work in <span class="ie-blue">IE</span>, and the character - <u>Mr.Laio</u> is supported by <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>.</h3>
+
+    <iframe src="/slides/easeljs/examples/demo003.html" width="225" height="100" frameborder="0"></iframe>
+    link: <a href="http://blog.eddie.com.tw/slides/easeljs/examples/demo003.html" target="_blank">http://blog.eddie.com.tw/slides/easeljs/examples/demo003.html</a>
+  </div>
+
+  <div class="slide" id="not-that-difficult">
+    <h1>Not that difficult, right?</h1>
+  </div>
+
+  <div class="slide" id="how-about-frame-data">
+    <h1>OK, It's cool, but those frame definitions seem a little bit verbose..</h1>
+  </div>
+
+  <div class="slide" id="about-zoe">
+    <h1>Zoë</h1>
+  </div>
+
+  <div class="slide" id="whats-zoe">
+    <h2>What's Zoë</h2>
+    <blockquote cite="http://easeljs.com/zoe.html" class="slide" id="zoe-note">
+      <p><u>Zoë</u></p>
+      <p>A tool for exporting swf animations as EaselJS sprite sheets.</p>
+      <p><cite>link: <a href="http://easeljs.com/zoe.html" target="_blank">http://easeljs.com/zoe.html</a></cite></p>
+
+    </blockquote>
+  </div>
+
+  <div class="slide" id="install-zoe">
+    <h2>Install Zoë</h2>
+    <h3 class="slide" id="adobe-air-is-required">Zoë is build with Adobe AIR, so the AIR runtime would be required..</h3>
+    <ul>
+      <li class="slide" id="goto-zoes-website"><h4>Go to <a href="http://easeljs.com/zoe.html" target="_blank">Zoë</a> website or its <a href="https://github.com/gskinner/EaselJS/" target="_blank">Github repo</a>.</h4></li>
+      <li class="slide" id="download-and-install-zoe"><h4>Download, Unpack, and Install it!</h4></li>
+      <li class="slide" id="done-with-zoe"><h4>Done!</h4></li>
+    </ul>
+  </div>
+
+  <div class="slide" id="using-zoe">
+    <h2>Using Zoë</h2>
+    <div class="slide" id="flash-label">
+      <h3>your movieclip in FLASH might look like this..</h3>
+      <img src="images/flash_label.png" /><br />
+    </div>
+    <div class="slide" id="the-zoe">
+      <h3>Zoë will produce a png file and a js file for you, which contain the frame data.</h3>
+      <img src="images/zoe_bounds.png" />
+    </div>
+  </div>
+
+  <div class="slide" id="about-conclusion">
+    <h1>Conclusions</h1>
+  </div>
+
+  <div class="slide" id="conclusions">
+    <h2>Conclusions</h2>
+    <ul>
+      <li class="slide" id="conclusion-1"><h3>EaselJS may not be the best or most powerful framework, but because of the FLASH-like APIs and concepts, I think it's the most handy tool for me to learn how to play with canvas in HTML5.</h3></li>
+      <li class="slide" id="conclusion-2"><h3>"Eat Your Own Dog Food" is really AWESOME!</h3></li>
+      <li class="slide" id="conclusion-3"><h3>Learn something new is good for your health!</h3></li>
+      <li class="slide" id="conclusion-4"><h3>and this is not that difficult, right?</h3></li>
+    </ul>
+  </div>
+
+  <div class="slide" id="references">
+    <h2>References</h2>
+    <ul>
+      <li class="slide" id="references-1"><h3>Books?</h3></li>
+      <li class="slide" id="references-2"><h3>Official website and documents would be your friends.</h3></li>
+      <li class="slide" id="references-3"><h3>Source code is also your friend.</h3></li>
+      <li class="slide" id="references-4"><h3>... or read my blog :) [SHAMELESS PROMOTION]</h3></li>
+    </ul>
+  </div>
+
+  <div class="slide" id="any-question">
+    <h1>That's it!<br />Any Question?</h1>
+  </div>
+
+  <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+  <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+  <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+  <p class="deck-status"><span class="deck-status-current"></span> / <span class="deck-status-total"></span></p>
+  <script src="/javascripts/utils/modernizr.custom.js"></script>
+  <script src="/javascripts/jquery/jquery.min.js"></script>
+  <script src="/javascripts/deckjs/deck.core.js"></script>
+  <script src="/javascripts/deckjs/deck.navigation.js"></script>
+  <script src="/javascripts/deckjs/deck.status.js"></script>
+
+  <script src="/javascripts/deckjs/deck.menu.js"></script>
+  <script src="/javascripts/deckjs/deck.hash.js"></script>
+  <script>
+    $(function() {
+      $.deck('.slide');
+    });
+  </script>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+</body>
+</html>

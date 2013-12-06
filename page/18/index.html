@@ -1,0 +1,1598 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="在JavaScript裡寫OOP有好幾種方式，例如你可以使用prototype的方式，也可以使用function或物件的方式來寫，不過其實不管哪一種，類別的程式碼寫起來、看起來都不夠直覺(當然也部份是因為我對JavaScript沒這麼熟)。還好在CoffeeScript寫類別是相當容易， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/page/18/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/03/oop-in-coffeescript/">CoffeeScript OOP篇</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/oop-in-coffeescript/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T16:47:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在JavaScript裡寫OOP有好幾種方式，例如你可以使用prototype的方式，也可以使用function或物件的方式來寫，不過其實不管哪一種，類別的程式碼寫起來、看起來都不夠直覺(當然也部份是因為我對JavaScript沒這麼熟)。還好在<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>寫類別是相當容易，而且程式碼是很清楚、容易閱讀的，來看個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(name, age) -&gt;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">name = </span><span class="nx">name</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">age = </span><span class="nx">age</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">animal = </span><span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">animal</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Animal</span><span class="p">,</span> <span class="nx">animal</span><span class="p">;</span>
+</span><span class='line'><span class="nx">Animal</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">Animal</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">Animal</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">animal</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">animal</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到了嗎? 用CoffeeScript來定義類別真的簡單多了。特別注意一下constructor(建構子)的部份，這邊的：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">this</span><span class="p">.</span><span class="nv">name = </span><span class="nx">name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為在CoffeeScript裡<code>@</code>符號代表<code>this</code>，所以可以簡寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="vi">@name = </span><span class="nx">name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>整個很有Ruby味道。又，因為建構子用的this.name = name這樣指定動作太常見，所以：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(name, age) -&gt;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">name = </span><span class="nx">name</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">age = </span><span class="nx">age</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以更簡化成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(@name, @age) -&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>方法</h3>
+
+<p>那如果要加其它的function到類別裡要怎麼做?</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(@name, @age) -&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">say_hello: </span><span class="nf">(something) -&gt;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">something</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">animal = </span><span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+</span><span class='line'><span class="nx">animal</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">(</span><span class="s">&quot;CoffeeScript&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Animal</span><span class="p">,</span> <span class="nx">animal</span><span class="p">;</span>
+</span><span class='line'><span class="nx">Animal</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">Animal</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nx">Animal</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">something</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">Animal</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">animal</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
+</span><span class='line'><span class="nx">animal</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;CoffeeScript&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯出來的程式碼已經有點開始長了..</p>
+
+<h3>繼承</h3>
+
+<p>在CoffeeScript裡，繼承使用<code>extends</code>這個關鍵字：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(@name, @age) -&gt;</span>
+</span><span class='line'>  <span class="nv">say_hello: </span><span class="nf">(something) -&gt;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">something</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nx">Human</span> <span class="k">extends</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">walk: </span><span class="o">-&gt;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;I can walk with my foots!&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">eddie = </span><span class="k">new</span> <span class="nx">Human</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">say_hello</span> <span class="s">&quot;CoffeeScript&quot;</span>
+</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">walk</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Animal</span><span class="p">,</span> <span class="nx">Human</span><span class="p">,</span> <span class="nx">eddie</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">__hasProp</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">,</span> <span class="nx">__extends</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">child</span><span class="p">,</span> <span class="nx">parent</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">parent</span><span class="p">)</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="nx">__hasProp</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">parent</span><span class="p">,</span> <span class="nx">key</span><span class="p">))</span> <span class="nx">child</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span> <span class="p">}</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">ctor</span><span class="p">()</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">child</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="nx">ctor</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">child</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ctor</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">child</span><span class="p">.</span><span class="nx">__super__</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">child</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">Animal</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">Animal</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nx">Animal</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">something</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">Animal</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Human</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">__extends</span><span class="p">(</span><span class="nx">Human</span><span class="p">,</span> <span class="nx">Animal</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">Human</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">Human</span><span class="p">.</span><span class="nx">__super__</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nx">Human</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">walk</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I can walk with my foots!&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">Human</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">eddie</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Human</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
+</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;CoffeeScript&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">walk</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到編譯出來的JavaScript程式碼了嗎? 跟CoffeeScript的程式碼行數以及複雜度比起來，我想誰比較容易寫應該一目了然了。</p>
+
+<p>在OOP的繼承體系裡，子類別會自動繼承自父類別的方法，如果兒子覺得老爸的方法不好用，兒子也可以自己定義一個來用，以上面的例子來說：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Human</span> <span class="k">extends</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">say_hello: </span><span class="nf">(something) -&gt;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hi, I am </span><span class="si">#{</span><span class="nx">@name</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'>      <span class="k">super</span> <span class="nx">something</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你可以在子類別定義同名的function，以來取代或補充父類別的方法，如果在override的方法裡要存取父類，則是使用關鍵字<code>super</code>。</p>
+
+<p>有興趣的話，大家可以自己試著編譯看看這時候的程式碼是不是已經有點看不太懂了，但CoffeeScript的部份應該看起來還算滿清楚的。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/03/coffeescript-basic-part-2/">CoffeeScript 基本篇(二)</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/coffeescript-basic-part-2/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T16:34:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>邏輯判斷</h3>
+
+<p>其實就是if..else那類的事，沒什麼特別的。不過在CoffeeScript裡有幾個比較有趣的點：</p>
+
+<ul>
+<li>不需要特別寫then：除非是寫成一行，不然不需要特別加上”then”</li>
+<li>有unless可以用：unless就是not if，if就是not unless，也許你會覺得有if not了何必需要unless呢? 其實每個人對語意的理解都有些差別，有的人覺得”除非怎樣怎樣”比較通順，有的人覺得”如果不要怎樣怎樣..”比較通順，其實指的都是同一件事，隨個人喜好。</li>
+<li>if後面的判斷句如果在不影響語意的情況下，可以不需要小括號，例如：</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">if</span> <span class="nx">age</span> <span class="o">&gt;</span> <span class="mi">18</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Yes, You are Adult&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>如果if / unless接的內容只有一行的話，if / unless 可以像一般英文敘述句一樣，放到最後面，例如：</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Yes, You are Adult&quot;</span> <span class="k">if</span> <span class="nx">age</span> <span class="o">&gt;</span> <span class="mi">18</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>為什麼要放到後面? 有什麼好處? 通常把if丟後面去，除了縮短一行的行數、程式碼讀起來更像一般口語之外，以上面這個例子來說，會有特別”強調”或”希望它執行”前面那個動詞的意味(個人觀感)。
+* 在比大小的時候，跟Python借來的大於、小於用法，讓語法更清楚，例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">body_weight = </span><span class="mi">70</span>
+</span><span class='line'><span class="nv">normal_body_weight = </span><span class="mi">65</span> <span class="o">&lt;</span> <span class="nx">body_weight</span> <span class="o">&lt;</span> <span class="mi">80</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有if..else，當多個if..else判斷串在一起的時候，CoffeeScript也有switch可以用：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">switch</span> <span class="nx">username</span>
+</span><span class='line'>  <span class="k">when</span> <span class="s">&quot;eddie&quot;</span> <span class="k">then</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;You are  the King&quot;</span>
+</span><span class='line'>  <span class="k">when</span> <span class="s">&quot;nayumi&quot;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Yes, My Lord..&quot;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;You are the Queen&quot;</span>
+</span><span class='line'>  <span class="k">else</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;You are nobody&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">switch</span> <span class="p">(</span><span class="nx">username</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">case</span> <span class="s2">&quot;eddie&quot;</span><span class="o">:</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;You are  the King&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">case</span> <span class="s2">&quot;nayumi&quot;</span><span class="o">:</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Yes, My Load..&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;You are the Queen&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;You are nobody&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要注意的是，跟if..else一樣，如果是單行敘述，when後面請加上then，否則不需要加。話說還好這點像Ruby不像Python，Python並沒有switch之類的可以用，這並沒不好，只是我還是覺得有switch之類的語法可以讓程式碼變得比較清楚，純個人喜好。</p>
+
+<h3>迴圈</h3>
+
+<p>CoffeeScript裡的迴圈跟一般的程式語言沒什麼太大的差別，就差不多是那麼一回事。前面提到的Range，常會放在迴圈裡面來使用：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">i</span> <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>                  <span class="c1"># 印出1到10</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">i</span> <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span> <span class="k">when</span> <span class="nx">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>  <span class="c1"># 印出2, 4, 6, 8, 10</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">i</span> <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span> <span class="k">by</span> <span class="mi">2</span>             <span class="c1"># 一次跳2，印出1, 3, 5, 7, 9</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>              <span class="c1"># 對每個i值 x 2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>還有類似Ruby的陣列操作：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">].</span><span class="nx">map</span> <span class="nf">(i) -&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">i</span><span class="o">*</span><span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>跟if/unless一樣，while也有他的死對頭until (while = not until, until = not while)，如果while / until的敘述句只有一行的話，同樣也可以放到句子的最後面。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Keep Walking&quot;</span> <span class="k">while</span> <span class="nx">miles</span> <span class="o">&lt;</span> <span class="mi">100</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">while</span> <span class="p">(</span><span class="nx">miles</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Keep Walking&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>語法糖衣</h3>
+
+<p>為了讓程式碼看起來更像一般的英文敘述句，在CoffeeScript裡特別做了一些alias，例如幫true值做了兩組alias：on以及yes，相對的，off跟no就是false的同義詞，其它的還有：</p>
+
+<pre><code>is    =&gt;  ===
+isnt  =&gt;  !==
+and   =&gt;  &amp;&amp;
+or    =&gt;  ||
+not   =&gt;  !
+</code></pre>
+
+<p>所以，你可能可以寫出這樣的程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">if</span> <span class="nx">light</span> <span class="o">is</span> <span class="kc">off</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;I can&#39;t see anything&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="nx">eddie</span> <span class="o">isnt</span> <span class="nx">handsome</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;It&#39;s impossible!&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="nx">girl</span> <span class="o">is</span> <span class="o">not</span> <span class="nx">single</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Don&#39;t Touch! Be Careful!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">light</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I can&#39;t see anything&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">eddie</span> <span class="o">!==</span> <span class="nx">handsome</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;It&#39;s impossible!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">girl</span> <span class="o">===</span> <span class="o">!</span><span class="nx">single</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Don&#39;t Touch! Be Careful!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣一來，程式碼看起來就更口語化了。</p>
+
+<p>最後來看一下這個好用的問號：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">age</span> <span class="o">?=</span> <span class="mi">18</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個的意思是說，如果age這個變數還沒被定義或給值的話，就給這個變數設定為18。簡單的說，就是給預設值啦，所以上面這一行會被編譯成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">age</span> <span class="o">!==</span> <span class="s2">&quot;undefined&quot;</span> <span class="o">&amp;&amp;</span> <span class="nx">age</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">age</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>真的是相當方便啊!!</p>
+
+<p>更多精彩內容，請參考<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>官網上文件。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/03/coffeescript-basic-part-1/">CoffeeScript 基本篇(一)</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/coffeescript-basic-part-1/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T16:15:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>首先，<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>的官網的文件寫得相當的詳細，強烈建議各位一定要看，只要看完一輪，大概就知道CoffeeScript是怎麼一回事了。</p>
+
+<p>底下你看到的<code>console.log</code>，通常是拿來debug用的，並不會真的在網頁上產生結果，請搭配<a href="https://addons.mozilla.org/zh-tw/firefox/addon/firebug/">Firebug</a>使用。</p>
+
+<h3>註解</h3>
+
+<p>CoffeeScript跟Ruby一樣，使用<code>#</code>字號來做註解，而且註解的內容在編譯過的js檔裡是看不到的。如果要做多行註解，則是使用3個<code>#</code>字號。</p>
+
+<h3>變數宣告</h3>
+
+<p>其實變數不用特別宣告，直接抓來用就好了，例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">age = </span><span class="mi">18</span><span class="p">;</span>
+</span><span class='line'><span class="nv">name = </span><span class="s">&quot;CoffeeScript&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">age</span><span class="p">,</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'><span class="nx">age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
+</span><span class='line'><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;CoffeeScript&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到了嗎? 它幫你宣告好了<code>age</code>跟<code>name</code>兩個變數，而且該加的分號都加上去了。</p>
+
+<p>如果你要組合字串，除了用加號來串接外，CoffeeScript也從Ruby那邊借來了string interpolation：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">greeting = </span><span class="s">&quot;hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">greeting</span> <span class="o">=</span> <span class="s2">&quot;hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要注意的是，如果你用的是<strong>單引號</strong>的話，string interpolation不會發生作用。</p>
+
+<p>跟Ruby一樣，string interpolation可以放一個完整的expression，例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">greeting = </span><span class="s">&quot;hello, </span><span class="si">#{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">name</span>
+</span><span class='line'>      <span class="nx">name</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>      <span class="s">&quot;CoffeeScript&quot;</span>
+</span><span class='line'><span class="si">}</span><span class="s">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">greeting</span><span class="p">;</span>
+</span><span class='line'><span class="nx">greeting</span> <span class="o">=</span> <span class="s2">&quot;hello, &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">name</span> <span class="o">?</span> <span class="nx">name</span> <span class="o">:</span> <span class="s2">&quot;CoffeeScript&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Function</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">say_hello = </span><span class="o">-&gt;</span>
+</span><span class='line'>  <span class="s">&quot;Hello CoffeeScript&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">say_hello</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">say_hello</span><span class="p">;</span>
+</span><span class='line'><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="s2">&quot;Hello CoffeeScript&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">say_hello</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>像Ruby一樣，function的最後一個執行結果自動就是整個function的回傳值，所以這邊即使沒有特別寫return，該加上的return、大括號以及分號，都在編譯成js檔之後加上去了。(你要特別加上return也ok，不會變兩個return的)</p>
+
+<p>再來，如果你要給function傳進參數的話：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">age = </span><span class="mi">18</span><span class="p">;</span>
+</span><span class='line'><span class="nv">name = </span><span class="s">&quot;CoffeeScript&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nv">greeting = </span><span class="s">&quot;hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'><span class="nv">say_hello = </span><span class="nf">(name) -&gt;</span>
+</span><span class='line'><span class="k">if</span> <span class="nx">name</span>
+</span><span class='line'>  <span class="s">&quot;hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="nx">greeting</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span><span class="p">()</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span> <span class="s">&quot;eddie&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">age</span><span class="p">,</span> <span class="nx">greeting</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">say_hello</span><span class="p">;</span>
+</span><span class='line'><span class="nx">age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
+</span><span class='line'><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;CoffeeScript&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">greeting</span> <span class="o">=</span> <span class="s2">&quot;hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s2">&quot;hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">greeting</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">());</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">));</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣就可以傳參數進去了。</p>
+
+<p>上面這段範例有兩件事要特別留意，首先，CoffeeScript像Python一樣使用縮排(identation)做為程式碼區塊的判斷，所以上面<code>if..else..</code>的縮排是有意義的。是的，<strong>if後面不用加then</strong>。</p>
+
+<p>第二，注意到在上面傳參數的時候，像Ruby一樣的省略掉了小括號嗎? 編譯出來的結果跟有小括號的是一樣的。那為什麼say_hello不傳參數的時候不能像Ruby一樣省略參數? 我想是因為CoffeeScript沒辦法真的像Ruby一樣辨識say_hello到底是一般的變數，還是沒有參數的方法呼叫，所以請記得，<strong>如果沒傳參數給function，請記得加上小括號</strong>。</p>
+
+<p>如果你要讓參數有預設值：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">say_hello = </span><span class="nf">(name = &quot;CoffeeScript&quot;) -&gt;</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">say_hello</span><span class="p">;</span>
+</span><span class='line'><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;CoffeeScript&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Ruby裡傳參數，有叫做<strong>Splat</strong>的概念，可以一次傳進多個選擇性的參數，在CoffeeScript也有借來用，只是寫法有點不太一樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">say_hello = </span><span class="nf">(name, others...) -&gt;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">others</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s"> and </span><span class="si">#{</span><span class="nx">others</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>      <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span> <span class="s">&quot;eddie&quot;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span> <span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="s">&quot;kao&quot;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span> <span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="s">&quot;kao&quot;</span><span class="p">,</span> <span class="s">&quot;joanne&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">say_hello</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">__slice</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">;</span>
+</span><span class='line'><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">others</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">name</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">others</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span> <span class="o">?</span> <span class="nx">__slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">:</span> <span class="p">[];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">others</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="nx">others</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">));</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="s2">&quot;kao&quot;</span><span class="p">));</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="s2">&quot;kao&quot;</span><span class="p">,</span> <span class="s2">&quot;joanne&quot;</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第二個參數others後面接三個點，表示它是一個「可有可無而且可以不定數量」的參數，而傳進來的參數變成一個陣列，看到編譯出來的程式碼就覺得如果要自己手工寫出這段程式碼要想好一下子的..</p>
+
+<p>像Ruby一樣，CoffeeScript支援變數多重指定，但寫法有些不一樣，需要特別加上中括號，所以可以這樣玩：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="p">[</span><span class="nx">first</span><span class="p">,</span> <span class="nx">others</span><span class="p">...,</span> <span class="nx">last</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">first</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">last</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">others</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">first</span><span class="p">,</span> <span class="nx">last</span><span class="p">,</span> <span class="nx">others</span><span class="p">,</span> <span class="nx">_i</span><span class="p">,</span> <span class="nx">_ref</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">__slice</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">;</span>
+</span><span class='line'><span class="nx">_ref</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">others</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">&lt;=</span> <span class="nx">_ref</span><span class="p">.</span><span class="nx">length</span> <span class="o">?</span> <span class="nx">__slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">_ref</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">_i</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">:</span> <span class="p">(</span><span class="nx">_i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[]),</span> <span class="nx">last</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">[</span><span class="nx">_i</span><span class="o">++</span><span class="p">];</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">first</span><span class="p">);</span>     <span class="err">#</span> <span class="mi">1</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">last</span><span class="p">);</span>      <span class="err">#</span> <span class="mi">10</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">others</span><span class="p">);</span>    <span class="err">#</span> <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>變數可以多重指派，當然也可以交換：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">x = </span><span class="mi">1</span>
+</span><span class='line'><span class="nv">y = </span><span class="mi">10</span>
+</span><span class='line'><span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">y</span><span class="p">,</span> <span class="nx">x</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">x</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">y</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">_ref</span><span class="p">;</span>
+</span><span class='line'><span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="nx">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'><span class="nx">_ref</span> <span class="o">=</span> <span class="p">[</span><span class="nx">y</span><span class="p">,</span> <span class="nx">x</span><span class="p">],</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">y</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>可以用原來的方式寫function嗎?</h3>
+
+<p>你不一定要照著CoffeeScript的方式寫，如果CoffeeScript的語法讓你覺得不舒服，你希望可以用你習慣的JavaScript語法的話也ok，你可以這樣做：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">say_hello = </span><span class="o">`</span><span class="nx">function</span><span class="p">(</span><span class="nx">name</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">return</span> <span class="s">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span>
+</span><span class='line'><span class="p">}</span><span class="o">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在反單引號(backtick)包起來的內容，在編譯的時候會照你寫的內容輸出，只是這樣一來用CoffeeSCript就沒意義啦!</p>
+
+<h3>陣列</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">heroes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spider Man&#39;</span><span class="p">,</span> <span class="s1">&#39;Captain America&#39;</span><span class="p">,</span> <span class="s1">&#39;X-men&#39;</span><span class="p">,</span> <span class="s1">&#39;Iron Man&#39;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在CoffeeScript裡，你可以用多行表示：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">heroes = </span><span class="p">[</span>
+</span><span class='line'>  <span class="s">&#39;Spider Man&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&#39;Captain America&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&#39;X-men&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&#39;Iron Man&#39;</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">heroes</span><span class="p">;</span>
+</span><span class='line'><span class="nx">heroes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spider Man&#39;</span><span class="p">,</span> <span class="s1">&#39;Captain America&#39;</span><span class="p">,</span> <span class="s1">&#39;X-men&#39;</span><span class="p">,</span> <span class="s1">&#39;Iron Man&#39;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>甚至連每行後面的逗點也都可以省下來。</p>
+
+<p>CoffeeScript從Ruby借來了<code>Range</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">students = </span><span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">students</span><span class="p">;</span>
+</span><span class='line'><span class="nx">students</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是多一個點：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">students = </span><span class="p">[</span><span class="mi">1</span><span class="p">...</span><span class="mi">10</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">students</span><span class="p">;</span>
+</span><span class='line'><span class="nx">students</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你把Range反過來寫，例如[10..1]，它就會變成從10到1的數字陣列。但如果把Range的數字放大一點：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">students = </span><span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">100</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">students</span><span class="p">,</span> <span class="nx">_i</span><span class="p">,</span> <span class="nx">_results</span><span class="p">;</span>
+</span><span class='line'><span class="nx">students</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">_results</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="nx">_i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">_i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">;</span> <span class="nx">_i</span><span class="o">++</span><span class="p">){</span> <span class="nx">_results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">_i</span><span class="p">);</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">_results</span><span class="p">;</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>只要Range大於20就會改用迴圈的方式來建構這個陣列。</p>
+
+<p>陣列的操作也是很容易的</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">heroes</span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="mi">2</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">heroes</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果利用Range來替換或新增陣列的內容：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">heroes</span><span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Batman&quot;</span><span class="p">,</span> <span class="s">&quot;ThunderCat&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">_ref</span><span class="p">;</span>
+</span><span class='line'><span class="nx">heroes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spider Man&#39;</span><span class="p">,</span> <span class="s1">&#39;Captain America&#39;</span><span class="p">,</span> <span class="s1">&#39;X-men&#39;</span><span class="p">,</span> <span class="s1">&#39;Iron Man&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="p">[].</span><span class="nx">splice</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">heroes</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">].</span><span class="nx">concat</span><span class="p">(</span><span class="nx">_ref</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Batman&quot;</span><span class="p">,</span> <span class="s2">&quot;ThunderCat&quot;</span><span class="p">])),</span> <span class="nx">_ref</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>物件</h3>
+
+<p>你可以用這種JSON的寫法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">eddie = </span><span class="p">{</span> <span class="nv">name: </span><span class="s">&quot;Eddie Kao&quot;</span><span class="p">,</span> <span class="nv">age: </span><span class="mi">18</span><span class="p">,</span> <span class="nv">speciality: </span><span class="s">&quot;eat&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是YAML式的寫法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">eddie =</span>
+</span><span class='line'>  <span class="nv">name: </span><span class="s">&quot;Eddie Kao&quot;</span>
+</span><span class='line'>  <span class="nv">age: </span><span class="mi">18</span>
+</span><span class='line'>  <span class="nv">speciality: </span><span class="s">&quot;eat&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">eddie</span><span class="p">;</span>
+</span><span class='line'><span class="nx">eddie</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Eddie Kao&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">age</span><span class="o">:</span> <span class="mi">18</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">speciality</span><span class="o">:</span> <span class="s2">&quot;eat&quot;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>特別是如果你要做巢狀的物件結構，用YAML的寫法會更清楚：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">eddie =</span>
+</span><span class='line'>  <span class="nv">name: </span><span class="s">&quot;Eddie Kao&quot;</span>
+</span><span class='line'>  <span class="nv">age: </span><span class="mi">18</span>
+</span><span class='line'>  <span class="nv">speciality: </span><span class="s">&quot;eat&quot;</span>
+</span><span class='line'>  <span class="nv">lovers:</span>
+</span><span class='line'>  <span class="nv">nayumi:</span>
+</span><span class='line'>      <span class="nv">name: </span><span class="s">&quot;Nayumi Hung&quot;</span>
+</span><span class='line'>      <span class="nv">age: </span><span class="mi">18</span>
+</span><span class='line'>  <span class="nv">mary:</span>
+</span><span class='line'>      <span class="nv">name: </span><span class="s">&quot;Mary Bloody&quot;</span>
+</span><span class='line'>      <span class="nv">age: </span><span class="mi">20</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/03/how-to-use-coffeescript-compiler/">CoffeeScript 使用篇</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/how-to-use-coffeescript-compiler/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T16:12:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>裝好了，準備來泡咖啡了</p>
+
+<p>假設我寫了一個檔名為app.coffee(內容怎麼寫請見CoffeeScript基礎篇)，現在我想來編譯這個coffee檔：</p>
+
+<pre><code>&gt; coffee --watch --compile app.coffee
+</code></pre>
+
+<p>這行指令會把<code>app.coffee</code>編譯產生一個同名的<code>app.js</code>。</p>
+
+<p>加上了<code>–watch</code>參數，CoffeeScript的編譯器會一直監看這個檔案，只要檔案一有變動，編譯器就會再重新編譯產生一份新的.js檔案。如果你覺得–watch、–compile太囉嗦或不想打那麼多字，也可以用-w、-c來替代。</p>
+
+<p>如果你希望把幾個coffee檔案在編譯的時候合併成一個.js檔，以減少http request的數量，你可以這樣做：</p>
+
+<pre><code>&gt; coffee --join application.js --compile *.coffee
+</code></pre>
+
+<p>這樣就會把同一個目錄裡的coffee檔編譯並組合成同一個js檔，這裡–join也可以簡寫成-j。</p>
+
+<p>更多內容請見<code>coffee –help</code></p>
+
+<h3>CoffeeScript Console</h3>
+
+<p>CoffeeScript也有像Ruby的irb一樣的REPL，提供一個像shell的互動介面可以讓你試玩，你只要不帶參數的執行CoffeeScript編譯器：</p>
+
+<pre><code>&gt; coffee
+coffee&gt; name = "eddie"
+'eddie'
+</code></pre>
+
+<p>這樣你就可以在這個環境裡面試一些語法。如果你曾經使用過Ruby的irb，你對這個結果應該不陌生。</p>
+
+<h3>一定要編譯成js檔嗎?</h3>
+
+<p>上面講的是如何把coffee檔編譯成js檔，編譯成js檔當然放到網頁上當然沒問題，但是不是一定要編譯呢? 不編譯的話，coffee檔能不能直接拿來用?</p>
+
+<p>當然是可以的，只要先引入一行CoffeeScript的編譯器，就可以在HTML的頁面裡直接寫CoffeeScript：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://jashkenas.github.com/coffee-script/extras/coffee-script.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後你要這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/coffeescript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nx">alert</span> <span class="s1">&#39;test&#39;</span>
+</span><span class='line'><span class="nt">&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是寫在外部檔案：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/coffeescript&quot;</span> <span class="na">src=</span><span class="s">&quot;myapp.coffee&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>都可以，這樣就能讓你的瀏覽器就看得懂CoffeeScript，只是這樣一來的速度一定比直接編譯成.js檔要來得慢，所以實務上還是會先編譯成.js檔再拿來使用。</p>
+
+<p>OK! 可以開始喝咖啡了!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/03/install-coffeescript/">CoffeeScript 安裝篇</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/install-coffeescript/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T16:02:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>要安裝CoffeeScript的話，會需要先安裝<a href="http://nodejs.org/">Node.js</a>以及Node.js的套件管理工具 – <a href="http://npmjs.org/">npm</a> (Node Package Manager)</p>
+
+<h4>說明：</h4>
+
+<p>以下將會以Mac及Ubuntu為主要的平台，Windows就對不起了，我沒有機器可以測試..在安裝過程中如果出現權限不足的錯誤訊息，請使用sudo暫時取得安裝的權限。</p>
+
+<h3>安裝Node.js</h3>
+
+<p>官網：<a href="http://nodejs.org/">http://nodejs.org/</a></p>
+
+<pre><code>&gt; git clone git://github.com/joyent/node.git
+&gt; cd node
+&gt; ./configure
+&gt; make
+&gt; sudo make install
+</code></pre>
+
+<p>更多細節請參考：<a href="https://github.com/joyent/node/wiki/Installation">https://github.com/joyent/node/wiki/Installation</a></p>
+
+<h3>安裝npm</h3>
+
+<p>官網：<a href="http://npmjs.org/">http://npmjs.org/</a></p>
+
+<pre><code>&gt; curl http://npmjs.org/install.sh | sh
+</code></pre>
+
+<p>一行搞定!(如果你沒有curl的話請另外安裝)</p>
+
+<h3>安裝CoffeeScript</h3>
+
+<p>如果你的Node.js以及npm都順利安裝完成的話，接下來，在安裝之前先更新一下npm的套件資訊(不一定更新，只是確保npm會幫你裝最新的套件版本)：</p>
+
+<pre><code>&gt; npm update
+npm info it worked if it ends with ok
+npm info using npm@0.3.18
+npm info using node@v0.4.10
+npm WARN Invalid range in engines.node.  Please see `npm help json` ~v0.4.9
+npm WARN Invalid range in engines.node.  Please see `npm help json` v0.4.8~v0.4.9
+npm info outdated Everything up-to-date.
+npm info update Nothing to update
+npm ok
+</code></pre>
+
+<p>再來安裝CoffeeScript：</p>
+
+<pre><code>&gt; npm install coffee-script
+npm info it worked if it ends with ok
+npm info using npm@0.3.18
+npm info using node@v0.4.10
+npm info preinstall coffee-script@1.1.1
+npm info install coffee-script@1.1.1
+npm info postinstall coffee-script@1.1.1
+npm info preactivate coffee-script@1.1.1
+npm info activate coffee-script@1.1.1
+npm info postactivate coffee-script@1.1.1
+npm info build Success: coffee-script@1.1.1
+npm ok
+</code></pre>
+
+<p>其實如果你是Mac的使用者的話，上面這些動作可以直接用<a href="http://mxcl.github.com/homebrew/">homebrew</a>一行搞定，超幸福的：</p>
+
+<pre><code>&gt; brew install coffee-script
+</code></pre>
+
+<p>homebrew會幫你把需要的東西一起處理好(誠心推薦，不要再用ports了)。如果你發現用homebrew安裝的CoffeeScript不是最新版本的話，請先用<code>brew update</code>指令，更新一下homebrew的fomula再重新安裝即可。</p>
+
+<p>看看有沒裝好：</p>
+
+<pre><code>&gt; coffee -v
+CoffeeScript version 1.1.1
+</code></pre>
+
+<p>就這樣，可以準備開工了!</p>
+
+<h4>補充：</h4>
+
+<p>在 Windows 上可以用這個 <a href="https://github.com/alisey/CoffeeScript-Compiler-for-Windows">https://github.com/alisey/CoffeeScript-Compiler-for-Windows</a></p>
+
+<p>在 NetBeans 上可以用這個 <a href="https://github.com/dstepanov/coffeescript-netbeans">https://github.com/dstepanov/coffeescript-netbeans</a> (注意， Windows 7 要用 0.9.1 版才不會有問題)</p>
+
+<p>感謝jace補充 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/19/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/17/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現&#8230;<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

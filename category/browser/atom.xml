@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Browser | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/browser/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[IE6之Select的Z-Index設定]]></title>
+    <link href="http://blog.eddie.com.tw/2008/08/08/select-z-index-in-ie6/"/>
+    <updated>2008-08-08T10:31:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2008/08/08/select-z-index-in-ie6</id>
+    <content type="html"><![CDATA[<p>在IE6的環境下，如果網頁上有div區塊和下拉選單重疊在一起的時候，即使再怎麼調整下拉選單的z-index，下拉選單還是會把div區塊蓋住 (在Firefox是正常的)，google了一下網路上的資料，大多是用iframe來解這個問題，但弄iframe寫起來也是花時間而且不順手。有善心人士把這段程式碼寫成<a href="http://jquery.com/">jQuery</a>的plugin：<a href="http://plugins.jquery.com/project/bgiframe">bgiframe</a>，只要簡單的呼叫plugin，就可以在div底下插入一段可以把下拉選單遮住的iframe，div區塊就可以正常顯示了。</p>
+
+<p>程式碼很簡單，直接看線上demo就知道了；有需要的也可以整包下載回去 :)</p>
+
+<ul>
+<li>線上demo：<a href="http://labs.eddie.com.tw/javascript/div.htm">http://labs.eddie.com.tw/javascript/div.htm</a></li>
+<li>整包下載：<a href="http://labs.eddie.com.tw/javascript/div.rar">http://labs.eddie.com.tw/javascript/div.rar</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Flash Switcher extension for Firefox]]></title>
+    <link href="http://blog.eddie.com.tw/2006/10/31/flash-switcher-extension-for-firefox/"/>
+    <updated>2006-10-31T00:14:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2006/10/31/flash-switcher-extension-for-firefox</id>
+    <content type="html"><![CDATA[<p><img src="/images/2006/firefox.gif" alt="image" /></p>
+
+<p>Firefox的外掛程式，可以直接按右鍵就能切換不同的flash player版本。對常用flash在做開發的人來說真是個好用的東西呀，可惜IE沒有這玩意 :)</p>
+
+<p><a href="http://www.sephiroth.it/weblog/archives/2006/10/flash_switcher_for_firefox.php">網站</a></p>
+
+<p>舊版本的flash player可以在<a href="http://www.adobe.com/cfusion/knowledgebase/index.cfm?id=tn_14266">Adobe的網站</a>上找得到</p>
+]]></content>
+  </entry>
+  
+</feed>

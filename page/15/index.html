@@ -1,0 +1,1081 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="最常用的資料型態 不管在哪種程式語言，字串大概都是使用量最大的資料型態。 單引號跟雙引號的差別? 其實沒什麼差別。 操作 接下來我們看一些常見的字串操作 字串替換 1
+2
+3
+4
+5
+&gt;&gt;&gt; &quot;%s = %s&quot; % (&quot;eddie&quot;, & &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/page/15/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/13/python-string/">字串</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-string/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-13T13:45:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>最常用的資料型態</h2>
+
+<p>不管在哪種程式語言，字串大概都是使用量最大的資料型態。</p>
+
+<h2>單引號跟雙引號的差別?</h2>
+
+<p>其實沒什麼差別。</p>
+
+<h2>操作</h2>
+
+<p>接下來我們看一些常見的字串操作</p>
+
+<h3>字串替換</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="s">&quot;kao&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="s">&#39;eddie = kao&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;my name is </span><span class="si">%(name)s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;name&#39;</span> <span class="p">:</span> <span class="s">&#39;eddie&#39;</span><span class="p">}</span>
+</span><span class='line'><span class="s">&#39;my name is eddie&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>字串格式化</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;my name is </span><span class="si">%10s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="s">&quot;eddie&quot;</span>
+</span><span class='line'><span class="s">&#39;my name is      eddie&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;my name is </span><span class="si">%-10%</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">eddie</span><span class="s">&quot;</span>
+</span><span class='line'><span class="s">&#39;my name is eddie     &#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;the PI is </span><span class="si">%.3f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="mf">3.1415926</span>
+</span><span class='line'><span class="s">&#39;the PI is 3.142&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>len() 字串長度</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">greeting</span> <span class="o">=</span> <span class="s">&quot;hello, eddie&quot;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+</span><span class='line'><span class="mi">12</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>算字串的長度，其實就是算有幾個字元..</p>
+
+<h3>字串的&#8221;運算&#8221;?</h3>
+
+<p>字串也可以用加號<code>+</code>跟乘號<code>*</code>，不過並不是真的像數字一樣的四則運算：</p>
+
+<p>&#8221;+&#8221;(加號)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="s">&quot;eddie&quot;</span> <span class="o">+</span> <span class="s">&quot;kao&quot;</span>
+</span><span class='line'><span class="n">eddiekao</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&#8221;*&#8221;(乘號)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="s">&quot;eddie&quot;</span><span class="o">*</span><span class="mi">3</span>
+</span><span class='line'><span class="n">eddieeddieeddie</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>有人在嗎?</h3>
+
+<p>使用<code>in</code>語法，可以檢查該字串是否包含某個字元：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;a&quot;</span> <span class="ow">in</span> <span class="s">&quot;abcdefg&quot;</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;x&quot;</span> <span class="ow">in</span> <span class="s">&quot;abcdefg&quot;</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>切割</h3>
+
+<p>split</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_str</span> <span class="o">=</span> <span class="s">&quot;xxx yyy zzz&quot;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span><span class='line'><span class="p">[</span><span class="s">&#39;xxx&#39;</span><span class="p">,</span> <span class="s">&#39;yyy&#39;</span><span class="p">,</span> <span class="s">&#39;zzz&#39;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>slice</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_str</span> <span class="o">=</span> <span class="s">&quot;abcdefg&quot;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'><span class="n">a</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="n">g</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="n">bcd</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="n">abcdef</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>中文字元怎麼切? 怎麼算?</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># encoding: utf-8</span>
+</span><span class='line'><span class="n">my_name</span> <span class="o">=</span> <span class="s">&quot;高見龍&quot;</span>
+</span><span class='line'><span class="n">my_name_unicode</span> <span class="o">=</span> <span class="s">u&quot;高見龍&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_name</span><span class="p">)</span>           <span class="c"># 9</span>
+</span><span class='line'><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_name_unicode</span><span class="p">)</span>   <span class="c"># 3</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">my_name_unicode</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">word</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意到前面那個小寫的<code>u</code>嗎? 加上<code>u</code>表示這個字串是unicode的，這樣一來在算字數時候，每個中文字就會被當做一個字元來計算了。</p>
+
+<p>Python的字串還有很多可以介紹的，不過因為我們主要的目的是Django，所以不會打算把所有的字串方法都一一介紹一次，更多細節，請見官網文件：<a href="http://docs.python.org/library/string.html">http://docs.python.org/library/string.html</a> (這是個重要的章節，為了你的將來，請一定要看!)</p>
+
+<p>再來，我們來看看在Python的串列(List)..</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/13/python-boolean/">Boolean</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-boolean/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-13T13:40:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Boolean? 真的假的?</h2>
+
+<p>Boolean值很單純，只有兩種結果，就是真的(True)跟假的(False)，不是真的就是假的，沒有灰色地帶。</p>
+
+<p>哪些東西是假的?</p>
+
+<ul>
+<li>0 數字0</li>
+<li>”” 空字串</li>
+<li>[] 空的List</li>
+<li>() 空的Tuple</li>
+<li>{} 空的Dict</li>
+<li>None</li>
+<li>當然還有False本身也是假的..</li>
+</ul>
+
+
+<p>因為真的(True)太多種，沒辦法用窮舉法一項一項列出來，所以我們只要記得哪些是假的(False)，然後只要不是假的，就是真的。</p>
+
+<p>要注意的是，在Python，程式碼是有大小寫之分的，所以如果寫成<code>false</code>的話，是認不出來的。</p>
+
+<p>接下來，我們來看看很常使用的字串..</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/13/python-number/">數字</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-number/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-13T13:35:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>沒有上限?</h2>
+
+<p>在Python，數字基本上是沒有上限的。也不是說沒有沒有上限，就用到電腦記憶體用完為止。有些程式語言的數字的值都有一個限制，超過就會發生溢位(<a href="http://en.wikipedia.org/wiki/Integer_overflow">overflow</a>)。什麼是溢位? 就像你車子的里程表，假設全部有6個位數，也就是最大顯示是999999，但只要超過這個數字就會從000000開始，在處理資料的時候，這通常不會是你想要的結果。而Python沒有這個問題，也就是因為這樣，Python可以拿來算很大的數字都是ok的。</p>
+
+<p>數字裡面，只要有小數點就會被視為浮點數，而浮點數會有誤差，例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">print</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">-</span> <span class="mf">0.3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>算出來的結果應該跟我們人類的腦袋不太一樣。如果你有這方面的需求，可以藉助<code>Decimal</code>模組的幫忙：</p>
+
+<pre><code>&gt;&gt;&gt; from decimal import *
+&gt;&gt;&gt; Decimal('0.1') + Decimal('0.1') + Decimal('0.1') - Decimal('0.3')
+Decimal('0.0')
+</code></pre>
+
+<p>這樣算出來應該就會是你要的了。</p>
+
+<h2>四則運算</h2>
+
+<p>基本上跟我們在小學時候學的差不多，就加<code>+</code>、減<code>-</code>、乘<code>*</code>、除<code>/</code>，先乘除後加減，如果遇到括號要先處理。這些都差不多，不過&#8221;除法&#8221;比較不一樣一點，如果除數跟被除數都是整數的話，那算出來的結果就會是整數，例如：</p>
+
+<pre><code>print 10/3     # 3
+</code></pre>
+
+<p>如果你在除數或被除數其中一個加上小數點，讓它變成浮點數型態的話，算出來就又不一樣了：</p>
+
+<pre><code>print 10.0/3   # 3.333333333
+</code></pre>
+
+<p>但如果你想要強迫進行整數除法的話，請使用<code>//</code>：</p>
+
+<pre><code>print 10.0//3  # 3.0
+</code></pre>
+
+<p>次方則是使用<code>**</code>：</p>
+
+<pre><code>print 2**3     # 8
+</code></pre>
+
+<p>型態轉換可使用<code>int()</code>、<code>float()</code>、<code>complex()</code>等方法來把原來的數字轉換成整數、浮點數以及複數型態。</p>
+
+<p>再來，我們來看看Python的Boolean型態..</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/12/python-method/">Method</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/12/python-method/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-12T17:03:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>為什麼要寫method?</h2>
+
+<p>程式碼就這樣一行一行的寫不好嗎? 當你的程式碼超過一定的行數的時候，一行一行的寫就不會是個好的寫法。通常我們會用一個抽象的名詞，來把一群連續或複合的動作給包在一起，這樣一來程式碼變得有系統了，心情也會變得比較好，重點是，會寫method，就容易會有種變成高手的錯覺!</p>
+
+<p>雖然這也許是玩笑話，但把程式碼整理到method裡，程式碼會變得比較好維護，而且也更容易可以重複使用。</p>
+
+<h2>定義</h2>
+
+<figure class='code'><figcaption><span>method定義  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">calc_method</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">args_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">args</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">kwargs_method</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">kwargs</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第1行的<code>calc_method</code>比較容易懂，這個method會接收2個參數，其中一個還是有預設值的；第4行的<code>args_method</code>後面的參數加了一顆<code>*</code>，表示傳進去的參數<code>args</code>會被集中成一個Tuple；而第7行的<code>kwargs_method</code>則會把傳進去的參數<code>kwargs</code>集中成一個Dictionary。</p>
+
+<h2>pass!! 什麼都不做..?</h2>
+
+<p>前面提到Python的程式是靠縮排來區分code block的，不過如果我們寫了一個method，但裡面目前還沒想到要寫什麼，或是在<code>if..else..</code>的判斷裡面暫時還沒想到要寫什麼內容，如果就這樣空的不理它是不行的，這時候你就需要<code>pass</code>這個什麼事都不做的東西，像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">do_something</span><span class="p">():</span>
+</span><span class='line'>  <span class="k">pass</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">if</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">pass</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;kid, go back to school!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個<code>pass</code>的用途，就是只放個包包佔位置而已，其它什麼事都不做。也許你會覺得很不習慣，不過這個應該只有像在Python這種依賴縮排的程式語言才看得到的特色(?)吧。</p>
+
+<h2>呼叫/使用</h2>
+
+<figure class='code'><figcaption><span>呼叫/使用  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">calc_method</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="n">calc_method</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="n">calc_method</span><span class="p">(</span><span class="n">b</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">args_method</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="n">kwargs_method</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python的method呼叫是透過小括號<code>()</code>，並且可以在裡面傳參數進去，不過Python的參數還滿自由的，不一定要照著順序傳進去，像是上面這段程式碼的第3行，只要知道變數名稱，用這種方式傳也是行得通的。</p>
+
+<h2>回傳值</h2>
+
+<p>每個method執行結束，可以使用<code>return</code>關鍵字來指定要回傳的值，如果沒有特別指定，則回傳值是<code>None</code>(相當於在別的程式語言的<code>Null</code>或<code>Nil</code>)。所以這段程式碼的的回傳值：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">calc_method</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">print</span> <span class="n">calc_method</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為<code>calc_method</code>最後並沒明確的指示要回傳什麼值，所以上面這段程式碼的執行結果，會得到在<code>calc_method</code>裡印出的結果<code>10</code>，以及用<code>print</code>把回傳值<code>None</code>給印出來。</p>
+
+<h2>Lambda? 黏巴達?</h2>
+
+<figure class='code'><figcaption><span>Lambda  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">my_profile</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">age</span> <span class="p">:</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> is </span><span class="si">%i</span><span class="s"> years old&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="n">my_profile</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>lambda其實就是一種匿名(anonymous)的method，它不用像一般method使用<code>def</code>來事先定義好。</p>
+
+<h2>Method Decorator</h2>
+
+<p>decorator的意思簡單的說，就是用某個method把你原來的method給包起來，也就是你在執行內層method之前，會先執行外層的method。這個在Python或Django的程式碼還滿常見的，主要有兩種方式來實作：</p>
+
+<p>第一種是使用method來做decorator：</p>
+
+<figure class='code'><figcaption><span>method decorator  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">my_deco</span><span class="p">(</span><span class="n">func_name</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Hello, this is method decorator&quot;</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">wrapper</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">func_name</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">wrapper</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@my_deco</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">real_method</span><span class="p">():</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;This is real method&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">real_method</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另一種是使用類別來做decorator：</p>
+
+<figure class='code'><figcaption><span>method decorator  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">Deco</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">func_name</span> <span class="o">=</span> <span class="n">func_name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;This is a decorator class&quot;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_name</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@Deco</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">real_method</span><span class="p">():</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;This is real method&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">real_method</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下來，我們來看看在Python裡面的一些基本的資料型態.. 數字!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/12/python-flow-control/">邏輯及流程控制</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/12/python-flow-control/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-12T17:01:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>變數</h2>
+
+<p>在開始講流程控制之前，要先來看一下在Python的變數。</p>
+
+<p>Pytho的變數有幾項特點以及有趣的使用：</p>
+
+<ul>
+<li>不用宣告，可以直接用 x = &#8220;abc&#8221;</li>
+<li>變數名稱沒有型態</li>
+<li>x, y, z = 1, 2, 3 可一口氣指定多個變數</li>
+<li>x, y = y, x 把x跟y的值對調</li>
+<li>x, y, z = &#8220;abc&#8221; 會得到x = &#8220;a&#8221;, y = &#8220;b&#8221;, z = &#8220;c&#8221;</li>
+<li>x = y = z = &#8220;abc&#8221; x、y、z都是&#8221;abc&#8221;</li>
+</ul>
+
+
+<h3>命名規範</h3>
+
+<ol>
+<li>最好取有意義且相關的</li>
+<li>開頭只能以底線或英文字母</li>
+<li>小心保留字</li>
+</ol>
+
+
+<p>保留字：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> and </th>
+<th> as   </th>
+<th> assert </th>
+<th> break  </th>
+<th> class </th>
+<th> continue </th>
+<th> def </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> del </td>
+<td> elif </td>
+<td> else   </td>
+<td> except </td>
+<td> exec  </td>
+<td> finally  </td>
+<td> for</td>
+</tr>
+<tr>
+<td></td>
+<td> from </td>
+<td> global </td>
+<td> if </td>
+<td> import </td>
+<td> in </td>
+<td> is </td>
+<td> lambda</td>
+</tr>
+<tr>
+<td></td>
+<td> not </td>
+<td> or </td>
+<td> pass </td>
+<td> print </td>
+<td> raise </td>
+<td> return </td>
+<td> try</td>
+</tr>
+<tr>
+<td></td>
+<td> while </td>
+<td> with </td>
+<td> yield</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>如果這樣，那就這樣，不然就那樣.. 的if-else</h2>
+
+<p>所謂的邏輯控制，說穿了大概就是「如果下雨，就去吃麥當勞，不然就去吃肯德雞」之類的敘述罷了。如果我們把這段語法改寫成程式碼的話：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">weather</span> <span class="o">=</span> <span class="s">&quot;sunny&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">weather</span> <span class="o">==</span> <span class="s">&#39;rainy&#39;</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;go to M&quot;</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;go to KFC&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你曾經學過別的程式語言，例如C/C++/PHP，你可能一下子看到這樣的程式碼會不太習慣。Python的code block不需要大括號，只要用整齊的縮排就可以了。至於你是要縮排2格空白、4格空白都可以，只要排整齊就好了。另外，每行的行末也不需要分號做為結束。</p>
+
+<p>Python的變數不需要特別宣告，在做邏輯判斷的時候，如果不會影響語意的話，也是不需要小括號的。假設我們原來這段程式碼改用C-like的程式碼來改寫的話，可能會長得像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="k">var</span> <span class="nx">weather</span><span class="o">:</span><span class="nb">String</span> <span class="o">=</span> <span class="s2">&quot;sunny&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">weather</span> <span class="o">==</span> <span class="s2">&quot;rainy&quot;</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">print</span><span class="p">(</span><span class="s2">&quot;go to M&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>  <span class="nx">print</span><span class="p">(</span><span class="s2">&quot;go to KFC&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段程式碼只是舉例，不一定完全正確。不過要表達一樣的意思，用Python就是可以讓你的程式碼變得簡單很多，至少你可以少敲好幾下鍵盤，也因為Python的程式碼強制一定要縮排排整齊，所以你也不用擔心程式碼風格會差很多的問題(當然有的人就是喜歡用奇技淫巧..硬是要寫得跟別人不同的也大有人在)。</p>
+
+<p>有<code>if..else..</code>，那當然也要來一下<code>elseif</code>之類的語法，不過Python的elseif是用<code>elif</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">weather</span> <span class="o">=</span> <span class="s">&quot;sunny&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">weather</span> <span class="o">==</span> <span class="s">&#39;rainy&#39;</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;M&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">elif</span> <span class="n">weather</span> <span class="o">==</span> <span class="s">&#39;not good&#39;</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Stay at home&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;KFC&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>switch?</h2>
+
+<p>你知道當程式的判斷開始越來越多的時候，學校老師或是教課書上就會教我們用<code>switch</code>之類的語法來處理，不過，你可能會很訝異，Python沒有swtich之類的語法的，它就是用一大串的<code>if..elif..else..</code>來處理。</p>
+
+<p>不優美嗎? 我覺得還好。反正Python程式碼的縮排很清楚，看起來也不會多混亂 :)</p>
+
+<h2>註解</h2>
+
+<p>Python的註解有兩種，單行註解跟多行註解。單行的這樣用：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># this is comment in python</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>多行的這樣用</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">this is comment</span>
+</span><span class='line'><span class="sd">this is comment, too!</span>
+</span><span class='line'><span class="sd">many comment..</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>中文字..會出現錯誤!!</h2>
+
+<p>如果你的檔案裡有用到非英文字元的話，請在檔案最前面加上一行：</p>
+
+<pre><code># encoding: utf-8
+</code></pre>
+
+<p>這樣你的程式執行起來才不會跳出<code>SyntaxError</code>，誰叫電腦跟程式語言不是中國人發明的..</p>
+
+<h2>輸入/輸出</h2>
+
+<p>這個我們在寫一些console的應用程式的時候常會用到，前面我們已經用過<code>print</code>了，不過接下來我們來試著做個可以跟使用者互動的簡單小程式：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">print</span> <span class="s">&quot;Hello, how old are you?&quot;</span>
+</span><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">()</span>
+</span><span class='line'><span class="k">if</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;You&#39;re an Adult already!&quot;</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;kid, go back to school!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這其實也是個沒什麼實戰用途的程式碼範例，也沒有很嚴格的檢查輸入值的範圍，不過可以從這邊看到在Python的輸入/輸出大概是怎麼處理的。另外一樣在處理輸入的，還有兩個稍微要提的，分別是<code>raw_input</code>跟<code>get_pass模組</code>。也許你會好奇<code>input</code>跟<code>raw_input</code>的差別? 比較明顯的差別是在於數字的處理，如果你輸入<code>20+3</code>，你會得到23，但如果用的是<code>raw_input</code>的話，則是得到<code>20+3</code>這個字串。</p>
+
+<p>不管是<code>input</code>或是<code>raw_input</code>，我們在輸入的過程中都會被旁邊的人看光光，如果你不想你在輸入密碼的時候全部都秀在畫面上，你可以使用<code>get_pass</code>這個內建的模組。我們直接在shell裡試試看：</p>
+
+<pre><code>&gt;&gt;&gt; import getpass
+&gt;&gt;&gt; getpass.getuser()
+&gt;&gt;&gt; your_pw = getpass.getpass("please input your password: ")
+please input your password:
+</code></pre>
+
+<p>這樣你打的字就應該不會被看到了。</p>
+
+<p>接下來，我們要來把這些程式碼包成method(方法)..</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/16/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/14/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現&#8230;<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

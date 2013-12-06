@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CoffeeScript 簡介 - 高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="什麼是CoffeeScript? 簡單的說，它就是JavaScript啦，只是用不同的程式語言來寫而已。 為什麼選擇CoffeeScript? 不少JavaScript社群，包括JavaScript的老爸Brendan Eich，也對它讚譽有加，有社群及大神的背書，加上Rails 3. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/2011/08/03/coffeescript-introduction/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <p class="meta">
+    
+      <a class="basic-alignment left" href="/2011/07/26/public-protected-and-private-method-in-ruby/" title="Previous Post: Public, Protected and Private Method in Ruby">&laquo; Public, Protected and Private Method in Ruby</a>
+    
+    
+      <a class="basic-alignment right" href="/2011/08/03/install-coffeescript/" title="next Post: CoffeeScript 安裝篇">CoffeeScript 安裝篇 &raquo;</a>
+    
+  </p>
+  
+  <header>
+    
+      <h1 class="entry-title">CoffeeScript 簡介</h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/coffeescript-introduction/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T15:54:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>什麼是CoffeeScript?</h3>
+
+<p>簡單的說，<strong>它就是JavaScript啦</strong>，只是用不同的程式語言來寫而已。</p>
+
+<h3>為什麼選擇CoffeeScript?</h3>
+
+<p>不少JavaScript社群，包括JavaScript的老爸<a href="http://en.wikipedia.org/wiki/Brendan_Eich">Brendan Eich</a>，也對它讚譽有加，有社群及大神的背書，加上Rails 3.1之後會把CoffeeScript變成預設支援，是我選擇它的原因之一。不過對我個人來說，CoffeeScript的語法感覺像是<a href="http://python.org/">Python</a>跟<a href="http://www.ruby-lang.org/">Ruby</a>的混合體，從這些語言身上借了一些我個人很愛的元素，加上對我個人來說學習的負擔不算太大，這才是我選擇它最主要的原因(聽說CoffeeScript還有向Haskell取經，不過我跟它不熟)。</p>
+
+<h3>從Python借來的：</h3>
+
+<ul>
+<li>使用縮排(identation)來取代大括號，這一直是我的菜，我有程式碼潔癖!</li>
+<li>簡單好用的List Comprehension語法，在CoffeeScript也可以用(雖然用起來有那麼一點點不太一樣)。</li>
+</ul>
+
+
+<h3>從Ruby借來的：</h3>
+
+<ul>
+<li>有if modifier可以用，可以把if寫在句子後面，也有unless可以用。</li>
+<li>在呼叫方法以及邏輯判斷的時候，可以視情況省略小括號。</li>
+<li>每行行尾不用分號(其實Python也是)。</li>
+<li>不用特別寫return，最後的執行結果就是回傳值。</li>
+<li>有類似irb的console介面模式可以用。</li>
+</ul>
+
+
+<h3>優缺點</h3>
+
+<h4>好處?</h4>
+
+<ul>
+<li>程式碼會變短，變得容易閱讀，也更容易抓出問題來，即使是以OOP的方式來寫js，語法看起來也是相當清楚。</li>
+<li>經過CoffeeScript編譯出來的JavaScript，因為它在編譯的時候有做最佳化，而且這些最佳化可能是我們這種小兵不知道的技巧，某些情況下的編譯出來的效能可能比我們一般手寫的要來得好。</li>
+<li>不會有因為變數scope而混淆程式語意或造成或memory leak的問題。</li>
+<li>編出來的js檔丟給<a href="http://www.jslint.com/">JSLint</a>檢查不會跳出一堆抱怨。</li>
+</ul>
+
+
+<h4>缺點?</h4>
+
+<ul>
+<li>你可能得再花時間再熟悉一門程式語言，不過如果你本來就熟悉Python或Ruby的話，其實負擔並不大，而且老實說Python/Ruby也沒很難學。</li>
+</ul>
+
+
+<h3>FAQ</h3>
+
+<h4>Q: 學CoffeeScript就可以取代一般的JavaScript嗎?</h4>
+
+<p>A: 也許可以取代，但這不代表你就不用學JavaScript，如果你並不熟悉JavaScript是怎麼一回事，你應該也不知道你要拿CoffeeScript來取代什麼東西。最一開始也提到，CoffeeScript就只是JavaScript而已，所以原本該花時間在學習JavaScript的，不會因為CoffeeScript而省下來的。</p>
+
+<h4>Q: CoffeeScript聽說要編譯成*.js檔才能用?</h4>
+
+<p>A: 是的。但如果你不想編譯，透過在瀏覽器裡直接引入compiler也可以讓瀏覽器看得懂*.coffee，只是通常實務上還是會把編成*.js檔。BTW, CoffeeScript的compiler本身也是用CoffeeScript寫的，自己寫自己，這點光是聽起來就很酷。</p>
+
+<h4>Q: 改用CoffeeScript的話，是不是之前寫的JavaScript都得整個打掉重寫?</h4>
+
+<p>A: 也不用啦，<strong>CoffeeScript的目的並不是取代原來的JavaScript，而是用更簡單、清楚的語法來寫JavaScript</strong>，所以原來寫好的就留著吧，除非你也覺得寫得不好，加上手癢想練功。而且如果你想在CoffeeScript裡直接使用一般JavaScript的語法也是ok的，CoffeeScript可以讓你把一般的JavaScript語法embed在CoffeeScript裡。</p>
+
+<h4>Q: CoffeeScript可以把.coffee檔編譯成.js檔，那也有工具可以把js檔轉成coffee檔的嗎?</h4>
+
+<p>A: 有的，有個工具叫做<a href="http://ricostacruz.com/js2coffee/">js2coffee</a>，你可以在線上玩看看，也可以透過npm安裝到你的電腦裡。</p>
+
+<h4>Q: 有開發工具嗎?</h4>
+
+<p>A: CoffeeScript的官網有列了<a href="https://github.com/jashkenas/coffee-script/wiki/Text-editor-plugins">一些工具</a>供參考。不過寫CoffeeScript只要一般的文字編輯器就行了，如果你沒有特別偏好的文字編輯器，我推薦你使用vim，它是個免費又功能強大的文字編輯器，投資時間學一下它保證不會後悔的。vim有一堆很威的plugin可以用，我從pct那邊fork了他的vim設定，也把CoffeeScript的外掛加上去了
+<a href="https://github.com/kaochenlong/pct.vim">https://github.com/kaochenlong/pct.vim</a> (PS: 其實<a href="https://github.com/pct/pct.vim">pct的版本</a>就有加上這功能了..)</p>
+
+<p>如果你是用Textmate，恭喜你CoffeeScript的作者有放出了個方便的<a href="https://github.com/jashkenas/coffee-script-tmbundle">bundle</a>可以用。除了一些方便的snippet以及程式碼顏色亮度之外，還可以讓你很簡單的執行/檢視你的coffee檔到時候編譯成js檔的樣子。</p>
+
+<p>Microsoft的Visual Studio 2010最近也有一個<a href="http://www.mindscapehq.com/products/web-workbench">免費的web workbench套件</a>可以用，讓VS也開始支援<a href="http://sass-lang.com/">Sass</a>、<a href="http://lesscss.org/">Less</a>以及<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>。</p>
+
+<h4>Q: 有書可以參考嗎?</h4>
+
+<p>A: 在這個當下，剛好有一本”<a href="http://pragprog.com/book/tbcoffee/coffeescript">CoffeeScript: Accelerated JavaScript Development</a>“，不過我想官網的資料相當完整，看完你就差不多知道怎麼用了。</p>
+
+<p>另外還有一些不錯的學習資源：</p>
+
+<ul>
+<li>Smooth CoffeeScript <a href="http://autotelicum.github.com/Smooth-CoffeeScript/">http://autotelicum.github.com/Smooth-CoffeeScript/</a></li>
+<li>CoffeeScript Cookbook <a href="http://coffeescriptcookbook.com/">http://coffeescriptcookbook.com/</a></li>
+<li>The Little Book on CoffeeScript <a href="http://arcturo.github.com/library/coffeescript/index.html">http://arcturo.github.com/library/coffeescript/index.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">高見龍</span></span>
+      
+
+
+
+
+  
+<time datetime="2011-08-03T15:54:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/category/coffeescript/'>CoffeeScript</a>, <a class='category' href='/category/javascript/'>JavaScript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.eddie.com.tw/2011/08/03/coffeescript-introduction/" data-via="eddiekao" data-counturl="http://blog.eddie.com.tw/2011/08/03/coffeescript-introduction/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/07/26/public-protected-and-private-method-in-ruby/" title="Previous Post: Public, Protected and Private Method in Ruby">&laquo; Public, Protected and Private Method in Ruby</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/08/03/install-coffeescript/" title="next Post: CoffeeScript 安裝篇">CoffeeScript 安裝篇 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現...<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.eddie.com.tw/2011/08/03/coffeescript-introduction/';
+        var disqus_url = 'http://blog.eddie.com.tw/2011/08/03/coffeescript-introduction/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

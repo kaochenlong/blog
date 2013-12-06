@@ -1,0 +1,10 @@
+{{ "eddie"|upper }}                         # EDDIE
+{{ "eddie kao"|title }}                     # Eddie Kao
+{{ "this is a book"|cut:" "}}               # thisisabook
+{{ ""|default:"未填寫" }}                    # 未填寫
+{{ "<b>hello</b>"|striptags }}              # hello
+{{ "too long, don't read"|truncatewords:2}} # too long, ...
+{{ "hello python"|wordcount }}              # 2
+
+book{{ 1|pluralize }}                       # book
+book{{ 10|pluralize }}                      # books

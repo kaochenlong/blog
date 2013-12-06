@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rails | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/rails/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby without Rails]]></title>
+    <link href="http://blog.eddie.com.tw/2012/04/25/ruby-without-rails/"/>
+    <updated>2012-04-25T15:16:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/04/25/ruby-without-rails</id>
+    <content type="html"><![CDATA[<p>這是在<a href="http://registrano.com/events/webdev-party-03">WebDev Party #3</a>上分享的內容，主題是雖然Rails很威很好用，但如果沒有Rails的話，還可以拿Ruby做些什麼其它的事。</p>
+
+<p><iframe src="http://player.vimeo.com/video/40948397?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe></p>
+
+<p>投影片：
+<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank"><img src="/images/2012/slideshare-ruby-without-rails.jpg" alt="image" /></a>
+<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank">View on Slideshare</a> | <a href="http://blog.eddie.com.tw/downloads/files/2012/ruby_without_rails.pdf" target="_blank">Download PDF</a></p>
+
+<p>希望對大家有幫助。如果有哪邊講錯的還請各位先進前輩不吝給予指正。</p>
+
+<p>[update] 我也把影片上傳一份到<a href="http://www.youtube.com/watch?v=Xp2Ix4yEOGo">Youtube</a>了</p>
+]]></content>
+  </entry>
+  
+</feed>

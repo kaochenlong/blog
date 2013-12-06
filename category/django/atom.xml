@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Django | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/django/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Learn Python and Django from the Beginning]]></title>
+    <link href="http://blog.eddie.com.tw/2011/10/21/learn-python-and-django-from-the-beginning/"/>
+    <updated>2011-10-21T01:07:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/10/21/learn-python-and-django-from-the-beginning</id>
+    <content type="html"><![CDATA[<h3>Python</h3>
+
+<ol>
+<li><a href="/2011/10/12/python-introduction/">Python簡介</a></li>
+<li><a href="/2011/10/12/python-install/">安裝Python</a></li>
+<li><a href="/2011/10/12/install-cygwin-on-windows/">如果你是使用Windows作業系統的話..</a></li>
+<li><a href="/2011/10/12/python-flow-control/">邏輯及流程控制</a></li>
+<li><a href="/2011/10/12/python-method/">Method</a></li>
+<li><a href="/2011/10/13/python-number/">數字</a></li>
+<li><a href="/2011/10/13/python-boolean/">Boolean</a></li>
+<li><a href="/2011/10/13/python-string/">字串</a></li>
+<li><a href="/2011/10/13/python-list/">List</a></li>
+<li><a href="/2011/10/13/python-dictionary/">Dictionary</a></li>
+<li><a href="/2011/10/13/python-tuple/">Tuple</a></li>
+<li><a href="/2011/10/13/python-exception/">例外處理</a></li>
+<li><a href="/2011/10/13/python-module/">模組</a></li>
+<li><a href="/2011/10/13/python-oop/">物件導向程式設計</a></li>
+</ol>
+
+
+<h3>Django</h3>
+
+<ol>
+<li><a href="/2011/10/14/django-introduction/">Django簡介</a></li>
+<li><a href="/2011/10/14/django-install/">安裝Django</a></li>
+<li><a href="/2011/10/18/django-your-first-django-project/">開始你的第一個專案</a></li>
+<li><a href="/2011/10/18/django-create-app/">建立App</a></li>
+<li><a href="/2011/10/19/django-shell/">Django Shell</a></li>
+<li><a href="/2011/10/19/django-more-about-model/">更多關於Model的使用</a></li>
+<li><a href="/2011/10/19/django-db-migration-with-south/">在Django裡做Database Migration</a></li>
+<li><a href="/2011/10/19/django-model-relationship/">資料表的關連</a></li>
+<li><a href="/2011/10/19/django-url/">網址設定</a></li>
+<li><a href="/2011/10/19/django-template/">Template</a></li>
+<li><a href="/2011/10/19/django-model-to-template/">從Model到Template</a></li>
+<li><a href="/2011/10/19/django-flatpage/">Flatpage</a></li>
+<li><a href="/2011/10/19/django-conclusion/">小結</a></li>
+</ol>
+
+
+<p>我另外在<a href="http://python-and-django.heroku.com/">http://python-and-django.heroku.com/</a>也放了一份。</p>
+
+<p>這次是用<a href="http://octopress.org/">Octopress</a> + <a href="http://daringfireball.net/projects/markdown/">Markdown</a>寫的，感覺相當順手，不知不覺就會一直打字下去。內容還沒很完整，我會再找時間把它繼續完成，希望內容對大家有幫助。</p>
+
+<p>如果有寫錯的地方再請不吝告知，感謝!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[小結]]></title>
+    <link href="http://blog.eddie.com.tw/2011/10/19/django-conclusion/"/>
+    <updated>2011-10-19T15:32:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/10/19/django-conclusion</id>
+    <content type="html"><![CDATA[<h2>官網的文件一定要讀!!</h2>
+
+<p>如果你之後會把Django當做你主力的開發工具的話，目前坊間的書因為版本幾乎都沒跟上，所以大概可以先放旁邊，不過至少要把官網的資料讀過一遍。那如果文件看完怎麼辦? 閱讀原始碼啊!!</p>
+
+<p>Django本身是open source的，而且是用純Python寫的，所以閱讀Django的原始碼，保證可以讓你的Python增加不少，而且當遇到一些文件上沒提到的問題的時候，通常也只有原始碼可以救你了。</p>
+
+<p>養成閱讀文件及原始碼的習慣，可以讓你在這條路上走的更順利!</p>
+
+<h2>還有哪些主題沒講到的?</h2>
+
+<p>其實還滿多的，例如怎麼<a href="https://docs.djangoproject.com/en/1.3/topics/email/">寄Email</a>、<a href="https://docs.djangoproject.com/en/1.3/topics/forms/">表單的處理</a>、<a href="https://docs.djangoproject.com/en/1.3/ref/validators/">資料驗證</a>、<a href="https://docs.djangoproject.com/en/1.3/ref/contrib/admin/">Admin模組的客製化</a>等等，都是很常用而且很重要的主題。</p>
+
+<h2>這還沒有結束!!</h2>
+
+<p>如果時間許可，我會繼續把這個系列寫完的。</p>
+
+<p>如果內容有哪邊寫錯了，還請歡迎來信跟我說 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Django的Flatpage]]></title>
+    <link href="http://blog.eddie.com.tw/2011/10/19/django-flatpage/"/>
+    <updated>2011-10-19T13:15:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/10/19/django-flatpage</id>
+    <content type="html"><![CDATA[<p>Django的功能很多，但假設其實你根本不需要這麼多資料庫相關的功能，你只是想做個簡單的個人簡介頁面，然後有個簡單的後台管理介面可以讓你更新內容就好，那你也許可以使用Django的Flatpage就行了。</p>
+
+<p>使用方式很簡單，只要把一些module加上去就行了。請打開<code>settings.py</code>，在<code>INSTALLED_APPS</code>加上<code>django.contrib.flatpages</code>：</p>
+
+<pre><code>INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Uncomment the next line to enable the admin:
+    'django.contrib.admin',
+    'django.contrib.flatpages',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
+)
+</code></pre>
+
+<p>並且在<code>MIDDLEWARE_CLASSES</code>加上<code>django.contrib.flatpages.middleware.FlatpageFallbackMiddleware</code>：</p>
+
+<pre><code>MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+)
+</code></pre>
+
+<p>然後，你可能需要改一下<code>TEMPLATE_DIRS</code>，設定一下template的路徑：</p>
+
+<pre><code>PROJECT_BASE_DIR = os.path.dirname(__file__).replace('\\', '/')
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    PROJECT_BASE_DIR + '/templates',
+)
+</code></pre>
+
+<p>PS: 感謝Lazkey提醒，TEMPLATE_DIRS 裡請使用絕對路徑。</p>
+
+<p><code>urls.py</code>記得把Admin模組相關的設定打開：</p>
+
+<pre><code>from django.conf.urls.defaults import patterns, include, url
+
+# Uncomment the next two lines to enable the admin:
+from django.contrib import admin
+admin.autodiscover()
+
+urlpatterns = patterns('',
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^mysite/', include('mysite.foo.urls')),
+
+    # Uncomment the admin/doc line below to enable admin documentation:
+    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+    # Uncomment the next line to enable the admin:
+    url(r'^admin/', include(admin.site.urls)),
+)
+</code></pre>
+
+<p>再來執行一下syncdb：</p>
+
+<pre><code>&gt; python manage.py syncdb
+</code></pre>
+
+<p>這樣就設定完成了。進到Admin介面，你應該可以看到多了一個"簡平頁面"的功能(如果你沒改語系的話，應該會看到Flatpage)：</p>
+
+<p><img src="/images/2011/django-flatpage.png" alt="image" /></p>
+
+<p>然後你就可以開始新增頁面了。不過在新增頁面的最下面有個<code>Sites</code>選項要特別注意，預設是<code>www.example.com</code>，這邊要把它換成我們自己的網址。以本機為例，加入了<code>127.0.0.1:8000</code>。又，因為這個site是我們後來新加的，所以要讓它生效的話，需要再回頭來改一下<code>settings.py</code>的<code>SITE_ID</code>：</p>
+
+<pre><code>SITE_ID = 2
+</code></pre>
+
+<p>最後，你還需要做個template給它用：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Flatpage HTML  (flatpage.html)</span> <a href='/downloads/code/django/flatpage.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'><span class="nt">&lt;title&gt;</span>{{ flatpage.title }}<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>{{ flatpage.content }}
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>把上面這些內容存在<code>templates/flatpages/default.html</code>，重新整理之後，應該就可以看得到內容了。</p>
+
+<p>更多詳細內容及使用方式，請見Django官網 - <a href="https://docs.djangoproject.com/en/dev/ref/contrib/flatpages/">Flatpage章節</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[從Model到Template]]></title>
+    <link href="http://blog.eddie.com.tw/2011/10/19/django-model-to-template/"/>
+    <updated>2011-10-19T13:14:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/10/19/django-model-to-template</id>
+    <content type="html"><![CDATA[<p>Model我們會建了，資料也可以從後台或Shell來做新增/修改/刪除/更新，網址會設定了，Template也大概知道怎麼回事了，其實整個Django的MTV(Model-Template-View)架構到這裡已經介紹得差不多了，接下來我們就是要把資料給串起來。</p>
+
+<p>回來看一下先來看一下我們的<code>book/views.py</code>：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/index.html&#39;</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>接著，我們要來把資料給撈出來，並且把它餵給Template(我知道「撈」、「餵」這些詞有點台，不過我想大家比較聽得懂)：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">book.models</span> <span class="kn">import</span> <span class="n">Book</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">books</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/index.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;books&#39;</span> <span class="p">:</span> <span class="n">books</span><span class="p">})</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>我們在第6行把資料庫透過<code>Book類別</code>給取出來，然後在第7行再以dictionary型式傳給<code>render_to_response</code>，這樣待會我們在Template裡就可以取用得到<code>books</code>這個變數。</p>
+
+<p>切換到Template <code>templates/book/index.html</code>：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Book Index Template  (book_index.html)</span> <a href='/downloads/code/django/book_index.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>目前總共有{{ books.count }}本書
+</span><span class='line'>  <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  {% for book in books %}
+</span><span class='line'>    <span class="nt">&lt;li&gt;</span>書名：{{ book.title }}({{ book.page }}頁，售價：{{ book.price }})<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  {% endfor %}
+</span><span class='line'>  <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>打開瀏覽器，網址輸入：<code>http://127.0.0.1:8000/</code>，應該可以看到類似的畫面：</p>
+
+<p><img src="/images/django/book_index.png" alt="image" /></p>
+
+<p>如果沒有看到列表的話，就先到佛心的Admin模組去新增個兩本書，再回來看一下結果。</p>
+
+<h2>那書的內容呢?</h2>
+
+<p>剛剛只有列表，接下來要把連結跟內容頁給做起來：</p>
+
+<p><code>templates/book/index.html</code>，在書名上加上連結：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Book Index Template  (book_index_2.html)</span> <a href='/downloads/code/django/book_index_2.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>目前總共有{{ books.count }}本書
+</span><span class='line'>  <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  {% for book in books %}
+</span><span class='line'>    <span class="nt">&lt;li&gt;</span>書名：<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/books/{{ book.id }}&quot;</span><span class="nt">&gt;</span>{{ book.title }}<span class="nt">&lt;/a&gt;</span>({{ book.page }}頁，售價：{{ book.price }})<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  {% endfor %}
+</span><span class='line'>  <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>再來做一下內容<code>templates/book/detail.html</code>：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Book Index Template  (book_detail.html)</span> <a href='/downloads/code/django/book_detail.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>書名：{{ book.title }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>頁數：{{ book.page }}頁<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>售價：{{ book.price }}元<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>出版日期：{{ book.publish_date }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>作者：{{ book.author.name }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>聯絡資訊：
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>電話：{{ book.author.tel }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>Email：{{ book.author.email }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>地址：{{ book.author.address }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>同時，<code>book/views.py</code>也要做些調整：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">book.models</span> <span class="kn">import</span> <span class="n">Book</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">books</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/index.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;books&#39;</span> <span class="p">:</span> <span class="n">books</span><span class="p">})</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">book</span> <span class="o">=</span>  <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Book</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="n">book_id</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/detail.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;book&#39;</span> <span class="p">:</span> <span class="n">book</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>這邊我又偷懶的用到了<code>short_cuts</code>模組的<code>get_object_or_404</code>，意思就是說如果資料庫裡面找不到這筆資料的話，就會直接丟出HTTP 404的畫面。</p>
+
+<p>如果程式運作正常，你應該可以看到像這樣的畫面：</p>
+
+<p><img src="/images/django/book_detail.png" alt="image" /></p>
+
+<p>僅為展示效果，所以頁面很陽春，我相信你拿到設計師的HTML頁面應該都比這個漂亮許多倍。</p>
+
+<h2>Filters</h2>
+
+<p>到目前為止，程式看起來已經會動了!! 但長官可能看到畫面後，可能會神來一筆的說：「那個錢的單位，可以加上千位的逗點符號嗎?」，或是「那個出版日期..可以把年份放最前面，而且用斜線分開嗎?」。</p>
+
+<p>你的第一個想法，可能會是資料撈出來之後，先每一筆都處理過之後再丟給Template。但事實上這種"資料呈現"的工作，應該只要交給Template的Filter來做就好。Template的Filter有點像在Linux系統上的<code>pipe</code>，就是可以透過<code>|</code>符號，把前面的資料丟給下一個執行，直到最後結束為止，來看一些範例：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Template Build-in Filter (filter_demo.html)</span> <a href='/downloads/code/django/filter_demo.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{{ &quot;eddie&quot;|upper }}                         # EDDIE
+</span><span class='line'>{{ &quot;eddie kao&quot;|title }}                     # Eddie Kao
+</span><span class='line'>{{ &quot;this is a book&quot;|cut:&quot; &quot;}}               # thisisabook
+</span><span class='line'>{{ &quot;&quot;|default:&quot;未填寫&quot; }}                    # 未填寫
+</span><span class='line'>{{ &quot;<span class="nt">&lt;b&gt;</span>hello<span class="nt">&lt;/b&gt;</span>&quot;|striptags }}              # hello
+</span><span class='line'>{{ &quot;too long, don&#39;t read&quot;|truncatewords:2}} # too long, ...
+</span><span class='line'>{{ &quot;hello python&quot;|wordcount }}              # 2
+</span><span class='line'>
+</span><span class='line'>book{{ 1|pluralize }}                       # book
+</span><span class='line'>book{{ 10|pluralize }}                      # books
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>要注意的是，filter在用的時候，<code>|</code>的左右不可以有空白，不然會直接出現<code>TemplateSyntaxError</code>。其它更多的Filter，請參考：<a href="https://docs.djangoproject.com/en/1.3/ref/templates/builtins/">https://docs.djangoproject.com/en/1.3/ref/templates/builtins/</a></p>
+
+<p>看完之後，認份的來完成剛剛老闆交待的修改吧!</p>
+
+<h3>出版日期的年份放前面，年、月、日各別用斜線分開</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>修改年份表示方式 (book_detail_2.html)</span> <a href='/downloads/code/django/book_detail_2.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>回列表頁<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>書名：{{ book.title }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>頁數：{{ book.page }}頁<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>售價：{{ book.price }}元<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>出版日期：{{ book.publish_date|date:&quot;Y/m/d&quot; }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>作者：{{ book.author.name }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>聯絡資訊：
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>電話：{{ book.author.tel }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>Email：{{ book.author.email }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>地址：{{ book.author.address }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>只改了一行就搞定了!</p>
+
+<h3>數字加上千位逗點符號</h3>
+
+<p>Django也有幫我們寫好這個filter，但因為這個模組預設並沒有安裝/載入，所以在使用上會稍微麻煩一些：</p>
+
+<p><code>settings.py</code>的<code>INSTALLED_APPS</code>要加上<code>django.contrib.humanize</code>模組：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="c"># Uncomment the next line to enable the admin:</span>
+</span><span class='line'><span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="s">&#39;django.contrib.humanize&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="c"># Uncomment the next line to enable admin documentation:</span>
+</span><span class='line'><span class="c"># &#39;django.contrib.admindocs&#39;,</span>
+</span><span class='line'><span class="s">&#39;author&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="s">&#39;book&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在使用之前需要用<code>{％ load humanize ％}</code>載入，然後就可以用了：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>修改年份表示方式 (book_detail_3.html)</span> <a href='/downloads/code/django/book_detail_3.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>{% load humanize %}
+</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>回列表頁<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>書名：{{ book.title }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>頁數：{{ book.page }}頁<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>售價：{{ book.price|intcomma }}元<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>出版日期：{{ book.publish_date|date:&quot;Y/m/d&quot; }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>作者：{{ book.author.name }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>聯絡資訊：
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>電話：{{ book.author.tel }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>Email：{{ book.author.email }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>地址：{{ book.author.address }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>沒問題的話，應該是這個樣子：</p>
+
+<p><img src="/images/django/book_detail_fisnish.png" alt="image" /></p>
+
+<p>打完收工，下班去了!</p>
+
+<h2>寫自己的Filter</h2>
+
+<p>有時候就是沒有現成的filter可以用(其實是不常發生..)，例如老闆又說「那個日期的年份，可以改成民國年份表示嗎?」。大概猜也知道老外不太可能會幫我們寫這種filter，當然要硬改也不是不行，但就失去了我們用這個framework的原意了。我們就來寫個可以產生民國年份的filter吧(其實不過就是把年份減掉1911而已..)</p>
+
+<p>filter本身其實也就是Python的程式碼而已，所以第一個問題應該會是：「filter要寫在哪裡?」</p>
+
+<p>filter有固定的寫法跟位置，你可以把它寫在適合的App底下，它必須放在某個App的<code>templatetags</code>資料夾裡，而且因為它是一個標準的Python模組，所以在<code>templatetags</code>資料夾裡，它必須也要放一個<code>__init__.py</code>。在我們目前這個範例，我把它放在<code>book</code>這個App裡，模組的檔名我給它取做<code>chinese_date.py</code>，整個看起來的資料夾結構大概會長得像這樣：</p>
+
+<p><img src="/images/django/filter_structure.png" alt="image" /></p>
+
+<p>再來，為了讓Django認得你寫的filter，你會需要有一個叫做<code>register</code>的<code>template.Library</code>實體變數，所以它的固定寫法會是長得像這樣：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">encoding</span><span class="p">:</span> <span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">template</span>
+</span><span class='line'><span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">chinese_date</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="s">&quot;民國</span><span class="si">%i</span><span class="s">年</span><span class="si">%i</span><span class="s">月</span><span class="si">%i</span><span class="s">日&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="mi">1911</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">day</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">register</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s">&quot;chinese_date&quot;</span><span class="p">,</span> <span class="n">chinese_date</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>第1行加上<code>encoding: utf-8</code>是因為我們在程式裡面有用到中文字元，如果沒加這行的話會出現<code>SyntaxError</code>。第2、3行就是Django規定filter的固定寫的filter method，最後第8行再把它註冊起來，讓Django看得到它。第8行的註冊方式，也可以用method decorator的寫法：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">encoding</span><span class="p">:</span> <span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">template</span>
+</span><span class='line'><span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nd">@register.filter</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">chinese_date</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="s">&quot;民國</span><span class="si">%i</span><span class="s">年</span><span class="si">%i</span><span class="s">月</span><span class="si">%i</span><span class="s">日&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="mi">1911</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>效果一樣，不過我個人比較偏好這種寫法。filter寫好了，最後回來原來的Template：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Custom Filter (book_detail_4.html)</span> <a href='/downloads/code/django/book_detail_4.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>{% load humanize %}
+</span><span class='line'>{% load chinese_date %}
+</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>回列表頁<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>書名：{{ book.title }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>頁數：{{ book.page }}頁<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>售價：{{ book.price|intcomma }}元<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>出版日期：{{ book.publish_date|chinese_date }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>作者：{{ book.author.name }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>聯絡資訊：
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>電話：{{ book.author.tel }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>Email：{{ book.author.email }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>地址：{{ book.author.address }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><code>{％ load chinese_date ％}</code>載入剛剛寫好的模組，修改一下filter，最後得樣子應該會長這樣：</p>
+
+<p><img src="/images/django/custom_filter.png" alt="image" /></p>
+
+<p>搞定，下班啦!</p>
+
+<p>更多相關細節，請參考 <a href="https://docs.djangoproject.com/en/1.3/howto/custom-template-tags/">https://docs.djangoproject.com/en/1.3/howto/custom-template-tags/</a></p>
+
+<h2>還有嗎?</h2>
+
+<p>到這裡，其實我們已經將Django的MTV架構跟流程介紹的差不多了，接下來請趁你還有記憶的時候，把<a href="https://docs.djangoproject.com/en/1.3/">官網的文件</a>全部讀一遍吧!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Template]]></title>
+    <link href="http://blog.eddie.com.tw/2011/10/19/django-template/"/>
+    <updated>2011-10-19T12:00:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/10/19/django-template</id>
+    <content type="html"><![CDATA[<p>上一章我們學到了怎麼設定網址跟對應的action，但畫面的呈現不可能永遠只有一個<code>Hello BookStore!</code>這麼美好。很多時候程式設計師是需要跟美術設計師合作的，通常的流程是工程師會從設計手上拿到HTML + CSS的檔案，如果你曾經用PHP開發過網站，我猜大概你可能是把拿到的<code>.html</code>改成<code>.php</code>，然後開始HTML裡面塞PHP程式碼。Django的MTV架構也差不多，而且Django雖然是Python寫的，但不同的是你不可以在Template裡寫Python的程式碼，你在Template只能用Template提供的API，以及一些filter跟tag(不管是內建或是自己寫的)。</p>
+
+<p>主要的目的就是希望大家不要把以前那種寫義大利程式碼(<a href="http://en.wikipedia.org/wiki/Spaghetti_code">Spaghetti code</a>)的不良習慣帶來Django。</p>
+
+<p>回來看一下我們原來的<code>book/views.py</code>：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Hello BookStore!&quot;</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>接著我們把原本的<code>HttpResponse</code>改寫成：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/index.html&#39;</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>如果你有注意到<code>shortcuts</code>字樣，應該不難猜得出來因為這個功能太常用了，所以本來其實要寫一堆東西(例如要用loader把template抓出來，再把結果render出來)，變成一行<code>render_to_response</code>就搞定，我很偷懶，所以平常幾乎都是用<code>render_to_response</code>就夠了。</p>
+
+<p>你可能會好奇，這個<code>book/index.html</code>要放在哪裡? 先等等，我們先改個設定，請打開專案根目錄的<code>settings.py</code>，在<code>TEMPLATE_DIRS</code>裡加一些東西：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="s">&#39;templates&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="c"># Put strings here, like &quot;/home/html/django_templates&quot; or &quot;C:/www/django/templates&quot;.</span>
+</span><span class='line'><span class="c"># Always use forward slashes, even on Windows.</span>
+</span><span class='line'><span class="c"># Don&#39;t forget to use absolute paths, not relative paths.</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+設定這個的目的是要告訴Django要去哪邊取得template的檔案，這裡我設定了<code>templates</code>。接著，我們要來自己在專案根目錄底下建立一個<code>templates</code>的資料夾，然後結構像這樣：</p>
+
+<p><img src="/images/django/template_structure.png" alt="image" /></p>
+
+<p>原來的這行程式碼：</p>
+
+<pre><code>return render_to_response('book/index.html')
+</code></pre>
+
+<p>就會知道去哪邊找<code>index.html</code>這個檔案了。</p>
+
+<p>這樣一來，你從設計那邊拿到的HTML檔案，就可以依照像<code>index.html</code>這樣的規則來擺放了。</p>
+
+<h2>Template API</h2>
+
+<p>前面提到，在Template裡不可以放Python的程式碼，只能放Template提到的API。什麼是Template API? 我直接從Django官網文件偷一小段程式碼來看：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Template API Demo  (template_api_demo.py)</span> <a href='/downloads/code/django/template_api_demo.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">latest_poll_list</span> <span class="o">%</span><span class="p">}</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">poll</span> <span class="ow">in</span> <span class="n">latest_poll_list</span> <span class="o">%</span><span class="p">}</span>
+</span><span class='line'>        <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;/polls/{{ poll.id }}/&quot;</span><span class="o">&gt;</span><span class="p">{{</span> <span class="n">poll</span><span class="o">.</span><span class="n">question</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span>
+</span><span class='line'>    <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span><span class="o">%</span> <span class="k">else</span> <span class="o">%</span><span class="p">}</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">No</span> <span class="n">polls</span> <span class="n">are</span> <span class="n">available</span><span class="o">.&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>你看到的這些程式碼，是可以寫在<code>.html</code>裡的，反正到時候Django會把<code>.html</code>當做Template讀出來之後再解析它，最後把內容render給使用者看。</p>
+
+<p>以<code>if .. else ..</code>來說，因為在HTML裡沒辦法對齊(就算對齊了萬一被設計師拿回去改過回來可能又不齊了)，所以Template API要用一個結束標記，告訴Django說這個<code>if</code>已經在這裡結尾了。</p>
+
+<p>在Template裡，如果看到{％ .. ％}的，表示它是一個邏輯運算或是語法，通常不會有輸出值；而看到的話，就是會把裡面的值給吐出來餵在HTML裡的。</p>
+
+<p>Template API很多，在繼續往下之後，請你先看一下<a href="https://docs.djangoproject.com/en/1.3/ref/templates/api/">https://docs.djangoproject.com/en/1.3/ref/templates/api/</a>這份資料，知道一下Template API是怎麼一回事，又跟一般的Python程式碼有什麼不同?</p>
+
+<p>大概看過之後，接著我們來看看怎麼樣把資料給丟到Template裡呈現出來。</p>
+]]></content>
+  </entry>
+  
+</feed>

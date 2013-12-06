@@ -1,0 +1,659 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>如何在Rails裡使用AMF - 高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="前言 常聽很多朋友會問：「flash要怎麼樣跟資料庫串接?」。 答案其實很簡單：「不行!目前flash沒辦法直接與資料庫串接」。 那到底別人是怎麼做的? 為什麼他們的Flash可以由後台管理而且更新資料? 其實運作流程是這樣： Flash(*.swf) &lt;–> Server端程式(ASP, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/2010/03/18/rubyamf/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <p class="meta">
+    
+      <a class="basic-alignment left" href="/2009/10/27/2009-ptt-flash-workshop/" title="Previous Post: 2009 PTT Flash 版聚">&laquo; 2009 PTT Flash 版聚</a>
+    
+    
+      <a class="basic-alignment right" href="/2010/04/09/hirb-the-convenient-gem-for-console-and-irb/" title="next Post: Rails Console / irb 裡的方便工具-Hirb">Rails Console / irb 裡的方便工具-Hirb &raquo;</a>
+    
+  </p>
+  
+  <header>
+    
+      <h1 class="entry-title">如何在Rails裡使用AMF</h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/03/18/rubyamf/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-03-18T15:10:00+08:00" pubdate>Mar 18<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>前言</h2>
+
+<p>常聽很多朋友會問：「flash要怎麼樣跟資料庫串接?」。</p>
+
+<p>答案其實很簡單：「<strong>不行!</strong>目前flash沒辦法直接與資料庫串接」。</p>
+
+<p>那到底別人是怎麼做的? 為什麼他們的Flash可以由後台管理而且更新資料? 其實運作流程是這樣：</p>
+
+<p>Flash(*.swf) &lt;–> Server端程式(ASP, ASP.NET, PHP..etc) &lt;–> DB</p>
+
+<p>SWF透過HTTP GET/POST的方式送給中間的程式，透過中間的程式，Flash才得以從資料庫中取出/寫入資料。</p>
+
+<p>其中SWF與server端程式溝通的格式，有簡單的純文字組合，或是用JSON或XML來包裝資料，再餵給SWF，最後再呈現在Flash上。特別是XML對AS3還滿友善的，可以簡單的就取出指定節點的資料。</p>
+
+<p>而今天要提的 AMF(<a href="http://en.wikipedia.org/wiki/Action_Message_Format">Action Message Format</a>)，其實做的工作跟上面的JSON或XML差不多，只是它的格式是binary的。</p>
+
+<p>AMF的實作，各家程式語言或Framework都有類似的實作品
+像是PHP就有<a href="http://www.amfphp.org/">AMFPHP</a>/<a href="http://framework.zend.com/">Zend_Amf</a>，Python有<a href="http://pyamf.org/">PyAMF</a>，.NET有<a href="http://www.fluorinefx.com/">FluorineFx</a>，Ruby的話則有<a href="http://code.google.com/p/rubyamf/">RubyAMF</a>。</p>
+
+<p>不過不管是哪家實作的AMF，流程上都差不多：</p>
+
+<ol>
+<li>SWF連上指定的Gateway。</li>
+<li>呼叫/執行Gateway上掛載的service，並把所需的參數以AMF格式傳給它(如果有的話)。</li>
+<li>執行結果回傳。</li>
+</ol>
+
+
+<p>最近手邊有個案子正好是用Rails寫的，剛好有用上AMF，就趁這個機會寫一下心得，免得自己以後忘記(其實在Rails裡面，用respond_to直接render產出xml或json也還滿方便的..)</p>
+
+<h2>環境</h2>
+
+<ul>
+<li>Mac OX 10.6</li>
+<li>Rails 2.3.5</li>
+<li>Ruby 1.8.7</li>
+<li>RubyAMF 1.6.5</li>
+</ul>
+
+
+<h2>安裝</h2>
+
+<p>就不多做Rails的介紹了，直接開個空白的Rails Project來做示範：</p>
+
+<pre><code>&gt; rails rubyamf_demo
+&gt; cd rubyamf_demo
+</code></pre>
+
+<p>接下來，安裝RubyAMF。網址：<a href="https://github.com/victorcoder/rubyamf_plugin">https://github.com/victorcoder/rubyamf_plugin</a></p>
+
+<p>個人比較建議直接用script/plugin來安裝，簡單方便。當然如果要自己下載打包檔再手動放進來也ok的。</p>
+
+<pre><code>&gt; script/plugin install git://github.com/victorcoder/rubyamf_plugin.git
+</code></pre>
+
+<p>沒問題的話，這個動作就會幫你把RubyAMF安裝在<code>vender</code>資料夾裡了。</p>
+
+<p><img src="/images/2010/rubyamf-1.png" alt="image" /></p>
+
+<p>其實這個安裝的過程中，除了把相關檔案裝到vender裡之外，背後有幫忙做了一些事你可能需要知道的：</p>
+
+<h4>1. app/controllers/ 裡多了一個rubyamf_controller.rb</h4>
+
+<p>這是整個RubyAMF的對外窗口，gateway就是寫在這裡了。</p>
+
+<h4>2. config/ 裡多了一個 rubyamf_config.rb</h4>
+
+<p>RubyAMF的設定檔，打開這個檔案應該可以看到許多註解說明，可依情況及個人使用習慣做調整</p>
+
+<h4>3. config/initializers/mime_types.rb多加了一行</h4>
+
+<pre><code>Mime::Type.register "application/x-amf", :amf
+</code></pre>
+
+<p>到時候可以像 <code>render :text =&gt; "hello"</code>一樣，直接用<code>render :amf =&gt; "hello"</code>來輸出</p>
+
+<h4>4. config/route.rb多了一行路徑設定</h4>
+
+<pre><code>map.rubyamf_gateway 'rubyamf_gateway', :controller =&gt; 'rubyamf', :action =&gt; 'gateway'
+</code></pre>
+
+<p>gateway到時候的位置就是<code>http://127.0.0.1:3000/rubyamf/gateway</code>。</p>
+
+<h4>5. public/ 資料夾多了一個 crossdomain.xml</h4>
+
+<p>常用AS在串接外部資料的人應該知道這是幹嘛的了，預設是全開</p>
+
+<pre><code>&lt;allow-access-from domain="*" /&gt;
+</code></pre>
+
+<p>如果有需要調整可直接動手修改。接下來試著啟動server，看看能不能正常運作：</p>
+
+<pre><code>&gt; script/server
+</code></pre>
+
+<p>沒問題的話，接著開瀏覽器看看<code>http://127.0.0.1:3000/rubyamf/gateway/</code>。如果你看到一個黑色的畫面，中間放著一個RubyAMF的logo：</p>
+
+<p><img src="/images/2010/rubyamf-2.png" alt="image" /></p>
+
+<p>恭喜你，目前這樣就算是把RubyAMF安裝起來了。接下來，就要開始準備寫service上去了</p>
+
+<h2>實作</h2>
+
+<h3>Rails部份：</h3>
+
+<p>先建立一個model，待會我們會用來取出/寫入資料用的：</p>
+
+<pre><code>&gt; script/generate model book author:string content:text
+</code></pre>
+
+<p>目前只放了author跟content兩個簡單的欄位(for demo purpose, Model部份沒有特別做驗證)。</p>
+
+<pre><code>&gt; rake db:migrate
+</code></pre>
+
+<p>為了省去另建資料庫的麻煩，這裡直接使用預設的SQLite做為資料庫。table建立後，先塞一筆測試資料進去：</p>
+
+<pre><code>&gt; script/console
+&gt;&gt; Book.create(:author =&gt; "eddie", :content =&gt; "this is a RubyAMF demo")
+</code></pre>
+
+<p>再來新增一個controller，裡面放一個<code>hello_world</code>這個action：</p>
+
+<pre><code>&gt; script/generate controller amf_test hello_world
+</code></pre>
+
+<p>在hello_world這個action裡，我們加一行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">hello_world</span>
+</span><span class='line'>  <span class="n">render</span> <span class="ss">:amf</span> <span class="o">=&gt;</span> <span class="s2">&quot;Hello AMF&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>大部份網路上看到的範例都是用Flex當範例，不過我個人比較偏好Flash。以下我就用Flash當做範例示範(其實沒太大差別啦，純粹個人喜好)。</p>
+
+<h3>Flash部份：</h3>
+
+<p>檔案：amf_hello.fla</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="k">var</span> <span class="nx">nc</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span>
+</span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">objectEncoding</span> <span class="o">=</span> <span class="nb">ObjectEncoding</span><span class="p">.</span><span class="nx">AMF3</span><span class="o">;</span>
+</span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:3000/rubyamf/gateway&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">var</span> <span class="nx">responder</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">onOK</span><span class="o">,</span> <span class="nx">onErr</span><span class="p">);</span>
+</span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;AmfTestController.hello_world&#39;</span><span class="o">,</span> <span class="nx">responder</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">onOK</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">onErr</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;Error!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中比較需要注意的是<code>nc.call</code>那一段，直接呼叫<code>ControllerName.ActionName</code>就行了。</p>
+
+<p>按下Ctrl+Enter之後，應該就可以看到”Hello AMF”的字樣了，代表你的SWF已經可以成功從AMF Gateway讀資料回來了。如果這裡有發生錯誤，可能檢查一下是不是有打錯字，或是server忘了啟動。</p>
+
+<p>接下來，我們試著送資料給Gateway，讓它寫入資料庫之後再回傳目前資料庫裡的書總共有幾本。</p>
+
+<p>這次我們先做Flash端的介面，我放了一個按鈕跟二個輸入框，instance name分別取名為<code>add_btn</code>、<code>author_txt</code>及<code>content_txt</code>。</p>
+
+<p>檔名：amf_addbook.fla</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="nx">add_btn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nb">MouseEvent</span><span class="p">.</span><span class="nx">CLICK</span><span class="o">,</span> <span class="nx">click_handler</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">click_handler</span><span class="p">(</span><span class="nx">evt</span><span class="o">:</span><span class="nb">MouseEvent</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">nc</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span>
+</span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">objectEncoding</span> <span class="o">=</span> <span class="nb">ObjectEncoding</span><span class="p">.</span><span class="nx">AMF3</span><span class="o">;</span>
+</span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:3000/rubyamf/gateway&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">amf_object</span><span class="o">:</span><span class="nb">Object</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s1">&#39;author&#39;</span><span class="o">:</span> <span class="nx">author_txt</span><span class="p">.</span><span class="nx">text</span><span class="o">,</span>
+</span><span class='line'>    <span class="s1">&#39;content&#39;</span><span class="o">:</span> <span class="nx">content_txt</span><span class="p">.</span><span class="nx">text</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">responder</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">onOK</span><span class="o">,</span> <span class="nx">onErr</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;AmfTestController.add_book&#39;</span><span class="o">,</span> <span class="nx">responder</span><span class="o">,</span> <span class="nx">amf_object</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">onOK</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;目前共有&quot;</span> <span class="o">+</span><span class="nx">res</span> <span class="o">+</span><span class="s2">&quot;本書&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">onErr</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;fail&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實只是把呼叫的部份放到click handler裡，並且在裡面做了一個object，並且在呼叫的時候：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">nc.call(&#39;AmfTestController.add_book&#39;, responder, amf_object);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把它當做參數傳出去。</p>
+
+<p>接下來，在Rails裡，我們要來加一個<code>add_book</code>這個action，準備接收資料：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">add_book</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">is_amf</span>
+</span><span class='line'>    <span class="no">Book</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:author</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="ss">:author</span><span class="o">]</span><span class="p">,</span> <span class="ss">:content</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="ss">:content</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:amf</span> <span class="o">=&gt;</span> <span class="no">Book</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;error&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡可以用<code>is_amf</code>來檢查傳進來的是不是AMF，傳進來的參數可用 params[0] 取得。</p>
+
+<p>接著執行Flash，沒問題的話，當每次按下Add Book按鈕時，它就會把author跟content資料寫入DB，並回傳目前總筆數。</p>
+
+<p>以上為展示目的，都沒有加資料的驗證，所以就算空白資料也可以送出。</p>
+
+<p>以上是一些個人小小的心得，供大家參考囉</p>
+
+<h3>相關網站：</h3>
+
+<ul>
+<li><a href="http://blog.rubyamf.org/">http://blog.rubyamf.org/</a></li>
+<li><a href="http://code.google.com/p/rubyamf/">http://code.google.com/p/rubyamf/</a></li>
+</ul>
+
+
+<h3>原始檔下載(fla + rails project)：</h3>
+
+<p><a href="http://nayumi.myweb.hinet.net/downloads/sample.zip">http://nayumi.myweb.hinet.net/downloads/sample.zip</a></p>
+
+<p>update: RubyAMF專案已由原本的<a href="http://code.google.com/p/rubyamf/">google code</a>移至<a href="https://github.com/victorcoder/rubyamf_plugin">github</a>。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">高見龍</span></span>
+      
+
+
+
+
+  
+<time datetime="2010-03-18T15:10:00+08:00" pubdate>Mar 18<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/category/actionscript/'>ActionScript</a>, <a class='category' href='/category/flash/'>Flash</a>, <a class='category' href='/category/ruby-on-rails/'>Ruby on Rails</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.eddie.com.tw/2010/03/18/rubyamf/" data-via="eddiekao" data-counturl="http://blog.eddie.com.tw/2010/03/18/rubyamf/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2009/10/27/2009-ptt-flash-workshop/" title="Previous Post: 2009 PTT Flash 版聚">&laquo; 2009 PTT Flash 版聚</a>
+      
+      
+        <a class="basic-alignment right" href="/2010/04/09/hirb-the-convenient-gem-for-console-and-irb/" title="next Post: Rails Console / irb 裡的方便工具-Hirb">Rails Console / irb 裡的方便工具-Hirb &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現...<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.eddie.com.tw/2010/03/18/rubyamf/';
+        var disqus_url = 'http://blog.eddie.com.tw/2010/03/18/rubyamf/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

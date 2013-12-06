@@ -1,0 +1,673 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Doctrine, the PHP ORM Framework - 高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="Doctrine是一個在PHP上的資料庫ORM(Object Relational Mapper)，最近手邊的幾個小案子透過Doctrine來實作。ORM的確是讓開發者少寫不少的SQL查詢，但相對的效能一定是比簡單的SQL要來得 差，我想魚跟熊掌要兼得並不容易， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <p class="meta">
+    
+      <a class="basic-alignment left" href="/2008/10/12/amfphp-tutorial/" title="Previous Post: AMFPHP-搭起Flash與PHP的美麗橋樑">&laquo; AMFPHP-搭起Flash與PHP的美麗橋樑</a>
+    
+    
+      <a class="basic-alignment right" href="/2009/05/06/speak-on-the-stage/" title="next Post: 上台講話">上台講話 &raquo;</a>
+    
+  </p>
+  
+  <header>
+    
+      <h1 class="entry-title">Doctrine, the PHP ORM Framework</h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2008-12-23T14:14:00+08:00" pubdate>Dec 23<span>rd</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/images/2008/doctrine-logo.png" alt="image" /></p>
+
+<p><a href="http://www.doctrine-project.org/">Doctrine</a>是一個在PHP上的資料庫ORM(Object Relational Mapper)，最近手邊的幾個小案子透過Doctrine來實作。ORM的確是讓開發者少寫不少的SQL查詢，但相對的效能一定是比簡單的SQL要來得 差，我想魚跟熊掌要兼得並不容易，便利跟效能之間總有個天平讓開發者來自已調整，所以ORM好不好用就見人見志囉。</p>
+
+<h2>一、前置作業：</h2>
+
+<h3>1. 系統需求</h3>
+
+<p>依官網上面提到的，Doctrine需要PHP 5.2.3以上的版本，除此之外就不用再另外安裝其它的套件或函式庫即可運作，不過如果要使用PDO(<a href="http://tw2.php.net/manual/en/intro.pdo.php">PHP Data Object</a>)的話，則可能會需要另外安裝PDO驅動程式。</p>
+
+<h3>2. 檢查PDO驅動程式</h3>
+
+<p>如果你要用PDO的話，想要知道你的主機上是不是有安裝你所需要的PDO驅動程式，只要一行簡單的PHP程式放到主機上執行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span> <span class="nb">phpinfo</span><span class="p">();</span> <span class="cp">?&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你有看到一段PDO的資訊，那差不多應該就是有安裝了，再確認一下是不是有你要的版本，以及是否啟用即可。</p>
+
+<h2>二、取得原始檔</h2>
+
+<p>有幾種取得Doctrine的方法：</p>
+
+<ul>
+<li>SVN(Subversion)</li>
+<li>Pear</li>
+<li>Zip-package</li>
+</ul>
+
+
+<p>如果你熟悉SVN的操作的話，這應該是最簡單使用的了。如果你只是想試玩一下Doctrine的功能的話，你可以下載官網上打包好的<a href="http://www.doctrine-project.org/download/1_0_5/sandbox/1/format/tgz">Sandbox套件</a>來玩。我個人比較喜歡官方打包好的壓縮檔 :)</p>
+
+<h3>什麼是Sandbox套件?</h3>
+
+<p>Doctrine網站的<a href="http://www.doctrine-project.org/download">下載區</a>有貼心的打包了免設定的方便套件，直接下載、解壓縮後，就可以拿來試玩了。這裡面包括了一些範例schema檔案以及可以匯入的資料檔，讓你可以很快的就可以開始體驗Doctrine的優點。</p>
+
+<h2>三、開始第一個專案</h2>
+
+<p>在Doctrine裡，Doctrine_Record是最基本的元件。資料庫裡的每個資料表都會有一個對應的Doctrine_Record類別。這個類別是以<a href="http://en.wikipedia.org/wiki/Active_record_pattern">Active Record</a>這個設計模式實作的，所以在其它語言像是在ROR(Ruby on Rails)上才看得到方便功能，在Doctrine裡也可以使用到了，即使是複雜的資料庫操作，透過這個類別也可以簡單的完成。</p>
+
+<p>在使用Doctrine_Record來建立資料表時，如果沒有特別指定Primary Key的話，Doctrine會自動幫你加一個叫做<code>id</code>的主索引欄位(自動編號)。接下來你需要做的事情，就是建立一個繼承自 Doctrine_Record類別的子類別，然後透過<code>setTableDefinition()</code>以及<code>hasColumn()</code>就可以來建立你的資料表。</p>
+
+<p>為了單純一些，我們這裡只先用一個表格做範例(多個表格之間的關聯性操作，例如一對一、一對多、多對多等關係，再另外開幾篇再寫)。假設我們現在要建立一個 叫做<code>member</code>的會員資料表，這個資料表裡會有id、username、password以及建立日期這幾個欄位，我們可以這樣做：</p>
+
+<p>檔案：models/Member.php</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>     <span class="k">class</span> <span class="nc">Member</span> <span class="k">extends</span> <span class="nx">Doctrine_Record</span>
+</span><span class='line'>     <span class="p">{</span>
+</span><span class='line'>         <span class="k">public</span> <span class="k">function</span> <span class="nf">setTableDefinition</span><span class="p">()</span>
+</span><span class='line'>         <span class="p">{</span>
+</span><span class='line'>             <span class="c1">// 預設將會使用跟&quot;user&quot;做為資料表的名稱(同名)</span>
+</span><span class='line'>             <span class="c1">// 並且會自動加一個欄位id的主索引鍵</span>
+</span><span class='line'>             <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hasColumn</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+</span><span class='line'>             <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hasColumn</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+</span><span class='line'>         <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="k">public</span> <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span>
+</span><span class='line'>         <span class="p">{</span>
+</span><span class='line'>             <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">actAs</span><span class="p">(</span><span class="s1">&#39;Timestampable&#39;</span><span class="p">);</span>
+</span><span class='line'>         <span class="p">}</span>
+</span><span class='line'>     <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>除了手工打造模型類別外，你也可以使用YAML格式的檔案來建立資料表的schema檔案，底下這個範例的設定跟上面這個類別是一樣的意思，而且也可以透過Doctrine的一些指令來互相轉換。</p>
+
+<p>檔案：schemas/schema.yml</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">Member</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">columns</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">actAs</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">Timestampable</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡要注意的是，<strong>YAML的縮排是有意義的</strong>，所以要特別注意縮排的層級。你可以用一行簡單的語法就可以把YAML檔案(.yml)轉換成模型類別(.php)：</p>
+
+<p>檔案：createMode.php</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>     <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
+</span><span class='line'>     <span class="nx">Doctrine</span><span class="o">::</span><span class="na">generateModelsFromYaml</span><span class="p">(</span><span class="s1">&#39;schemas/schema.yml&#39;</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行之後看一下models資料夾有一個自動產生的generated資料夾(如下圖)，你會看到有一個<code>Member.php</code>以 及<code>BaseMember.php</code>。其中，<code>Member.php</code>是可以讓你自己定義一些功能用的，而<code>BaseMember.php</code>裡的內容則是 依據YAML的內容幫你寫好的。(要特別注意BaseMember類別會在每次執行轉換的時候重新產生一次，而Member類別只會產生一次)。</p>
+
+<p><img src="/images/2008/doctrine-5.png" alt="image" /></p>
+
+<p>我們現在有一個透過YAML建立的Doctrine_Record類別，接下來就可以把它匯入資料庫來建立資料表了。</p>
+
+<p>檔案：modelToDatabase.php</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>     <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
+</span><span class='line'>     <span class="c1">// 建立資料表</span>
+</span><span class='line'>     <span class="nx">Doctrine</span><span class="o">::</span><span class="na">createTablesFromArray</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;Member&#39;</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣就搞定了!看一下資料表的樣子：</p>
+
+<p><img src="/images/2008/doctrine-1.png" alt="image" /></p>
+
+<p>如前面說的，它會自動加上<code>id</code>這個欄位，而<code>Timestampable</code>則會自動幫忙加上<code>created_at</code>及<code>updated_at</code>這兩個欄位。</p>
+
+<p>現在我們有一個資料表以及一個對應的模型類別可以讓我們來練習資料的基本操作了(新增、修改、刪除及查詢)。</p>
+
+<h3>新增：</h3>
+
+<p>檔案：testInsert.php</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>    <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">username</span> <span class="o">=</span> <span class="s1">&#39;eddie&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;mypassword&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>資料表欄位的指定，除了上面這種物件式的存取方式外，也可以使用陣列的方式：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>  <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$myTable</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;eddie&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$myTable</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mypassword&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不用寫什麼insert..into..，只要一個<code>save()</code>就完成了! 回頭看一下資料表就會發現，有一些神奇的事情它幫忙做了。上面這段程式碼執行後，member資料表會長得像這樣：</p>
+
+<p><img src="/images/2008/doctrine-2.png" alt="image" /></p>
+
+<h3>修改：</h3>
+
+<p>假設剛剛寫入的那筆資料的id編號是1號，更新方法是先找到它，然後一樣用<code>save()</code>來更新：</p>
+
+<p>檔案：testUpdate.php</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>    <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$record</span> <span class="o">=</span> <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">getTable</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>    <span class="nv">$record</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;mynewpassword&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$record</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>結果如下：</p>
+
+<p><img src="/images/2008/doctrine-3.png" alt="image" /></p>
+
+<p>你會發現，password欄位變成”mynewpassword”之外，它的更新時間(updated_at)也跟著更新了。</p>
+
+<h3>刪除：</h3>
+
+<p>跟更新差不多，也是先找到那筆資料後，再給它一個<code>delete()</code>：</p>
+
+<p>檔案：testDelete.php</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>    <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">getTable</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>查詢：</h3>
+
+<p>假設我要找出id編號是1號的資料，可以這樣做：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>  <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$result</span> <span class="o">=</span><span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">getTable</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>除了透過<code>find</code>方法外，Doctrine還有它自已一套叫做<code>DQL</code>的語法，使用方法大致如下：</p>
+
+<p>檔案：testDQL.php</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>    <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$record</span> <span class="o">=</span> <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">getTable</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>    <span class="nv">$record</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;mynewpassword&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$record</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+</span><span class='line'>    <span class="nv">$result</span> <span class="o">=</span> <span class="nx">Doctrine_Query</span><span class="o">::</span><span class="na">CREATE</span><span class="p">()</span>
+</span><span class='line'>                <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+</span><span class='line'>                <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;Member&#39;</span><span class="p">)</span>
+</span><span class='line'>                <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;id = ?&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>                <span class="o">-&gt;</span><span class="na">fetchArray</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>印出來的結果如下：</p>
+
+<p><img src="/images/2008/doctrine-4.png" alt="image" /></p>
+
+<p>上面的DQL相當於底下的SQL：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">member</span> <span class="k">where</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實DQL的細節也可以另外來寫一篇 :)</p>
+
+<h2>結論</h2>
+
+<p>老實說，如果只是簡單的查詢，Doctrine寫起來不見得比原本的SQL快，而且效能又比較差一些，但如果是比較複雜的查詢，透過Doctrine包裝好 的一些方法，可以不用去想那些單引號、雙引號的問題外，也可以安全的避開可能的危機(例如SQL Injection) ，就如同最前面說的，便利跟效能，我會比較偏向便利的這一方。</p>
+
+<p>更多的細節，可參考<a href="http://www.doctrine-project.org/documentation">Doctrine官網手冊</a>，寫得滿詳細的。</p>
+
+<p>上面的程式碼我也有打包了一份供大家參考囉 :)</p>
+
+<p><a href="http://blog.eddie.com.tw/gallery/1/doctrine-lession1.rar">檔案下載</a></p>
+
+<p>使用前請先看一下config/doctrine_config.php裡面的資料庫相關設定。</p>
+
+<h2>相關連結</h2>
+
+<ul>
+<li><a href="http://www.doctrine-project.org/">Doctrine官方網站</a></li>
+<li><a href="http://groups.google.com/group/doctrine-user">Doctrine User Group</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">高見龍</span></span>
+      
+
+
+
+
+  
+<time datetime="2008-12-23T14:14:00+08:00" pubdate>Dec 23<span>rd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/category/php/'>PHP</a>, <a class='category' href='/category/zend-framework/'>Zend Framework</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/" data-via="eddiekao" data-counturl="http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2008/10/12/amfphp-tutorial/" title="Previous Post: AMFPHP-搭起Flash與PHP的美麗橋樑">&laquo; AMFPHP-搭起Flash與PHP的美麗橋樑</a>
+      
+      
+        <a class="basic-alignment right" href="/2009/05/06/speak-on-the-stage/" title="next Post: 上台講話">上台講話 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現...<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/';
+        var disqus_url = 'http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

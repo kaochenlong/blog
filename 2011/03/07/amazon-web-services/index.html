@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Amazon Web Services之門外漢心得 - 高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="雲端，雲端，大家都在講雲端，不過我這種第三類組畢業的學生，沒有什麼的理論基礎，也不喜歡講理論(不過聽李教授說人死了之後就會在雲端了)，僅就我自己最近試玩幾天Amazon的EC2心得與大家分享。 以前要蓋網站，除了要找設計師來做設計、工程師來寫程式外，還要有一個網站空間可以放你做好的東西才行。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/2011/03/07/amazon-web-services/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <p class="meta">
+    
+      <a class="basic-alignment left" href="/2011/01/29/as-study-group-is-ready-to-go/" title="Previous Post: 第0次Flash/Flex/AS讀書會">&laquo; 第0次Flash/Flex/AS讀書會</a>
+    
+    
+      <a class="basic-alignment right" href="/2011/03/09/2nd-flash-and-as-study-group/" title="next Post: 第2回AS讀書會">第2回AS讀書會 &raquo;</a>
+    
+  </p>
+  
+  <header>
+    
+      <h1 class="entry-title">Amazon Web Services之門外漢心得</h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/03/07/amazon-web-services/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-03-07T12:21:00+08:00" pubdate>Mar 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/images/2011/cloud.png" alt="image" /></p>
+
+<p>雲端，雲端，大家都在講雲端，不過我這種第三類組畢業的學生，沒有什麼的理論基礎，也不喜歡講理論(不過聽李教授說人死了之後就會在雲端了)，僅就我自己最近試玩幾天Amazon的EC2心得與大家分享。</p>
+
+<p>以前要蓋網站，除了要找設計師來做設計、工程師來寫程式外，還要有一個網站空間可以放你做好的東西才行。而這個”空間”的來源就有很多種，一個是自己架，不管是公司內部有專線，架在自己公司裡，還是花點錢去內湖那邊的機房租個機櫃，把機器放進去住，就是所謂的「主機代管」，不管是哪一種，都至少有養一台機器跟線路的成本。另一種是「虛擬主機」，就是跟業者租用一小塊硬碟空間，把你的網頁檔案放上去。</p>
+
+<p>用房子來比喻，主機代管就像獨棟的透天厝，而虛擬主機就像在社區裡租一層公寓。各有優缺點，透天厝的優點就是可以自己高興怎麼裝潢就怎麼裝潢，而社區公寓除了樓層空間大小限制外，還有一些先天的限制，例如管委會不願意讓你破壞原有的牆壁(某些元件沒辦法安裝)，或是當你在你家辦party，搞得太high(CPU或其它硬體使用率過高)影響到其它住戶，可能還會被管理員(主機商)來關切一下，或是狠一點直接把你趕走；相對的，透天厝的缺點就是成本比較高，而且還得自己小心會不會遭小偷，你可能得自己請一個看門的(MIS人員)或花錢裝一些保全設備(防火牆)，而社區公寓則是同個社區的人一起share管理人員或保全的費用，成本相對較低。</p>
+
+<p>其實之前一直就知道<a href="http://aws.amazon.com/">Amazon Web Services</a>(AWS)很強大，但因為自己已經有在內湖養自己的主機所以一直沒去試試看，直到最近在某次讀書會上聽了前輩們的介紹，聽起來相當心動，反正現在有第一年免費的優惠，就註冊了個帳號上去玩。註冊過程其實不會太難，就是步驟有點多，然後都是英文介面，感覺AWS真的是另一個世界..沒聽過的資訊名詞多到爆炸 :) 。在你註冊新帳號的時候，會需要你的聯絡電話跟信用卡號做驗證。</p>
+
+<p>那AWS的<a href="http://aws.amazon.com/ec2/">Elastic Compute Cloud</a>(EC2) 跟前面提到的透天厝或社區公寓有什麼不同? 簡單的說，它可以同時有上述兩種方案的優點，而且成本還相當便宜。有這麼好康的事? 以下就以功能面跟成本面來說明：</p>
+
+<h3>以功能面來看：</h3>
+
+<p>EC2有好幾個等級的機器，可以依照不同的需求及預算來租用，從最便宜的Micro等級到High-Memory Instances等級(68.4 GB RAM)，如果你是要大量運算的，也可以考慮High-CPU Instances。其實你在EC2啟用一個instance就等於你就擁有一台<a href="http://en.wikipedia.org/wiki/Virtual_private_server">VPS</a>了。</p>
+
+<p>VPS? 簡單的講，這就跟一般把機器放到機房代管差不多，只是這台機器是”虛擬”的，你摸不到也看不到，但這台虛擬的主機跟一般獨立主機一樣可以SSH登入，要裝什麼軟體都可以裝，而且有擁有完整的root操作權限。</p>
+
+<p>EC2的安裝也很方便，你可以用AWS提供的Image檔(Linux跟Windows平台都有)，也可以找一些社群熱心人士貢獻的。安裝時間也是出乎意料的短，只要點幾下滑鼠，系統就整個裝好了!! 我自己是習慣FreeBSD，所以找了FreeBSD 8.2 Release版本的Image來裝，不過那個Image還滿”乾淨”的，Apache、PHP、Python、Ruby、MySQL都沒有，連/usr/ports也是空的，所以我自己花了點時間，把基本環境建好之後再做成自己的Image檔。</p>
+
+<p>做自己的Image檔要幹嘛? 以前當過網管或是管過電腦教室的人應該都對Ghost這個軟體不陌生，通常會在系統最完美(或乾淨)的狀態把它ghost起來，然後如果要重灌或是灌其它台電腦的時候，只要一下子的時間就可以把那個乾淨的環境裝到新的電腦裡了，省時省力。而在AWS上做自己順手的Image也差不多是這個道理，只要在管理後台點幾下，下次要開新的instance的時候只要選用自己做的Image就可以很快的再開一個新的instance起來，而且還是你習慣的作業環境。</p>
+
+<p>想想以前想要學Linux/FreeBSD的話，可能得自己想辦法從網路或光碟來安裝，再快也差不多得要半小時才能裝好，現在有現成的Image，只要滑鼠點幾下，幾分鐘就搞定，如果不想要或是被玩爛了，隨時可以砍掉重練，EC2真的是練功的好地方..</p>
+
+<p>EC2有提供”Security Group”的功能，其實就是防火牆啦，你可以只限定某些IP或某些Port的連線才能存取資源，設定也相當簡單。如果在自己的機房自己弄，這可能還得花點錢買一台實體的防火牆來設定，而且要搞懂那些防火牆的rule設定也挺煩人的。</p>
+
+<p>雖然micro instance的等級並不高，但放一些簡單的網頁或是基本的服務(例如DNS管理)，是相當足夠的。像我就是把它拿來管理我手上的一些domain name，還有放一些簡單的HTML頁面。</p>
+
+<p>AWS EC2的instance的IP預設是浮動的，如果重新啟動後，它的IP可能會變動，你可以跟EC2要固定的IP，並把它掛上到你指定的instance上。要注意的是，申請固定IP不用另外收費，但如果要了IP卻沒有掛到任何一個instance上，會被額外收費，免得大家亂要IP，佔著不拉屎。(IPv4已經發光了，請大家好好珍惜)</p>
+
+<p>對我來說的另一個重點，是因為我近來喜歡用<a href="http://rubyonrails.org/">Ruby on Rails</a>(RoR)來做網路活動的後端，原因請見另一篇<a href="/2010/07/16/internet-campaign-with-ruby-on-rails/">門外漢心得</a>。不過國內虛擬主機很少支援RoR，又加上我喜歡每次都放一些新玩意進來做實驗，虛擬主機限制太多，所以這也是我自己養機器的最主要原因。</p>
+
+<h3>以成本面來看：</h3>
+
+<p>錢很重要，所以先來看一下<a href="http://aws.amazon.com/ec2/pricing/">價目表</a>。</p>
+
+<p>它的計價單位是”小時”，主要有兩種租用方式，一個是On-Demand Instances，一個是Reserved Instances。On-Demand就是要的時候租，不要的時候就退還，Reserved則是一次租比較長的一段時間(1年或3年)。</p>
+
+<p>On-Demand的micro instance的一個月算下來才18塊美金(第一年免費)，等級稍微好一點的standard instance是33塊/月。</p>
+
+<p>因為我的工作大部份是跟網路活動相關的，而且網路活動的特性就是「時間短、流量會忽大忽小、下線之後就撤掉了」，所以On-Demand的計費方式就很適合，案子下線之後直接到後台把它停掉，就不會繼續算錢了。而如果是長期維護的的網站的話，就可以考慮Reserved的方式，一次買1年或買3年，價格更便宜，1年期的micro instance只要54塊美金。</p>
+
+<p>這樣的價錢貴嗎? 以我現在養在內湖機房的12U機櫃費+頻寬費來算(不含主機跟其它硬體)，一年差不多是2,100美金，如果換到EC2的話可以買到相當不錯的規格。那像智X的VPS方案呢? 一年約650美金(<a href="http://hosting.url.com.tw/vps.html">規格</a>)，戰國X的VPS的費用也差不多(<a href="http://www.nss.com.tw/NSS/Server/Server_index.php?p=117">規格</a>)  。</p>
+
+<p>比較起來EC2的價錢是真的不貴，而且EC2現在第一年還免費。那一年後怎麼辦? 真的覺得用得不錯的話，就付費吧。</p>
+
+<p>其實雲端主機最重要的是它的scalability。</p>
+
+<p>這讓我想到年輕時的一個故事，2005年Yahoo!有一個叫做”<a href="http://www.adol.com.tw/7thclickawards/ads/B06-250/coffeeting_offline/coffeeting.htm">咖啡聽</a>“的網路活動(已下線，僅剩網頁備份)，那是個滿特別的網路行銷案例，目的是為了證明「網路廣告是有效的」，所以虛擬了一個罐裝咖啡的品牌，沒有在一般的電視或平面媒體打廣告，只在Yahoo!的首頁買了好幾百萬的網路廣告(都是雙星那種很貴的版位)。那案子的程式是我寫的，第一次遇到這麼大流量的案子，結果還是有幾次被衝到掛點。</p>
+
+<p>再假想今天如果你蓋了一個線上購物的網站，一開始可能會想只買一台主機來放，但隨著會員越來越多，當你發現你的主機的硬碟燈閃不停、已經負荷不了，為了提供更好的網站瀏覽品質，也許你會想再加幾台機器來幫忙。即使如此，你可能得找人來想辦法新的主機跟原來的機器”串”起來(這個”串”其實挺複雜，這又是另一個故事了)，這過程還是免不了得停機休息一下。但如果今天用的是雲端服務，通常只要刷卡付錢就可以”無痛”的馬上切換或擴充成高檔設備，來應付更多的需求，這點自己弄主機是很不容易辦到的。</p>
+
+<p>突然想起以前我老闆給過我的一句話：「<strong>錢能解決的事都是小事</strong>」。</p>
+
+<p>這樣講起來好像真的上了雲端就變神仙一樣了，真的這麼好，那生意就全部給它做就好了! 其實AWS還是有些我擔心的問題的，最主要的就是因為台灣沒有AWS的機房，亞太地區的機房目前只有新加坡跟最近新開的東京，畢竟還是得出國，反應速度就是比台灣本地的會慢了那麼一些些。</p>
+
+<p>有個檢測的工具叫做<a href="http://www.cloudping.info/">CloudPing</a>，可以測試不同地區AWS的Latency，我在台北用中華電信的線路測試，新加坡133ms，日本75ms。真希望AWS也來台灣開個機房啊..機會好像不大就是了。</p>
+
+<p>AWS也沒這麼弱，也是有一些配套的解決方案，例如可以用<a href="http://aws.amazon.com/s3/">AWS Simple Storage Service</a> (Amazon S3)搭配CloudFront服用來改善速度，把靜態檔案放在S3上，然後<a href="http://aws.amazon.com/cloudfront/">CloudFront</a>會找到離使用者最近的機房，並從那邊丟檔案出來。例如我常逛的<a href="http://www.tenlong.com.tw/">天瓏書局</a>網站就是個很成功的例子。</p>
+
+<p>AWS的另一個問題，就是使用者的技術能力最好得有一定的網管基礎，不然玩起來會有點辛苦。另外就是因為台灣沒有AWS的客服，所以萬一有問題可能得打越洋電話或是英文書信往來，這也是另一個小小的門檻。</p>
+
+<p>這就是我個人最近試玩的一些簡單心得，目前還沒有真正拿客戶或自己的案子在上面實戰過，應該不久的將來就會有了。</p>
+
+<p>以上，才疏學淺，若內容有誤還請多多指教 :)</p>
+
+<h4>參考資料：</h4>
+
+<ul>
+<li><a href="http://oss.tw/elgg/pg/pages/view/13584/-amazon-ec2-ubuntu-1010">在 Amazon EC2 安裝 Ubuntu 10.10</a>，Kiang有佛心的把EC2的設定過程畫面拍下來</li>
+<li>Ernest大大的blog有一些<a href="http://talk.ernestchiang.com/search/label/amazon">相關文章</a>可以參考</li>
+</ul>
+
+
+<h4>補充：</h4>
+
+<ul>
+<li>感謝<a href="http://blog.johnpupu.tw/">johnpupu</a>補充，其實還有<a href="http://aws.amazon.com/ebs/">ebs</a>跟頻寬的費用，AWS有做了一個<a href="http://calculator.s3.amazonaws.com/calc5.html">計算機</a>，可以更方便的算出成本 :)</li>
+<li><a href="http://www.linode.com/">Linode</a>似乎也是VPS不錯的選擇，價格上也比AWS來得便宜一些。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">高見龍</span></span>
+      
+
+
+
+
+  
+<time datetime="2011-03-07T12:21:00+08:00" pubdate>Mar 7<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/category/aws/'>AWS</a>, <a class='category' href='/category/diary/'>Diary</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.eddie.com.tw/2011/03/07/amazon-web-services/" data-via="eddiekao" data-counturl="http://blog.eddie.com.tw/2011/03/07/amazon-web-services/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/01/29/as-study-group-is-ready-to-go/" title="Previous Post: 第0次Flash/Flex/AS讀書會">&laquo; 第0次Flash/Flex/AS讀書會</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/03/09/2nd-flash-and-as-study-group/" title="next Post: 第2回AS讀書會">第2回AS讀書會 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現...<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.eddie.com.tw/2011/03/07/amazon-web-services/';
+        var disqus_url = 'http://blog.eddie.com.tw/2011/03/07/amazon-web-services/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/linux/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[中文亂碼問題]]></title>
+    <link href="http://blog.eddie.com.tw/2005/03/31/chinese-character-problem/"/>
+    <updated>2005-03-31T21:26:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2005/03/31/chinese-character-problem</id>
+    <content type="html"><![CDATA[<p>前不久把CentOS4裝起來玩看看，但在要啟動某個service的時候發現中文字會出現亂碼，但看了一下locale的資料好像也沒什問題，後來才知道原來是<code>/etc/sysconfig/i18n</code>這個檔案設定的問題(在Fedora Core3上面好像也有類似的問題)。</p>
+
+<pre><code>&gt; service smb restart
+?迫 SMB ??:　　　　　[ 蝣箏? ]
+?迫 NMB ??:　　　　　[ 蝣箏? ]
+?? SMB ??:　　　　　[ 蝣箏? ]
+?? NMB ??:　　　　　[ 蝣箏? ]
+</code></pre>
+
+<p>修改<code>/etc/sysconfig/i18n</code>，把UTF改成Big5：</p>
+
+<pre><code>LANG=”zh_TW.Big5″
+SUPPORTED=”zh_TW.Big5:zh_TW:zh”
+</code></pre>
+
+<p>重新啟動samba：</p>
+
+<pre><code>&gt; service smb restart
+停止 SMB 服務:　　　　　[失敗]
+停止 NMB 服務:　　　　　[失敗]
+啟動 SMB 服務:　　　　　[確定]
+啟動 NMB 服務:　　　　　[確定]
+</code></pre>
+
+<p>中文字正常出現了 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[方便的套件更新程式-Yum]]></title>
+    <link href="http://blog.eddie.com.tw/2005/03/28/yum/"/>
+    <updated>2005-03-28T21:22:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2005/03/28/yum</id>
+    <content type="html"><![CDATA[<p>之前有提到在linux上，常常會有安裝軟體A之前，需要安裝軟體B的問題，稱之為相依性(dependency)，要解決相依性的問題，除了之前提到的APT外，Yum也是個很好用的工具。</p>
+
+<p>以下以<a href="http://www.centos.org/">CentOS4</a>為例：</p>
+
+<h2>使用方法：</h2>
+
+<h3>Step 1.匯入GPG-KEY：</h3>
+
+<p><a href="http://mirror.centos.org/centos/">http://mirror.centos.org/centos/</a>，找到適合版本的GPG-KEY</p>
+
+<pre><code>&gt; rpm –import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-4
+</code></pre>
+
+<h3>Step 2.修改/etc/yum.conf：</h3>
+
+<p><code>/etc/yum.conf</code>這個檔案，可以設定要取用哪些RPM以及Yum伺服器的位置，可以選台比較近的Yum伺服器進行更新。</p>
+
+<h3>Step 3.操作</h3>
+
+<p>更新套件：</p>
+
+<pre><code>/usr/bin/yum update
+</code></pre>
+
+<p>如果要搜尋某個套件，可用</p>
+
+<pre><code>/usr/bin/yum search someRPM
+</code></pre>
+
+<p>如果要安裝某個套件，可用</p>
+
+<pre><code>/usr/bin/yum install someRPM
+</code></pre>
+
+<p>跟APT一樣，如果安裝A軟體需要B軟體，它會連帶把B軟體下載下來安裝之後，再繼續安裝你要的A軟體。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Win32 gnu tools]]></title>
+    <link href="http://blog.eddie.com.tw/2005/03/08/win32-gnu-tools/"/>
+    <updated>2005-03-08T21:16:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2005/03/08/win32-gnu-tools</id>
+    <content type="html"><![CDATA[<p>跟cygwin不同的是，它是在Windows的native code,這樣一來，讓 Windows的command line模式變得好用多了。</p>
+
+<p>網址：<a href="http://unxutils.sourceforge.net/">http://unxutils.sourceforge.net/</a></p>
+
+<h3>說明：</h3>
+
+<p>Here are some ports of common GNU utilities to native Win32. In this context, native means the executables do only depend on the Microsoft C-runtime (msvcrt.dll) and not an emulation layer like that provided by Cygwin tools. The following program versions are covered:</p>
+
+<p>bc-1.05, bison-1.28, bzip2-1.0.2, diffutils-2.7, fileutils-3.16, findutils-4.1, flex-2.5.4, gawk-3.1.0, grep-2.4.2, gsar110, gzip-1.2.4, indent-2.2.9, jwhois-2.4.1, less-340, m4-1.4, make-3.78.1, patch-2.5, recode-3.6, rman-3.0.7, sed-3.02, shellutils-1.9.4, tar-1.12, textutils-2.1, unrar-3.00, wget-1.8.2, which-2.4</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CentOS]]></title>
+    <link href="http://blog.eddie.com.tw/2005/03/02/centos/"/>
+    <updated>2005-03-02T21:14:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2005/03/02/centos</id>
+    <content type="html"><![CDATA[<p>RedHat宣布不再推出個人免費版本，並把原先RedHat9的相關技術，移至Fedora計劃，目前已推出到Fedora Core3；同時也針對高階伺服器市場推出Red Hat Enterprise Linux(RHEL)。RHEL有AS、ES及WS三種版本，AS是最高階的企業級伺服器，最多可以支援到16個CPU及64G的記憶體，WS則是桌面 工作站，ES則適用於一般中小型企業的社群級伺服器版本。當然，這個RHEL就是要收錢的(軟體費用及技術支援費用)，可以參考一下<a href="http://www.shinewave.net.tw/linux/linux-redhat.htm">這個網站</a>或是<a href="http://www.redhat.com/">RedHat官方網站</a>的價錢。</p>
+
+<p>CentOS : Community ENTerprise Operating System</p>
+
+<p>有 個叫做CentOS的Linux版本，便是以RHEL為架構發展出來的，一樣秉持著Linux的自由精神，可免費下載使用。CentOS2、3聲稱與 RHEL2、3完全100%相容，日前CentOS已經推出第4個版本，本著RHEL的穩定性、支援高階伺服器硬體及低廉的軟體成本，以中、小型企業來 說，CentOS成為架設Linux伺服器的不錯的選擇之一。</p>
+
+<p>當然，軟體免費，不等於Linux就是免費，技術服務不是免費的，所以企業在引進這樣的系統時，也得考量這方面成本。</p>
+
+<p>國內ISO下載：<a href="http://ftp2.tnc.edu.tw/pub1/centos/centos-4/4.0/isos/i386/">ISO image Mirror Site</a></p>
+
+<p>CentOS Official Website：<a href="http://www.centos.org/">http://www.centos.org/</a></p>
+
+<h3>參考資料：</h3>
+
+<p><a href="http://linux.tnc.edu.tw/techdoc/eltoyou/eltoyou.html">http://linux.tnc.edu.tw/techdoc/eltoyou/eltoyou.html</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Postfix的Relay Control]]></title>
+    <link href="http://blog.eddie.com.tw/2005/03/01/postfix-relay-control/"/>
+    <updated>2005-03-01T21:02:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2005/03/01/postfix-relay-control</id>
+    <content type="html"><![CDATA[<p>Postfix的Relay控制，是在<code>/etc/postfix/main.cf</code>裡面做設定，主要有四個部份：</p>
+
+<ol>
+<li>inet_interfaces</li>
+<li>mynetworks_style</li>
+<li>mynetworks</li>
+<li>relay_domains</li>
+</ol>
+
+
+<h2>inet_interfaces：</h2>
+
+<p>預設值是<code>all</code>，如果你的機器有多張網路卡，但又不想要全部都開放 relay，就可以指定只開放給某張網路卡。</p>
+
+<h2>mynetworks_style：</h2>
+
+<p>有三種型態：<code>class</code>、<code>subnet</code>及<code>host</code>，預設值是subnet。</p>
+
+<ul>
+<li>class是可以指定開放給A/B/C class的來源，這種設定方式滿冒險。</li>
+<li>subnet代表你的機器的IP所在網域的任何一個IP都可以接受relay。(如果同一個subnet裡的機器多，要小心可能被當成垃圾信跳板)</li>
+<li>host表示只會設定localhost為信任的網域而已。</li>
+</ul>
+
+
+<h2>mynetworks:</h2>
+
+<p>這可以設定成檔案的方式或是直接以IP/netmask來做設定。例如：</p>
+
+<pre><code>mynetworks=192.168.1.0/24, 127.0.0.0/8
+</code></pre>
+
+<p>而如果要用檔案方式：</p>
+
+<pre><code>mynetworks = 127.0.0.0/8, hash:/etc/postfix/access
+</code></pre>
+
+<p>記得postmap一下這個access檔。</p>
+
+<h3>注意：</h3>
+
+<ol>
+<li>如果沒有設定mynetworks的話，記得把mynetworks_style改成<code>host</code>，不然同一個子網域的IP都可以透過你的機器relay信件(當然如果所有子網域的使用者你都認識的話倒還ok)</li>
+<li>如果有設定 mynetworks_style 以及 mynetwork 時，mynetworks的設定會取代掉mynetworks_style。</li>
+</ol>
+
+
+<h2>relay_domains：</h2>
+
+<p>可以一次指定一個domain來開放relay。例如：</p>
+
+<pre><code>relay_domains = eddie.com.tw
+</code></pre>
+
+<p>這樣的設定是代表所有由eddie.com.tw這個domain來的信件都會被當做可信任的，postfix會幫忙relay。但要注意的是，由「任何地方」來的信件，並且要寄往eddie.com.tw網域的信件，postfix也會幫忙Relay。</p>
+
+<p>詳細設定在<code>/etc/postfix/main.cf</code>裡有說明。</p>
+
+<p>Hinet廣告信跳板測試：<a href="http://lcss.hinet.net/antispam/or_check.pl">http://lcss.hinet.net/antispam/or_check.pl</a></p>
+]]></content>
+  </entry>
+  
+</feed>

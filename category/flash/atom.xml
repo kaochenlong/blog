@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Flash | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/flash/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CreateJS, 從 Flash 到 Javascript]]></title>
+    <link href="http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript/"/>
+    <updated>2013-05-20T09:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript</id>
+    <content type="html"><![CDATA[<p>這是我在本次 JSDC 的分享的題目，應該是本次議題裡少數跟 Javascript 比較沒直接關係，而且技術含量也相對較低的一場演講。</p>
+
+<p><a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank"><img src="/images/2013/jsdc-createjs-from-flash-to-javascript.png" alt="image" /></a>
+<a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/createjs-from-flash-to-javascript" target="_blank">View on Slideshare</a> | <a href="https://speakerd.s3.amazonaws.com/presentations/37f197f0a28b0130c57922855344e59c/JSDC_2013_-_CreateJS.pdf" target="_blank">Download PDF</a></p>
+
+<p>認識我的朋友可能知道我是靠 Ruby 跟 Rails 在討生活的(目前改靠 iOS app 開發混飯吃)。不過，如果以寫程式的時間來說，佔我目前生命中最久時間的，應該是 Flash/ActionScript了。</p>
+
+<p>接觸 Flash 七、八年以來，看到了它的起起落落，當年在 Marcomedia 時代還因為喜歡那個閃亮小徽章而去考官方的認證，認證考過了，但 Macromedia 也被 Adobe 併購了，然後就沒有再發閃亮小徽章了。</p>
+
+<p>也因為對 Flash 有愛，所以從 2007 年起就厚臉皮的去擔任 PTT Flash 的版奴到現在，去年以及前年也愛現的辦了十幾場的 <a href="https://www.facebook.com/thestudygroup" target="_blank">Flash 聚會</a>。</p>
+
+<p>這期間，有不少自稱或被稱為 Flash 殺手級的應用，例如 N 年前的 Silverlight，以及後期的 HTML5。我個人覺得，真正強大的 Flash 殺手應該是已經先回家的教主 Steve Jobs 吧，他重重的打了 Flash 一巴掌之後，然後大家一起跟上來打。</p>
+
+<p>Flash 真的被殺死了嗎?  其實這是個很嚴肅的話題，特別是像我這種曾經對它有愛而且曾經依賴它過活的人.. 老實說，我覺得就算不死也半條命了..</p>
+
+<p>不過，在台灣有不少的中小企業在做網站的時候，還是喜歡做那種會飛來飛去轉來轉去，首頁還放一個 skip 按鈕的 Flash 動態。所以，我想 Flash 在幾年內在台灣應該還是有它生存的空間的。</p>
+
+<p>我常跟朋友說，大家都在喊 Flash 已死，但對我來說，死的其實是 Flash player 而不是 Flash。Flash 有另一個支線叫做 AIR，不只可以做一般的桌面應用程式，也可以轉成原生的 iOS app 到 App Store 上架。</p>
+
+<p>如果你曾經是個 Flash 程式設計師，或是現在也還靠它在過活，聽到大家都在講什麼 Javascript、HTML5 而對自己的未來感到無助。同時客戶一個一個來跟你說"No Flash"，也不管你會不會寫，就說他們的 event site 不要用 Flash 做，因為客戶說手機上看不到..</p>
+
+<p>其實，我都很想回客戶說：「是會有多少人用手機看你的 event site?」。但為了生活，這句話我通常還是選擇吞下去 XD</p>
+
+<p>而 <a href="http://www.createjs.com/#!/CreateJS" target="_blank">CreateJS</a>，也許可以說是目前對 Flasher 來說相對友善的 HTML5 library 了。除了語法熟悉之外，也有方便的 <a href="http://www.adobe.com/tw/products/flash/flash-to-html5.html" target="_blank">toolkit</a> 可以讓設計師從 Flash 直接輸出成 HTML5。</p>
+
+<p>對我這種沒美術細胞，Javascript 功能大概就是比會寫個 Alert 再複雜一點點的人來說，有個這樣的套件或工具讓我可以很快的把東西做出來，我已經相當感恩了 :)</p>
+
+<h3>推薦原因</h3>
+
+<ul>
+<li><p>CreateJS 是由 <a href="http://gskinner.com/" target="_blank">Grant Skinner</a> 他們家開發的，光是這點我就已經足以說服我用它了。記得當年 GS 就是因為跟 Microsoft 的 HTML5 專案合作，在開發的過程中就順手做了 EaselJS (一開始只有這個，其它的是後來才慢慢加進來的)。如果說用這個做出來的東西，連 Microsoft 都能接受的話，相信應該是有一定品質的。重點是這個專案在 IE 上應該可以執行，畢竟是 MS 的專案.. 不過比較舊版本的 IE 就不一定了。</p></li>
+<li><p>其次，GS 大神本來也是寫 Flash/AS 的，所以他開發的這套東西的時候，也許也希望其它 Flash 開發者也可以較無痛轉換，於是在設計 API 的時候有特別讓它長得跟 Flash 的 API 有點像。</p></li>
+<li><p>有文件，有範例可以參考。不要以為這很理所當然，很多開源的專案是沒在寫文件的..</p></li>
+<li><p>最後，它是 MIT 授權的，基本上可以放心大膽用它沒問題。</p></li>
+</ul>
+
+
+<p>以上，大概是這回 JSDC 大概分享的內容，希望對大家有幫助，如果有錯誤的地方，也請前輩先進不吝指教，感謝!</p>
+
+<p>PS: 講到這裡我就想小小埋怨一下，Flash 是 A 公司的產品，是商業軟體沒錯，但寫 Flash 的人不表示就不開放，在 Flash 圈也是有非常多優秀的開源專案，但似乎只要跟 Flash 沾上邊就會被當做不開放..</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第十二回AS讀書會之關於Event這回事]]></title>
+    <link href="http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event/"/>
+    <updated>2012-06-27T02:48:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event</id>
+    <content type="html"><![CDATA[<p>這是在<a href="http://registrano.com/events/12th-as-study-group">第十二回AS讀書會</a>上用到的投影片，主題是在Flash/ActionScript3裡Event的基本介紹。</p>
+
+<p><a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank"><img src="/images/2012/there-is-something-about-event.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/there-is-something-about-event" target="_blank">View on Slideshare</a><br />
+<a href="http://blog.eddie.com.tw/downloads/files/2012/there_is_something_about_event.pdf" target="_blank">PDF</a> |
+<a href="http://blog.eddie.com.tw/downloads/files/2012/12-flash-fash-example-files.zip" target="_blank">Sample Code</a></p>
+
+<p>有講的不好或是誤導的部份，還請先進、前輩們不吝指教 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第九回AS讀書會之測試你的Robotlegs專案]]></title>
+    <link href="http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project/"/>
+    <updated>2011-12-14T02:42:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project</id>
+    <content type="html"><![CDATA[<p>這是在第九回的Flash/AS讀書會上用到的投影片：
+<a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank"><img src="/images/2011/speakerdeck-test-in-robotlegs.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/test-your-robotlegs-project.pdf">Download PDF</a></p>
+
+<p>部份內容是現場Demo，所以沒辦法在投影片裡看到。在分享的過程，從大家的眼神中似乎可以感覺得出來大家對於"寫測試"這件事很陌生(其實我也是新手)，我之後會再花一些時間把關於如何在Flash/ActionScript裡寫測試整理成文章，希望可以讓大家可以更了解TDD(Test-Driven Development)是怎麼一回事，又該怎麼進行。</p>
+
+<p>感謝大家今天天氣這麼冷還能前來參加，咱們下回見 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第三梯次Flash/ActionScript 3.0課程]]></title>
+    <link href="http://blog.eddie.com.tw/2011/12/05/3rd-actionscript-workshop/"/>
+    <updated>2011-12-05T02:50:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/12/05/3rd-actionscript-workshop</id>
+    <content type="html"><![CDATA[<p class="info">2012/4/21 update: 課程將改為以screencast方式進行</p>
+
+
+<p>話說在2007年的時候，我曾經很自以為是的辦過一次Flash/AS課程，那時候用的還是AS2.0，來參加的朋友大概五、六位，地點一開始很克難的選在師大附近某家可以上網的簡餐店(後來才移往我自己公司裡上課)；2009年的年中有再辦過第二梯次，這次用的是AS3.0，地點則是商請某個同行友人幫忙借用他們公司大樓的會議室跟投影設備，這回環境比較好一些，參與人數比較多一點，記得最多有將近快10位朋友來參加。</p>
+
+<p>這兩階梯次都是針對沒學過AS程式的朋友從頭講起的，沒有收費用。</p>
+
+<p>沒意外的話，農曆年完之後再來個第三梯次，用的當然也是AS3.0，同樣也是不會收費用的(視場地規定，也許會有低消或場地費)，屆時再歡迎有興趣想學AS3，但卻不知道從何開始的朋友參加。</p>
+
+<p>也許各位最近聽說"Flash快不行了，HTML5才是王道"之類的話，以我看來，Flash並沒有不行，目前大部份的web game都還是用Flash開發的，而且Flash現在還有AIR可以用，能做的事情幾乎跟一般native的應用程式差不多；更何況HTML5也還不是王道，它連標準都還沒定，而且還有最可怕的各家瀏覽器支援問題..雖然我自己也開始在練HTML5 + JavaScript的手感，但這跟Flash行不行無關，純屬個人興趣。</p>
+
+<h3>跟現在的AS讀書會有什麼不同?</h3>
+
+<p><a href="https://www.facebook.com/thestudygroup">AS讀書會</a>目前是演講形式，我相信很多在讀書會聽完，大家只是聽一聽，回家很快就會忘光光，所以如果開課的話，我會要求大家想辦法帶電腦過來現場實作。因為是小班制，所以有問題馬上可以大家一起討論。</p>
+
+<p>沒有什麼不可抗力的事情發生的話，上課頻率大概會是每週一次(可能會是在每週六的下午)，每次約2~3小時，全部上完大概一、二個月，所以如果沒把握能一週固定空出2~3小時的朋友就請把機會讓給別人囉。另外，我會準備每次上課的大綱，讓大家可以在現場練習，還可以帶回家複習。</p>
+
+<h3>對象</h3>
+
+<p>有心想學ActionScript 3.0但不知道從哪邊開始的人，至於想學動畫或設計的話我就幫不上忙了，那不是我的專長 :)</p>
+
+<h3>內容</h3>
+
+<p>從最簡單的基礎(變數、迴圈、function到OOP)，到套用好用的library/framework，可以實際做個小案子出來。</p>
+
+<h3>人數</h3>
+
+<p>大概10~15人</p>
+
+<h3>地點</h3>
+
+<p>應該會在台北市某個靠近捷運、有投影設備、麥克風，而且可以上網的地方(未定，如果有朋友可以推薦就更好了)。</p>
+
+<h3>會有錄影嗎?</h3>
+
+<p>不會 :)</p>
+
+<h3>費用</h3>
+
+<p>最多就是場地費吧 (當然如果有人要付我錢，我會很樂意收下的)</p>
+
+<h3>什麼時候報名?</h3>
+
+<p>應該農曆年過後一、二個月 :)</p>
+
+<p>[2012.2.22 update] 最近不少朋友在問這個還有沒有要繼續，放心，當然有，目前正在編寫教材中。不過因為最近小的手邊的專案正在趕，所以可能進度會慢一些，預計應該可以在三月份開始(希望)。</p>
+
+<h3>真的這麼佛心? 有何目的?</h3>
+
+<p>當然有目的，我的目的很明顯也不怕大家知道：</p>
+
+<ul>
+<li>複習我的AS3，程式很久沒寫會忘記</li>
+<li>練習講話!!</li>
+</ul>
+
+
+<p>我並沒有打算也沒那個本事要跟電腦補習班搶生意，我只是單純的因為我自己不是資訊相關科系畢業，在自學AS的路上吃過不少苦頭，也知道很多設計師在面臨程式碼的時候的痛苦，希望藉由我的一些經驗分享，讓大家少踩一些雷。</p>
+
+<p>但修行最終還是得靠個人，千萬不要相信來了之後回去就會變強。之前有來參加過的朋友，有的已經在同行業界有不錯的成績，但也有的到現在還是什麼都不會。</p>
+
+<p>屆時歡迎有興趣的朋友來參加，不過抱著只想來看看的心態的朋友就不歡迎了 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第八回AS讀書會之Hello Robotlegs]]></title>
+    <link href="http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party/"/>
+    <updated>2011-11-07T01:16:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party</id>
+    <content type="html"><![CDATA[<p>時間很快，已經到第八回了，雖然這回是在週末舉辦，依舊還是相當多的朋友來捧場，相當感動 :)</p>
+
+<p><img src="/images/2011/8th-as-party-1.jpg" alt="image" /></p>
+
+<p>這回我的主題是<a href="http://www.robotlegs.org/">Robotlegs</a>的入門介紹，投影片可以在這邊找得到 <a href="http://www.eddie.com.tw/slides">http://www.eddie.com.tw/slides</a></p>
+
+<p>除了原定我跟另一位講者(<a href="http://blog.roodo.com/sayaku">阿邪哥</a>)之外，這回還有另一位佳賓，是<a href="http://www.packtpub.com/papervision3d-essentials/book">Papervision3D Essentials</a>一書的作者<a href="http://jeffwinder.blogspot.com/">Jeff Winder</a>剛好最近來台灣玩，也一起加入我們一起同樂。(聽說他來台灣騎腳踏車環島，真厲害)</p>
+
+<p><img src="/images/2011/8th-as-party-2.jpg" alt="image" />
+Jeff幫忙補充了一些Robotlegs的東西，也分享他最近做的一些東西。</p>
+
+<p><img src="/images/2011/8th-as-party-3.jpg" alt="image" />
+果然，穿M號的衣服還是太勉強，減肥之路還得繼續努力! 更多照片請見 <a href="https://picasaweb.google.com/108852467279874647445/LetSParty8thASStudyGroup">Picasa相本</a></p>
+
+<p>如同Jeff跟我說的：
+<blockquote><p>"It is always so nice to meet people who share the same passion."</p></blockquote>
+嗯，我覺得那就是當初辦這個聚會的目的了。</p>
+
+<p>最後要再感謝一下來參加的各位朋友，以及臨時被我拉來當攝影師的<a href="http://www.jaceju.net/">鐵哥</a>，咱們下回見 :)</p>
+
+<p>PS: 話說我發現其實開口講英文雖然還是不太習慣，但比我想像中的簡單，似乎常看影集果然多少還是有些幫助(幫自己愛看影集找藉口)。</p>
+]]></content>
+  </entry>
+  
+</feed>

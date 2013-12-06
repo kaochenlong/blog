@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ActionScript | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/actionscript/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[第十二回AS讀書會之關於Event這回事]]></title>
+    <link href="http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event/"/>
+    <updated>2012-06-27T02:48:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event</id>
+    <content type="html"><![CDATA[<p>這是在<a href="http://registrano.com/events/12th-as-study-group">第十二回AS讀書會</a>上用到的投影片，主題是在Flash/ActionScript3裡Event的基本介紹。</p>
+
+<p><a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank"><img src="/images/2012/there-is-something-about-event.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/there-is-something-about-event" target="_blank">View on Slideshare</a><br />
+<a href="http://blog.eddie.com.tw/downloads/files/2012/there_is_something_about_event.pdf" target="_blank">PDF</a> |
+<a href="http://blog.eddie.com.tw/downloads/files/2012/12-flash-fash-example-files.zip" target="_blank">Sample Code</a></p>
+
+<p>有講的不好或是誤導的部份，還請先進、前輩們不吝指教 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第九回AS讀書會之測試你的Robotlegs專案]]></title>
+    <link href="http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project/"/>
+    <updated>2011-12-14T02:42:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project</id>
+    <content type="html"><![CDATA[<p>這是在第九回的Flash/AS讀書會上用到的投影片：
+<a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank"><img src="/images/2011/speakerdeck-test-in-robotlegs.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/test-your-robotlegs-project.pdf">Download PDF</a></p>
+
+<p>部份內容是現場Demo，所以沒辦法在投影片裡看到。在分享的過程，從大家的眼神中似乎可以感覺得出來大家對於"寫測試"這件事很陌生(其實我也是新手)，我之後會再花一些時間把關於如何在Flash/ActionScript裡寫測試整理成文章，希望可以讓大家可以更了解TDD(Test-Driven Development)是怎麼一回事，又該怎麼進行。</p>
+
+<p>感謝大家今天天氣這麼冷還能前來參加，咱們下回見 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第三梯次Flash/ActionScript 3.0課程]]></title>
+    <link href="http://blog.eddie.com.tw/2011/12/05/3rd-actionscript-workshop/"/>
+    <updated>2011-12-05T02:50:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/12/05/3rd-actionscript-workshop</id>
+    <content type="html"><![CDATA[<p class="info">2012/4/21 update: 課程將改為以screencast方式進行</p>
+
+
+<p>話說在2007年的時候，我曾經很自以為是的辦過一次Flash/AS課程，那時候用的還是AS2.0，來參加的朋友大概五、六位，地點一開始很克難的選在師大附近某家可以上網的簡餐店(後來才移往我自己公司裡上課)；2009年的年中有再辦過第二梯次，這次用的是AS3.0，地點則是商請某個同行友人幫忙借用他們公司大樓的會議室跟投影設備，這回環境比較好一些，參與人數比較多一點，記得最多有將近快10位朋友來參加。</p>
+
+<p>這兩階梯次都是針對沒學過AS程式的朋友從頭講起的，沒有收費用。</p>
+
+<p>沒意外的話，農曆年完之後再來個第三梯次，用的當然也是AS3.0，同樣也是不會收費用的(視場地規定，也許會有低消或場地費)，屆時再歡迎有興趣想學AS3，但卻不知道從何開始的朋友參加。</p>
+
+<p>也許各位最近聽說"Flash快不行了，HTML5才是王道"之類的話，以我看來，Flash並沒有不行，目前大部份的web game都還是用Flash開發的，而且Flash現在還有AIR可以用，能做的事情幾乎跟一般native的應用程式差不多；更何況HTML5也還不是王道，它連標準都還沒定，而且還有最可怕的各家瀏覽器支援問題..雖然我自己也開始在練HTML5 + JavaScript的手感，但這跟Flash行不行無關，純屬個人興趣。</p>
+
+<h3>跟現在的AS讀書會有什麼不同?</h3>
+
+<p><a href="https://www.facebook.com/thestudygroup">AS讀書會</a>目前是演講形式，我相信很多在讀書會聽完，大家只是聽一聽，回家很快就會忘光光，所以如果開課的話，我會要求大家想辦法帶電腦過來現場實作。因為是小班制，所以有問題馬上可以大家一起討論。</p>
+
+<p>沒有什麼不可抗力的事情發生的話，上課頻率大概會是每週一次(可能會是在每週六的下午)，每次約2~3小時，全部上完大概一、二個月，所以如果沒把握能一週固定空出2~3小時的朋友就請把機會讓給別人囉。另外，我會準備每次上課的大綱，讓大家可以在現場練習，還可以帶回家複習。</p>
+
+<h3>對象</h3>
+
+<p>有心想學ActionScript 3.0但不知道從哪邊開始的人，至於想學動畫或設計的話我就幫不上忙了，那不是我的專長 :)</p>
+
+<h3>內容</h3>
+
+<p>從最簡單的基礎(變數、迴圈、function到OOP)，到套用好用的library/framework，可以實際做個小案子出來。</p>
+
+<h3>人數</h3>
+
+<p>大概10~15人</p>
+
+<h3>地點</h3>
+
+<p>應該會在台北市某個靠近捷運、有投影設備、麥克風，而且可以上網的地方(未定，如果有朋友可以推薦就更好了)。</p>
+
+<h3>會有錄影嗎?</h3>
+
+<p>不會 :)</p>
+
+<h3>費用</h3>
+
+<p>最多就是場地費吧 (當然如果有人要付我錢，我會很樂意收下的)</p>
+
+<h3>什麼時候報名?</h3>
+
+<p>應該農曆年過後一、二個月 :)</p>
+
+<p>[2012.2.22 update] 最近不少朋友在問這個還有沒有要繼續，放心，當然有，目前正在編寫教材中。不過因為最近小的手邊的專案正在趕，所以可能進度會慢一些，預計應該可以在三月份開始(希望)。</p>
+
+<h3>真的這麼佛心? 有何目的?</h3>
+
+<p>當然有目的，我的目的很明顯也不怕大家知道：</p>
+
+<ul>
+<li>複習我的AS3，程式很久沒寫會忘記</li>
+<li>練習講話!!</li>
+</ul>
+
+
+<p>我並沒有打算也沒那個本事要跟電腦補習班搶生意，我只是單純的因為我自己不是資訊相關科系畢業，在自學AS的路上吃過不少苦頭，也知道很多設計師在面臨程式碼的時候的痛苦，希望藉由我的一些經驗分享，讓大家少踩一些雷。</p>
+
+<p>但修行最終還是得靠個人，千萬不要相信來了之後回去就會變強。之前有來參加過的朋友，有的已經在同行業界有不錯的成績，但也有的到現在還是什麼都不會。</p>
+
+<p>屆時歡迎有興趣的朋友來參加，不過抱著只想來看看的心態的朋友就不歡迎了 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第八回AS讀書會之Hello Robotlegs]]></title>
+    <link href="http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party/"/>
+    <updated>2011-11-07T01:16:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party</id>
+    <content type="html"><![CDATA[<p>時間很快，已經到第八回了，雖然這回是在週末舉辦，依舊還是相當多的朋友來捧場，相當感動 :)</p>
+
+<p><img src="/images/2011/8th-as-party-1.jpg" alt="image" /></p>
+
+<p>這回我的主題是<a href="http://www.robotlegs.org/">Robotlegs</a>的入門介紹，投影片可以在這邊找得到 <a href="http://www.eddie.com.tw/slides">http://www.eddie.com.tw/slides</a></p>
+
+<p>除了原定我跟另一位講者(<a href="http://blog.roodo.com/sayaku">阿邪哥</a>)之外，這回還有另一位佳賓，是<a href="http://www.packtpub.com/papervision3d-essentials/book">Papervision3D Essentials</a>一書的作者<a href="http://jeffwinder.blogspot.com/">Jeff Winder</a>剛好最近來台灣玩，也一起加入我們一起同樂。(聽說他來台灣騎腳踏車環島，真厲害)</p>
+
+<p><img src="/images/2011/8th-as-party-2.jpg" alt="image" />
+Jeff幫忙補充了一些Robotlegs的東西，也分享他最近做的一些東西。</p>
+
+<p><img src="/images/2011/8th-as-party-3.jpg" alt="image" />
+果然，穿M號的衣服還是太勉強，減肥之路還得繼續努力! 更多照片請見 <a href="https://picasaweb.google.com/108852467279874647445/LetSParty8thASStudyGroup">Picasa相本</a></p>
+
+<p>如同Jeff跟我說的：
+<blockquote><p>"It is always so nice to meet people who share the same passion."</p></blockquote>
+嗯，我覺得那就是當初辦這個聚會的目的了。</p>
+
+<p>最後要再感謝一下來參加的各位朋友，以及臨時被我拉來當攝影師的<a href="http://www.jaceju.net/">鐵哥</a>，咱們下回見 :)</p>
+
+<p>PS: 話說我發現其實開口講英文雖然還是不太習慣，但比我想像中的簡單，似乎常看影集果然多少還是有些幫助(幫自己愛看影集找藉口)。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第五回AS讀書會之「嗯! 設計API我也會」]]></title>
+    <link href="http://blog.eddie.com.tw/2011/06/22/api-design/"/>
+    <updated>2011-06-22T15:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/06/22/api-design</id>
+    <content type="html"><![CDATA[<p><img src="/images/2011/5th-as-study-group.jpg" alt="image" /></p>
+
+<p><a href="http://www.facebook.com/event.php?eid=168070323253534">第五回的AS讀書會</a>，輪到小的來給大家分享自己在過去工作上關於寫程式的一些入門心得。這次有機會可以跟<a href="http://qops.blogspot.com/">新德老師</a>一起同台，真的是太榮幸了。</p>
+
+<div style="width:425px" id="__ss_8376601"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/api-design-8376601" title="API Design" target="_blank">API Design</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/8376601" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
+
+
+<p>以下是影片：</p>
+
+<p>第一段：
+<iframe width="420" height="315" src="http://www.youtube.com/embed/Xw99itSeuyg" frameborder="0" allowfullscreen></iframe>
+第二段：
+<iframe width="420" height="315" src="http://www.youtube.com/embed/c1I10g-friY" frameborder="0" allowfullscreen></iframe>
+第三段：
+<iframe width="420" height="315" src="http://www.youtube.com/embed/jbuMnBtKCVc" frameborder="0" allowfullscreen></iframe></p>
+
+<h3>心得</h3>
+
+<ol>
+<li>下次我也要來live demo!!</li>
+<li>還得在修一下講話時候過多的贅字還有講話太快的毛病</li>
+<li>是真的該減肥了.. orz</li>
+</ol>
+
+
+<p>感謝來參加的大家，也感謝超高效率的攝影師<a href="http://www.facebook.com/Meso.Chen">健雄哥</a>的熱情贊助，一個晚上就把影片處理好了! 投影片內容如果有哪邊觀念上是有錯的，還請前輩先進們不吝指教。</p>
+
+<p>咱們下回見!</p>
+]]></content>
+  </entry>
+  
+</feed>

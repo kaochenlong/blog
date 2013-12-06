@@ -1,0 +1,1163 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="前面幾篇有提到一些@category跟@progocol，還有一些記憶體管理的東西，我自己也看得頭很花，不過看一堆的理論還不如直接實作來得快。所以，接下來我們就來把前面那個陽春的地圖功能，加上一些註解或大頭針的功能，讓整個畫面看起來豐富、實用一些。 首先，我想要做的效果是在地圖上加個大頭針跟註解 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/page/25/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/20/add-annotation-to-the-map/">iPhone app實作練習-幫你的地圖app加上大頭針</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/20/add-annotation-to-the-map/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-20T00:01:00+08:00" pubdate>Dec 20<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/marker.jpg" alt="image" /></p>
+
+<p>前面幾篇有提到一些<a href="/2010/12/16/category-in-objective-c/">@category</a>跟<a href="/2010/12/11/protocol-in-objective-c/">@progocol</a>，還有一些記憶體管理的東西，我自己也看得頭很花，不過看一堆的理論還不如直接實作來得快。所以，接下來我們就來把前面那個陽春的<a href="/2010/11/26/create-map-application-with-mapkit-framework/">地圖</a>功能，加上一些註解或大頭針的功能，讓整個畫面看起來豐富、實用一些。</p>
+
+<p>首先，我想要做的效果是在地圖上加個大頭針跟註解，如下圖：</p>
+
+<p><img src="/images/2010/ios_map_result2.png" alt="image" /></p>
+
+<p>做法就是在原來的MapView上加上一個註解(Annotation)，讓MapView把它畫出來。要注意的是，Annotation本身不一種View，所以不是看得到的元件，不會直接在畫面上看得到。Annotation類別只是描述一些資料，例如title、subtitle，加到MapView之後，有個叫做MKAnnotationView的類別幫我們畫出來的。而把annotation加到MapView的語法是：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">map_view</span> <span class="nl">addAnnotation:</span><span class="p">(</span><span class="kt">id</span> <span class="o">&lt;</span><span class="n">MKAnnotation</span><span class="o">&gt;</span><span class="p">)</span><span class="n">annotation</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這可以讓你一次加一個Annotation到MapView裡，如果你要一次加多個大頭針進去，則可使用addAnnotations，後面接一個NSArray，裡面裝你要標示的Annotation即可。如果要移掉，則是使用removeAnnotation，如果要移掉多個則是使用removeAnnotations，詳細使用方法可再請參考使用手冊。</p>
+
+<p>回來看上面那行，希望你還記得protocol的東西，如果不記得的話請再看一下<a href="/2010/12/11/protocol-in-objective-c/">這篇</a>複習一下，那行的意思就是說addAnnotation方法後面接的參數必須是個有實作<code>MKAnnotation</code>這個protocol的物件。但是Cocoa Touch並沒有內建Annotation的類別可以直接塞給它，我是滿好奇這麼常用的功能為什麼不直接就內建進來，直接new一個來用就好了。不過沒關係，沒有的話我們就自己手動刻一個。</p>
+
+<p>首先，先在Classes裡新增一個Objective-C class檔案，我把它命名為MyCompany(.m跟.h)，然後我的Classes群組看起來會像這樣：</p>
+
+<p><img src="/images/2010/ios_map_classes.png" alt="image" /></p>
+
+<p>再來，修改一下MyCompany.h裡的@interface，讓它實作自MKAnnotation protocol：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：MyCompany.h</span>
+</span><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;MapKit/MapKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">MyCompany</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">MKAnnotation</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好了，然後呢? 要實作哪些方法要怎麼看? 在MKAnnotation上按滑鼠右選，選擇”find text in documentation”，它會去找到這個protocol的相關詳細說明。但我個人會更偏好在MKAnnotation上按住command鍵加上double click，它會跳到這個protocol的定義，直接看原始碼是最快的。MKAnnotation這個protocol的定義如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;CoreGraphics/CoreGraphics.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;CoreLocation/CoreLocation.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@protocol</span> <span class="nc">MKAnnotation</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Center latitude and longitude of the annotion view.</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">optional</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Title and subtitle for use by selection UI.</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">subtitle</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Called as a result of dragging an annotation view.</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setCoordinate:</span><span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">newCoordinate</span> <span class="n">__OSX_AVAILABLE_STARTING</span><span class="p">(</span><span class="n">__MAC_NA</span><span class="p">,</span><span class="n">__IPHONE_4_0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>從定義看來，實作這個protocol只需要實作做coordinate這個getter就行了，其它的都是optional的。但因為我想要在大頭針上面加上註解說明，所以需要再實作title跟subtitle的setter，程式碼如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：MyCompany.h</span>
+</span><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;MapKit/MapKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">MyCompany</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">MKAnnotation</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">subtitle</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">subtitle</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>骨架好了，再來跳到MyCompany.m，把肉填起來：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：MyCompany.m</span>
+</span><span class='line'><span class="cp">#import &quot;MyCompany.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">MyCompany</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">subtitle</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">initWithCoordinate:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">the_coordinate</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">])</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="n">coordinate</span> <span class="o">=</span> <span class="n">the_coordinate</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">subtitle</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>前面幾行的@synthesize是對應到@property用的，這裡唯一比較長的程式碼是initWithCoordinate，這是個委任的建構子，用來在init的時候把coordinate也一併傳進來。</p>
+
+<p>OK! 到這裡的前置工作已經完成了，接著要把它併到之前那個範例的程式碼裡了，首先別忘了要先把<code>MyCompany.h</code>給import進來：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import MyCompany.h</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再來一樣直接偷懶的把程式碼全部寫在<code>viewDidLoad</code>裡面：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 建立一個CLLocationCoordinate2D</span>
+</span><span class='line'>  <span class="n">CLLocationCoordinate2D</span> <span class="n">mylocation</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">mylocation</span><span class="p">.</span><span class="n">latitude</span> <span class="o">=</span> <span class="mf">25.01141</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">mylocation</span><span class="p">.</span><span class="n">longitude</span> <span class="o">=</span> <span class="mf">121.42554</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 建立一個region，待會要設定給MapView</span>
+</span><span class='line'>  <span class="n">MKCoordinateRegion</span> <span class="n">kaos_digital</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 設定經緯度</span>
+</span><span class='line'>  <span class="n">kaos_digital</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">mylocation</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 設定縮放比例</span>
+</span><span class='line'>  <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">latitudeDelta</span> <span class="o">=</span> <span class="mf">0.003</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">longitudeDelta</span> <span class="o">=</span> <span class="mf">0.003</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 準備一個annotation</span>
+</span><span class='line'>  <span class="n">MyCompany</span> <span class="o">*</span><span class="n">mycompany</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">MyCompany</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCoordinate:</span><span class="n">mylocation</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">mycompany</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@&quot;高思數位網路&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">mycompany</span><span class="p">.</span><span class="n">subtitle</span> <span class="o">=</span> <span class="s">@&quot;媽，我在這裡啦!&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">map_view</span> <span class="nl">setRegion:</span><span class="n">kaos_digital</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 把annotation加進MapView裡</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">map_view</span> <span class="nl">addAnnotation:</span><span class="n">mycompany</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段程式碼是從<a href="/2010/11/26/create-map-application-with-mapkit-framework/">前面那篇</a>借來用的。做到這裡，按下<code>Build and Run</code>，應該就可以看到有一根紅色的大頭針定在畫面上：</p>
+
+<p><img src="/images/2010/ios_map_result1.png" alt="image" /></p>
+
+<p>再點一下大頭針就會跳出說明：</p>
+
+<p><img src="/images/2010/ios_map_result2.png" alt="image" /></p>
+
+<p>其實MKAnnotationView能做的變化還不少，例如變更大頭針的樣式、顏色，或是在註解的左邊或右邊加上按鈕，按下按鈕之後會執行其它的事情(callout)，更詳細的說明可再參考Apple的官方手冊，地圖在行動裝置上能做的應用還挺多的，大家可以再想想怎麼拼裝組合囉 :)</p>
+
+<p><a href="/downloads/files/2010/MapDemo.zip">原始檔下載</a></p>
+
+<h3>建議閱讀：</h3>
+
+<p><a href="http://developer.apple.com/library/ios/#documentation/MapKit/Reference/MKAnnotationView_Class/Reference/Reference.html">iOS Reference Library – MKAnnotationView</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/16/category-in-objective-c/">Category in Objective-C</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/16/category-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-16T23:55:00+08:00" pubdate>Dec 16<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/plugIn.jpg" alt="image" /></p>
+
+<p>OOP的精神之一，就是如果你想研發一台新款式的車子，你並不需要重新發明輪子，通常的做法會去繼承某個現有的”車子類別”，然後加上你要的功能跟屬性，改一改就變成一款新的車子可以來騙錢了。</p>
+
+<p>不過有時候你想幫原來的類別加功能，但又不想動到原來的程式碼，例如你可能下載了某款功能超強的2D物理引擎程式碼，但因為某些小地方寫的不合你的需求，於是你便動手改原始碼來加功能。這當然沒問題，但萬一原作出新的版本，你要不就選擇維持自己原來的版本不update，不然就是update之後，你原來加在舊版本的程式碼得再重貼一次到新版。</p>
+
+<p>Objective-C裡有個叫做<code>category</code>的東西可以幫你在現有的類別加上新功能，這樣一來上面這個問題就可以搞定了。跟別的程式語言比較起來，category的觀念有點像是在Ruby的mixin或是Python的open class，都是在不影響或修改原來的類別或模組的情況下去修改原有的功能。</p>
+
+<p>舉個例子，因為NSObject是所有物件的源頭，但我想要加一個方法讓所有的子類別都可用(把要加的功能放在繼承階層的最源頭並不是好的設計，在這裡只是舉個例子而已)。程式碼這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// interface</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">NSObject</span><span class="nl">(MySuperObject)</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printRetainCount</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">sayHello</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// implementation</span>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">NSObject</span><span class="nl">(MySuperObject)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printRetainCount</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;The retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">self</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">sayHello</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello everybody!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡用的是在後面加個小括號以及category的名稱。要注意的是category只能加method(instance method或是class method都行)，沒辦法增加instance variable(其實也不是完全不行，只是可能要用一些怪招，不過如果要做到這種程度，是不是該考慮直接用一般的繼承就好?)。使用起來的樣子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 建立Book物件</span>
+</span><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// instance method from category</span>
+</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="n">printRetainCount</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 用完放掉</span>
+</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// class method from category</span>
+</span><span class='line'><span class="p">[</span><span class="n">Book</span> <span class="n">sayHello</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段程式碼如果一般的情況下，在編譯階段就會跳出警告(認不得printRetainCount跟sayHello這兩個方法)，硬是執行的話就會直接錯誤。但因為我們已經有了category的加持，所以執行結果會是：</p>
+
+<pre><code>The retain count is 1
+Hello everybody!
+</code></pre>
+
+<p>因為category是在原來的類別裡加功能，所以你可能會想萬一原來的類別裡有個跟你的category同名的方法怎麼辦? 答案是，<strong>會以category的定義為主</strong>，也就是原來類別裡的那個方法就被你蓋掉了，當然這不見得是你想要的結果。所以通常這種方法擴充的，會建議可以在前面加個prefix，避免跟原來的方法有重複而造成不幸的結果。</p>
+
+<p>另外，前面有篇提到<a href="/2010/12/11/protocol-in-objective-c/">protocol</a>的文章，也提到了<code>informal protocol</code>，其實它就是一種依附在NSObject上，但是沒有把功能實作出來的category。一般的protocol必需乖乖實作所有@required的方法(在Objective-C 2.0以前全部預設都是@required)，但在informal protocol並沒有強制規定全部都要實作出來。事實上，在Objective-C 2.0之後才在protocol裡加進來的@optional語法，就是打算用來取代informal protocol的，在比較新版本的SDK大多都是用標準的protocol在寫了。</p>
+
+<p><a href="/downloads/files/2010/category_demo.zip">範例原始檔下載</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/15/set-to-nil-after-release-in-objective-c/">Set to Nil After Release</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/15/set-to-nil-after-release-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-15T23:50:00+08:00" pubdate>Dec 15<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/leaking.jpg" alt="image" /></p>
+
+<p>iOS的記憶體管理真的不少東西要學，在Objective-C裡有時候會看到一些程式碼這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">someMethod</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">mybook</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">mybook</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>先把它release掉了，然後下一行再把它指向nil。nil跟其它程式語言裡的null或none是一樣的東西，就是nothing、虛無飄渺、沒有任何東西的意思。</p>
+
+<p>問題是，這個nil是必要的嗎? 不指向nil會出什麼包嗎?</p>
+
+<p>先來釐清一個觀念：對一個物件發送release訊息並不會直接把物件佔用的記憶體還給記憶體，release這個動作只是減少retain count而已，當retain count變成0的時候會自動啟動dealloc，這時候才是真正的被消滅掉。</p>
+
+<p>在Objective-C裡所有的物件變數都是指標，指向某一塊配置的記憶體，所以，下面這行程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">mybook</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>意思是把mybook這個變數指向nil。這樣說來，是不是也不用什麼release了，直接把變數設定成nil不就好了?</p>
+
+<p>我們先來看個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">UIImage</span> <span class="o">*</span><span class="n">img</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImage</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這應該不陌生了，這建立一個名為img的指標變數，並指向某一個UIImage的實體。如果我在它下面再加一行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">img</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImage</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就是再做一次alloc/init，讓剛剛那個img變數指向這個新的實體。看起來很直覺，但指標的東西跟我們一般寫的程式的習慣不同，當你把img指向另一個新的實體，原來舊的實體並不會消失，它會存在記憶體裡，只是沒有人指向它，所以也沒有人能再存取它。當然在有支援GC的環境上，系統會自動回收那些沒人要的東西，但在不支援GC的環境，那個沒人要的孩子就會一個人孤獨的漂流著了，所以如果你要這樣做，請記得先把原來的那顆給release掉，再給它一顆新的。</p>
+
+<p>那如果我再接著這樣做：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">img</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把img指向nil並不會減少retain count，那剛剛前面我產生的第二個物件就會跟第一個物件一樣，它不會消失，它只是在記憶體空間裡漂流，當然它佔用的記憶體也不會還給系統。所以請切記，<strong>如果你要把物件給丟掉，不要直接把變數設成nil，請使用release或autorelease</strong>。</p>
+
+<p>回到最一開始的問題，我的答案是：其實是沒什麼需要一定要在release之後再弄個nil給它，但這樣做是個好習慣。</p>
+
+<h4>那什麼時候會出問題?</h4>
+
+<p>在別的程式語言裡，當你要存取null物件的時候，通常會直接跳錯誤給你看，但在Objective-C裡如果你對nil送訊息的，即使是沒定義的method，它也只會靜靜的不回應而已。所以，回到最前面的程式碼來看，當你把mybook給release之後，也許有那個萬一的情況下，有別的method要存取它，但它可能因為已經被dealloc掉了，所以就會爆炸了(發生機會很小，但不代表永遠不會發生)。但如果把mybook指向nil，即使有人要再來存取這個mybook也不會出現錯誤了。</p>
+
+<p>以上，我對記憶體管理的東西的了解相當有限，所以如果以上內容有誤還請不吝指正 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/11/protocol-in-objective-c/">Protocol in Objective-C</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/11/protocol-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-11T22:55:00+08:00" pubdate>Dec 11<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/protocol_handset.jpg" alt="image" /></p>
+
+<p>前面提到了OOP的繼承，但不像C++可以有多重繼承，Objective-C是單一繼承的，如果想要做到一個類別同時擁有多種型別的能力，可以透過實作其它型別的interface來達成這個目的。在Java/AS3是用”interface”這個關鍵字，在Objective-C則是用”@protocol”。(有寫過Java/AS3的要特別注意不要把interface跟protocol搞混了，在Objective-C的interface等於Java/AS3的class，而protocol則是相當於interface)</p>
+
+<p>直接來看看要怎麼做吧。如果你要新增一個自定的protocol的話，可以直接在你的專案裡新增一個protocol檔：</p>
+
+<p><img src="/images/2010/protocol_new.jpg" alt="image" /></p>
+
+<p>當然，你要全部寫在一起也沒人反對，只是為了模組化以及以後的可重複使用考量，建議獨立出來另外寫。新增完成之後(它是一個header檔)，就可以開始來寫了，程式碼如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@protocol</span> <span class="nc">Drawable</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">draw</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">changeColor</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Objective-C裡的protocol是用<code>@protocol</code>這個語法來定義的。在上面這段程式碼裡，我放了兩個方法，但沒有寫內容。接下來如果我要實作自這個protocol的話，所有定義在@protocol裡的方法都得實作出來。另外，在Objective-C 2.0之後加了<code>@required</code>跟<code>@optional</code>的語法，可以讓你設定這個method是不是必需一定要實作的項目。用法如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@protocol</span> <span class="nc">Drawable</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">required</span>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">draw</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">changeColor</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">optional</span>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">whateverMethod</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果沒特別標明的，預設是@required。如果你要實作這個protocol的話，照英文字面來看，@required的部份是規定要實作的，@optional的話就隨你高興了。要注意的是@required跟@optional這兩個語法的影響範圍，<strong>是從它以下所有的method都會被影響，直到另一個directive或是@end為止</strong>，所以如果你要省略@required的話，記得那些method要寫在@optional前面。接下來來看看要怎麼實作這個protocol：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;Cocoa/Cocoa.h&gt;</span>
+</span><span class='line'><span class="cp">#import &quot;Drawable.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">Drawable</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@property</span> <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>實作protocol的方法就是用”&lt;>”標記，裡面放protocol的名稱。並不限定只能實作一個protocol，如果要實作多個protocol的話，則是用逗點分開：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">Drawable</span><span class="p">,</span> <span class="n">Openable</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為到目前為止，我們都還沒實作那個protocol裡定義的方法，所以這時候如果直接按下Build的話，就會跳出警告訊息：</p>
+
+<p><img src="/images/2010/protocol_error.png" alt="image" /></p>
+
+<p>接著來把該做的填一填吧。因為在protocol的地方已經有定義好了方法，所以在@interface的地方就不用再特別寫一次，只要在@implementation裡補上該實作的方法就行了。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// --------------</span>
+</span><span class='line'><span class="cp">// interface</span>
+</span><span class='line'><span class="cp">// --------------</span>
+</span><span class='line'><span class="cp">#import &lt;Cocoa/Cocoa.h&gt;</span>
+</span><span class='line'><span class="cp">#import &quot;Drawable.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">Drawable</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@property</span> <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">// --------------</span>
+</span><span class='line'><span class="cp">// implementation</span>
+</span><span class='line'><span class="cp">// --------------</span>
+</span><span class='line'><span class="cp">#import &quot;Book.h&quot;</span>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 實作方法draw</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">draw</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;draw me!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 實作方法changeColor</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">changeColor</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;change color!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你實作了所有@required的方法的話，則稱為遵守(conform)或採納(adopt)這個protocol(硬翻成中文還是覺得怪怪的，還是英文比較簡潔直接)。若要檢查某物件是否有乖乖遵守某個protocol的規定：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">book</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="k">if</span> <span class="p">([</span><span class="n">book</span> <span class="nl">conformsToProtocol:</span><span class="err">@</span><span class="n">protocol</span><span class="p">(</span><span class="n">Drawable</span><span class="p">)]</span> <span class="o">==</span> <span class="n">YES</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the book is conform to Drawable protocol&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>protocol本身也可以像一般類別的繼承，例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@protocol</span> <span class="nc">A</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">methodA</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@protocol</span> <span class="nc">B</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">methodB</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這時如果你要實作protocol B，則methodA跟methodB都需要實作。</p>
+
+<p>另外，你也可以把protocol拿來當一般的型別定義來用，例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">id</span> <span class="o">&lt;</span><span class="n">Drawable</span><span class="o">&gt;</span> <span class="n">some_object</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>表示說這個some_object是個有實作Drawable這個protocol的物件，在編譯階段就可以先做型別檢查。當然也可以一次多個，一樣用逗點分開：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">id</span> <span class="o">&lt;</span><span class="n">Drawable</span><span class="p">,</span> <span class="n">Openable</span><span class="o">&gt;</span> <span class="n">some_object</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面提到的這種用@protocol來定義方法的，稱做<code>formal protocol</code>，從名字看大概猜得出來一定也有叫做<code>informal protocol</code>的東西，不過這個會在<a href="/2010/12/16/category-in-objective-c/">category</a>的部份再做說明。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/08/class-directive-in-objective-c/">@class directive in Objective-C</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/08/class-directive-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-08T22:22:00+08:00" pubdate>Dec 8<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前面幾篇有提到了在Objective-C裡的OOP要怎麼寫，也知道要怎麼在@interface裡設定instance variable(以下簡稱ivar)，雖然範例程式碼裡只是用了int這個簡單型態，但實際上更常看到的是在A類別裡有放一個B類別的物件的情況(Composition)。通常你如果要用到一個A類別的時候，你會用：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;A.h&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>的方法把header檔給import裡來，但是來假想一下下面這個情境：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// A類別裡有放了一顆B ivar</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">A</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">B</span> <span class="o">*</span><span class="n">b</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">implementation</span> <span class="n">A</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// B類別裡有放了一顆A ivar</span>
+</span><span class='line'><span class="err">@</span><span class="n">interface</span> <span class="n">B</span> <span class="o">:</span> <span class="n">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">A</span> <span class="o">*</span><span class="n">a</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">implementation</span> <span class="n">B</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>當然舉這個例子是比較極端啦，這樣的情況應該很少發生。如果你跑一下以上的的程式碼，會得到錯誤訊息”expected specifier-qualifier-list before ‘B’”，意思就是說這個B類別並不存在。A跟B兩個類別互相有需要，但B還沒出生，變成是雞生蛋蛋生雞的問題，這時候就可以用上<code>@class</code>這個語法了。只要在@interface A前面加一行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@class</span> <span class="nc">B</span>;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這行就是告訴編譯器說「<strong>這個B是一個類別，至於這個B類別的內容你不用管，反正遲早會告訴你，你先用就是了</strong>」，這樣一來就可以順利通過編譯了。不過寫了@class不代表就可以不用實作那個類別的內容，如果到時候沒有import B的header進來或是沒有實作B類別，硬是要用的話在編譯過程就會跳出一個訊息”warning: receiver ‘B’ is a forward class and corresponding @interface may not exist”。</p>
+
+<h3>優點：</h3>
+
+<ol>
+<li>跟#import語法比起來，用@class的編譯速度比較快。</li>
+<li>可解決互相參照的問題。</li>
+</ol>
+
+
+<h3>缺點：</h3>
+
+<p>其實我也不知道這樣會有什麼缺點</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/26/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/24/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現&#8230;<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

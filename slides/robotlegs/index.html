@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hello Robotlegs</title>
+  <meta name="description" content="HTML5, Play Canvas with EaselJS">
+  <meta name="author" content="高見龍">
+
+  <meta name="viewport" content="width=1024, user-scalable=no">
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.core.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.navigation.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.menu.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.hash.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/core/deck.status.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/style/swiss.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/transition/fade.css" type="text/css" />
+  <link rel="stylesheet" href="/stylesheets/deckjs/slide.css" type="text/css" />
+
+</head>
+<body class="deck-container">
+
+  <!-- <header>
+    <nav>
+      <ul>
+        <li><a href="http://api.robotlegs.org/" target="_blank">API documents</a></li>
+        <li><a href="https://github.com/robotlegs/robotlegs-framework/wiki/Best-Practices" target="_blank">Best Practices</a></li>
+        <li><a href="http://www.robotlegs.org/" target="_blank">Robotlegs</a></li>
+      </ul>
+    </nav>
+  </header> -->
+
+  <div class="slide" id="begin">
+    <h2>Happy Programming :)</h2>
+    <h1><br />Hello Robotlegs <br /><img src="images/robotlegs_logo.jpg"></h1>
+    <span class="slide_bottom">you can get more slides on <br /><a href="http://www.eddie.com.tw/slides">www.eddie.com.tw/slides</a></span>
+  </div>
+
+  <div class="slide" id="slide-url">
+    <h1>you can get this slide on <a href="http://www.eddie.com.tw/slides"><small>www.eddie.com.tw/slides</small></a></h1>
+  </div>
+
+  <div class="slide" id="about-this-slide">
+    <h2>About This Slide</h2>
+    <ul>
+      <li class="slide" id="build-with-deckjs"><h3>This slide is build with <a href="http://imakewebthings.github.com/deck.js/" target="_blank">deck.js</a>, which is a HTML5 presentation framework.</h3></li>
+      <li class="slide"><h3>You can use arrow keys to navigate, or press 'M' to view all slides.</h3></li>
+      <li class="slide" id="please-use-non-ie-browsers"><h3>For better viewer experience, please switch your browser to full-screen mode, and <span style="color: red">Non-IE browsers</span> are recommended.</h3></li>
+    </ul>
+  </div>
+
+  <div class="slide" id="who-am-i">
+    <h1>WHO AM I ?</h1>
+  </div>
+
+  <div class="slide" id="i-am-a-flasher">
+    <h1>
+      <img src="images/the_flash.jpg" >
+      I'm a <span class="flash-red">Flash</span> guy!</h1>
+  </div>
+
+  <div class="slide" id="intro">
+    <h2>I'm 高見龍</h2>
+    <img src="images/eddie-194x192.jpg" />
+    <div class="slide" id="profile">
+    <h3>a.k.a <u>Eddie</u> or <u>Aquarianboy</u></h3>
+    <ul>
+      <li>Live and work in Taipei, Taiwan.</li>
+      <li>Serving in my own little tiny company named <a href="http://digik.tw" target="_blank">高思數位網路 Kaos' Digital Network</a>.</li>
+      <li><span class="flash-red">FLASH</span> / <span class="flash-red">AS3</span> / <span class="flash-red">Ruby</span> / <span class="flash-red">Rails</span> programming for living, and a little bit <span class="not-important">Objective-C</span> for personal interests.</li>
+      <li>Technical Education and Consultant.</li>
+      <li>PTT Flash BM (since 2007/4).</li>
+      <li>Certificated Adobe Flash Developer (Since 2006/7).</li>
+      <li>Linux Professional Institute Certification (Since 2005/3).</li>
+    </ul>
+    </div>
+
+    <div class="slide" id="contacts">
+    <h3>Contacts</h3>
+    <h5>You can find me in those places (so many places, I know..Orz)</h5>
+    <ul>
+      <li>Website: <a href="http://www.eddie.com.tw" target="_blank">http://www.eddie.com.tw</a></li>
+      <li>Blog: <a href="http://blog.eddie.com.tw" target="_blank">http://blog.eddie.com.tw</a></li>
+      <li>Plurk: <a href="http://www.plurk.com/aquarianboy" target="_blank">http://www.plurk.com/aquarianboy</a></li>
+      <li>Facebook: <a href="http://www.facebook.com/eddiekao" target="_blank">http://www.facebook.com/eddiekao</a></li>
+      <li>Google Plus: <a href="http://www.eddie.com.tw/+" target="_blank">http://www.eddie.com.tw/+</a></li>
+      <li>Twitter: <a href="https://twitter.com/#!/eddiekao" target="_blank">https://twitter.com/#!/eddiekao</a></li>
+      <li>Email: <u>eddie@digik.com.tw</u></li>
+      <li>Mobile: <u>+886-928-617-687</u></li>
+    </ul>
+    <h5>or just google me with keyword "高見龍"</h5>
+    </div>
+  </div>
+
+  <div class="slide">
+    <h1>Robotlegs</h1>
+  </div>
+
+  <div class="slide">
+    <h1>What's Robotlegs?</h1>
+  </div>
+
+  <div class="slide">
+    <h2>What's Robotlegs?</h2>
+    <h1>a pure AS3 framework<br />
+      <div class="slide subtitle">so you can use it not only in Flex, but Flash.</div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h2>What? just another framework?</h2>
+    <h1>80/20 principle
+      <div class="subtitle slide"><small>80% of the problems can be solved with 20% of the API</small></div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h1>Learning Resources</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Internet Resources</h2>
+    <h3>
+      <span class="slide">
+        Official Website:
+        <ul>
+          <li><a href="http://api.robotlegs.org/" target="_blank">Robotlegs API Document</a></li>
+          <li><a href="http://www.robotlegs.org/examples/" target="_blank">Examples</a></li>
+        </ul>
+      </span>
+      <span class="slide">
+      Some nice articles:
+      <ul>
+        <li><a href="http://joelhooks.com/2011/03/12/an-introduction-to-robotlegs-as3-part-1-context-and-mediators/" target="_blank">An Introduction to Robotlegs AS3 Part 1: Context and Mediators</a></li>
+        <li><a href="http://joelhooks.com/2011/03/12/an-introduction-to-robotlegs-as3-part-2-models/" target="_blank">An Introduction to Robotlegs AS3 Part 2: Models</a></li>
+        <li><a href="http://joelhooks.com/2011/03/12/an-introduction-to-robotlegs-as3-part-3-services/" target="_blank">An Introduction to Robotlegs AS3 Part 3: Services</a></li>
+        <li><a href="https://github.com/robotlegs/robotlegs-framework/wiki/Best-Practices" target="_blank">Best Practices</a></li>
+      </ul>
+      </span>
+      <span class="slide">.. and find those awesome people in the Robotlegs core team, then add their blogs to your RSS reader.</span>
+    </h3>
+  </div>
+
+  <div class="slide">
+    <h2>Book</h2>
+    <h3>
+      <img src="images/robotlegs-book.jpg" />
+    </h3>
+  </div>
+
+  <div class="slide">
+    <h1 class="small">Before We step into Robotlegs,<br />there is something you should know!</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Something you should know..</h2>
+    <h1>SRP
+      <div class="slide subtitle">Single Responsibility Principle</div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h2>Something you should know..</h2>
+    <blockquote>
+      SRP: "Event class should have <span class="important">ONE</span> job and just do it well"
+    </blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Something you should know..</h2>
+    <h1>Dependency Injection<br />a.k.a DI</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Dependency Injection</h2>
+      <blockquote>"A dependency is just a requirement to use another object."</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Dependency: Configuration</h2>
+      <blockquote>"A wants to use B in a read-only style"</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Dependency: Cooperation</h2>
+      <blockquote>"A wants to use B through its API"</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Dependency: Communication</h2>
+      <blockquote>"A wants to register listeners for messages dispatched by B"</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Injection: Constructor Injection</h2>
+      <code>
+<pre>
+public class UserXMLLoader
+{
+  public function UserXMLLoader( loadScriptPath:<span class="code-color-2">String</span> )
+  {
+    // constructor
+  }
+}
+<span class="slide">
+// inject!
+var userXMLLoader:UserXMLLoader = new UserXMLLoader(<span class="code-color-2">"http://www.eddie.com.tw"</span>);</span></pre>
+      </code>
+  </div>
+
+  <div class="slide">
+    <h2>Injection: Public Property Injection</h2>
+      <code>
+<pre>
+public class UserXMLLoader
+{
+  public var loadScriptPath:<span class="code-color-2">String</span>;
+}
+
+var userXMLLoader:UserXMLLoader = new UserXMLLoader();
+<span class="slide">
+// inject!
+userXMLLoader.loadScriptPath = <span class="code-color-2">"http://www.eddie.com.tw"</span>;
+</span></pre>
+      </code>
+  </div>
+
+  <div class="slide">
+    <h2>Injection: Setter Method Injection</h2>
+      <code>
+<pre>
+public class UserXMLLoader
+{
+  protected var _loadScriptPath:<span class="code-color-2">String</span>;
+
+  public function setLoadScriptPath(value:String):void
+  {
+    _loadScriptPath = loadScriptPath;
+  }
+}
+var userXMLLoader:UserXMLLoader = new UserXMLLoader();
+
+<span class="slide">
+// inject!
+userXMLLoader.setLoadScriptPath(<span class="code-color-2">"http://www.eddie.com.tw"</span>);
+</span></pre>
+      </code>
+  </div>
+
+  <div class="slide">
+    <h2>Dependency Injection</h2>
+      <code>
+<pre>
+public function navigateToURL(request:<span class="code-color-2">URLRequest</span>, window:String = null):void
+
+<span class="slide">
+example:
+navigateToURL(new <span class="code-color-2">URLRequest</span>("http://www.eddie.com.tw"));
+</span></pre>
+      </code>
+  </div>
+
+  <div class="slide">
+    <h1>Not that difficult, right?
+      <div class="subtitle">you were probably using DI already</div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h1>"Automated" <br />Dependency Injection</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Automated Dependency Injection</h2>
+    <blockquote class="slide">Injection Point: Asking for something.</blockquote>
+    <blockquote class="slide">Injection Rule: How it should be provided.</blockquote>
+    <blockquote class="slide">Injection Point + Injection Rule = Robotlegs Injection.</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Automated DI with metadata [Inject]</h2>
+    <code>
+<pre>
+<span class="slide">// Constructor Injection
+<strong class="red">[Inject]</strong>
+public function SomeClass(someProperty:IPropertyType):void
+{
+  // ..
+}</span>
+
+<span class="slide">// Public Property Injection
+<strong class="red">[Inject]</strong>
+public var someProperty:IPropertyType;</span>
+
+<span class="slide">// Setter Injection
+<strong class="red">[Inject]</strong>
+public function setSomeProperty(value:IPropertyType):void
+{
+  // ..
+}</span>
+</pre>
+    </code>
+  </div>
+
+  <div class="slide">
+    <h1>Metadata?
+      <div class="subtitle slide">doesn't it only can be used in Flex?</div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h2>use custom metadata in Flash</h2>
+    <h3><img src="images/flash-setting.png" /></h3>
+  </div>
+
+  <div class="slide">
+    <h2>Something you should know..</h2>
+    <h1>MVC
+      <div class="slide subtitle">model, view, controller</div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h2>Something you should know..</h2>
+    <h1><img src="images/mvc.png" /></h1>
+    <span class="slide_bottom gray">image from <a href="http://priyangpatel.wordpress.com/" target="_blank">http://priyangpatel.wordpress.com/</a></span>
+  </div>
+
+  <div class="slide">
+    <h1>More about Robotlegs</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Anatomy of the Robotlegs framework</h2>
+    <h1><br /><img src="images/dino-anatomy.jpg" /></h1>
+    <span class="slide_bottom gray">image from <a href="http://www.flickr.com/photos/modern_fred/sets/72157603409508667/" targe="_blank">http://www.flickr.com/photos/modern_fred/sets/72157603409508667/</a></span>
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <h1>MVC<span class="slide red"> + S</span>
+      <div class="slide subtitle">model, view, controller, and <span class="red">service</span></div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <h1>Model</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Model in Robotlegs..</h2>
+    <blockquote>
+      "I <u>store data</u> and represent the current <u>state</u> of your application.", the Model said.
+    </blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Model in Robotlegs..</h2>
+    <h3><br /><img src="images/diagram-model.png" /></h3>
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <h1>Service</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Service in Robotlegs..</h2>
+    <blockquote>Service: "I'm the gateway to the outside world!"</blockquote><br /><br />
+    <img src="images/diagram-service.png" class="slide" />
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <h1>Model v.s. Service</h1>
+  </div>
+
+  <div class="slide">
+    <h2>What's the difference?</h2>
+    <blockquote class="slide">
+      "You're both my kids!", Actor said.
+    </blockquote>
+    <blockquote class="slide">
+      Service: "I can get data  for Model, but I don't store data!"
+    </blockquote>
+    <blockquote class="slide">
+      Model: "Thanks, I don't communicate with the outside world to retrieve data, but I can keep them."
+    </blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>What's the difference?</h2>
+    <blockquote>
+      "A model is empty without the appropriate service, and a service has no purpose without the models."
+    </blockquote>
+
+    <blockquote class="slide">
+      "Usually, Service is to load and send data for Model."
+    </blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>in Robotlegs, Model and Service are like..</h2>
+    <h1 class="small">worst kind of dinner party guest!
+      <div class="subtitle">They don't listen to others, they only talk!</div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <h1>View</h1>
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <blockquote>
+      Views: "We're just the poor little guy acting on the stage, we have no right to talk to the authority directly!"
+    </blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <blockquote>Views are viewable components, they usually have some callable methods(API), which will be call by the Mediator.</blockquote>
+    <blockquote class="slide">Actually they can send(dispatch) their opinions, but have to be translated by the Mediator, and re-send to the shared event dispatcher.</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <h1>Mediator</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Mediator in Robotlegs..</h2>
+    <blockquote>Mediator: "I'm a busy guy! I manage <u>communication</u> between your application's view components and other objects within your application."</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Mediator is just like a mailman..</h2>
+    <blockquote class="slide">Mediator can <u>recieve events from view components</u>, and translate to the shared central event dispatcher.</blockquote>
+    <blockquote class="slide">It can also <u>pick up the messages from the central event dispatcher</u>, and call some Views' API according to diffenent situations.</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Mediator in Robotlegs..</h2>
+    <h3><br /><img src="images/diagram-view.png" /></h3>
+  </div>
+
+  <div class="slide">
+    <h2>Mediator in Robotlegs..</h2>
+    <blockquote class="slide">Never put view logic in your Mediators!</blockquote>
+    <blockquote class="slide">Avoid the use of "switch", "for", "for each", "if" statement in your mediators as much as possible.</blockquote>
+    <blockquote class="slide">If you have to, maybe you should stop and think about where the logic should really belongs.</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Mediator in Robotlegs..</h2>
+    <blockquote>Keeping your mediator LAZY enough! "Do I have to?" or "Can't someone else do it?"</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <h1>Command</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Command in Robotlegs..</h2>
+    <blockquote>Commands represent individual actions that your application can perform. (Don't forget SRP)</blockquote>
+    <blockquote class="slide">Commands are <u>stateless</u>, they execute and die!</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>Command in Robotlegs..</h2>
+    <h3><br /><br /><img src="images/diagram-controller.png" /></h3>
+  </div>
+
+  <div class="slide">
+    <h2>in a Robotlegs application..</h2>
+    <h1>Context</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Context in Robotlegs..</h2>
+    <blockquote class="slide">Context is at the <u>heart</u> of your application</blockquote>
+    <blockquote class="slide">Application <u>start()</u> here!</blockquote>
+    <img src="images/diagram-context.png" class="slide" />
+  </div>
+
+  <div class="slide">
+    <h1>the whole picture</h1>
+  </div>
+
+  <div class="slide">
+    <h2>the whole picture</h2>
+    <h3>
+      <img src="images/diagram.png" />
+    </h3>
+  </div>
+
+  <div class="slide">
+    <h1>Live Coding Time!</h1>
+  </div>
+
+  <div class="slide">
+    <h1>Conclusion</h1>
+  </div>
+
+  <div class="slide">
+    <h1>WHY MVC? <br />WHY Framework? <br />WHY Robotlegs?</h1>
+  </div>
+
+  <div class="slide">
+    <h1>Why bother?!</h1>
+  </div>
+
+  <div class="slide">
+    <h1>It's all about <span class="important">NEAT</span> !<br />
+      <div class="subtitle">your code would be well organized and maintainable</div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h1>Decoupling
+      <div class="subtitle slide">Program to interface, not to implementation</div>
+    </h1>
+  </div>
+
+  <div class="slide">
+    <h2>where is the best position to place my code?</h2>
+    <blockquote class="slide">"Sorry, there's no fixed answer for this!"</blockquote>
+    <blockquote class="slide">You might probably say: "If only your view classes care about this, it belongs in your view layer. If other parts of the application might need to be checked or informed, it’s controller code."</blockquote>
+  </div>
+
+  <div class="slide">
+    <h2>be a good programmer</h2>
+    <blockquote>"You <u>CAN</u> doesn't mean you <u>SHOULD</u> do it."</blockquote>
+  </div>
+
+  <div class="slide">
+    <h1 class="small">Do you need a framework?<br />Do you need Robotlegs?</h1>
+  </div>
+
+  <div class="slide">
+    <h1>That depends..</h1>
+  </div>
+
+  <div class="slide">
+    <h2>Do you need a Robotlegs?</h2>
+    <blockquote>Just give it a try, your computer won't explode anyway :)</blockquote>
+  </div>
+
+  <div class="slide" id="that-it">
+    <h1>That's it!<br />Hope you all enjoy it</h1>
+  </div>
+
+  <div class="slide" id="that-it">
+    <h2>We just into the Robotlegs, and next time we'll..</h2>
+    <h3>
+      <ul>
+        <li class="slide">More detail about Robotlegs!</li>
+        <li class="slide">Cooperate with other framework!</li>
+        <li class="slide">Test! Test! Test!</li>
+      </ul>
+    </h3>
+  </div>
+
+  <div class="slide" id="any-question">
+    <h1>Any Question?</h1>
+  </div>
+
+  <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+  <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+  <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+  <script src="/javascripts/utils/modernizr.custom.js"></script>
+  <script src="/javascripts/jquery/jquery.min.js"></script>
+  <script src="/javascripts/deckjs/deck.core.js"></script>
+  <script src="/javascripts/deckjs/deck.navigation.js"></script>
+  <script src="/javascripts/deckjs/deck.menu.js"></script>
+  <script src="/javascripts/deckjs/deck.hash.js"></script>
+  <script>
+    $(function() {
+      $.deck('.slide');
+    });
+  </script>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,844 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby on Rails | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/ruby-on-rails/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[RVM and Gemsets]]></title>
+    <link href="http://blog.eddie.com.tw/2011/04/08/rvm-and-gemsets/"/>
+    <updated>2011-04-08T13:24:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/04/08/rvm-and-gemsets</id>
+    <content type="html"><![CDATA[<p><img src="/images/2011/rvm_logo.png" alt="image" /></p>
+
+<p>“Living on the edge, stay in the beta world”是件有趣的事，可以試一些新玩具、新想法，但也很怕把系統弄爛又要花時間重灌，以前可能會用virtual machine來建立不同的環境，不過實在有點麻煩。在Ruby有個東西叫做<a href="http://rvm.beginrescueend.com/">RVM</a>(Ruby Version Manager)，可以讓你同時安裝多個不同版本的Ruby，看您是想要裝MRI版本的Ruby，或是REE(Ruby Enterprise Edition)、JRuby、MacRuby，都可以裝在RVM裡指後歡樂的切換。RVM裡每個版本的Ruby的gem也都是分開裝的，所以像之前Rails 3還沒正式release，想裝又不知道會不會怕把原來工作的環境搞爛，但不裝又覺得手很癢，這時候用RVM就對了。</p>
+
+<h3>安裝</h3>
+
+<p>安裝RVM會至少需要兩項工具：curl跟git，你可以檢查一下你電腦裡是否已經安裝，如果沒有的話就把這兩個裝起來吧，反正這兩個也是很棒也很常用的工具。
+如果上面這兩個都已經安裝好的話，打開你的終端機，貼上這行：</p>
+
+<pre><code>bash &lt; &lt;(curl -s https://rvm.beginrescueend.com/install/rvm)
+</code></pre>
+
+<p>它應該就會開始去下載RVM的檔案回來安裝了。安裝完還需要做一下簡單的設定，看你用的shell是哪一套而要要改不同的檔案，例如zsh就改<code>.zshrc</code>，bash就改<code>.bashrc</code>，以此類推，把下面這行加進去：</p>
+
+<pre><code>[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; source "$HOME/.rvm/scripts/rvm"
+</code></pre>
+
+<p>假設你用的是ubuntu預設的bash shell的話，那可以直接貼下面這行：</p>
+
+<pre><code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; source "$HOME/.rvm/scripts/rvm"' &gt;&gt; ~/.bashrc
+</code></pre>
+
+<p>更詳細的安裝說明可以參考<a href="https://rvm.beginrescueend.com/">官網</a>說明。</p>
+
+<h3>使用方法</h3>
+
+<p>簡單介紹幾個常用的RVM指令。</p>
+
+<p>看看目前有哪些可以安裝的列表：</p>
+
+<pre><code>&gt; rvm list known
+</code></pre>
+
+<p>安裝特定版本的Ruby：</p>
+
+<pre><code>&gt; rvm install 1.8.7
+</code></pre>
+
+<p>會自動找1.8.7的最新版來裝，如果想再指定小版本：</p>
+
+<pre><code>&gt; rvm install ruby-1.8.7-p334
+</code></pre>
+
+<p>列出目前已經安裝在RVM裡的Ruby版本：</p>
+
+<pre><code>&gt; rvm list
+
+rvm rubies
+
+     jruby-1.6.0 [ darwin-x86_64-java ]
+     ree-1.8.7-2010.02 [ x86_64 ]
+     ruby-1.8.7-p334 [ x86_64 ]
+=&gt; ruby-1.9.2-p0 [ x86_64 ]
+</code></pre>
+
+<p>可以看到我電腦上目前裝了4套(RVM的) + 1套(系統內建)的Ruby，目前正切換到1.9.2版本。如果要切換到Ruby 1.8.7的版本：</p>
+
+<pre><code>&gt; rvm use 1.8.7
+</code></pre>
+
+<p>如果要切換到Ruby-1.8.7-p334的版本：</p>
+
+<pre><code>&gt; rvm use ruby-1.8.7-p334
+</code></pre>
+
+<p><code>use</code>也可以省略：</p>
+
+<pre><code>&gt; rvm 1.8.7
+</code></pre>
+
+<p>但RVM會在下次terminal重開的時候會回到預設值(就是回到你系統內建的Ruby版本)。如果你希望每次開terminal的時候都會切到ruby-1.8.7的話：</p>
+
+<pre><code>&gt; rvm 1.8.7 --default
+</code></pre>
+
+<p>這樣你每次開termnal就會自動切換到1.8.7版了。如果想切回到原來系統內建的版本：</p>
+
+<pre><code>&gt; rvm system
+</code></pre>
+
+<p>不過今天要看的是RVM裡的gemset。</p>
+
+<p>因為其實套件的版本可能一直有在變，所以可能同一個套件就裝了二、三個以上的版本，看了很討厭，而且也可知道會不會遇到版本衝突的問題，而gemset就是可以讓你在RVM裡面再建立獨立的空間來安裝套件用的。假設我想同時在REE-1.8.7版本的ruby底下同時安裝Rails 2.3.9跟3.0.6版本，來看看怎麼做：</p>
+
+<p>先切換到REE之後，建立一個準備要來裝Rails 2.3.9版的gemset：</p>
+
+<pre><code>&gt; rvm gemset create r239
+'r239' gemset created (/Users/eddie/.rvm/gems/ree-1.8.7-2010.02@r239).
+</code></pre>
+
+<p>再來建一個給Rails 3.0.6版的：</p>
+
+<pre><code>&gt; rvm gemset create r306
+'r306' gemset created (/Users/eddie/.rvm/gems/ree-1.8.7-2010.02@r306).
+</code></pre>
+
+<p>看一下目前的已經建立的gemset：</p>
+
+<pre><code>&gt; rvm gemset list
+
+gemsets for ree-1.8.7-2010.02 (found in /Users/eddie/.rvm/gems/ ree-1.8.7-2010.02)
+    r239
+    r306
+</code></pre>
+
+<p>現在有2個gemset了，我們先切換到r239：</p>
+
+<pre><code>&gt; rvm gemset use r239
+Now using gemset 'r239'
+</code></pre>
+
+<p>來安裝一下Rails 2.3.9版：</p>
+
+<pre><code>&gt; gem install rails -v='2.3.9' --no-rdoc --no-ri
+Fetching: rake-0.8.7.gem (100%)
+Fetching: activesupport-2.3.9.gem (100%)
+Fetching: activerecord-2.3.9.gem (100%)
+Fetching: rack-1.1.2.gem (100%)
+Fetching: actionpack-2.3.9.gem (100%)
+Fetching: actionmailer-2.3.9.gem (100%)
+Fetching: activeresource-2.3.9.gem (100%)
+Fetching: rails-2.3.9.gem (100%)
+Successfully installed rake-0.8.7
+Successfully installed activesupport-2.3.9
+Successfully installed activerecord-2.3.9
+Successfully installed rack-1.1.2
+Successfully installed actionpack-2.3.9
+Successfully installed actionmailer-2.3.9
+Successfully installed activeresource-2.3.9
+Successfully installed rails-2.3.9
+8 gems installed
+</code></pre>
+
+<p>安裝完成，看起來沒問題，再來切換到r306：</p>
+
+<pre><code>&gt; rvm gemset use r306
+Now using gemset 'r306'
+</code></pre>
+
+<p>再來做一樣的動作，只是版號改成3.0.6：</p>
+
+<pre><code>&gt; gem install rails -v='3.0.6' --no-rdoc --no-ri
+Fetching: activesupport-3.0.6.gem (100%)
+Fetching: builder-2.1.2.gem (100%)
+Fetching: i18n-0.5.0.gem (100%)
+Fetching: activemodel-3.0.6.gem (100%)
+Fetching: rack-1.2.2.gem (100%)
+Fetching: rack-test-0.5.7.gem (100%)
+Fetching: rack-mount-0.6.14.gem (100%)
+Fetching: tzinfo-0.3.26.gem (100%)
+Fetching: abstract-1.0.0.gem (100%)
+Fetching: erubis-2.6.6.gem (100%)
+Fetching: actionpack-3.0.6.gem (100%)
+Fetching: arel-2.0.9.gem (100%)
+Fetching: activerecord-3.0.6.gem (100%)
+Fetching: activeresource-3.0.6.gem (100%)
+Fetching: mime-types-1.16.gem (100%)
+Fetching: polyglot-0.3.1.gem (100%)
+Fetching: treetop-1.4.9.gem (100%)
+Fetching: mail-2.2.15.gem (100%)
+Fetching: actionmailer-3.0.6.gem (100%)
+Fetching: rake-0.8.7.gem (100%)
+Fetching: thor-0.14.6.gem (100%)
+Fetching: railties-3.0.6.gem (100%)
+Fetching: bundler-1.0.11.gem (100%)
+Fetching: rails-3.0.6.gem (100%)
+Successfully installed activesupport-3.0.6
+Successfully installed builder-2.1.2
+Successfully installed i18n-0.5.0
+Successfully installed activemodel-3.0.6
+Successfully installed rack-1.2.2
+Successfully installed rack-test-0.5.7
+Successfully installed rack-mount-0.6.14
+Successfully installed tzinfo-0.3.26
+Successfully installed abstract-1.0.0
+Successfully installed erubis-2.6.6
+Successfully installed actionpack-3.0.6
+Successfully installed arel-2.0.9
+Successfully installed activerecord-3.0.6
+Successfully installed activeresource-3.0.6
+Successfully installed mime-types-1.16
+Successfully installed polyglot-0.3.1
+Successfully installed treetop-1.4.9
+Successfully installed mail-2.2.15
+Successfully installed actionmailer-3.0.6
+Successfully installed rake-0.8.7
+Successfully installed thor-0.14.6
+Successfully installed railties-3.0.6
+Successfully installed bundler-1.0.11
+Successfully installed rails-3.0.6
+24 gems installed
+</code></pre>
+
+<p>跟2.3.9不一樣，Rails 3.0.6版裝了一堆東西..兩個gemset都裝好了，如果你要從別的版本的Ruby直接切換到指定的gemset：</p>
+
+<pre><code>&gt; rvm ree-1.8.7-2010.02@r239
+</code></pre>
+
+<p>看一下安裝的gem：</p>
+
+<pre><code>&gt; gem list
+
+*** LOCAL GEMS ***
+
+actionmailer (2.3.9)
+actionpack (2.3.9)
+activerecord (2.3.9)
+activeresource (2.3.9)
+activesupport (2.3.9)
+rack (1.1.2)
+rails (2.3.9)
+rake (0.8.7)
+</code></pre>
+
+<p>是2.3.9版的沒錯，再試著換到另一個gemset：</p>
+
+<pre><code>&gt; rvm gemset use r306
+Now using gemset 'r306'
+
+&gt; gem list
+
+*** LOCAL GEMS ***
+
+abstract (1.0.0)
+actionmailer (3.0.6)
+actionpack (3.0.6)
+activemodel (3.0.6)
+activerecord (3.0.6)
+activeresource (3.0.6)
+activesupport (3.0.6)
+arel (2.0.9)
+builder (2.1.2)
+bundler (1.0.11)
+erubis (2.6.6)
+i18n (0.5.0)
+mail (2.2.15)
+mime-types (1.16)
+polyglot (0.3.1)
+rack (1.2.2)
+rack-mount (0.6.14)
+rack-test (0.5.7)
+rails (3.0.6)
+railties (3.0.6)
+rake (0.8.7)
+thor (0.14.6)
+treetop (1.4.9)
+tzinfo (0.3.26)
+</code></pre>
+
+<p>Good! 看起來沒問題。</p>
+
+<p>你可以隨你高興的建立、切換gemset，各個gemset都是獨立的。如果玩膩了或玩爛了，想要把r239這個gemset清空的話：</p>
+
+<pre><code>&gt; rvm gemset empty r239
+WARN: Are you SURE you wish to remove the installed gemset for gemset 'ree-1.8.7-2010.02@r306' (/Users/eddie/.rvm/gems/ree-1.8.7-2010.02@r306)?
+(anything other than 'yes' will cancel) &gt; yes
+</code></pre>
+
+<p>清空只會把安裝的gem砍掉，gemset的名字還會在；如果想把整個gemset刪掉：</p>
+
+<pre><code>&gt; rvm gemset delete r239
+WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users/eddie/.rvm/gems/ree-1.8.7-2010.02@r239)?
+(anything other than 'yes' will cancel) &gt; yes
+</code></pre>
+
+<p>大概是這樣，RVM對我這種愛玩新玩具的人真的福音啊!</p>
+
+<p><strong>好RVM，不裝嗎?</strong></p>
+
+<h4>參考資料：</h4>
+
+<p><a href="http://rvm.beginrescueend.com/gemsets/">RVM官網手冊</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Misunderstanding about Flash]]></title>
+    <link href="http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash/"/>
+    <updated>2010-10-27T16:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash</id>
+    <content type="html"><![CDATA[<p>今晚在<a href="http://groups.google.com/group/zf-tw/">PHP讀書會</a>上分享的主題：</p>
+
+<div style="width:425px" id="__ss_5576350"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/amf-5576350" title="AMF" target="_blank">AMF</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5576350" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
+
+
+<p><a href="/downloads/files/2010/amf_demo.zip">範例程式碼下載</a></p>
+
+<p>範例裡用的只是單純的傳過去的資料給return回來而已，不過應該可以發現其實不管是跟哪一家的程式語言串接，Flash端的實作方法幾乎都是不需要改變的。</p>
+
+<p>另外同場加映：</p>
+
+<div style="width:425px" id="__ss_5575369"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/misunderstanding-about-flash" title="Misunderstanding about flash" target="_blank">Misunderstanding about flash</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5575369" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
+
+
+<p>若內容有誤還請不吝指教</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby on Rails之門外漢心得]]></title>
+    <link href="http://blog.eddie.com.tw/2010/07/16/internet-campaign-with-ruby-on-rails/"/>
+    <updated>2010-07-16T15:50:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2010/07/16/internet-campaign-with-ruby-on-rails</id>
+    <content type="html"><![CDATA[<p><img src="/images/2010/rails_logo.png" alt="image" /></p>
+
+<p>這不是討戰文，也不是一篇討論程式語言的誰優誰劣的文章，僅就我個人這半年來使用<a href="http://rubyonrails.org/">Ruby on Rails</a>(以下簡稱RoR，不是那個那個RO線上遊戲)用在工作上的一些簡單的心得跟大家分享。</p>
+
+<p>很多廠商喜歡做網路活動來促銷新商品、打知名度或是跟網友拉近距離。目前廠商們比較愛的網路活動，大概有上傳照片、影片、票選、轉寄、推薦..等，而隨著” 社會的進步”，客戶們也”得跟上時代”，都不免俗的要跟FB或plurk弄在一起，而我的工作，主要就是幫客戶處理這樣的需求。(我想這段我的同業應該知道我不是在講真心話!)</p>
+
+<p>就我而言，我個人比較熟悉的程式語言算是ActionScript 2/3，大部份的工作也都是跟紅紅的Flash為伍。但後來的網路活動越弄越複雜，單純的Flash已經不見得夠用了，很多時候得跟server端交換資料。</p>
+
+<p>從最早的ASP，後來換到PHP，其實都還不錯用，也沒什麼問題(不然PHP現在不會有這麼大的市佔率)。後來試著用PHP的<a href="http://framework.zend.com/">Zend Framework</a>，因為現在比較流行的web framework都有照著<a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a>(Model-View-Controller)的樣子來打造，寫起來程式碼跟頁面有更清楚的感覺。</p>
+
+<p>2009年試著換到<a href="http://www.python.org/">Python</a>加<a href="http://www.djangoproject.com/">Django</a>，它也是MVC的實作，感覺還不賴，有種程式寫起來可以打更少字的感覺。而且它所謂的<strong>batteries included</strong>，只要把一些設定打開，後台管理功能就直接做起來了，相當方便。</p>
+
+<p>2010年起，我試著開始把案子用RoR來做，整個有種「我終於可以把時間花在吃喝玩樂寫AS上了」的感覺了。</p>
+
+<p>以下是一些大家可能會有的疑問：</p>
+
+<h4>Q: 為什麼你要一直換?</h4>
+
+<p>A: 我是善變的人 :)</p>
+
+<h4>Q: 你是寫AS的，為什麼要自己寫server端的程式?</h4>
+
+<p>A: 情況允許的話當然我也想跟別人一起合作寫，不過網路活動很多都是急件，而且客戶通常不太會管你六日週末要不要休假。後來發現其實自己寫真的還挺快的，而要什麼資料或是要接什麼資料都可以自己加一下就搞定，免看人臉色。</p>
+
+<h4>Q: RoR是一種程式語言嗎?</h4>
+
+<p>A: 不是，它是一種web framework，它本身用的程式語言是Ruby。</p>
+
+<h4>Q: RoR要錢嗎?</h4>
+
+<p>A: 不用的，而且你有興趣的話，還可以取得完整的原始碼，印出來上廁所的時候閱讀 :)</p>
+
+<h4>Q: 為什麼用RoR來開發會快?</h4>
+
+<p>A: 以下的動作我先假設開發的工程師有一些RoR的開發經驗。</p>
+
+<p>以一個發票登錄的程式來說，假設它需要使用者姓名、電話、地址、Email及發票號碼等幾個欄位，我的動作就是先建立一個Model來對應這些欄位(這動作 大概1~2分鐘左右可完成)。再來就是建立一個Controller來準備接收使用者submit出來的動作(大概1~2分鐘左右)，而實際在 Controller裡寫的程式碼，也就是把Model給叫出來，把使用者post的資料餵進去，程式碼如下：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">invoice</span> <span class="o">=</span> <span class="no">Invoice</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:invoice</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+最後再一個<code>save</code>的動作：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">invoice</span><span class="o">.</span><span class="n">save</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+差不多就搞定了(這動作大概1分鐘左右可完成)</p>
+
+<p>剛剛這些資料庫寫入的動作，再加上一些if..else..的判斷，大概10行程式碼有找。整個發票程式部份，不包含設計的話，大概5分鐘能寫完，也許如果再加個發票重複登錄判斷的驗證，最多應該10分鐘搞定。</p>
+
+<p>那要怎麼把資料庫裡的東西撈出來? 通常只要一行：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">invoice</span> <span class="o">=</span> <span class="no">Invoice</span><span class="o">.</span><span class="n">all</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+(大概3~10秒，依打字速度不同而有差異)</p>
+
+<p>那要怎麼樣把它餵給Flash? RoR的ActiveRecord有支援直接輸出成XML或JSON的方法，簡單的可以直接用invoice.to_xml 或invoice.to_json 就行了(大概10秒)，複雜一點的，也可以用xml builder來建個模板給它(看複雜程度，大概5分鐘內搞定)。</p>
+
+<p>藉由<a href="http://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a>(Object-Relational Mapping)的包裝，把原本要用SQL操作的動作，都改用物件的方式來操作。而大部份的網路活動的寫入/查詢語法都挺單純，沒意外的話應該都不用自己寫 SELECT * FROM 或是 INSERT INTO之類的東西了，不只操作簡單，也可避開<a href="http://en.wikipedia.org/wiki/SQL_injection">SQL Injection</a>的麻煩。</p>
+
+<p>另外RoR的另一大優點，就是它有相當多好用的外掛(plugin)，而且幾乎都是免費可以取得的(包括原始碼)。</p>
+
+<p>一樣以網路活動上傳照片這個來舉例，上傳照片之後，通常得自動再產生一些比較小尺寸的縮圖，可能還要裁切一下圖片。透過某個方便的外掛(<a href="http://github.com/thoughtbot/paperclip">paperclip</a>)，上面這些動作，真正要寫程式好像不到5行吧，搞定之後會有種「哇賽!怎麼就這樣就可以了?」的驚奇感。</p>
+
+<p>再例如上傳照片後，資料一多，前端呈現的頁面通常就得有分頁的功能，而這功能透過某個方便的外掛(<a href="http://github.com/mislav/will_paginate">will_paginate</a>)，大概只要多加一行程式碼就可以搞定分頁的工作。</p>
+
+<h4>Q: 可是你知道，做網路的活動，客戶很愛改來改去…RoR改起來會不會很麻煩?</h4>
+
+<p>A: 網路活動的特性，就是變動性高。除了設計部份可能會被改來改去外，一會可能要你加個中獎名單，一會說這個頁面要放到另一個頁面之後…愛改來改去這件事，我想這個是許多同業的痛!</p>
+
+<p>老實說，就以上面的例子來說，就算整個砍掉重練，也不見得花多少時間；如果是修改流程，說不定改一下route規則就可以技巧性的處理掉了，其實面對愛改來改去的狀況，RoR還是個不錯的應對工具。</p>
+
+<h4>Q: RoR效能好嗎?</h4>
+
+<p>A: 我沒比較過所有家的程式語言以及web framework，所以我沒辦法下這個結論。通常如果遇到效能差或是資料庫負載很吃重的地方，可以把它做cache或產出靜態頁面來提昇效能，而做 cache或是把cache給expire掉的動作，在RoR裡是很容易做的。</p>
+
+<h4>Q: 那，Ruby好寫嗎?</h4>
+
+<p>A: 我以AS程式碼來舉個例子：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">my_age</span> <span class="o">&gt;=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;you&#39;re so old!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+改用ruby寫的話：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">if</span> <span class="n">my_age</span> <span class="o">&gt;=</span> <span class="mi">30</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;you&#39;re so old!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+基本上少了小括號、大括號，也不用分號結尾，至少就可以少打好些個字，甚如果想要的話，<code>if</code>也可以放到後面：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;you&#39;re so old&quot;</span> <span class="k">if</span> <span class="n">my_age</span> <span class="o">&gt;=</span> <span class="mi">30</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+如何? 看起來更像一般的英文吧!</p>
+
+<p>再例如如果我想要印出3天前的日期，有的程式語言可能要先new一個Date物件出來，再透過一些method可以取得日期。在Ruby裡，只要用<code>3.days.ago</code>就行了。3? 它不是數字嗎? 是的，你沒看錯，在Ruby裡什麼東西都是物件，包括數字也是，所以你可以對3這個物件呼叫方法，再來個例子：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s1">&#39;hello&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+猜得出來它在幹嘛嗎? 它就是把”hello”這個字串印3遍..</p>
+
+<p>其它關於這個程式語言的細節，如果想了解更多，可參考<a href="http://www.ruby-lang.org/en/">Ruby的官網</a>，有相當多的文件可以看。</p>
+
+<h4>Q: 在Flash裡可以用AMF的格式與server端溝通，RoR能做嗎?</h4>
+
+<p>A: 可以的，請參考<a href="http://blog.eddie.com.tw/2010/03/18/rubyamf">http://blog.eddie.com.tw/2010/03/18/rubyamf</a></p>
+
+<h4>Q: 還有什麼好處?</h4>
+
+<p>A: 前面提到，由於大部份的客戶想要做的東西都差不多，例如發票登錄來說，可以的話，也可以把這些常用的功能也做成「發票plugin」，也許下次要用的時候，就把plugin裝上去，可能再做一些微調就行了。</p>
+
+<h4>Q: 那，好維護嗎?</h4>
+
+<p>A: 基本上RoR的骨架是依照MVC的架構來實做的，所以某A或某B寫的程式碼，只要寫的人不要用太奇怪的寫法，大概都可以知道XX程式或XX功能會放在哪裡(當然改不改得動是另一回事)。重點是，很多網路活動都是短期的，活動結束就會下架，老實說並沒有太多所謂的維護的問題 :)</p>
+
+<h4>Q: RoR好像被我講得很神，那它缺點是什麼?</h4>
+
+<h5>1. 它的學習曲線的高低決定於開發者的背景知識跟經驗</h5>
+
+<p>如果你之前就有用別的程式語言開發過網站，那RoR對你來說應該會比較快上手；如果你對於什麼是Form、什麼是GET/POST還不清楚的話，那這個對你 來說可能會有些吃力，很容易卡關。特別是如果沒有個導師帶入門，還真的很容易碰壁。 (PS: 其實最好還有一些*nix的操作經驗，以及熟悉一些版本控制系統如SVN或Git)</p>
+
+<h5>2. 台灣的hosting比較不好找</h5>
+
+<p>台灣目前使用的人口還是相當少，國外雖然有比較多的solution，但客戶的網路活動的TA大部份都是在台灣，可能會有連線速度不夠快的問題。這個我解決的方法就是，我自己弄一台機器放機房，自己弄環境起來 :)</p>
+
+<h3>結論</h3>
+
+<p>綜合以上各項優缺點，我真的覺得RoR挺適合拿來做網路活動，當然做長期的官網也合適，這裡就我自己工作上常遇到的狀況提供一些建議。</p>
+
+<p>以上，僅以我這半年來用RoR的一些小小心得與大家分享，我也還是個一隻腳剛踏進去的新手門外漢，內容若有誤再請前輩、神人們不吝指教 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Console / irb 裡的方便工具-Hirb]]></title>
+    <link href="http://blog.eddie.com.tw/2010/04/09/hirb-the-convenient-gem-for-console-and-irb/"/>
+    <updated>2010-04-09T15:33:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2010/04/09/hirb-the-convenient-gem-for-console-and-irb</id>
+    <content type="html"><![CDATA[<p>方便的工具，寫起來給自己做個備忘，免得到時候忘記 :)</p>
+
+<p>在做資料庫存取的時候，常會把抓到的model object印出來看看到底內容正確與否。假設我有個名叫Book的model，我從裡面隨便抓一筆資料出來大概會長這樣：</p>
+
+<p><img src="/images/2010/output_default.png" alt="image" /></p>
+
+<p>除此之外，也可以透過y方法把內容以YAML格式輸出：</p>
+
+<p><img src="/images/2010/output_yaml.png" alt="image" /></p>
+
+<p>其實這樣也不會多難看，反正看久就習慣了。剛好最近在看<a href="http://railscasts.com/">Railscasts</a>的時候才發現原來有更方便的gem可以用，它叫做<a href="http://github.com/cldwalker/hirb">Hirb</a>，可以讓在console模式下輸出的內容更清楚了。</p>
+
+<p><a href="http://github.com/cldwalker/hirb">官網</a>的安裝說明其實就很清楚了，簡單的說，就是用gem一個動作就搞定了：</p>
+
+<pre><code>&gt; sudo gem install hirb
+</code></pre>
+
+<p>進入rails project裡的console模式後：</p>
+
+<pre><code>&gt;&gt; require 'hirb'
+&gt;&gt; Hirb.enable
+</code></pre>
+
+<p>接下來，剛剛那個object會變成：</p>
+
+<p><img src="/images/2010/output_hirb.png" alt="image" /></p>
+
+<p>如果再加一下logger的設定，還可以讓輸出的同時把查詢的log也秀出來：</p>
+
+<p><img src="/images/2010/output_hirb_with_log.png" alt="image" /></p>
+
+<p>當你不想用的時候，只要用：</p>
+
+<pre><code>&gt;&gt; Hirb.disable
+</code></pre>
+
+<p>就可以把它關掉了。</p>
+
+<p>如果覺得hirb很方便但又不想每次進console都打這些指令的話，也可以把上面這些動作放到<code>.irbrc</code>裡(檔名: ~/.irbrc)
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;hirb&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
+</span><span class='line'><span class="no">Hirb</span><span class="o">.</span><span class="n">enable</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+當然，hirb不只有這樣而已，不過光是這樣我就覺得很棒了。更細節的說明請洽<a href="http://github.com/cldwalker/hirb">網站</a> :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何在Rails裡使用AMF]]></title>
+    <link href="http://blog.eddie.com.tw/2010/03/18/rubyamf/"/>
+    <updated>2010-03-18T15:10:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2010/03/18/rubyamf</id>
+    <content type="html"><![CDATA[<h2>前言</h2>
+
+<p>常聽很多朋友會問：「flash要怎麼樣跟資料庫串接?」。</p>
+
+<p>答案其實很簡單：「<strong>不行!</strong>目前flash沒辦法直接與資料庫串接」。</p>
+
+<p>那到底別人是怎麼做的? 為什麼他們的Flash可以由後台管理而且更新資料? 其實運作流程是這樣：</p>
+
+<p>Flash(*.swf) &lt;–> Server端程式(ASP, ASP.NET, PHP..etc) &lt;–> DB</p>
+
+<p>SWF透過HTTP GET/POST的方式送給中間的程式，透過中間的程式，Flash才得以從資料庫中取出/寫入資料。</p>
+
+<p>其中SWF與server端程式溝通的格式，有簡單的純文字組合，或是用JSON或XML來包裝資料，再餵給SWF，最後再呈現在Flash上。特別是XML對AS3還滿友善的，可以簡單的就取出指定節點的資料。</p>
+
+<p>而今天要提的 AMF(<a href="http://en.wikipedia.org/wiki/Action_Message_Format">Action Message Format</a>)，其實做的工作跟上面的JSON或XML差不多，只是它的格式是binary的。</p>
+
+<p>AMF的實作，各家程式語言或Framework都有類似的實作品
+像是PHP就有<a href="http://www.amfphp.org/">AMFPHP</a>/<a href="http://framework.zend.com/">Zend_Amf</a>，Python有<a href="http://pyamf.org/">PyAMF</a>，.NET有<a href="http://www.fluorinefx.com/">FluorineFx</a>，Ruby的話則有<a href="http://code.google.com/p/rubyamf/">RubyAMF</a>。</p>
+
+<p>不過不管是哪家實作的AMF，流程上都差不多：</p>
+
+<ol>
+<li>SWF連上指定的Gateway。</li>
+<li>呼叫/執行Gateway上掛載的service，並把所需的參數以AMF格式傳給它(如果有的話)。</li>
+<li>執行結果回傳。</li>
+</ol>
+
+
+<p>最近手邊有個案子正好是用Rails寫的，剛好有用上AMF，就趁這個機會寫一下心得，免得自己以後忘記(其實在Rails裡面，用respond_to直接render產出xml或json也還滿方便的..)</p>
+
+<h2>環境</h2>
+
+<ul>
+<li>Mac OX 10.6</li>
+<li>Rails 2.3.5</li>
+<li>Ruby 1.8.7</li>
+<li>RubyAMF 1.6.5</li>
+</ul>
+
+
+<h2>安裝</h2>
+
+<p>就不多做Rails的介紹了，直接開個空白的Rails Project來做示範：</p>
+
+<pre><code>&gt; rails rubyamf_demo
+&gt; cd rubyamf_demo
+</code></pre>
+
+<p>接下來，安裝RubyAMF。網址：<a href="https://github.com/victorcoder/rubyamf_plugin">https://github.com/victorcoder/rubyamf_plugin</a></p>
+
+<p>個人比較建議直接用script/plugin來安裝，簡單方便。當然如果要自己下載打包檔再手動放進來也ok的。</p>
+
+<pre><code>&gt; script/plugin install git://github.com/victorcoder/rubyamf_plugin.git
+</code></pre>
+
+<p>沒問題的話，這個動作就會幫你把RubyAMF安裝在<code>vender</code>資料夾裡了。</p>
+
+<p><img src="/images/2010/rubyamf-1.png" alt="image" /></p>
+
+<p>其實這個安裝的過程中，除了把相關檔案裝到vender裡之外，背後有幫忙做了一些事你可能需要知道的：</p>
+
+<h4>1. app/controllers/ 裡多了一個rubyamf_controller.rb</h4>
+
+<p>這是整個RubyAMF的對外窗口，gateway就是寫在這裡了。</p>
+
+<h4>2. config/ 裡多了一個 rubyamf_config.rb</h4>
+
+<p>RubyAMF的設定檔，打開這個檔案應該可以看到許多註解說明，可依情況及個人使用習慣做調整</p>
+
+<h4>3. config/initializers/mime_types.rb多加了一行</h4>
+
+<pre><code>Mime::Type.register "application/x-amf", :amf
+</code></pre>
+
+<p>到時候可以像 <code>render :text =&gt; "hello"</code>一樣，直接用<code>render :amf =&gt; "hello"</code>來輸出</p>
+
+<h4>4. config/route.rb多了一行路徑設定</h4>
+
+<pre><code>map.rubyamf_gateway 'rubyamf_gateway', :controller =&gt; 'rubyamf', :action =&gt; 'gateway'
+</code></pre>
+
+<p>gateway到時候的位置就是<code>http://127.0.0.1:3000/rubyamf/gateway</code>。</p>
+
+<h4>5. public/ 資料夾多了一個 crossdomain.xml</h4>
+
+<p>常用AS在串接外部資料的人應該知道這是幹嘛的了，預設是全開</p>
+
+<pre><code>&lt;allow-access-from domain="*" /&gt;
+</code></pre>
+
+<p>如果有需要調整可直接動手修改。接下來試著啟動server，看看能不能正常運作：</p>
+
+<pre><code>&gt; script/server
+</code></pre>
+
+<p>沒問題的話，接著開瀏覽器看看<code>http://127.0.0.1:3000/rubyamf/gateway/</code>。如果你看到一個黑色的畫面，中間放著一個RubyAMF的logo：</p>
+
+<p><img src="/images/2010/rubyamf-2.png" alt="image" /></p>
+
+<p>恭喜你，目前這樣就算是把RubyAMF安裝起來了。接下來，就要開始準備寫service上去了</p>
+
+<h2>實作</h2>
+
+<h3>Rails部份：</h3>
+
+<p>先建立一個model，待會我們會用來取出/寫入資料用的：</p>
+
+<pre><code>&gt; script/generate model book author:string content:text
+</code></pre>
+
+<p>目前只放了author跟content兩個簡單的欄位(for demo purpose, Model部份沒有特別做驗證)。</p>
+
+<pre><code>&gt; rake db:migrate
+</code></pre>
+
+<p>為了省去另建資料庫的麻煩，這裡直接使用預設的SQLite做為資料庫。table建立後，先塞一筆測試資料進去：</p>
+
+<pre><code>&gt; script/console
+&gt;&gt; Book.create(:author =&gt; "eddie", :content =&gt; "this is a RubyAMF demo")
+</code></pre>
+
+<p>再來新增一個controller，裡面放一個<code>hello_world</code>這個action：</p>
+
+<pre><code>&gt; script/generate controller amf_test hello_world
+</code></pre>
+
+<p>在hello_world這個action裡，我們加一行：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">hello_world</span>
+</span><span class='line'>  <span class="n">render</span> <span class="ss">:amf</span> <span class="o">=&gt;</span> <span class="s2">&quot;Hello AMF&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+大部份網路上看到的範例都是用Flex當範例，不過我個人比較偏好Flash。以下我就用Flash當做範例示範(其實沒太大差別啦，純粹個人喜好)。</p>
+
+<h3>Flash部份：</h3>
+
+<p>檔案：amf_hello.fla
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="k">var</span> <span class="nx">nc</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span>
+</span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">objectEncoding</span> <span class="o">=</span> <span class="nb">ObjectEncoding</span><span class="p">.</span><span class="nx">AMF3</span><span class="o">;</span>
+</span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:3000/rubyamf/gateway&#39;</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="k">var</span> <span class="nx">responder</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">onOK</span><span class="o">,</span> <span class="nx">onErr</span><span class="p">);</span>
+</span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;AmfTestController.hello_world&#39;</span><span class="o">,</span> <span class="nx">responder</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">onOK</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">onErr</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;Error!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+其中比較需要注意的是<code>nc.call</code>那一段，直接呼叫<code>ControllerName.ActionName</code>就行了。</p>
+
+<p>按下Ctrl+Enter之後，應該就可以看到”Hello AMF”的字樣了，代表你的SWF已經可以成功從AMF Gateway讀資料回來了。如果這裡有發生錯誤，可能檢查一下是不是有打錯字，或是server忘了啟動。</p>
+
+<p>接下來，我們試著送資料給Gateway，讓它寫入資料庫之後再回傳目前資料庫裡的書總共有幾本。</p>
+
+<p>這次我們先做Flash端的介面，我放了一個按鈕跟二個輸入框，instance name分別取名為<code>add_btn</code>、<code>author_txt</code>及<code>content_txt</code>。</p>
+
+<p>檔名：amf_addbook.fla
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="nx">add_btn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nb">MouseEvent</span><span class="p">.</span><span class="nx">CLICK</span><span class="o">,</span> <span class="nx">click_handler</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">click_handler</span><span class="p">(</span><span class="nx">evt</span><span class="o">:</span><span class="nb">MouseEvent</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">nc</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span>
+</span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">objectEncoding</span> <span class="o">=</span> <span class="nb">ObjectEncoding</span><span class="p">.</span><span class="nx">AMF3</span><span class="o">;</span>
+</span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:3000/rubyamf/gateway&#39;</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="k">var</span> <span class="nx">amf_object</span><span class="o">:</span><span class="nb">Object</span> <span class="o">=</span> <span class="p">{</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="s1">&#39;author&#39;</span><span class="o">:</span> <span class="nx">author_txt</span><span class="p">.</span><span class="nx">text</span><span class="o">,</span>
+</span><span class='line'><span class="s1">&#39;content&#39;</span><span class="o">:</span> <span class="nx">content_txt</span><span class="p">.</span><span class="nx">text</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">};</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="k">var</span> <span class="nx">responder</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">onOK</span><span class="o">,</span> <span class="nx">onErr</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;AmfTestController.add_book&#39;</span><span class="o">,</span> <span class="nx">responder</span><span class="o">,</span> <span class="nx">amf_object</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">onOK</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;目前共有&quot;</span> <span class="o">+</span><span class="nx">res</span> <span class="o">+</span><span class="s2">&quot;本書&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">onErr</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;fail&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+其實只是把呼叫的部份放到click handler裡，並且在裡面做了一個object，並且在呼叫的時候：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">nc.call(&#39;AmfTestController.add_book&#39;, responder, amf_object);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+把它當做參數傳出去。</p>
+
+<p>接下來，在Rails裡，我們要來加一個<code>add_book</code>這個action，準備接收資料：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">add_book</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">is_amf</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;Book.create(:author =&amp;gt; params[0][:author], :content =&amp;gt; params[0][:content])</span>
+</span><span class='line'><span class="sr">render :amf =&amp;gt; Book.count</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  else&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">render</span> <span class="ss">:text</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="s2">&quot;error&quot;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這裡可以用<code>is_amf</code>來檢查傳進來的是不是AMF，傳進來的參數可用 params[0] 取得。</p>
+
+<p>接著執行Flash，沒問題的話，當每次按下Add Book按鈕時，它就會把author跟content資料寫入DB，並回傳目前總筆數。</p>
+
+<p>以上為展示目的，都沒有加資料的驗證，所以就算空白資料也可以送出。</p>
+
+<p>以上是一些個人小小的心得，供大家參考囉</p>
+
+<h3>相關網站：</h3>
+
+<ul>
+<li><a href="http://blog.rubyamf.org/">http://blog.rubyamf.org/</a></li>
+<li><a href="http://code.google.com/p/rubyamf/">http://code.google.com/p/rubyamf/</a></li>
+</ul>
+
+
+<h3>原始檔下載(fla + rails project)：</h3>
+
+<p><a href="http://nayumi.myweb.hinet.net/downloads/sample.zip">http://nayumi.myweb.hinet.net/downloads/sample.zip</a></p>
+
+<p>update: RubyAMF專案已由原本的<a href="http://code.google.com/p/rubyamf/">google code</a>移至<a href="https://github.com/victorcoder/rubyamf_plugin">github</a>。</p>
+]]></content>
+  </entry>
+  
+</feed>

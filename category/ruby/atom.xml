@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/ruby/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Code Reading @ RubyKaigi 2013]]></title>
+    <link href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/"/>
+    <updated>2013-06-05T01:55:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013</id>
+    <content type="html"><![CDATA[<p>很高興這次能有機會到日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>，我分享的題目是："<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>"，算是個滿冷門的題目，主要是分享我自己從閱讀 Ruby 原始程式碼中學習到的一些經驗。不過當天還有不少朋友來捧場，讓場子看起來不會太冷清，真是太意外了(其實我也搞不清楚到底有多少人，我當時已經緊張到沒辦法算數了)。<br />
+<span class="translate">Really glad to go to Japan and join the <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>, the topic of my talk is "<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>", which I don't think it's a popular topic, and it's about my experience while reading Ruby source code. Thanks to those friends who are willing to come to my talk.(Actually I was too nervous to count how many people already)</span></p>
+
+<p>在進入主題之前，我問大家有多少人曾經來過台灣，結果在場有十來個人舉手，就以現場人數的比例來說不算少。<br />
+<span class="translate">
+Before I jump into my topic, I asked everyone how many of you have been to Taiwan before, to my surprise, there're more than 15 people raised their hand, which is about 20% of the attendees in this hall(I think).</span></p>
+
+<p><a href="https://speakerdeck.com/eddie/code-reading" target="_blank"><img src="/images/2013/rubykaigi-code-reading.jpg" alt="image" /></a>
+<a href="https://speakerdeck.com/eddie/code-reading" target="_blank">View on Speaker Deck</a> | <a href="https://speakerd.s3.amazonaws.com/presentations/0186a390abc5013057536ee43d4d4638/Code_Reading.pdf" target="_blank">Download PDF</a></p>
+
+<p>雖然之前有一些些上台演講的經驗，但這是第一次出國演講，而且還是全程用英文演講，我知道有很多的大神甚至 Ruby Committer 就坐在台下，所以我相當緊張。我那個「上台的前一天不會睡」的魔咒果然還是依舊存在，所以演講當天凌晨四點，我拿著筆電到飯店的大廳練習對著空氣講，練到早上七點，但還是覺得不夠穩。<br />
+<span class="translate">
+Although I have a some experience about having public speech, but it's my first time to have a presentation abroad and do my speech in English, and I also know there might be lots of awesome rubyists sitting there, including some Ruby core committer, so I really feel nervous. And I have a curse that "I won't sleep if I have a public presentation on the next day", so I practiced in the lobby of the hotel from 4 A.M. to 7 A.M., but still not stable enough.
+</span></p>
+
+<p>我的演講廳是小間的，所以壓力有稍微小一點點。<br />
+<span class="translate">
+My presentation hall is the smaller one, so my pressure is also slightly smaller, too.
+</span></p>
+
+<p>為了怕現場出包，所以在 code review 展示的部份我是用預錄的，不過事後想想好像直接現場操作比較容易掌控時間<br />
+<span class="translate">
+I think I might make some mistakes while presenting, so I recorded the code review demo in advance, but I think the real live demo might be easier for me to control time.
+</span></p>
+
+<p>上午的演講結束後，下午發生的小插曲讓我抖了好大一下。我在演講內容裡有提到一些在 Ruby 的原始碼裡面有一些小地方的命名不太優，當下大家笑得很開心，雖然娛樂效果達到了，但我其實也有點擔心會不會有什麼不好的副作用。結果上午的講場結束，下午就看到<a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">這則</a>：<br />
+<span class="translate">
+After finishing my talk, there's something surprised me. In my speech, I mentioned some interesting naming in the Ruby source code just for fun. I know it might be entertaining but still a little worried about if there would be any bad consequence. Then in the afternoon, I saw this <a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">tweet</a>:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-zzak.png" alt="image" /></p>
+
+<p>哇!! 我有嚇到的感覺了，不過因為我個人覺得這樣好像有些失禮，所以當晚的 Official Party，我就親自去跟 @nobu 說聲不好意思，希望沒有造成他的困擾。其實我也是想趁這個機會認識一下只有在網路上才能看得到的傳說大神，而且他好像一點也不在意。<br />
+<span class="translate">
+Wow! That's really really surprised me!! and I don't know if this would cause any trouble for committer, so I went to @nobu and said sorry to him on the official party in the night, and hope didn't cause extra trouble for him. In fact, I went to him also want to know him by this chance, and actually he didn't mind at all.
+</span></p>
+
+<p>第三天的議程，我本來就打算要來聽 <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a> 的主題(他是 <a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a> 一書的作者 )，沒想到坐下來沒多久竟然看到自己的名字跟前一天講的東西出現在投影片上：<br />
+<span class="translate">
+In the last day, I was planning to attend <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a>'s talk, whihc is the author of the book "<a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a>". After sitting in the hall, I suddenly found my name was quoted in the slide:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-jim-gay.jpg" alt="image" /></p>
+
+<p>再度有被嚇到的感覺。<br />
+<span class="translate">
+Yes, Supprised me again.
+</span></p>
+
+<p>活動結束後，RubyKaigi 2013 的頭目角谷<a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">也推了一篇</a>：<br />
+<span class="translate">
+the Organizing Director of RubyKaigi 2013 Shintaro Kakutani also <a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">tweeted this</a>:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-kakutani.png" alt="image" /></p>
+
+<p>再次看到自己的名字被提到，有些驚訝也有些不好意思，不過這個"Conference-Driven Development(CDD)" 聽起來好像不錯，而且我喜歡 "RubyKaigi made Ruby Better"，如果有朝一日我有能力，我也希望可以多貢獻一些心力。<br />
+<span class="translate">
+I feel surprised again and also little embarrassing, but the "Conference-Driven Development(CDD)" sounds workable, and I love the "RubyKaigi made Ruby Better", I hope I can do more contributions to Ruby and this community someday if possible.
+</span></p>
+
+<p>感謝高井さん(<a href="https://twitter.com/takai" target="_blank">@takai</a>)幫我拍的照片，讓我在 <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist 時計</a>上也可以有一張漂亮的照片。<br />
+<span class="translate">
+Thanks to Naoto Takai(<a href="https://twitter.com/takai" target="_blank">@takai</a>) to take a photo for me so that I can have a nice picture on the <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist Tokei</a>.
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-rubyist-clock.jpg" alt="image" />
+photoed by <a href="https://twitter.com/takai" target="_blank">@takai</a></p>
+
+<p>這趟日本之行有學習到不少東西，收獲很多，會在接下來的幾篇文章介紹。最後，有講的不好的地方，還請多多指教。<br >
+<span class="translate">
+Anyway, I learned a lot on this trip to Japan, and I'll write them down in next blog posts. At last, if there's any bad or something wrong about my speech, please feel free to comment.
+</span></p>
+
+<p>Thank you all, RubyKaigi team, you're all AWESOME!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第一回 Ruby/Rails 有心人訓練課程]]></title>
+    <link href="http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course/"/>
+    <updated>2013-04-22T09:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course</id>
+    <content type="html"><![CDATA[<p class="info">
+第一梯次的課程已在 3/23 開始，並於 4/14 告一段落，感謝大家的參與。
+</p>
+
+
+<p><img src="/images/2013/ruby-course-classroom-2.jpg" alt="image" />
+關於這個課程怎麼來的，詳情請參見<a href="http://blog.eddie.com.tw/2013/02/08/new-rubyist-wanted/">前文</a>。</p>
+
+<p>為期一個月的 Ruby/Rails 訓練課程，算是告一段落了。</p>
+
+<p>不管什麼原因造成的，來信報名的人比我當初預料的要多很多。 當初，小弟只是私心的想要二、三位可以一起工作的伙伴，結果來信報名的最後超過七十位。跟幾位 Ruby 社群的朋友聊過之後，覺得即然有這麼多有心人想要進入 Ruby 圈的話，何不就直接改成短期的訓練營，讓更多的朋友可以有機會更清楚 Ruby/Rails 是怎麼回事。</p>
+
+<p>為了可以顧及教學品質，所以最後僅從七十餘封報名來信中，挑選了二十位參加。</p>
+
+<p>訓練課程沒有跟大家收取費用。就以往的經驗，通常這類型的免費活動很容易到最後出席率會很難看，特別是安排在週六、日，如果遇到氣候不佳就更慘了。但令我感到意外的，簽到本上面總是簽的滿滿的，每回的出席率幾乎都是 100%，在這種挑戰出席率的下雨天，又是在週末的休假時間，再加上上課地點也不算太近(這回還有同學是每星期都從雲林北上來參加的)，實在是令人非常的感動。</p>
+
+<p><img src="/images/2013/fju-mei.png" alt="image" />
+輔大資工系梅教授的這段話，讓我想起 Ruddy Lee 老師在今年一月 <a href="http://webconf.tw" target="_blank">WebConf Taiwan</a> 講的：「一群犧牲假日熱情洋溢的年輕人，讓人覺得臺灣好有希望〜」</p>
+
+<p>感謝輔大 <a href="http://www.nisra.net/" target="_blank">NISRA</a> 社團同學的熱血的奔走幫忙以及現場技術支援，我們才有輔大資工系出借的電腦教室可以使用，很棒的硬體設備。
+<img src="/images/2013/ruby-course-classroom-1.jpg" alt="image" /></p>
+
+<p>另外，也感謝 Ruby 社群的幾位先進的火力支援 <a href="https://twitter.com/ryudoawaru" target="_blank">Ryudo</a>, <a href="https://twitter.com/changmason" target="_blank">Mason</a>, <a href="https://twitter.com/ihower" target="_blank">iHower</a>, <a href="https://twitter.com/weijenlu" target="_blank">Weijenlu</a>.. etc
+<img src="/images/2013/awesome-rubyists.jpg" alt="image" /></p>
+
+<p>這回十分感謝大家的幫忙與捧場，希望六月之後還可以再來規劃第二梯次 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[徵求 Ruby/Rails 有心人]]></title>
+    <link href="http://blog.eddie.com.tw/2013/02/08/new-rubyist-wanted/"/>
+    <updated>2013-02-08T09:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/02/08/new-rubyist-wanted</id>
+    <content type="html"><![CDATA[<p class="info">
+感謝大家的支持，因來信報名人數已經超過七十人，礙於場地限制以及顧及上課品質，最後不得於僅能選出二十人，訓練課程於 3/23 開始，並於 4/14 結束。
+</p>
+
+
+<p><img src="/images/2013/ruby.jpg" alt="image" />
+<span class="photo_by">photo by <a href="http://www.flickr.com/photos/jobafunky/" target="_blank">JOBAfunkey</a></span></p>
+
+<p>感謝大家的不嫌棄，近來手邊的 Ruby/Rails 的案件/工作量已經增加到超出我所能負荷的範圍。 問了身邊本來就在寫 Ruby/Rails 的朋友，不是已經在大公司上班，就是自己也是忙到爆炸沒空理我。</p>
+
+<p>於是我就在想，與其要直接找現成的即戰力，不如趁這個機會自己從頭開始帶。雖然會比較辛苦、花時間，但一些開發的習慣可以從一開始就先養成好像也不錯。(而且外面也很少聽到有專門在教 Ruby/Rails 的補習班..)</p>
+
+<p>所以，我想要找人來給我<del>殘害</del>訓練 :)</p>
+
+<h2>你應該會學到什麼</h2>
+
+<ul>
+<li>Ruby</li>
+<li>Rails</li>
+<li>Git</li>
+<li>Vim</li>
+<li>一些網站開發相關的基本技術</li>
+<li><del>還有最重要的，可以一起組隊打 D3.. XD</del></li>
+</ul>
+
+
+<h2>權利義務</h2>
+
+<p>基本上不會有什麼權利義務，也不會有什麼學費或薪水。 其實我個人的私心，是希望學成之後可以有能力幫我消化或維護我手邊的專案。<del>這樣我這樣才有更多時間打 D3</del>。 如果開始接手專案的話當然就會開始有薪水了，至於待遇會不會超過 22K? 我想應該不會太難 :)</p>
+
+<h2>基本條件</h2>
+
+<ul>
+<li>男女不拘，但基於我已經有兩個小朋友了，所以還是男性佳。<del>女性佳我回家就要跪主機板了</del></li>
+<li>最好是從學校畢業畢業不久，工作一、二年，或是即將從學校畢業。</li>
+<li>對寫程式有熱忱，不需要非常熟悉某種程式語言，但至少需要知道這個世界上不是只有 IE 這種瀏覽器。</li>
+<li>最好可以自備電腦。 (不一定要Mac)</li>
+<li>最好人是在北部。</li>
+</ul>
+
+
+<h2>人數限制</h2>
+
+<p>最多三位，再多我就沒辦法顧到品質了。</p>
+
+<h2>地點</h2>
+
+<p>會挑在外面的某個可以坐一整天而且有電源的咖啡店。</p>
+
+<h2>時間</h2>
+
+<p>預計從三月份開始的每週六、日，並為期一到二個月。</p>
+
+<p>我不敢說自己是什麼咖，但至少教大家如何用 Ruby/Rails 來謀生活沒太大問題。 如果您有興趣，也覺得自己不會來個兩次就不來的，歡迎來信至 eddie@digik.com.tw，並請簡單的介紹一下你自己。</p>
+
+<p>感謝大家，先祝大家新年都很快樂!</p>
+
+<h2>徵才</h2>
+
+<p>順便幫忙宣傳一下徵才訊息：</p>
+
+<ul>
+<li><a href="http://www.104.com.tw/jobbank/custjob/index.php?r=job&j=603c456f3a5e415833343c655466396196072442942484123232323233c2d2827563j48&jobsource=104_sj&hotjob_chr=0&jobact=relevance" target="_blank">iOS/Android軟體工程師</a></li>
+<li><a href="http://www.104.com.tw/jobbank/custjob/index.php?r=job&j=3e3c45286048415833343c655466396196072442942484123232323233c2d2827563j01&jobsource=104_sj&hotjob_chr=0&jobact=relevance" target="_blank">前端軟體工程師</a></li>
+<li><a href="http://www.104.com.tw/jobbank/custjob/index.php?r=job&j=623e462d504a435a35363e6756683b6316274462b444a4325252525683d552a29745j50&jobsource=104_sj&hotjob_chr=0&jobact=relevance" target="_blank">Java 軟體工程師</a></li>
+</ul>
+
+
+<p class="info">這是一家滿有活力的新創公司，成員都很好相處，有興趣也歡迎來一起聊聊。</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby without Rails]]></title>
+    <link href="http://blog.eddie.com.tw/2012/04/25/ruby-without-rails/"/>
+    <updated>2012-04-25T15:16:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/04/25/ruby-without-rails</id>
+    <content type="html"><![CDATA[<p>這是在<a href="http://registrano.com/events/webdev-party-03">WebDev Party #3</a>上分享的內容，主題是雖然Rails很威很好用，但如果沒有Rails的話，還可以拿Ruby做些什麼其它的事。</p>
+
+<p><iframe src="http://player.vimeo.com/video/40948397?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe></p>
+
+<p>投影片：
+<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank"><img src="/images/2012/slideshare-ruby-without-rails.jpg" alt="image" /></a>
+<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank">View on Slideshare</a> | <a href="http://blog.eddie.com.tw/downloads/files/2012/ruby_without_rails.pdf" target="_blank">Download PDF</a></p>
+
+<p>希望對大家有幫助。如果有哪邊講錯的還請各位先進前輩不吝給予指正。</p>
+
+<p>[update] 我也把影片上傳一份到<a href="http://www.youtube.com/watch?v=Xp2Ix4yEOGo">Youtube</a>了</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Certified Programmer]]></title>
+    <link href="http://blog.eddie.com.tw/2012/01/18/i-am-ruby-certified-programmer/"/>
+    <updated>2012-01-18T17:57:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/01/18/i-am-ruby-certified-programmer</id>
+    <content type="html"><![CDATA[<p>今天下午我去參加了Ruby的認證考試，運氣不錯，過了。
+<img src="/images/2012/ruby_certifiy_passed.jpg" alt="image" /><br /></p>
+
+<h2>為什麼要去考這個?</h2>
+
+<p>其實當初目的很單純，只是想說即然我現在也都有靠Ruby在吃飯了，再加上這天剛好我要外出一整天在台北市閒晃，就報名順路去考了。</p>
+
+<h2>報名</h2>
+
+<p><a href="http://www.ruby-assn.org/en/certification.htm">Ruby Association</a>的網站可以找到相關訊息以及報名方法，台灣幾家比較大的電腦補習班都可以考。</p>
+
+<p>考試時間是90分鐘，共有50道選擇題(單、複選都有)。英文出題，滿分100分，75分才算及格。英文出題其實不用怕，畢竟不是像托福要考你英文程度的，所以英文題目的敘述不會用太難的字。</p>
+
+<p>喔，忘了說，報名費是150塊美金。</p>
+
+<h2>心得</h2>
+
+<p>我差不多30分鐘就寫完了，剩下的時間再重頭全部檢查一次。</p>
+
+<p>可能我運氣好吧，除了幾題陷阱題之外，遇到的題目都不算太難。不過我覺得這考試感覺有點像在考對API的記憶力，真的需要花腦筋想的題目不多。有些API在實務上並不常用到，所以..我不覺得只要平常有在寫就有辦法通過考試，特別是只有在寫Rails的話，不特別準備一下可能過不了的(畢竟是Ruby認證，不是Rails認證啊)。</p>
+
+<p>準備方向，就.. 常常練習動手寫是基本一定要的(不然我想弄這個證照也沒什麼意義吧)，然後在考前再把幾個重要的Class、Module的API"全部"看過一次，應該就差不多了。我運氣不錯，八十幾分低空飛過(這也表示我還不夠熟)。</p>
+
+<h2>結論</h2>
+
+<p>也許您會好奇，Ruby證照能幹嘛? 到時候拿去貼滷味攤嗎? 老實說，這對我來說並沒什麼實質用途，我不會因為有多這張認證而加薪、案子變多，或是被大公司挖角。</p>
+
+<p>至於"證照有用/無用"的討論，網路上已經很多了，那也不會是我關心的重點。我去報名認證考試只是單純的想多一張獎狀而已(小時候成績不好，所以家裡牆壁上沒幾張獎狀，所以當年Adobe的Flash Developer跟Linux的LPI認證也是這樣來的)，順便測試一下自己對Ruby的熟悉程度罷了 :)</p>
+
+<p><img src="/images/2012/ra_certified.jpg" alt="image" /><br />
+總之，小徽章一枚手入 :)</p>
+]]></content>
+  </entry>
+  
+</feed>

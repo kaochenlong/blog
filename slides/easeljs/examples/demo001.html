@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>EaselJS Demo 001</title>
+  <script type="text/javascript" src="/javascripts/easeljs/easel.js"></script>
+  <style type="text/css" media="screen">
+    #my_canvas{background-color: gray;}
+  </style>
+  <script type="text/javascript">
+    function init()
+    {
+      var canvas = document.getElementById("my_canvas");
+      var stage = new Stage(canvas);
+
+      var hello_text = new Text();
+      hello_text.text = "Hello, EaselJS!";
+      hello_text.color = "#fff";
+      hello_text.font = "36px bold Arial";
+      hello_text.x = 60;
+      hello_text.y = 150;
+
+      stage.addChild(hello_text);
+      stage.update();
+    }
+  </script>
+</head>
+<body onload="javascript:init();">
+<canvas width="300" height="300" id="my_canvas"></canvas>
+</body>
+</html>

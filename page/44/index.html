@@ -1,0 +1,663 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="APT(Advenced Package Tool)，是Linux用來管理套件的工具，透過 APT可以更有效率的管理RPM，不管是安裝、移除、或是升級都很方便。然而APT最大的優點，是可以自動處理RPM相依性的問題，例如當安裝 A rpm，而A rpm和B rpm又有相依性的時候， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/page/44/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/01/27/apt-advenced-package-tool/">APT(Advenced Package Tool)</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/01/27/apt-advenced-package-tool/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-01-27T20:28:00+08:00" pubdate>Jan 27<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>APT(Advenced Package Tool)，是Linux用來管理套件的工具，透過 APT可以更有效率的管理RPM，不管是安裝、移除、或是升級都很方便。然而APT最大的優點，是可以自動處理RPM相依性的問題，例如當安裝 A rpm，而A rpm和B rpm又有相依性的時候，原本作法是先下載B rpm安裝後，再下載A rpm安裝；利用APT則只需要「apt-get install A」就完成了，這樣 APT 就會幫我們下載A rpm，而且會自動下載相依性檔案（B rpm）幫我們安裝，這樣對 RPM 的安裝、移除、或是升級都可以不用去管煩人的相依性問題了。</p>
+
+<h2>安裝：</h2>
+
+<h3>Step 1 安裝apt：</h3>
+
+<pre><code>&gt; rpm -ivh ftp://apt.nc.hcc.edu.tw/pub/freshrpms/redhat/9/apt/apt-0.5.5cnc6-fr1.i386.rpm
+</code></pre>
+
+<h3>Step 2 修改設定：</h3>
+
+<pre><code>&gt;vi /etc/apt/sources.list
+</code></pre>
+
+<p>因為原本預設的apt source是連到國外，速度比較慢。</p>
+
+<pre><code>&gt; rpm http://ayo.freshrpms.net/ fedora/linux/1/i386 core updates freshrpms
+</code></pre>
+
+<p>可以改成新竹縣教育研究發展暨網路中心維護的 APT Server：</p>
+
+<pre><code>&gt; rpm ftp://apt.nc.hcc.edu.tw/pub/apt/redhat/9 i386 os updates freshrpms firefly extra
+</code></pre>
+
+<h2>使用說明：</h2>
+
+<pre><code>&gt; apt-get update
+</code></pre>
+
+<p>更新：這是用來取得記錄在<code>/etc/apt/sources.list</code>內的apt伺服器的套件檔案清單，在使用<code>apt-get dist-upgrade</code>指令升級套件前，要記得先用這指令將套件檔案清單更新。</p>
+
+<p>執行<code>apt-get update</code>指令的時候會同步client端和APT伺服器的RPM索引清單(package list)，APT伺服器的RPM索引清單置於base資料夾內，使用者端電腦取得base資料夾內的bz2 RPM索引清單壓縮檔後，會將其解壓置放於<code>/var/state/apt/lists/</code>。</p>
+
+<pre><code>&gt; apt-get dist-upgrade
+</code></pre>
+
+<p>升級：這裡的升級，並不是由 Red Hat Linux 8.0 變成 9 這樣的升級，而是當 Red Hat 有出升級的 rpm 的時候，利用這個指令，升級我們已經安裝的 rpm；加上<code>-y</code>參數可自動回答yes直接安裝。</p>
+
+<p>當使用者用 apt-get install 或 apt-get dist-upgrade 指令的時候，就會將 /var/state/apt/lists/ 資料夾內的資料和使用者端電腦內的 RPM 資料庫比對，如此一來就可以知道那些RPM已安裝、未安裝、或是可以升級的，然後APT 就會自動透過網路下載需要的rpm回來安裝了。</p>
+
+<pre><code>&gt; apt-cache search
+</code></pre>
+
+<p>搜尋：用這個指令可以搜尋 rpm，例如：<code>apt-cache search httpd</code>，這樣檔名內有httpd字眼的rpm都會出現了。</p>
+
+<pre><code>&gt; apt-cache depends
+</code></pre>
+
+<p>相依性：利用這個指令來看到某個 rpm 的所有相依性檔案，例如：<code>apt-cache depends httpd</code>，這樣 httpd 的所有相依性檔案就會出現了，有時候不確定某個相依性檔案是屬於那個 rpm 時，這個指令就很有用。</p>
+
+<pre><code>&gt; apt-get install
+</code></pre>
+
+<p>安裝：當我們知道rpm名稱的時候，就可以用這指令安裝套件，例如：<code>apt-get install httpd</code>，這樣 apt 就會自動下載httpd的rpm回來安裝，若 httpd 有相依性套件的時候，apt也會自動下載安裝。</p>
+
+<pre><code>&gt; apt-get clean
+</code></pre>
+
+<p>清除：當使用 apt-get install 指令安裝套件，下載下來的 rpm 會放置於 /var/cache/apt/archives，使用<code>apt-get clean</code>指令可以將之清除，避免佔用硬碟空間。</p>
+
+<pre><code>&gt; apt-get remove
+</code></pre>
+
+<p>移除：如果要移除某個 rpm 的時候就可以使用此指令，例如：<code>apt-get remove httpd</code>，就會移除 httpd 了，假如這個 rpm 有相依性套件的時候，apt 也會一併移除。</p>
+
+<p>另外，把apt寫成script排入每天的排程工作(/etc/cron.daily)，就可以每天自動比對更新了：</p>
+
+<pre><code>#!/bin/sh
+apt-get update
+apt-get -y dist-upgrade
+apt-get clean
+</code></pre>
+
+<h3>參考網址：</h3>
+
+<p><a href="http://apt.nc.hcc.edu.tw/web/apt/apt.html">http://apt.nc.hcc.edu.tw/web/apt/apt.html</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/01/26/redirect-and-pipe/">Redirect and Pipe</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/01/26/redirect-and-pipe/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-01-26T20:23:00+08:00" pubdate>Jan 26<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>什麼是redirect? 簡單的說，就是把目前所得的資料轉到其它地方。例如：</p>
+
+<pre><code>&gt; ls -al &gt; test
+</code></pre>
+
+<p>就會把ls -al所得到的資料，全部轉到test這個檔案。要注意的是，如果test檔案原本不存在，執行上面這個指令後，會建立一個新的檔案；如果test檔案已經存在，那上面這個指令就會把test檔案覆蓋掉!!</p>
+
+<p>如果是這樣的話：</p>
+
+<pre><code>&gt; ls -al &gt;&gt; test
+</code></pre>
+
+<p>兩個大於符號代表會把輸出的結果append到test檔案的最後面。</p>
+
+<p>另外，輸出分成<code>stdout</code>跟<code>stderr</code>兩種，stdout就是一般的輸出結果，當在輸入過程有遇到錯誤時，就會送到stderr，而<code>1&gt;</code>跟<code>2&gt;</code>分別就代表著stdout跟stderr，要注意數字跟大於符號之間沒有空格。</p>
+
+<pre><code>&gt; ls -al 1&gt; test 2&gt; test.err
+</code></pre>
+
+<p>上面這行就是會把ls -al的結果輸出到test檔案，如果遇到錯誤的，就會導向test.err檔案。</p>
+
+<p>redirect是雙向的，除了「>」，也有「&lt;」，例如：</p>
+
+<pre><code>&gt; mail -s “hello, eddie” eddie &lt; /home/eddie/test
+</code></pre>
+
+<p>就是把這個test檔寄給指定的使用者。</p>
+
+<pre><code>&gt; mysql -u root -p mydb &lt; sql.txt
+</code></pre>
+
+<p>就是把檔案sql.txt裡面的sql語法，輸入到mysql裡的mydb資料庫。</p>
+
+<p>而pipe(管線)跟redirect不太一樣，pipe能處理前一個指令傳來的輸出資訊，處理完後再丟給下一個指令(如果有的話)。例如下面這個指令：</p>
+
+<pre><code>&gt; ps aux | grep java | more
+</code></pre>
+
+<p>意思就是說執行ps所輸出的結果，丟到grep裡面，然後grep會把含有<code>java</code>字串的那一行抓出來，grep再把結果輸出給more指令，如果grep輸出的結果超過一頁，more指令就會負責做分頁的動作。</p>
+
+<h3>差別：</h3>
+
+<pre><code>&gt; cat test | mail -s “hi” eddie
+</code></pre>
+
+<p>這個是會把test檔案的內容，輸出給mail程式，再寄出去。</p>
+
+<pre><code>&gt; mail -s “hi” eddie &lt; test
+</code></pre>
+
+<p>這個則是把test檔當作附加檔案寄出信件。</p>
+
+<p>以上大致上是redirect跟pipe的介紹，這在很多地方都用得上，相信熟悉這些技巧將會對系統管理更得心應手。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/01/25/install-webmin/">Webmin安裝</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/01/25/install-webmin/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-01-25T20:18:00+08:00" pubdate>Jan 25<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Webmin是一套Web-based的系統管理軟體，原本複雜難記的指令，只透過瀏覽器就可以簡單的完成。不過，方便歸方便，該記的指令式還是要知道怎麼使用。</p>
+
+<h3>Step 1:下載Webmin</h3>
+
+<p>到Webmin網站<a href="http://www.webmin.com/">http://www.webmin.com/</a>，可以下載tar.gz或rpm格式的，如果是在linux環境下，下載rpm格式安裝會簡單很多。</p>
+
+<h3>Step 2:安裝Webmin</h3>
+
+<pre><code>&gt; rpm -ivh webmin-x.xxx-x.noarch.rpm
+</code></pre>
+
+<h3>Step 3:使用Webmin</h3>
+
+<p>執行Step2安裝結束後，安裝訊息會告訴你使用網頁瀏覽器連到指定的位置，通常是<code>http://localhost:10000/</code></p>
+
+<p>第一次使用是以root的帳號密碼來登入，為了安全性的考量，建議第一次登入後新增一位跟root同等權限的使用者，然後把root帳號從Webmin系統 移除(對原系統沒影響，只是root不能使用webmin系統而已)，另外，預設的port 10000也建議改到其它的port。</p>
+
+<p>其實Webmin使用並不困難，例如上面提到使用者的新增、修改、更換port這些動作，相信都不難找到在哪裡做設定。</p>
+
+<p>Enjoy it!!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/01/24/new-harddrive-on-redhat-9/">加裝新硬碟on Red Hat 9</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/01/24/new-harddrive-on-redhat-9/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-01-24T20:16:00+08:00" pubdate>Jan 24<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天試著裝上一顆6G的IDE硬碟，打算來當備份資料用的，感覺不是挺困難。</p>
+
+<h3>Step 1.分割partition：</h3>
+
+<pre><code>&gt; fdisk /dev/hdb原來的硬碟是hda，新的這個是hdb。
+</code></pre>
+
+<h3>Step 2.格式化：</h3>
+
+<pre><code>&gt; mke2fs /dev/hdb
+</code></pre>
+
+<h3>Step 3.建立mount的目錄：</h3>
+
+<pre><code>&gt; mkdir /backup
+</code></pre>
+
+<p>因為在Linux環境裡，device是以目錄形態表示，所以先新增一個目錄，待會再把硬碟mount到這個目錄。</p>
+
+<h3>Step 4.mount：</h3>
+
+<pre><code>&gt; mount -t ext2 /dev/hdb /disk2
+</code></pre>
+
+<p>這樣大致上就OK了。如果想在開機後自動把這個新硬碟掛進來的話，動手修改「/etc/fstab」這個檔案即可。</p>
+
+<pre><code>&gt; vi /etc/fstab
+＃Device　　　MountPoint　　filesystem　Options　　dump　　fsck
+/dev/hdb　　/backup　　　　ext3　　　　defaults　　　1　　　　1
+</code></pre>
+
+<h3>其它相關指令：</h3>
+
+<ul>
+<li>mount</li>
+<li>umount</li>
+<li>fdisk</li>
+<li>mke2fs</li>
+<li>e2label</li>
+<li>fsck</li>
+<li>mkbootdisk</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/01/22/runlevel/">Runlevel</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/01/22/runlevel/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-01-22T20:04:00+08:00" pubdate>Jan 22<span>nd</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在Microsoft Windows開機的時候，除了一般正常開機外，有時候系統出了問題可以進入「安全模式」來解決，在Linux的環境也有類似的模式，就是 「runlevel」。通常Linux開時的時候，它預設的登入runlevel通常是level 3或level 5，而各種runlevel也代表不同的意思：</p>
+
+<pre><code>0 – Halt the system
+1 – Single-user mode
+2 – Multi-user mode (without NFS)
+3 – Multi-user mode
+5 – Multi-user mode, graphical login
+6 – Reboot the system
+</code></pre>
+
+<p>如果是<code>runlevel 5</code>，在系統開機後就會進入圖形介面的登入畫面；如果是runlevel 3，就是文字介面的登入畫面。</p>
+
+<p>當 你按下<code>Ctrl+Alt+Del</code>鍵想讓系統重新啟動，其實就是告訴系統進入<code>runlevel 6</code>(Reboot the system)，系統就會重新開機，你可以利用<code>telinit 6</code>達到一樣的效果；而<code>telinit 0</code>則是有跟指令<code>shutdown</code>、<code>poweroff</code>一樣的效果。</p>
+
+<p>在開機的時候，也可以指定系統啟動的runlevel：</p>
+
+<pre><code>LILO: linux 3
+</code></pre>
+
+<p>另外，有時忘了root密碼，也可進入single-user mode(runlevel 1)後，直接修改root密碼。</p>
+
+<p>參考網址：
+<a href="http://www.iodynamics.com/education/runlevel.html">http://www.iodynamics.com/education/runlevel.html</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/45/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/43/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現&#8230;<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

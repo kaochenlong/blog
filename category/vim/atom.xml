@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Vim | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/vim/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[爽爽快快學Vim(3) - Vim Plugins]]></title>
+    <link href="http://blog.eddie.com.tw/2012/06/01/screencast-3-vim-plugins/"/>
+    <updated>2012-06-01T17:42:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/06/01/screencast-3-vim-plugins</id>
+    <content type="html"><![CDATA[<p>這一集我來分享一下我自己常在用的Plugin</p>
+
+<p><iframe width="420" height="315" src="http://www.youtube.com/embed/0QFR-_wUoA0" frameborder="0" allowfullscreen></iframe></p>
+
+<p>內嵌進來的影片可能有點小、有點不清楚，建議直接到<a href="http://www.youtube.com/watch?v=0QFR-_wUoA0">Youtube</a>並切換至HD畫質觀看。另外也傳了一份到 <a href="https://vimeo.com/43242882">Vimeo</a> 以及 <a href="http://v.youku.com/v_show/id_XNDA2Mzc2ODcy.html">youku</a></p>
+
+<h2>Plugins</h2>
+
+<h3><a href="http://www.vim.org/scripts/script.php?script_id=2332">vim-pathogen</a></h3>
+
+<p>好用的vim的套件管理工具。通常plugin下載回來之後開一個資料夾整個丟進去就行了，一個plugin就放一個資料夾，如果不要的時候就該資料砍掉就行了</p>
+
+<h3><a href="https://github.com/Lokaltog/vim-powerline">vim-powerline</a></h3>
+
+<p>華麗的狀態列</p>
+
+<h3><a href="https://github.com/c9s/colorselector.vim">SelectColors</a></h3>
+
+<p>c9s大大寫的方便小工具
+只要執行<kbd>:SelectColors</kbd>即可呼叫出快速切換color scheme的小分割視窗</p>
+
+<h3><a href="http://www.vim.org/scripts/script.php?script_id=2540">snipmate</a></h3>
+
+<p>只要只幾個字母再按下tab就可以快速產生snippets，如果覺得不夠或是有自己慣用的snippets也可以自己加</p>
+
+<h3><a href="https://github.com/ap/vim-css-color">vim-css-color</a></h3>
+
+<p>直接在vim裡顯示CSS色碼所代表的顏色</p>
+
+<h3><a href="https://github.com/tpope/vim-surround">surround</a></h3>
+
+<p>文字編輯的好幫手!</p>
+
+<ul>
+<li>進到visual mode並選取文字後 <kbd>S</kbd><kbd>"</kbd> 把選取文字加上雙引號</li>
+<li><kbd>c</kbd><kbd>s</kbd><kbd>"</kbd><kbd>'</kbd> = 把週圍的雙引號換成單引號</li>
+<li><kbd>c</kbd><kbd>s</kbd><kbd>]</kbd><kbd>)</kbd> = 把週圍的方括號換成小括號</li>
+<li><kbd>d</kbd><kbd>s</kbd><kbd>"</kbd> = 刪除週圍的雙引號</li>
+<li><kbd>c</kbd><kbd>s</kbd><kbd>t</kbd> = 刪除週圍的tag</li>
+<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>"</kbd> = 把整行加上雙引號</li>
+<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>(</kbd> = 把整行加上小括號，但小括號與內容會有空格存在</li>
+<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>)</kbd> = 同上，但不會有空格</li>
+<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>{</kbd> = 把整行加上大括號，但大括號與內容會有空格存在</li>
+<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>}</kbd> = 同上，但不會有空格</li>
+</ul>
+
+
+<h3><a href="http://www.vim.org/scripts/script.php?script_id=3037">vim-indent-object</a></h3>
+
+<p>如果你寫的程式語言是用大括號把程式碼包起來的，你只要按<kbd>v</kbd><kbd>i</kbd><kbd>{</kbd>就可以把大括號裡的東西全部選起來。但如果遇到像ruby或python這種不需要大括號的，就可以用得上它。</p>
+
+<ul>
+<li><kbd>v</kbd><kbd>i</kbd><kbd>i</kbd> 選取相同縮排層級的文字</li>
+<li><kbd>v</kbd><kbd>a</kbd><kbd>i</kbd> 同上，但會連帶上一層級也一併選取</li>
+</ul>
+
+
+<h3><a href="http://www.vim.org/scripts/script.php?script_id=39">vim-matchit</a></h3>
+
+<p>讓 <kbd>%</kbd> 不只可以配對基本的語法，連html的tag也可以比對</p>
+
+<h3><a href="http://www.vim.org/scripts/script.php?script_id=1896">vim-ragtag</a></h3>
+
+<ul>
+<li><kbd>Ctrl</kbd><kbd>x</kbd><kbd>Enter</kbd> = 產生對應的tag，而且中間會加上斷行</li>
+<li><kbd>Ctrl</kbd><kbd>x</kbd><kbd>Space</kbd> = 同上，但不會加上斷行</li>
+</ul>
+
+
+<h3><a href="http://www.vim.org/scripts/script.php?script_id=1658">NERDtree</a></h3>
+
+<p>樹狀目錄結構列表，讓你可以在檔案跟資料夾中切換</p>
+
+<h3><a href="https://github.com/kien/ctrlp.vim">ctrlp</a></h3>
+
+<p>快速找到檔案的好幫手</p>
+
+<ul>
+<li><kbd>Ctrl</kbd><kbd>p</kbd> 啟動</li>
+<li><kbd>Ctrl</kbd><kbd>g</kbd> 關閉</li>
+<li>在啟動中按<kbd>Ctrl</kbd><kbd>f</kbd> 可換切搜尋模式(共有File、Buffer以及MRU三種)</li>
+</ul>
+
+
+<h3><a href="http://www.vim.org/scripts/script.php?script_id=2226">vim-wiki</a></h3>
+
+<p>用vim來寫筆記(wiki)</p>
+
+<h2>小結</h2>
+
+<p>以上，所有的plugin在我的github上的<a href="https://github.com/kaochenlong/eddie-vim">vimrc設定</a>裡應該都找得到。其實我用的plugin並不多，使用上大多還是以vim內建的基本操作為主。如果有哪邊有錯的再請前輩、先進不吝指教</p>
+
+<h2>預告</h2>
+
+<p>眼尖的人可能會發現上面列的都沒有Ruby或Rails相關的plugin。是的這些相關的plugin都會留到下一集，所以下一集會來分享一下怎麼利用Vim在Ruby/Rails裡做開發的，還請稍稍期待一下 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[爽爽快快學Vim(2)]]></title>
+    <link href="http://blog.eddie.com.tw/2012/05/11/screencast-2-file-window-and-buffer/"/>
+    <updated>2012-05-11T08:29:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/05/11/screencast-2-file-window-and-buffer</id>
+    <content type="html"><![CDATA[<p><iframe width="420" height="315" src="http://www.youtube.com/embed/D8fQMtPdurY" frameborder="0" allowfullscreen></iframe>
+建議直接到<a href="http://www.youtube.com/watch?v=D8fQMtPdurY">Youtube</a>並切換至HD畫質觀看。另外也傳了一份到 <a href="https://vimeo.com/41953763">Vimeo</a> 以及 <a href="http://v.youku.com/v_show/id_XMzk0NTMwNzE2.html">youku</a></p>
+
+<h2>Vim plugin for other Apps</h2>
+
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/dbepggeogbaibhgnhhndojpepiihcmeb">Vimium</a> for Chrome</li>
+<li><a href="https://github.com/JugglerShu/XVim">Xvim</a> for XCode</li>
+<li><a href="http://vrapper.sourceforge.net/home/">Vrapper</a> for Eclipse serial editor</li>
+</ul>
+
+
+<h2>檔案開啟</h2>
+
+<p><code>vi -o a.rb b.rb</code> 以水平分割視窗同時開啟檔案。</p>
+
+<p><code>vi -O a.rb b.rb</code> 以垂直分割視窗同時開啟檔案。</p>
+
+<p><code>vi -p a.rb b.rb</code> 以tab視窗同時開啟檔案。</p>
+
+<p><code>vi http://www.eddie.com.tw</code> 可直接開啟網址並將網頁原始碼讀進vim編輯器。</p>
+
+<h2>編輯</h2>
+
+<p>部份在shell指令在insert mode也適用，例如<kbd>Ctrl</kbd><kbd>w</kbd>及<kbd>Ctrl</kbd><kbd>u</kbd>。</p>
+
+<p><kbd>r</kbd> 取代目前游標所在字元，<kbd>R</kbd> 連續取代。</p>
+
+<p><kbd>J</kbd> 組合游標所在的這行與下一行, <kbd>3</kbd><kbd>J</kbd> 將連續3行都組合起來。</p>
+
+<p><kbd>Ctrl</kbd><kbd>v</kbd> 進入visual block模式。</p>
+
+<h2>視窗</h2>
+
+<p><kbd>:</kbd><kbd>new</kbd> 新增一個水平分割視窗， <kbd>:</kbd><kbd>vnew</kbd> 新增一個垂直分割視窗。</p>
+
+<p><kbd>Ctrl</kbd><kbd>w</kbd> hjkl 可在分割視窗間切換。</p>
+
+<p><kbd>:</kbd><kbd>b</kbd><kbd>p</kbd> 上一個已經開啟的檔案，<kbd>:</kbd><kbd>b</kbd><kbd>n</kbd> 下一個已經開啟的檔案。</p>
+
+<p><kbd>:</kbd><kbd>l</kbd><kbd>s</kbd> 查看目前buffer裡有哪些檔案。</p>
+
+<p><kbd>:</kbd><kbd>b</kbd><kbd>d</kbd> 關閉一個已經開啟的buffer。</p>
+
+<p><kbd>:</kbd><kbd>b</kbd><kbd>3</kbd> 切換至在buffer裡編號為3號的檔案。</p>
+
+<p><kbd>:</kbd><kbd>b</kbd> test.rb 切換至在buffer裡檔名為<code>test.rb</code>的檔案。</p>
+
+<p><kbd>:</kbd><kbd>tab ba</kbd> 可將開啟的buffer轉以tab展開。</p>
+
+<h2>小結</h2>
+
+<p>咬字跟口條還是像在含魯蛋，有待加強。下一集將會跟大家分享一些我自己工作上有在用的vim plugin，以及簡單的說明vimrc裡的一些設定。另外，如果內容有哪邊講錯的，還請先進、前輩們不吝指導 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[爽爽快快學Vim(1)]]></title>
+    <link href="http://blog.eddie.com.tw/2012/04/27/screencast-1-learning-vim-from-the-beginning/"/>
+    <updated>2012-04-27T06:46:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/04/27/screencast-1-learning-vim-from-the-beginning</id>
+    <content type="html"><![CDATA[<p><iframe width="420" height="315" src="http://www.youtube.com/embed/vMqqYw7wdO0" frameborder="0" allowfullscreen></iframe>
+建議直接到<a href="http://www.youtube.com/watch?v=vMqqYw7wdO0">youtube</a>並切換至HD畫質觀看。另外也傳了一份到<a href="https://vimeo.com/41121476">vimeo</a>以及<a href="http://v.youku.com/v_show/id_XMzg3Njg2MjU2.html">youku</a></p>
+
+<h2>影片內提到的相關連結：</h2>
+
+<ul>
+<li><a href="http://www.vim.org/">Vim</a></li>
+<li><a href="https://github.com/kaochenlong/eddie-vim">我的Vimrc設定參考</a></li>
+</ul>
+
+
+<h3>shell指令</h3>
+
+<p><kbd>Ctrl</kbd><kbd>l</kbd>: 清除畫面</p>
+
+<p><kbd>Ctrl</kbd><kbd>w</kbd>: 一次刪除一個字(word)</p>
+
+<p><kbd>Ctrl</kbd><kbd>u</kbd>: 刪除一整行</p>
+
+<p><kbd>Ctrl</kbd><kbd>r</kbd>: 搜尋history</p>
+
+<h2>Vim</h2>
+
+<h3>mode切換</h3>
+
+<p><kbd>i</kbd> 或 <kbd>a</kbd> 進入insert mode, i = insert, a = append</p>
+
+<p>在insert mode按下 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd>+<kbd>[</kbd> 回到normal mode</p>
+
+<p>在normal mode按下 <kbd>v</kbd> 或 <kbd>V</kbd> 進入到visual mode</p>
+
+<p>在visual mode按下 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd>+<kbd>[</kbd> 回到normal mode</p>
+
+<h3>游標移動</h3>
+
+<p><kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd> 移動游標</p>
+
+<p><kbd>w</kbd> 或 <kbd>W</kbd> 往後跳一個字(word)， <kbd>b</kbd> 或 <kbd>B</kbd> 往前跳一個字(word)。</p>
+
+<p><kbd>0</kbd> 將游標跳回行首， <kbd>$</kbd> 則是跳至行尾。</p>
+
+<p><kbd>f</kbd><kbd>"</kbd> 會找到該行的下一個雙引號，<kbd>f</kbd><kbd>x</kbd> 會找到該行下一個英文字母"x"，以此類推；大寫 <kbd>F</kbd> 則是反向。</p>
+
+<p><kbd>t</kbd><kbd>"</kbd> 會找到該行的下一個雙引號的前一個位置，<kbd>t</kbd><kbd>x</kbd> 會找到該行下一個英文字母"x"的前一個位置，以此類推；大寫 <kbd>T</kbd> 則是反向。</p>
+
+<p><kbd>{</kbd> 往上一個段落移動；<kbd>}</kbd> 往下一個段落移動</p>
+
+<p><kbd>v</kbd><kbd>i</kbd><kbd>t</kbd> 選取目前游標所在的這個標籤(tag)，例如<code>&lt;div&gt;hello&lt;/div&gt;</code>則會選取<code>hello</code>；<kbd>v</kbd><kbd>a</kbd><kbd>t</kbd> 則會連帶標籤一起選取，例如<code>&lt;div&gt;hello&lt;/div&gt;</code>則會選取<code>&lt;div&gt;hello&lt;/div&gt;</code>。</p>
+
+<p><kbd>v</kbd><kbd>i</kbd><kbd>"</kbd> 選取目前游標所在的這個雙引號內的內容，例如<code>"hello world"</code>則會選取<code>hello world</code>；<kbd>v</kbd><kbd>a</kbd><kbd>"</kbd> 則會連雙引號一起選取。其中雙引號也可以替換成單引號、小括號等符號，功能一樣是選取該符號內的文字。</p>
+
+<p><kbd>v</kbd><kbd>i</kbd><kbd>w</kbd> 選取目前游標所在的這個字(word)。</p>
+
+<p><kbd>g</kbd><kbd>g</kbd> 游標跳至整個檔案的第一行；<kbd>G</kbd> 游標跳至檔案的最後一行</p>
+
+<p><kbd>z</kbd><kbd>t</kbd> 將目前游標所在位置的內容拉至螢幕的上方；<kbd>z</kbd><kbd>b</kbd> 將目前游標所在位置的內容拉至螢幕的下方；<kbd>z</kbd><kbd>z</kbd> 將目前游標所在位置的內容拉至螢幕的正中間；</p>
+
+<p><kbd>/</kbd> 搜尋，搜尋到結果後<kbd>n</kbd>可跳至下一個；<kbd>N</kbd>可跳至上個。</p>
+
+<p><kbd>*</kbd> 直接搜尋符合游標所在的字(word)</p>
+
+<h3>編輯</h3>
+
+<p><kbd>i</kbd> 進入insert mode，<kbd>I</kbd> 游標直接跳至行首，並進入insert mode</p>
+
+<p><kbd>a</kbd> 進入insert mode，<kbd>A</kbd> 游標直接跳至行末，並進入insert mode</p>
+
+<p><kbd>D</kbd> 刪除游標所在位置之後的所有內容</p>
+
+<p><kbd>C</kbd> 同上，並直接進入insert mode</p>
+
+<p><kbd>x</kbd> 刪除一個字元</p>
+
+<p><kbd>.</kbd> 重複上一個動作</p>
+
+<p><kbd>d</kbd><kbd>d</kbd> 刪除一整行</p>
+
+<p><kbd>3</kbd><kbd>d</kbd><kbd>d</kbd> 刪除3行</p>
+
+<p><kbd>y</kbd><kbd>y</kbd> 複製游標所在位置的一整行</p>
+
+<p><kbd>3</kbd><kbd>y</kbd><kbd>y</kbd> 從游標處往下複製3行，包含游標所在的那一行</p>
+
+<p><kbd>p</kbd> 貼上內容；<kbd>4p</kbd> 從目前游標的所在處貼上內容4次</p>
+
+<p><kbd>=</kbd> 格式整理，<kbd>g</kbd><kbd>g</kbd><kbd>=</kbd><kbd>G</kbd> 整份文件格式自動整理</p>
+
+<p><kbd>d</kbd><kbd>w</kbd>、<kbd>d</kbd><kbd>i</kbd><kbd>w</kbd> 刪除游標所在的那一個字(word)</p>
+
+<p><kbd>c</kbd><kbd>w</kbd>、<kbd>c</kbd><kbd>i</kbd><kbd>w</kbd> 刪除游標所在的一個字(word)並直接進入insert mode</p>
+
+<p><kbd>></kbd> 增加縮排；<kbd>&lt;</kbd> 減少縮排</p>
+
+<h3>常用命令</h3>
+
+<p><kbd>:</kbd><kbd>w</kbd> 寫入檔案</p>
+
+<p><kbd>:</kbd><kbd>q</kbd> 離開Vim，若加上<kbd>!</kbd>則為強制離開</p>
+
+<p><kbd>:</kbd><kbd>tabe</kbd> 開新tab</p>
+
+<p><kbd>g</kbd><kbd>t</kbd> 切換至下一個tab；<kbd>g</kbd><kbd>T</kbd> 切換至上一個tab。(在我的vimrc裡有分別對應到F7跟F8鍵)</p>
+
+<p><kbd>:</kbd><kbd>new</kbd> 新增水平分割視窗；<kbd>:</kbd><kbd>vnew</kbd> 新增垂直分割視窗。</p>
+
+<h3>其它</h3>
+
+<p><kbd>Ctrl</kbd><kbd>z</kbd> 把vim放至背景工作；<code>fg</code>指令則是將vim從背景工作撿回來。</p>
+
+<p>如果沒有意外或被其它工作中斷，應該可以繼續錄下去。發音的部份感覺咬字像含顆魯蛋一樣，無意義的贅字還是很多，有待加強。內容有不對的地方，再請不吝前輩們給予指教。</p>
+
+<h3>推薦閱讀</h3>
+
+<ul>
+<li><a href="http://blog.carbonfive.com/2011/10/17/vim-text-objects-the-definitive-guide/">Vim Text Objects: The Definitive Guide</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vim與我的工作環境]]></title>
+    <link href="http://blog.eddie.com.tw/2012/04/21/screencast-0-vim-and-my-working-environment/"/>
+    <updated>2012-04-21T01:35:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/04/21/screencast-0-vim-and-my-working-environment</id>
+    <content type="html"><![CDATA[<p>我果然是個愛玩又愛現的人，開始來獻曝了，有講的不好的地方(例如聲音不好聽或是長相太嚇人)，還請見諒。</p>
+
+<p><iframe width="420" height="315" src="http://www.youtube.com/embed/iaLjVHrXyAw" frameborder="0" allowfullscreen></iframe></p>
+
+<p>如果畫面上的程式碼看不清楚的話，建議可以直接連結到<a href="http://www.youtube.com/watch?v=iaLjVHrXyAw">Youtube網站</a>切換到HD畫質，效果會好些。為什麼要連講的人一起錄進來? 因為這次並不是純操作的內容，我覺得有個人在旁邊動呀動的比較不會無聊。</p>
+
+<h3>爾後的主題會有：</h3>
+
+<ul>
+<li>Vim</li>
+<li>Ruby</li>
+<li>Rails</li>
+<li>CoffeeScript</li>
+<li>Git</li>
+<li>Flash/ActionScript</li>
+<li>and others..</li>
+</ul>
+
+
+<p>每集長度約從10分鐘到30分鐘不等，希望可以每個月至少做個兩集(剛好可以順便幫blog灌一下水)</p>
+
+<h2>相關連結</h2>
+
+<ul>
+<li><a href="/2012/01/04/my-toolbox/">我的工具箱</a></li>
+<li><a href="https://github.com/robbyrussell/oh-my-zsh">oh my zsh</a></li>
+<li><a href="http://www.vim.org/">Vim</a></li>
+<li><a href="http://code.google.com/p/macvim/">MacVim</a></li>
+<li><a href="http://gvim.en.softonic.com/download">gVim</a></li>
+<li><a href="https://github.com/kaochenlong/eddie-vim">我的Vim設定</a></li>
+<li><a href="http://macromates.com/">Textmate</a></li>
+<li><a href="http://www.sublimetext.com/2">Subline Text 2</a></li>
+<li><a href="http://www.ruby-lang.org/en/">Ruby</a></li>
+<li><a href="http://rubyonrails.org/">Ruby on Rails</a>，或簡稱Rails</li>
+</ul>
+
+
+<h3>Vim and Plugins</h3>
+
+<ul>
+<li><a href="https://github.com/scrooloose/nerdtree">NERDTree</a></li>
+<li><a href="http://kien.github.com/ctrlp.vim/">ctrlp</a></li>
+<li><a href="https://github.com/tpope/vim-rails">rails.vim</a></li>
+<li><a href="https://github.com/mileszs/ack.vim">ack</a></li>
+<li><a href="http://ctags.sourceforge.net/">ctags</a></li>
+<li><a href="https://github.com/msanders/snipmate.vim">snipmate</a></li>
+<li><a href="https://github.com/tpope/vim-surround">surround.vim</a></li>
+<li><a href="http://www.youtube.com/watch?v=WqyF4tET7-s">Show-OFF mode</a>(影片連結)</li>
+</ul>
+
+
+<h2>心得</h2>
+
+<p>錄Screencast很有趣，會發現自己講話不只卡卡的，還有很多無意義的贅字或發語詞，也很容易NG罵髒話，所以得小段小段的分開錄，錄完再合併。看別人錄都很簡單，自己來才發現要錄製流暢的Screencast難度真的相當高。</p>
+
+<p>以上，不確定大家會不會喜歡這樣的內容或表演方式，或對大家有沒有實質上的幫助，如果大家不嫌棄的話，希望可以繼續玩下去。</p>
+
+<p>新手上路，還請多多指教 :)</p>
+
+<p>[update] 有對岸的朋友說放在youtube會因為某些神奇的原因沒辦法看，所以我也順手上傳了一份到<a href="https://vimeo.com/40903990">vimeo</a>以及<a href="http://v.youku.com/v_show/id_XMzg1OTU4MzY0.html">youku</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some Vim Tips and Learning Resources]]></title>
+    <link href="http://blog.eddie.com.tw/2012/04/02/some-vim-tips-and-learning-resources/"/>
+    <updated>2012-04-02T01:52:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/04/02/some-vim-tips-and-learning-resources</id>
+    <content type="html"><![CDATA[<p>I'm still pretty new to Vim and keep practicing Vim everyday, and also started to learn some VimScript by myself, I found some nice learning resources and some easy but AWESOME key combinations.</p>
+
+<h2>Learning Resources</h2>
+
+<h3>Screencasts</h3>
+
+<ul>
+<li><a href="http://vimcasts.org/">VimCasts</a></li>
+<li><a href="http://www.derekwyatt.org/category/vim/">Derek Wyatt's Blog</a></li>
+<li><a href="http://net.tutsplus.com/sessions/vim-essential-plugins/">Vim Essential Plugins</a></li>
+</ul>
+
+
+<h3>Books and Articles</h3>
+
+<ul>
+<li><a href="http://www.swaroopch.org/notes/Vim">A Byte of Vim</a>, it has kinds of translations, including the <a href="http://www.swaroopch.org/notes/Vim_zh-tw">traditional chinese</a> version(not finish yet).</li>
+<li><a href="http://www.amazon.com/Learning-Vim-Editors-Arnold-Robbins/dp/059652983X/">Learn the Vi and Vim editors</a>, published by Oreilly.</li>
+<li>Vi iMproved, you can buy a copy from <a href="http://www.amazon.com/exec/obidos/ASIN/0735710015/stichtingiccfhol">Amazon</a>, or download it for free, it's available as a <a href="http://www.truth.sk/vim/vimbook-OPL.pdf">PDF</a>!</li>
+<li><a href="http://learnvimscriptthehardway.stevelosh.com/">Learn Vimscript the Hard Way</a></li>
+<li>IBM DeveloperWorks VimScript Serial part <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html">1</a>, <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-2/index.html">2</a>, <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-3/index.html">3</a>, <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html">4</a>, <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html">5</a></li>
+</ul>
+
+
+<h3>Others</h3>
+
+<ul>
+<li><code>vimtutor</code> is a great resource, you can type <code>vimtutor</code> in terminal directly to launch it. there's also some translated version, ex: <code>vimtutor zh</code> would be the tranditional chinese version.</li>
+<li>last but not the least, the best resource is the built-in HELP manual, just type <code>:h something</code>, and you SHOULD read them through at least one time.</li>
+</ul>
+
+
+<h2>Tips</h2>
+
+<ul>
+<li><kbd>d</kbd><kbd>w</kbd> : delete a word from current cursor position.</li>
+<li><kbd>d</kbd><kbd>i</kbd><kbd>w</kbd> : delete the whold word which the cursor is parking.</li>
+<li><kbd>d</kbd><kbd>f</kbd><kbd>Space</kbd> : delete everything until finding the next <kbd>Space</kbd> of the current line.</li>
+<li><kbd>d</kbd><kbd>i</kbd><kbd>(</kbd> : as above, but delete all words within the nearest parenthesis, <kbd>d</kbd><kbd>i</kbd><kbd>[</kbd>, <kbd>d</kbd><kbd>i</kbd><kbd>"</kbd>, and <kbd>d</kbd><kbd>i</kbd><kbd>'</kbd> also do pretty much the same thing.</li>
+<li><kbd>g</kbd><kbd>v</kbd> : re-select last visual select.</li>
+<li><kbd>m</kbd><kbd>a</kbd> to create a marker named <code>a</code> at the current cursor, then by hitting <kbd>'</kbd><kbd>a</kbd> to jump to the <code>a</code> marker. You can use <code>a</code> to <code>z</code> as the name of the marker.</li>
+<li><code>:.![command]</code> will dump the output of the command to your current editing window.</li>
+<li><code>%!xxd</code> turn vim to a hex editor, and <code>%!xxd -r</code> will change it back.</li>
+<li>even you don't manage your file within any version control system, <code>:earlier 10m</code> can help you to change the current file back to 10 minites ago, and <code>:later 10m</code> will jump back to 10 minites later.</li>
+<li><code>:undo 5</code> will go back by 5 changes, and <code>:undolist</code> will show you undo tree.</li>
+<li>you can grab web page source code into your editor directly, just like this <code>vim http://www.eddie.com.tw</code></li>
+</ul>
+
+
+<h2>Some crazy/stupid things</h2>
+
+<p>I use Vim almost everyday now, but to be more sophisticated in it, I did some stupid or crazy things.</p>
+
+<p>First, I removed my ESC key from my keyboard temporarily to force myself using <kbd>Ctrl</kbd><kbd>[</kbd>, instead of hitting <kbd>Esc</kbd> to enter normal mode:</p>
+
+<p><img src="/images/2012/my_keyboard_with_esc.jpg" alt="image" /></p>
+
+<p>Why? actually there's no good reason, just thought it might keep my fingers on main typing area in mode switching.</p>
+
+<p>and second, I re-map the arrow keys to <code>&lt;NOP&gt;</code> to disable them, both in normal mode and insert mode:</p>
+
+<pre><code>map &lt;UP&gt; &lt;NOP&gt;
+map &lt;DOWN&gt; &lt;NOP&gt;
+map &lt;LEFT&gt; &lt;NOP&gt;
+map &lt;RIGHT&gt; &lt;NOP&gt;
+inoremap &lt;UP&gt; &lt;NOP&gt;
+inoremap &lt;DOWN&gt; &lt;NOP&gt;
+inoremap &lt;LEFT&gt; &lt;NOP&gt;
+inoremap &lt;RIGHt&gt; &lt;NOP&gt;
+</code></pre>
+
+<p>You may think I'm crazy, but I think it's a faster way to push those things into my muscle memory. I think there's no shortcut to master Vim, just keep using it everyday.</p>
+
+<p>At last, <a href="https://github.com/kaochenlong/eddie-vim">here</a> is my yet another vimrc configuration. If you have any other tips which are also AWESOME, please let me know :)</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Presentation | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/presentation/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CreateJS, 從 Flash 到 Javascript]]></title>
+    <link href="http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript/"/>
+    <updated>2013-05-20T09:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript</id>
+    <content type="html"><![CDATA[<p>這是我在本次 JSDC 的分享的題目，應該是本次議題裡少數跟 Javascript 比較沒直接關係，而且技術含量也相對較低的一場演講。</p>
+
+<p><a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank"><img src="/images/2013/jsdc-createjs-from-flash-to-javascript.png" alt="image" /></a>
+<a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/createjs-from-flash-to-javascript" target="_blank">View on Slideshare</a> | <a href="https://speakerd.s3.amazonaws.com/presentations/37f197f0a28b0130c57922855344e59c/JSDC_2013_-_CreateJS.pdf" target="_blank">Download PDF</a></p>
+
+<p>認識我的朋友可能知道我是靠 Ruby 跟 Rails 在討生活的(目前改靠 iOS app 開發混飯吃)。不過，如果以寫程式的時間來說，佔我目前生命中最久時間的，應該是 Flash/ActionScript了。</p>
+
+<p>接觸 Flash 七、八年以來，看到了它的起起落落，當年在 Marcomedia 時代還因為喜歡那個閃亮小徽章而去考官方的認證，認證考過了，但 Macromedia 也被 Adobe 併購了，然後就沒有再發閃亮小徽章了。</p>
+
+<p>也因為對 Flash 有愛，所以從 2007 年起就厚臉皮的去擔任 PTT Flash 的版奴到現在，去年以及前年也愛現的辦了十幾場的 <a href="https://www.facebook.com/thestudygroup" target="_blank">Flash 聚會</a>。</p>
+
+<p>這期間，有不少自稱或被稱為 Flash 殺手級的應用，例如 N 年前的 Silverlight，以及後期的 HTML5。我個人覺得，真正強大的 Flash 殺手應該是已經先回家的教主 Steve Jobs 吧，他重重的打了 Flash 一巴掌之後，然後大家一起跟上來打。</p>
+
+<p>Flash 真的被殺死了嗎?  其實這是個很嚴肅的話題，特別是像我這種曾經對它有愛而且曾經依賴它過活的人.. 老實說，我覺得就算不死也半條命了..</p>
+
+<p>不過，在台灣有不少的中小企業在做網站的時候，還是喜歡做那種會飛來飛去轉來轉去，首頁還放一個 skip 按鈕的 Flash 動態。所以，我想 Flash 在幾年內在台灣應該還是有它生存的空間的。</p>
+
+<p>我常跟朋友說，大家都在喊 Flash 已死，但對我來說，死的其實是 Flash player 而不是 Flash。Flash 有另一個支線叫做 AIR，不只可以做一般的桌面應用程式，也可以轉成原生的 iOS app 到 App Store 上架。</p>
+
+<p>如果你曾經是個 Flash 程式設計師，或是現在也還靠它在過活，聽到大家都在講什麼 Javascript、HTML5 而對自己的未來感到無助。同時客戶一個一個來跟你說"No Flash"，也不管你會不會寫，就說他們的 event site 不要用 Flash 做，因為客戶說手機上看不到..</p>
+
+<p>其實，我都很想回客戶說：「是會有多少人用手機看你的 event site?」。但為了生活，這句話我通常還是選擇吞下去 XD</p>
+
+<p>而 <a href="http://www.createjs.com/#!/CreateJS" target="_blank">CreateJS</a>，也許可以說是目前對 Flasher 來說相對友善的 HTML5 library 了。除了語法熟悉之外，也有方便的 <a href="http://www.adobe.com/tw/products/flash/flash-to-html5.html" target="_blank">toolkit</a> 可以讓設計師從 Flash 直接輸出成 HTML5。</p>
+
+<p>對我這種沒美術細胞，Javascript 功能大概就是比會寫個 Alert 再複雜一點點的人來說，有個這樣的套件或工具讓我可以很快的把東西做出來，我已經相當感恩了 :)</p>
+
+<h3>推薦原因</h3>
+
+<ul>
+<li><p>CreateJS 是由 <a href="http://gskinner.com/" target="_blank">Grant Skinner</a> 他們家開發的，光是這點我就已經足以說服我用它了。記得當年 GS 就是因為跟 Microsoft 的 HTML5 專案合作，在開發的過程中就順手做了 EaselJS (一開始只有這個，其它的是後來才慢慢加進來的)。如果說用這個做出來的東西，連 Microsoft 都能接受的話，相信應該是有一定品質的。重點是這個專案在 IE 上應該可以執行，畢竟是 MS 的專案.. 不過比較舊版本的 IE 就不一定了。</p></li>
+<li><p>其次，GS 大神本來也是寫 Flash/AS 的，所以他開發的這套東西的時候，也許也希望其它 Flash 開發者也可以較無痛轉換，於是在設計 API 的時候有特別讓它長得跟 Flash 的 API 有點像。</p></li>
+<li><p>有文件，有範例可以參考。不要以為這很理所當然，很多開源的專案是沒在寫文件的..</p></li>
+<li><p>最後，它是 MIT 授權的，基本上可以放心大膽用它沒問題。</p></li>
+</ul>
+
+
+<p>以上，大概是這回 JSDC 大概分享的內容，希望對大家有幫助，如果有錯誤的地方，也請前輩先進不吝指教，感謝!</p>
+
+<p>PS: 講到這裡我就想小小埋怨一下，Flash 是 A 公司的產品，是商業軟體沒錯，但寫 Flash 的人不表示就不開放，在 Flash 圈也是有非常多優秀的開源專案，但似乎只要跟 Flash 沾上邊就會被當做不開放..</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Happy Programming with Coffeescript]]></title>
+    <link href="http://blog.eddie.com.tw/2012/05/20/happy-programming-with-coffeescript/"/>
+    <updated>2012-05-20T07:44:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2012/05/20/happy-programming-with-coffeescript</id>
+    <content type="html"><![CDATA[<p>不得不說JSDC的主辦單位超用心，還有幫講者加中文字幕
+<iframe width="420" height="315" src="http://www.youtube.com/embed/2FmCJysWyww" frameborder="0" allowfullscreen></iframe></p>
+
+<p>這是我自己用電腦螢幕錄的
+<iframe width="420" height="315" src="http://www.youtube.com/embed/SIA5PO4ijPA" frameborder="0" allowfullscreen></iframe></p>
+
+<p>這是今天我在台灣第一屆的JavaScript開發者大會<a href="http://jsdc.tw/2012/">JSDC</a>上用到的投影片。雖然主題跟在去年的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>的一樣，但因為這回的聽眾可都是熟悉JavaScript的，依舊沒辦法用同一招繼續騙吃騙喝(同一招不能對聖鬥士用兩次)，加上時間也只有30分鐘，所以投影片又幾乎整個敲掉重做。
+<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank"><img src="/images/2012/speakerdeck-happy-programming-with-coffeescript.jpg" alt="image" /></a>
+<a href="https://speakerdeck.com/u/eddie/p/happy-programming-with-coffeescript" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/happy-programming-with-coffeescript" target="_blank">View on Slideshare</a> | <a href="http://blog.eddie.com.tw/downloads/files/2012/happy_programming_with_coffeescript.pdf" target="_blank">Download PDF</a></p>
+
+<p>原以為30分鐘講一百多張投影片會講不完結果就一直衝，衝到最後發現我竟然20分鐘就講完了，希望大家還喜歡，有什麼問題，也歡迎諸位前輩先進不吝給予建議，感謝!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Automated Testing in Javascript]]></title>
+    <link href="http://blog.eddie.com.tw/2011/12/22/automated-testing-in-javascript/"/>
+    <updated>2011-12-22T05:30:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/12/22/automated-testing-in-javascript</id>
+    <content type="html"><![CDATA[<p>這是在<a href="http://www.jaceju.net/blog/" target="_blank">大澤木小鐵(Jace)</a>主辦的第一回<a href="http://registrano.com/events/webdev-party-01" target="_blank">WebDev Party</a>上用到的投影片：
+<a href="http://speakerdeck.com/u/eddie/p/automated-testing-in-javascript" target="_blank"><img src="/images/2011/speakerdeck-automated-testing-in-javascript.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/automated-testing-in-javascript" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/automated-testing-in-javascript.pdf">Download PDF</a> | <a href="/downloads/files/2011/automated-test-in-javascript.zip">Download ScreenCast</a></p>
+
+<p>這是當天的錄影：
+<iframe src="http://player.vimeo.com/video/34133238?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe></p>
+
+<p>主要內容是分享一些我近期在做自己的產品的時候用到的一些測試工具組合及心得。原本打算用中文做投影片，但還是無法割捨漂亮的英文字體。這應該是今年的最後一場表演了，希望大家會喜歡。</p>
+
+<h3>有提到的工具：</h3>
+
+<ul>
+<li><a href="http://docs.jquery.com/QUnit" target="_blank">QUnit</a> - A easy-to-use JavaScript testing framework.</li>
+<li><a href="http://pivotal.github.com/jasmine/" target="_blank">Jasmine</a> - A BDD framework for testing your JavaScript code.</li>
+<li><a href="http://zombie.labnotes.org/" target="_blank">Zombie.js</a> - A headless testing tool.</li>
+<li><a href="http://sinonjs.org/" target="_blank">Sinon.js</a> - Standalone test spies, stubs and mocks for JavaScript.</li>
+<li><a href="http://www.phantomjs.org/" target="_blank">Phantom.js</a> - A headless WebKit with JavaScript API.</li>
+<li><a href="https://github.com/guard/guard" target="_blank">Guard</a> - A command line tool to easily handle events on file system modifications.</li>
+</ul>
+
+
+<p>若有任何問題或是我講的內容有不對的地方，歡迎大家留言一起討論、指正。之後也會持續的續把一些測試JavaScript的方法跟工具整理成文章，希望可以給大家帶來一點點的幫助。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第九回AS讀書會之測試你的Robotlegs專案]]></title>
+    <link href="http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project/"/>
+    <updated>2011-12-14T02:42:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project</id>
+    <content type="html"><![CDATA[<p>這是在第九回的Flash/AS讀書會上用到的投影片：
+<a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank"><img src="/images/2011/speakerdeck-test-in-robotlegs.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/test-your-robotlegs-project.pdf">Download PDF</a></p>
+
+<p>部份內容是現場Demo，所以沒辦法在投影片裡看到。在分享的過程，從大家的眼神中似乎可以感覺得出來大家對於"寫測試"這件事很陌生(其實我也是新手)，我之後會再花一些時間把關於如何在Flash/ActionScript裡寫測試整理成文章，希望可以讓大家可以更了解TDD(Test-Driven Development)是怎麼一回事，又該怎麼進行。</p>
+
+<p>感謝大家今天天氣這麼冷還能前來參加，咱們下回見 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[書摘：slide:ology中文版]]></title>
+    <link href="http://blog.eddie.com.tw/2011/11/30/slideology/"/>
+    <updated>2011-11-30T06:23:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/11/30/slideology</id>
+    <content type="html"><![CDATA[<p><img src="/images/2011/book-slideology.jpg" alt="image" /><br />
+書名：slide:ology中文版<br />視覺溝通：讓簡報與聽眾形成一種對話</p>
+
+<p>還好是中文版，不然我不知道要看多久才看得完。看完後覺得這真是本不錯的書，提出了許多實戰時候應該注意的"Do"跟"Do Not"，爾後再上台做簡報的時候可以用得上 :)</p>
+
+<p><iframe width="420" height="315" src="http://www.youtube.com/embed/5hbtjZw7gws" frameborder="0" allowfullscreen></iframe></p>
+
+<h2>書摘</h2>
+
+<ul>
+<li>"不知道為什麼當簡報軟體加進來時，我們便喪失說出好故事的能力" - 前言</li>
+<li>"我們天生就是視覺溝通者。想想幼稚園：我們的表達方式由蠟筆、黏土推動，不是文字處理機或試算表" - p.2</li>
+<li>"有些人就是不瞭解，簡報可以多麼有力和感人" - p.4</li>
+<li>"如果一張投影片超過75個字，就變成一份文件；如果在50字左右，就是大字報" - p.7</li>
+<li>"真正的簡報焦點應該放在簡報者，以及他們想要傳達的理念和概念" - p.7</li>
+<li>"聽眾不是閱讀你的投影片，就是聽你說話。他們不會同時做兩件事。所以，問問你自己：重要的是讓他們聆聽，還是讓他們閱讀比較有效?" - p.7</li>
+<li>"聽眾並不是來看你，他們是來看你能為他們做什麼" - p.15</li>
+<li>"簡報並不只是關於美學或把東西做得漂亮，而是關於創造意義" - p.18</li>
+<li>"簡報軟體這種工具，從來就不是設計來腦力激盪或繪圖" - p.26</li>
+<li>"精彩的簡報應該超越語言、地理、文化的界線。真理就是真理" - p.37</li>
+<li>"資料投影片要談的不是資料，而是資料的意義" - p.64</li>
+<li>"要有效傳達你的資料，就必須闡述你希望聽眾採取的結論" - p.68</li>
+<li>"投影片的目的不在於顯示所有的資料，而是傳達結論和見解" - p.72</li>
+<li>"使用未加工處理的真實圖像，將會提高聽眾的參與動機" - p.78</li>
+<li>"身為簡報者，想要成功，就必須像個設計師一樣思考" - p.83</li>
+<li>"把所有東西放在一張投影片上，是簡報者的懶惰" - p.93</li>
+<li>"沒有對比，你就死定了" - p.95</li>
+<li>"使用有人物的圖片時，要確認人看著內容，而非轉過頭或逃離內容" - p.97</li>
+<li>"如果連續三張投影片都有圖表，它們的軸線應該要一致，即使資料有所不同" - p.100</li>
+<li>"留白不一定是白色的" - p.106</li>
+<li>"保有淨空間是好事 -- 擁擠代表設計的失敗" - p.106</li>
+<li>"將元素分散到多張投影片，每張投影片都獲得應有的注意力，聽眾也因能更好的理解概念而受益" - p.107</li>
+<li>"聽你演說的人，很可能早就知道你替哪家公司工作。在第一張和最後一張投影片指明自己或公司即可" - p.117</li>
+<li>"背景是平面、舞台、布景幕 -- 不是主要焦點" - p.125</li>
+<li>"每個字形都有自己的個性" - p.142</li>
+<li>"每場簡報最好只結合兩種字型，一種用在大標和副標，另一種用於正文" - p.143</li>
+<li>"如果你計畫使用大型文字，或將之與圖像結合，請花時間排版文字" - p.146</li>
+<li>"進入投影片瀏覽模式，觀看66%大小的投影片。如果你還能看到，你的聽眾也可以" - p.152</li>
+<li>"照片應該要能組成有凝聚力的系統，彷彿是同一位投影師所拍下的作品" - p.160</li>
+<li>"在視覺資訊出場的那一瞬間，觀看者就會閱讀並處理資訊" - p.183</li>
+<li>"隱藏元素，直到提到時才讓它們出現" - p.183</li>
+<li>"不再將投影片當成枴杖，是個漫長的過程，需要時間、耐心、練習" - p.220</li>
+<li>"簡報者面臨最大的問題，可能在於沒有花時間預演" - p.220</li>
+<li>"放手的三R原則：刪減(Reduce)、錄音(Record)、重複(Repeat)" - p.221</li>
+<li>"想一想，如果斷電，你的簡報會發生什麼事" - p.230</li>
+<li>"單因為你的投影片看起來棒呆了，並不代表這些投影片能傳達有用的意義" - p.233</li>
+<li>"一旦聽眾發現你在讀文字，他們就會比你更早讀那些文字。結果就是：你跟聽眾不再同步" - p.234</li>
+<li>"每張投影片都只有一個論點。再多的話，就超過大部份聽眾的能力範圍了" - p.236</li>
+</ul>
+
+
+<p>本文內容摘錄之文字及影片，其著作權屬原著作人或出版商所有。</p>
+]]></content>
+  </entry>
+  
+</feed>

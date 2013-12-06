@@ -1,0 +1,825 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="在Windows安裝Python很難嗎? 就安裝的話，一點都不難，因為Python已經有幫Windows做好安裝檔了，檔案下載回來之後點一點、下一步的按鈕按一按差不多就搞定了。 其實在Windows上寫Python，Python本身沒什麼問題，倒是環境比較痛苦。特別是之後的Django， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/page/16/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/12/install-cygwin-on-windows/">如果你是使用Windows作業系統的話..</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/12/install-cygwin-on-windows/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-12T16:16:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>在Windows安裝Python很難嗎?</h2>
+
+<p>就安裝的話，一點都不難，因為Python已經有幫Windows做好安裝檔了，檔案<a href="http://python.org/download/">下載</a>回來之後點一點、下一步的按鈕按一按差不多就搞定了。</p>
+
+<p>其實在Windows上寫Python，Python本身沒什麼問題，倒是環境比較痛苦。特別是之後的Django，它的懶人安裝包(Instant Django)專案也已經消失了，在Windows上練習寫Django的麻煩度就又增加了..</p>
+
+<h2>有比較完美的解決方法嗎?</h2>
+
+<p>最完美的解決方法就是 - <strong>不要用Windows</strong>，不過我想那對正在用Windows的人來還滿困難的。</p>
+
+<p>如果你因為工作或是其它因素不得不用它，那也許可以考慮安裝雙系統，或是像<a href="https://www.virtualbox.org/">VirtualBox</a>在Windows上模擬Linux的作業環境。我之前試過VirtualBox的這個解決方案，其實還滿完美的，之前在中研院<a href="http://www.openfoundry.org/">OpenFoundry</a>的工作坊講課的時候就是用它搭配Ubuntu，還滿ok的，但可惜就是速度會慢了點，遇到硬體設備比較差的電腦跑起來會有點辛苦。</p>
+
+<p>如果你不想重灌或安裝VirtualBox，我自己試了一下，大概安裝<a href="http://www.cygwin.com/">Cygwin</a>是比較簡單的解決方法了。</p>
+
+<p>Cygwin的<a href="http://www.cygwin.com/">官網</a>一進去就看到&#8221;Get that Linux feeling - on Windows!&#8221;，雖然離真正的Linux還是有點距離，但光是這個feeling，大概就可以讓我們在上面練習Python跟Django了。</p>
+
+<p>在安裝Cygwin的過程中，請順便勾選<code>Python</code>跟<code>wget</code>這兩個工具選項，在安裝Cygwin的過程中也會一併把這些工具一起裝進Cygwin的系統裡。</p>
+
+<p>它所有的軟體都會安裝在Cygwin自己的資料夾裡，所以如果你不要用的話，整個資料夾砍掉就行了。</p>
+
+<p>安裝完Cygwin之後，因為我們可能從Windows貼一些指令到Cygwin，如果你發現你的Cygwin沒辦法接受滑鼠右鍵貼上的話，請改一下視窗的設定：</p>
+
+<p>在視窗的上面按一下滑鼠右鍵，選擇「內容」：</p>
+
+<p><img src="/images/cygwin/window_settings.png" alt="image" /></p>
+
+<p>把「快速編輯模式」打勾：</p>
+
+<p><img src="/images/cygwin/quick_edit_mode.png" alt="image" /></p>
+
+<p>這樣就搞定了!</p>
+
+<h2>編輯器呢?</h2>
+
+<p>雖然說Python程式碼用記事本就可以寫了沒錯，但因為記事本功能太陽春，通常那是最不得已才會開它起來改程式。我想現在文字編輯器的牌子不少，每款軟體用起來的手感也不太一樣，大家可以多比較看看哪些編輯器。如果你懶得比較，那就直接抓<a href="http://notepad-plus-plus.org/">Notepad++</a>來用吧，至少它該有的程式碼顏色功能都有了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/12/python-install/">安裝Python</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/12/python-install/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-12T16:06:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>不管你用的Linux/FreeBSD/MacOS/Windows..etc，目前Python均有實作品，請至<a href="http://python.org/getit/">http://python.org/getit/</a>找到適合的平台並下載安裝。</p>
+
+<p>不過，我不得小小抱怨一下，Python在Windows上實在是不怎麼友善，包括我們之後要講的Django，原本也有給Windows的懶人安裝包(Instant Django)，但專案似乎也斷頭了。不過也不是沒有解決方法，如果只是要在Windows做練習的話，可參考<a href="/2011/10/12/install-cygwin-on-windows/">下一章</a>。</p>
+
+<p>如果你安裝完成，請打開你的終端機視窗，輸入<code>python</code>就可以進入interactive shell來試玩一下：</p>
+
+<pre><code>&gt; python
+Python 2.6.1 (r261:67515, Jun 24 2010, 21:47:49)
+[GCC 4.2.1 (Apple Inc. build 5646)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; "hello python"
+'hello python'
+&gt;&gt;&gt; 1 + 2
+3
+</code></pre>
+
+<p>在這個shell裡面，你可以很容易的就測試一些簡單的程式碼，看看執行結果是不是跟你想像的是一樣的。有趣的是，如果你在shell裡輸入<code>import this</code>的話：</p>
+
+<pre><code>&gt;&gt;&gt; import this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+</code></pre>
+
+<p>你可以看到Tim Peters寫的The Zen of Python，內文大概說明了Python世界的設計哲學。至於<code>import</code>是做什麼用的，我們在後面的單元會再做說明。</p>
+
+<p>除了shell之外，我們更常把程式碼儲存成一個檔案，附檔名是<code>.py</code>，例如我們把下面這段很簡單的程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/python</span>
+</span><span class='line'><span class="k">print</span> <span class="s">&quot;Hello, Python&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用任何文字編輯器打完之後，存檔為<code>hello.py</code>，然後回到終端機視窗，輸入<code>python hello.py</code>：</p>
+
+<pre><code>&gt; python test.py
+Hello, Python
+</code></pre>
+
+<p>每種程式語言一定都要不免俗的來一下Hello World打個招呼的，如果在Java，你可能為了要輸出一行簡單的字，還得寫個類別或方法才行，在Python，只要一行<code>print</code>就搞定了，相當簡單吧 :)</p>
+
+<p>其實老是Hello World也沒什麼意義，接下來我們來看一點稍微複雜一點的..</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/12/python-introduction/">Python簡介</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/12/python-introduction/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-12T16:04:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>What is Python?</h2>
+
+<p>Python的老爸是，<a href="http://www.python.org/~guido/">Guido van Rossum</a>，聽說是他在1989年的時候的某個聖誕節無聊，然後就設計出這套程式語言，1991年放出來給大家用，到目前已經有將近20年的歷史了。</p>
+
+<p>目前主流的版本是2.x跟3.x系列，最新的版本目前分別是2.7.2版及3.2.2版，但2.x跟3.x有不少地方是不相容的，各位在使用時還請多留意。</p>
+
+<h2>設計哲學</h2>
+
+<p>在<a href="http://www.python.org/dev/peps/pep-0020/">the Zen of Python</a>裡提到了Python的設計哲學：</p>
+
+<blockquote><p>There should be one&#8211; and preferably only one &#8211;obvious way to do it.</p></blockquote>
+
+
+<p>這與其它程式語言例如Perl的&#8221;There is more than one way to do it&#8221;是完全不同的。</p>
+
+<h2>What can Python do?</h2>
+
+<p>Python是一種物件導向的語言，雖然它被歸類到scripting language一族，但它能做的事情跟一般的程式語言一樣，從數學運算、系統管理到網站開發，它都做得來的，而且都還做得不錯。</p>
+
+<p>有人會覺得嫌Python很慢，老實說，我是不覺得慢到哪裡去。當然拿它跟編譯型的程式語言比當然不公平，不過也就是因為它不用編譯，而且語法很好學好寫，開發速度相對的會比編譯型的語言要來得高。</p>
+
+<h2>Who is using Python?</h2>
+
+<ul>
+<li>Google</li>
+<li>Youtube</li>
+<li>NASA</li>
+<li>..and ME!</li>
+</ul>
+
+
+<h2>Why Python?</h2>
+
+<p>每種程式語言都有它的優缺點，以下是我個人覺得我喜歡Python的一些特點：</p>
+
+<h3>程式碼強制縮排</h3>
+
+<p>在Python寫程式，程式碼強制一定要縮排，長得像這樣：</p>
+
+<figure class='code'><figcaption><span>say hello  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">say_hello</span><span class="p">():</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Hello Python&quot;</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Hello again!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>像這樣，不管你是要用tab或空白(space)都可以，要縮2格或4格都ok，只要對齊就行了。只要程式碼沒有對齊，在執行的時候就會直接出現<code>IndentationError</code>的錯誤訊息而無法繼續執行。</p>
+
+<p>也許有些人不喜歡這種被強制規定的感覺，不過我個人還滿喜歡的。在別的程式語言，有的人喜歡把大括號放在最後面，有人喜歡把大括號放下一行，像這樣：</p>
+
+<figure class='code'><figcaption><span>大括號的位置  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">type1</span><span class="p">(){</span>
+</span><span class='line'>  <span class="c1">// 把大括號放最後面</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">type2</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 把大括號放下一行</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這沒有誰好誰壞的問題，不過這個在Python就比較不會有這樣的困擾，也因為如此，即使你是接手別人的案子，基本上程式碼的長相也不會差太多。</p>
+
+<p>而且我真的遇過程式碼不縮排或亂縮排的工程師..</p>
+
+<h3>支援多個平台</h3>
+
+<p>目前幾乎所有比較主流的平台上面都有支援了，也就是說你在Linux底下寫的程式，搬到Windows上也能執行。(當然前提是沒有用到一些系統特定的模組或method)</p>
+
+<h3>免費取得</h3>
+
+<p>不僅不用錢，而且連Python的原始碼都可以讓你帶回家研究。</p>
+
+<h3>開發工具易取得</h3>
+
+<p>其實寫Python不用什麼特別的開發工具，基本上只要是一般的文字編輯器就可以了。也有一些像<a href="http://pydev.org/">PyDev</a>這種為Python量身打造的IDE(Integrated Development Environment)也不錯用，不過我個人偏好純文字編輯器，例如<code>Vi</code>，至少開啟速度快，而且搭配一些好用的外掛，該有的功能都差不多該有了。</p>
+
+<h2>其它</h2>
+
+<p>電腦程式語言幾乎都是外國人的世界，你有想過用中文可以寫程式嗎? 有個叫做<a href="http://code.google.com/p/zhpy/">周蟒</a>的專案做到了。這是用中文寫出來的Python程式：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env zhpy</span>
+</span><span class='line'><span class="c"># 檔名: if.py</span>
+</span><span class='line'><span class="err">數字</span> <span class="o">=</span> <span class="mi">23</span>
+</span><span class='line'><span class="err">猜測</span> <span class="o">=</span> <span class="err">整數</span><span class="p">(</span><span class="err">輸入</span><span class="p">(</span><span class="s">&#39;輸入一個數字: &#39;</span><span class="p">))</span>
+</span><span class='line'><span class="err">如果</span> <span class="err">猜測</span> <span class="o">==</span> <span class="err">數字</span><span class="p">:</span>
+</span><span class='line'>    <span class="err">印出</span> <span class="s">&#39;恭喜, 你猜對了.&#39;</span> <span class="c"># 一個新區塊的開始</span>
+</span><span class='line'>    <span class="err">印出</span> <span class="s">&#39;(但沒有獎品喔!)&#39;</span> <span class="c"># 新區塊的結束</span>
+</span><span class='line'><span class="err">假使</span> <span class="err">猜測</span> <span class="o">&lt;</span> <span class="err">數字</span><span class="p">:</span>
+</span><span class='line'>    <span class="err">印出</span> <span class="s">&#39;錯了, 數字再大一點.&#39;</span> <span class="c"># 另一個區塊</span>
+</span><span class='line'>    <span class="c"># 你可以在區塊中做任何想做的事 ...</span>
+</span><span class='line'><span class="err">否則</span><span class="p">:</span>
+</span><span class='line'>    <span class="err">印出</span> <span class="s">&#39;錯了, 數字再小一點.&#39;</span>
+</span><span class='line'>    <span class="c"># 只有在猜測 &gt; 數字 的情況下才會跑到這個區塊來</span>
+</span><span class='line'><span class="err">印出</span> <span class="s">&#39;結束&#39;</span>
+</span><span class='line'><span class="c"># 最後一行語句和&quot;如果..假使..否則&quot;語句是無關的，</span>
+</span><span class='line'><span class="c"># 因為最後的&#39;印出&#39;這行在主區塊中出現，所以這行永遠會被執行.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好寫嗎? 這見人見智了，不過挺有趣的，有興趣的朋友可以玩看看 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/11/how-to-install-octopress-on-heroku/">How to Install Octopress on Heroku</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/11/how-to-install-octopress-on-heroku/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-11T14:15:00+08:00" pubdate>Oct 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>為什麼使用Octopress</h2>
+
+<p>這個我想xdite的<a href="http://blog.xdite.net/posts/2011/10/07/what-is-octopress/">Why Octopress?</a>寫得很清楚了，就不多做說明了。</p>
+
+<h2>安裝</h2>
+
+<p>請到Octopress的<a href="http://octopress.org/">官網</a>官網找下載點，或是到github上也找得到<a href="https://github.com/imathis/octopress">Octopress on github</a>，如果懶得找，請打開你的終端機視窗，然後跟我這樣做：</p>
+
+<pre><code>&gt; cd /tmp
+&gt; git clone git://github.com/imathis/octopress.git
+</code></pre>
+
+<p>第一步切換到<code>/tmp</code>只是個人喜好，你可以換成別的。進到下載的資料夾裡，安裝需要的gem：</p>
+
+<pre><code>&gt; cd octopress
+&gt; bundle install
+</code></pre>
+
+<p>沒問題的話..</p>
+
+<pre><code>&gt; rake install
+## Copying classic theme into ./source and ./sass
+</code></pre>
+
+<p>再來..</p>
+
+<pre><code>&gt; rake preview
+</code></pre>
+
+<p>就會在你本機開一個port 4000的web server起來，開瀏覽器起來輸入<a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a>可以看到畫面如下：</p>
+
+<p><img src="/images/2011/octopress-init.png" alt="image" /></p>
+
+<p>不過你會看到一些像是Blog title都是預設值，這些都是可以修改的，基本上修改都是在<code>_config.yml</code>這個檔案裡，相關設定請參考<a href="http://octopress.org/docs/configuring/">這裡</a>。</p>
+
+<p>不難吧! 你已經完成一半的工作囉，接著我們來寫第一篇文章。</p>
+
+<h2>管理介面?</h2>
+
+<p>你是說像wordpress那種有個帳號密碼登入的管理介面嗎? 沒這種東西啦! Octopress的文章都是由markdown檔案轉成靜態html，寫完就丟上去，就這麼單純而已。</p>
+
+<h2>寫文章</h2>
+
+<p>在Octopress，每篇文章就是一個markdown檔，檔案需要放在<code>source/_posts</code>底下，並依照<code>YYYY-MM-DD-post-title.markdown</code>的格式來命名，例如我這篇的檔名就是<code>2011-10-11-how-to-install-octopress.markdown</code>，這樣待會在轉成靜態html的時候才會找得到。</p>
+
+<p>以上這個動作你可以手動自己做，不過我會建議是透過<code>rake</code>指令幫你做：</p>
+
+<pre><code>&gt; rake new_post[how-to-install-octopress]
+Creating new post: source/_posts/2011-10-11-how-to-install-octopress.markdown
+</code></pre>
+
+<p>因為用<code>rake</code>幫你建立的markdown檔，會幫你加一些文章的表頭相關設定。不管你是手動還是rake自動產生的markdown檔，剩下的就是動手寫文章了。</p>
+
+<p>另外，如果你的shell是用<code>zsh</code>的話，上面這個指令可能會讓你出現這樣的狀況：</p>
+
+<pre><code>&gt;   zsh: no matches found: new_post[how-to-install-octopress]
+</code></pre>
+
+<p>如果遇到這個狀況的話，你可改一下你的<code>.zshrc</code>，加上這行：</p>
+
+<pre><code>alias rake="noglob rake"
+</code></pre>
+
+<p>或是改一下原來的rake指令：</p>
+
+<pre><code>&gt; rake "new_post[how-to-install-octopress]"
+</code></pre>
+
+<h2>怎麼寫?</h2>
+
+<p>就跟你平常寫文章一樣啦! 也許你會好奇，用markdown語法來寫文章真的方便嗎? 對我這種喜歡敲鍵盤而且又常需要在文章裡放程式碼的人來說還挺不錯用的。我是覺得只要習慣的話是還滿快的，markdown的語法要記的也沒多少，寫幾次大概就背起來了。事實上你正在看的這篇文章就是用markdown編寫的。</p>
+
+<p>有推薦的編輯器嗎? 我覺得<a href="http://mouapp.com/">Mou</a>挺不錯用的!</p>
+
+<p>不會寫? 這裡有<a href="http://daringfireball.net/projects/markdown/basics">小抄</a>可以參考。</p>
+
+<h2>寫好了，然後..?</h2>
+
+<p>markdown寫好之後，再來就是要把markdown轉成靜態html檔案了：</p>
+
+<pre><code>&gt; rake generate
+## Generating Site with Jekyll
+unchanged sass/screen.scss
+Configuration from /private/tmp/octopress/_config.yml
+Building site: source -&gt; public
+Successfully generated site: source -&gt; public
+</code></pre>
+
+<p>執行這個<code>rake generate</code>要注意的是，你可能會在你的文章裡會插入一些圖檔，請記得你的圖檔是放在<code>source/images</code>這個資料夾裡，而不是<code>public/images</code>，因為在做<code>rake generate</code>的時候會以<code>source</code>資料夾為主，並複製一份到<code>public</code>的相對應資料夾裡，如果你是直接把圖檔放在<code>public</code>裡，在比對的過程中就會被自動砍掉了。</p>
+
+<h2>在上傳之前</h2>
+
+<p>預設<code>.gitignore</code>會把<code>public</code>資料夾給忽略掉而不上傳，這個在一般的環境還ok，因為public資料夾裡的東西如果沒有的話會再自動重生，但因為我們準備把東西傳到Heroku，Heroku的檔案系統是唯讀的，不會讓你做這個動作，所以如果你也是要上傳到Heroku的，請記得修改這個檔案，把<code>public</code>給拿掉，不然你的轉好的內容都會傳不上去而出現<code>Sorry, I cannot find /</code>的錯誤訊息!</p>
+
+<p>當初沒先看文件就亂玩，結果在這邊卡關卡超久..後來是翻heroku logs才發現原因，其實<a href="http://octopress.org/docs/deploying/heroku/">文件</a>根本早就有寫了..orz</p>
+
+<h2>上傳到Heroku</h2>
+
+<p>因為待會我們要把東西丟上<a href="http://www.heroku.com/">Heroku</a>，所以請先上Heroku申請個帳號，Heroku的<a href="http://devcenter.heroku.com/articles/quickstart">Getting Started with Heroku</a>請先翻一下，相關gem也別忘了一起裝起來。</p>
+
+<p>有帳號之後，用<code>heroku</code>來開個專案：</p>
+
+<pre><code>&gt; heroku create happy-octopress
+Creating happy-octopress... done, stack is bamboo-mri-1.9.2
+http://happy-octopress.heroku.com/ | git@heroku.com:happy-octopress.git
+Git remote heroku added
+</code></pre>
+
+<p>這個<code>happy-octopress</code>請改成你自己取的名字。再來就是把剛剛剛好的東西用git丟上去：</p>
+
+<pre><code>&gt; git add .
+&gt; git commit -m 'first commit'
+&gt; git push heroku master
+Counting objects: 3400, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (1218/1218), done.
+Writing objects: 100% (3400/3400), 844.84 KiB, done.
+Total 3400 (delta 1949), reused 3352 (delta 1916)
+
+-----&gt; Heroku receiving push
+-----&gt; Ruby/Sinatra app detected
+-----&gt; Gemfile detected, running Bundler version 1.0.7
+       Unresolved dependencies detected; Installing...
+       Using --without development:test
+       Fetching source index for http://rubygems.org/
+       Installing rack (1.3.2) 
+       Installing tilt (1.3.2) 
+       Installing sinatra (1.2.6) 
+       Using bundler (1.0.7) 
+       Your bundle is complete! It was installed into ./.bundle/gems/
+-----&gt; Compiled slug size is 608K
+-----&gt; Launching... done, v4
+       http://happy-octopress.heroku.com deployed to Heroku
+
+To git@heroku.com:happy-octopress.git
+ * [new branch]      master -&gt; master
+</code></pre>
+
+<p>就這樣，你可以自己打開瀏覽器，輸入網址<a href="http://happy-octopress.heroku.com">http://happy-octopress.heroku.com</a>，或是叫heroku幫你開：</p>
+
+<pre><code>&gt; heroku open
+</code></pre>
+
+<p>沒意外的話，應該就可以看到架好的Octopress，以及你剛剛寫的文章了。</p>
+
+<p>大概就是這樣，更多的說明請參考<a href="http://octopress.org/">Octopress官網</a>。若有任何問題或是有哪邊寫錯了，歡迎一起來討論囉 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/09/21/play-canvas-with-easeljs/">Play Canvas with EaselJS</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/09/21/play-canvas-with-easeljs/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-09-21T01:00:00+08:00" pubdate>Sep 21<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這是昨晚在第7回AS讀書會上講的主題：&#8221;<a href="http://blog.eddie.com.tw/slides/easeljs">Play Canvas with EaselJS</a>&#8220;所用到的投影片，內容主要是簡單介紹<a href="http://easeljs.com/">EaselJS</a>的用途，並以幾個簡單的幾個範例來做操作示範。這回是第一次使用的是<a href="http://imakewebthings.github.com/deck.js/">deck.js</a>來製作投影片，很多地方還不太熟悉，希望下回可以改進!</p>
+
+<p>投影片連結：<a href="http://blog.eddie.com.tw/slides/easeljs">http://blog.eddie.com.tw/slides/easeljs</a></p>
+
+<p>感謝Maso哥借我的”廖先生”小圖。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/17/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/15/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現&#8230;<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

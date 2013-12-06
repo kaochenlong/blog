@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/octopress/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[幫你的Octopress增加文章分類]]></title>
+    <link href="http://blog.eddie.com.tw/2011/12/05/add-catetories-to-sidebar-in-octopress/"/>
+    <updated>2011-12-05T10:00:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/12/05/add-catetories-to-sidebar-in-octopress</id>
+    <content type="html"><![CDATA[<p>發現在Octopress似乎沒有現成可以放在sidebar的分類，於是便自己動手刻一個，順便練一下手感。程式碼短短的，使用方法也很容易，首先你可以按下面程式碼區塊右上角的download，並將檔案存在Octopress的<code>plugins</code>資料夾：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (category_list.rb)</span> <a href='/downloads/code/octopress/category_list.rb'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># encoding: utf-8</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">Jekyll</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Site</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">create_category_list</span>
+</span><span class='line'>      <span class="n">write_to_tag_cloud</span> <span class="k">if</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_tag_cloud&#39;</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">write_to_sidebar</span> <span class="k">if</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_sidebar&#39;</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kp">private</span>
+</span><span class='line'>    <span class="c1"># generate category tag list and write to &#39;source/_includes/asides/categories_tag.html&#39;</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">write_to_tag_cloud</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s1">&#39; =&gt; Creating Categories Tag Cloud&#39;</span>
+</span><span class='line'>      <span class="n">lists</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>      <span class="n">max</span><span class="p">,</span> <span class="n">min</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="vi">@categories</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span> <span class="o">|</span><span class="n">str</span><span class="o">|</span> <span class="n">str</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">category</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">count</span> <span class="o">=</span> <span class="vi">@categories</span><span class="o">[</span><span class="n">category</span><span class="o">].</span><span class="n">count</span>
+</span><span class='line'>        <span class="n">lists</span><span class="o">[</span><span class="n">category</span><span class="o">]</span> <span class="o">=</span> <span class="n">count</span>
+</span><span class='line'>        <span class="n">max</span> <span class="o">=</span> <span class="n">count</span> <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">max</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">html</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span><span class='line'>      <span class="n">lists</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span> <span class="n">category</span><span class="p">,</span> <span class="n">counter</span> <span class="o">|</span>
+</span><span class='line'>        <span class="n">url</span> <span class="o">=</span> <span class="n">get_category_url</span> <span class="n">category</span>
+</span><span class='line'>        <span class="n">style</span> <span class="o">=</span> <span class="s2">&quot;font-size: </span><span class="si">#{</span><span class="mi">100</span> <span class="o">+</span> <span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="nb">Float</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span><span class="o">/</span><span class="n">max</span><span class="p">)</span><span class="si">}</span><span class="s2">%&quot;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_counter&#39;</span><span class="o">]</span>
+</span><span class='line'>          <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; &lt;a href=&#39;</span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39; style=&#39;</span><span class="si">#{</span><span class="n">style</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">#{</span><span class="n">category</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2">(</span><span class="si">#{</span><span class="vi">@categories</span><span class="o">[</span><span class="n">category</span><span class="o">].</span><span class="n">count</span><span class="si">}</span><span class="s2">)&lt;/a&gt; &quot;</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; &lt;a href=&#39;</span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39; style=&#39;</span><span class="si">#{</span><span class="n">style</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">#{</span><span class="n">category</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2">&lt;/a&gt; &quot;</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vi">@source</span><span class="p">,</span> <span class="s1">&#39;_includes/asides/categories_tag.html&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">file</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;{% if site.category_tag_cloud %}</span>
+</span><span class='line'><span class="s2">&lt;section&gt;</span>
+</span><span class='line'><span class="s2">&lt;h1&gt;</span><span class="si">#{</span><span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_title&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;Categories&#39;</span><span class="si">}</span><span class="s2">&lt;/h1&gt;</span>
+</span><span class='line'><span class="s2">&lt;span class=&#39;categories_tag&#39;&gt;</span><span class="si">#{</span><span class="n">html</span><span class="si">}</span><span class="s2">&lt;/span&gt;</span>
+</span><span class='line'><span class="s2">&lt;/section&gt;</span>
+</span><span class='line'><span class="s2">{% endif %}</span>
+</span><span class='line'><span class="s2">&quot;&quot;&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># generate category lists and write to &#39;source/_includes/asides/categories_sidebar.html&#39;</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">write_to_sidebar</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s1">&#39; =&gt; Creating Categories Sidebar&#39;</span>
+</span><span class='line'>      <span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;&lt;ul&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="c1"># case insensitive sorting</span>
+</span><span class='line'>      <span class="vi">@categories</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span> <span class="o">|</span><span class="n">str</span><span class="o">|</span> <span class="n">str</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">category</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">url</span> <span class="o">=</span> <span class="n">get_category_url</span> <span class="n">category</span>
+</span><span class='line'>        <span class="k">if</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_counter&#39;</span><span class="o">]</span>
+</span><span class='line'>          <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;  &lt;li&gt;&lt;a href=&#39;</span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">#{</span><span class="n">category</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="vi">@categories</span><span class="o">[</span><span class="n">category</span><span class="o">].</span><span class="n">count</span><span class="si">}</span><span class="s2">)&lt;/a&gt;&lt;/li&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;  &lt;li&gt;&lt;a href=&#39;</span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">#{</span><span class="n">category</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2">&lt;/a&gt;&lt;/li&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&lt;/ul&gt;&quot;</span>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vi">@source</span><span class="p">,</span> <span class="s1">&#39;_includes/asides/categories_sidebar.html&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">file</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;{% if site.category_sidebar %}</span>
+</span><span class='line'><span class="s2">&lt;section&gt;</span>
+</span><span class='line'><span class="s2">&lt;h1&gt;</span><span class="si">#{</span><span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_title&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;Categories&#39;</span><span class="si">}</span><span class="s2">&lt;/h1&gt;</span>
+</span><span class='line'><span class="si">#{</span><span class="n">html</span><span class="si">}</span><span class="s2"></span>
+</span><span class='line'><span class="s2">&lt;/section&gt;</span>
+</span><span class='line'><span class="s2">{% endif %}</span>
+</span><span class='line'><span class="s2">&quot;&quot;&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">get_category_url</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">dir</span> <span class="o">=</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_dir&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;categories&#39;</span>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">join</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;root&#39;</span><span class="o">]</span><span class="p">,</span> <span class="n">dir</span><span class="p">,</span> <span class="n">category</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/_|\P{Word}/</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/-{2,}/</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">CategoryList</span> <span class="o">&lt;</span> <span class="no">Generator</span>
+</span><span class='line'>    <span class="n">safe</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">priority</span> <span class="ss">:low</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="o">[</span><span class="s1">&#39;category_list&#39;</span><span class="o">]</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;## Generating Categories..&quot;</span>
+</span><span class='line'>        <span class="n">site</span><span class="o">.</span><span class="n">create_category_list</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>程式碼寫得有點髒，應該有更漂亮的寫法 :)</p>
+
+<p>再來，請打開根目錄的<code>_config.yml</code>，加上一些設定：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;-----------------------&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;Categories&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;-----------------------&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;create categories page&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;category_list</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;use counter after categories&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;category_counter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;category title&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;category_title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">分類&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;create an include categories list in @source/_includes/asides/categories_sidebar.html&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;and don&#39;t forget to add &#39;asides/categories_sidebar.html&#39; into @default_asides if you want to enable it.&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;category_sidebar</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;create an include categories tag cloud page in @source/_includes/asides/categories_tag.html&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;h1&gt;and don&#39;t forget to add &#39;asides/categories_tag.html&#39; to @default_asides if you want to enable it.&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;category_tag_cloud</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>其中，<code>category_list</code>就是用來啟用是否產生側類分類的；<code>category_counter</code>就是用來決定要不要秀出計數器，<code>category_title</code>是那個區塊的標題，<code>category_sidebar</code>跟<code>category_tag_cloud</code>打開的話，則各會產生兩個用來include的檔案。<code>category_sidebar</code>的效果就是一個一個的排下來，但如果你的文章分類很多可能會讓頁面拉很長，如果不喜歡，也可以改用<code>category_tag_cloud</code>的呈現效果。</p>
+
+<p>產生完檔案還不夠，你還需要在<code>_config.yml</code>加一下你要include的區塊，以下是我自己的設定，請依個人需要修改：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">asides/about.html</span><span class="p-Indicator">,</span> <span class="nv">asides/recent_posts.html</span><span class="p-Indicator">,</span> <span class="nv">asides/categories_tag.html</span><span class="p-Indicator">,</span> <span class="nv">asides/googleplus.html</span><span class="p-Indicator">,</span> <span class="nv">asides/plurk.html</span><span class="p-Indicator">,</span> <span class="nv">asides/recent_comments.html</span><span class="p-Indicator">,</span> <span class="nv">asides/twitter.html</span><span class="p-Indicator">,</span> <span class="nv">asides/links.html</span><span class="p-Indicator">,</span> <span class="nv">asides/advertise.html</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>最後，重新<code>rake generate</code>之後應該就可以看到成果了，就如同你現在正在看的這篇文章的右手邊分類一樣的效果。</p>
+
+<p><span class="info">為了tag cloud看起來不會太擠，你可能會需要用CSS來調整一下<code>line-height</code>。</span></p>
+
+<p>不確定這樣做是不是最好的做法，而且有些程式碼我還是硬寫在Ruby裡的，如果有更好的做法還請不吝告知 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress的Canonical URL問題]]></title>
+    <link href="http://blog.eddie.com.tw/2011/11/08/canonical-url-problem-in-octopress/"/>
+    <updated>2011-11-08T01:12:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/11/08/canonical-url-problem-in-octopress</id>
+    <content type="html"><![CDATA[<p>自從把Blog從<a href="http://wordpress.com/">Wordpress</a>搬到<a href="http://octopress.org/">Octopress</a>之後，對我這種愛敲鍵盤的人來說，寫東西真的順手不少。不過最近我發現在要把網址貼到Facebook的時候發現這個情況：</p>
+
+<p><img src="/images/2011/facebook-301-moved-permanently.png" alt="image" /></p>
+
+<p>原本以為會自動抓該網頁的摘要，但卻出現了<code>301 Moved Permanently</code>的字樣，但只要把最尾巴的斜線拿掉就正常了。不過一樣的網址貼到Google+是ok的，於是我把網址丟到Facebook的<a href="https://developers.facebook.com/tools/debug">Debug工具</a>看看是哪邊出了問題：</p>
+
+<p><img src="/images/2011/facebook-circular-redirect.png" alt="image" /></p>
+
+<p>出現了<code>Circular redirect path detected</code>的錯誤訊息，畫面往下捲看看是什麼狀況：</p>
+
+<p><img src="/images/2011/facebook-redirect-path.png" alt="image" /></p>
+
+<p>大概猜到是怎麼回事了，但很好奇到底是哪邊造成的，看了一下我的<code>_config.yml</code>的<code>permalink</code>設定：</p>
+
+<pre><code>permalink: /:year/:month/:day/:title/
+</code></pre>
+
+<p>看起來尾巴有斜線的。接著再翻了一下其它的source才發現，原來在<code>source/_includes/head.html</code>裡有這行：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (source_includes_head.html)</span> <a href='/downloads/code/octopress/source_includes_head.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{% capture canonical %}{{ site.url }}{% if site.permalink contains &#39;.html&#39; %}{{ page.url }}{% else %}{{ page.url | remove:&#39;index.html&#39; | strip_slash }}{% endif %}{% endcapture %}
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>最後面加了個<code>strip_slash</code>的filter，看起來就是會把slash給脫掉的，我把這個filter拿掉之後，原本的canonical url就會留下<code>/</code>了，整個重新發佈一次之後，再貼到Facebook就沒301的問題了。</p>
+
+<p>似乎不只這樣，原來<a href="http://disqus.com/">Disqus</a>的identifier也是用canonical url(請見<code>source/_includes/disqus.html</code>)。之前一直很好奇為什明明我在Wordpress的留言已經匯入Disqus，從Disqus的dashboard也都看得到，但就是無法顯示在blog文章裡，原來就是這個canonical url差了一個斜線，造成<code>disqus_identifier</code>不同而讀不到.. orz。</p>
+
+<p>剛把它修正之後重新發佈之後，之前在Wordpress的留言就可以正常顯示了。但因為換過來之後沒注意到這點，所以從我換到Octopress之後有來留言的大大們真的很不好意思，您的留言其實還在Disqus裡，只是因為identifier不同而暫時只能留在dashboard裡了。</p>
+
+<p>其實我也不知道為什麼這邊要<code>strip_slash</code>這個filter的存在，也許有它的用意吧，不過我拿掉之後就可以解決我的問題了。</p>
+
+<p>以上，若有哪邊有錯再請跟我說 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[縮短重新產生文章的時間]]></title>
+    <link href="http://blog.eddie.com.tw/2011/10/30/speed-up-octopress-post-regeneration/"/>
+    <updated>2011-10-30T09:15:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/10/30/speed-up-octopress-post-regeneration</id>
+    <content type="html"><![CDATA[<p>搬到<a href="http://octopress.org/">Octopress</a>之後，用Markdown寫文章感覺還不錯，不過慢慢的發現，每次我要寫一篇文章，想要看看它的樣子的時候，都得重新產生一次文章。雖然藉助一些可以所見即所得或內建預覽功能的markdown editor(例如<a href="http://mouapp.com/">Mou</a>或<a href="http://bywordapp.com/">Byword</a>之類的)，但畢竟layout看起來還是不太一樣。</p>
+
+<p>我這種小咖的文章只有大概200篇左右，也許是我電腦等級比較差，每次重新產生文章大概都得等個半分鐘左右，我開始好奇有上千篇文章的人在重新產生一次要花多久時間了。</p>
+
+<p>正想說開發Octopress的人這麼聰明，應該不可能沒想到要怎麼解決這個問題。原來Octopress有寫好了一個rake指令叫做<code>rake isolate</code>，例如這樣：</p>
+
+<pre><code>&gt; rake isolate[some-post]
+</code></pre>
+
+<p>後面接的是某一篇markdown的檔名(不包含日期)，這樣一來它會把所有的文章搬到<code>source/_stash</code>底下，只留下<code>some-post</code>這個markdown檔在<code>source/_post</code>，這樣不管你是用<a href="http://pow.cx/">Pow</a>或是<code>rake preview</code>在本機預覽你的文章，因為只會重新產生一篇文章，速度都會快得多。放在<code>source/_stashs</code>的檔案在重新產生的時候會暫時被忽略。</p>
+
+<p>如果寫好了，準備要來發佈了，可以來一下<code>rake integrate</code>，它會把剛剛移過去<code>source/_stash</code>的檔案再度的搬回來<code>source/_post</code>，再次<code>rake generate</code>之後就可以deploy出去了。這樣一來，每次需要等比較久的時間就只有最後要發佈出去的那次了。不過我覺得這樣還是不太滿足，難道不能比對檔案是否有變動然後只對有變動的markdown檔案做regenerate就行了嗎? 看來似乎得去改寫<a href="https://github.com/mojombo/jekyll">jekyll</a>才有辦法的樣子 :)</p>
+
+<p>上面這些動作，不管是<code>rake isolate</code>或是<code>rake integrate</code>，如果不放心或是懶得打指令的話，也都可以自己手動的來移動這些檔案。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Install Octopress on Heroku]]></title>
+    <link href="http://blog.eddie.com.tw/2011/10/11/how-to-install-octopress-on-heroku/"/>
+    <updated>2011-10-11T14:15:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/10/11/how-to-install-octopress-on-heroku</id>
+    <content type="html"><![CDATA[<h2>為什麼使用Octopress</h2>
+
+<p>這個我想xdite的<a href="http://blog.xdite.net/posts/2011/10/07/what-is-octopress/">Why Octopress?</a>寫得很清楚了，就不多做說明了。</p>
+
+<h2>安裝</h2>
+
+<p>請到Octopress的<a href="http://octopress.org/">官網</a>官網找下載點，或是到github上也找得到<a href="https://github.com/imathis/octopress">Octopress on github</a>，如果懶得找，請打開你的終端機視窗，然後跟我這樣做：</p>
+
+<pre><code>&gt; cd /tmp
+&gt; git clone git://github.com/imathis/octopress.git
+</code></pre>
+
+<p>第一步切換到<code>/tmp</code>只是個人喜好，你可以換成別的。進到下載的資料夾裡，安裝需要的gem：</p>
+
+<pre><code>&gt; cd octopress
+&gt; bundle install
+</code></pre>
+
+<p>沒問題的話..</p>
+
+<pre><code>&gt; rake install
+## Copying classic theme into ./source and ./sass
+</code></pre>
+
+<p>再來..</p>
+
+<pre><code>&gt; rake preview
+</code></pre>
+
+<p>就會在你本機開一個port 4000的web server起來，開瀏覽器起來輸入<a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a>可以看到畫面如下：</p>
+
+<p><img src="/images/2011/octopress-init.png" alt="image" /></p>
+
+<p>不過你會看到一些像是Blog title都是預設值，這些都是可以修改的，基本上修改都是在<code>_config.yml</code>這個檔案裡，相關設定請參考<a href="http://octopress.org/docs/configuring/">這裡</a>。</p>
+
+<p>不難吧! 你已經完成一半的工作囉，接著我們來寫第一篇文章。</p>
+
+<h2>管理介面?</h2>
+
+<p>你是說像wordpress那種有個帳號密碼登入的管理介面嗎? 沒這種東西啦! Octopress的文章都是由markdown檔案轉成靜態html，寫完就丟上去，就這麼單純而已。</p>
+
+<h2>寫文章</h2>
+
+<p>在Octopress，每篇文章就是一個markdown檔，檔案需要放在<code>source/_posts</code>底下，並依照<code>YYYY-MM-DD-post-title.markdown</code>的格式來命名，例如我這篇的檔名就是<code>2011-10-11-how-to-install-octopress.markdown</code>，這樣待會在轉成靜態html的時候才會找得到。</p>
+
+<p>以上這個動作你可以手動自己做，不過我會建議是透過<code>rake</code>指令幫你做：</p>
+
+<pre><code>&gt; rake new_post[how-to-install-octopress]
+Creating new post: source/_posts/2011-10-11-how-to-install-octopress.markdown
+</code></pre>
+
+<p>因為用<code>rake</code>幫你建立的markdown檔，會幫你加一些文章的表頭相關設定。不管你是手動還是rake自動產生的markdown檔，剩下的就是動手寫文章了。</p>
+
+<p>另外，如果你的shell是用<code>zsh</code>的話，上面這個指令可能會讓你出現這樣的狀況：</p>
+
+<pre><code>&gt;   zsh: no matches found: new_post[how-to-install-octopress]
+</code></pre>
+
+<p>如果遇到這個狀況的話，你可改一下你的<code>.zshrc</code>，加上這行：</p>
+
+<pre><code>alias rake="noglob rake"
+</code></pre>
+
+<p>或是改一下原來的rake指令：</p>
+
+<pre><code>&gt; rake "new_post[how-to-install-octopress]"
+</code></pre>
+
+<h2>怎麼寫?</h2>
+
+<p>就跟你平常寫文章一樣啦! 也許你會好奇，用markdown語法來寫文章真的方便嗎? 對我這種喜歡敲鍵盤而且又常需要在文章裡放程式碼的人來說還挺不錯用的。我是覺得只要習慣的話是還滿快的，markdown的語法要記的也沒多少，寫幾次大概就背起來了。事實上你正在看的這篇文章就是用markdown編寫的。</p>
+
+<p>有推薦的編輯器嗎? 我覺得<a href="http://mouapp.com/">Mou</a>挺不錯用的!</p>
+
+<p>不會寫? 這裡有<a href="http://daringfireball.net/projects/markdown/basics">小抄</a>可以參考。</p>
+
+<h2>寫好了，然後..?</h2>
+
+<p>markdown寫好之後，再來就是要把markdown轉成靜態html檔案了：</p>
+
+<pre><code>&gt; rake generate
+## Generating Site with Jekyll
+unchanged sass/screen.scss
+Configuration from /private/tmp/octopress/_config.yml
+Building site: source -&gt; public
+Successfully generated site: source -&gt; public
+</code></pre>
+
+<p>執行這個<code>rake generate</code>要注意的是，你可能會在你的文章裡會插入一些圖檔，請記得你的圖檔是放在<code>source/images</code>這個資料夾裡，而不是<code>public/images</code>，因為在做<code>rake generate</code>的時候會以<code>source</code>資料夾為主，並複製一份到<code>public</code>的相對應資料夾裡，如果你是直接把圖檔放在<code>public</code>裡，在比對的過程中就會被自動砍掉了。</p>
+
+<h2>在上傳之前</h2>
+
+<p>預設<code>.gitignore</code>會把<code>public</code>資料夾給忽略掉而不上傳，這個在一般的環境還ok，因為public資料夾裡的東西如果沒有的話會再自動重生，但因為我們準備把東西傳到Heroku，Heroku的檔案系統是唯讀的，不會讓你做這個動作，所以如果你也是要上傳到Heroku的，請記得修改這個檔案，把<code>public</code>給拿掉，不然你的轉好的內容都會傳不上去而出現<code>Sorry, I cannot find /</code>的錯誤訊息!</p>
+
+<p>當初沒先看文件就亂玩，結果在這邊卡關卡超久..後來是翻heroku logs才發現原因，其實<a href="http://octopress.org/docs/deploying/heroku/">文件</a>根本早就有寫了..orz</p>
+
+<h2>上傳到Heroku</h2>
+
+<p>因為待會我們要把東西丟上<a href="http://www.heroku.com/">Heroku</a>，所以請先上Heroku申請個帳號，Heroku的<a href="http://devcenter.heroku.com/articles/quickstart">Getting Started with Heroku</a>請先翻一下，相關gem也別忘了一起裝起來。</p>
+
+<p>有帳號之後，用<code>heroku</code>來開個專案：</p>
+
+<pre><code>&gt; heroku create happy-octopress
+Creating happy-octopress... done, stack is bamboo-mri-1.9.2
+http://happy-octopress.heroku.com/ | git@heroku.com:happy-octopress.git
+Git remote heroku added
+</code></pre>
+
+<p>這個<code>happy-octopress</code>請改成你自己取的名字。再來就是把剛剛剛好的東西用git丟上去：</p>
+
+<pre><code>&gt; git add .
+&gt; git commit -m 'first commit'
+&gt; git push heroku master
+Counting objects: 3400, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (1218/1218), done.
+Writing objects: 100% (3400/3400), 844.84 KiB, done.
+Total 3400 (delta 1949), reused 3352 (delta 1916)
+
+-----&gt; Heroku receiving push
+-----&gt; Ruby/Sinatra app detected
+-----&gt; Gemfile detected, running Bundler version 1.0.7
+       Unresolved dependencies detected; Installing...
+       Using --without development:test
+       Fetching source index for http://rubygems.org/
+       Installing rack (1.3.2) 
+       Installing tilt (1.3.2) 
+       Installing sinatra (1.2.6) 
+       Using bundler (1.0.7) 
+       Your bundle is complete! It was installed into ./.bundle/gems/
+-----&gt; Compiled slug size is 608K
+-----&gt; Launching... done, v4
+       http://happy-octopress.heroku.com deployed to Heroku
+
+To git@heroku.com:happy-octopress.git
+ * [new branch]      master -&gt; master
+</code></pre>
+
+<p>就這樣，你可以自己打開瀏覽器，輸入網址<a href="http://happy-octopress.heroku.com">http://happy-octopress.heroku.com</a>，或是叫heroku幫你開：</p>
+
+<pre><code>&gt; heroku open
+</code></pre>
+
+<p>沒意外的話，應該就可以看到架好的Octopress，以及你剛剛寫的文章了。</p>
+
+<p>大概就是這樣，更多的說明請參考<a href="http://octopress.org/">Octopress官網</a>。若有任何問題或是有哪邊寫錯了，歡迎一起來討論囉 :)</p>
+]]></content>
+  </entry>
+  
+</feed>

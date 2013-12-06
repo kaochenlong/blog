@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: CSS | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/css/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CSS References]]></title>
+    <link href="http://blog.eddie.com.tw/2007/01/21/css-references/"/>
+    <updated>2007-01-21T03:13:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2007/01/21/css-references</id>
+    <content type="html"><![CDATA[<ul>
+<li><a href="http://zh.wikipedia.org/wiki/CSS">CSS(wikipedia)</a></li>
+<li><a href="http://www.w3.org/Style/CSS/">CSS(W3C)</a></li>
+<li><a href="http://irw.ncit.edu.tw/peterju/css.html">CSS Note</a></li>
+<li><a href="http://www.smashingmagazine.com/">Smash Magazine</a></li>
+</ul>
+
+
+<p>幾個實用的CSS資料 :)</p>
+]]></content>
+  </entry>
+  
+</feed>

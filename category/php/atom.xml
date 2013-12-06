@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: PHP | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/php/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PHPConf Taiwan 2011之CoffeeScript影片]]></title>
+    <link href="http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011/"/>
+    <updated>2011-11-25T18:16:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011</id>
+    <content type="html"><![CDATA[<p>這是在第一屆的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>上講的CoffeeScript的錄影，感謝辛苦的拍攝及後製人員，畫質及收音效果相當的好。
+<iframe width="420" height="315" src="http://www.youtube.com/embed/8i3qTKTr2tk" frameborder="0" allowfullscreen></iframe></p>
+
+<p>投影片在這裡：
+<a href="http://speakerdeck.com/u/eddie/p/coffeescript-a-better-way-to-write-javascript" target="_blank"><img src="/images/2011/speakerdeck-coffeescript-in-phpconf-taiwan.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/coffeescript-a-better-way-to-write-javascript" target="_blank">View on Speaker Deck</a> | <a href="/downloads/files/2011/coffeescript.pdf">Download PDF</a></p>
+
+<p>如果想要看得更清楚的話，可以到Youtube切換成HD 1080p模式觀賞。</p>
+
+<p><a href="http://www.youtube.com/watch?v=EbmV-QCYkps&feature=BFa&list=PL9E199DE807DFD9E2&lf=plpp_play_all" target="_blank">全部PHPConf Taiwan 2011的影片播放清單</a></p>
+
+<p>如果大家對於內容有什麼問題，也歡迎在這裡留言，大家一起研究討論 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHPConf Taiwan 2011 is Launching]]></title>
+    <link href="http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching/"/>
+    <updated>2011-10-14T01:05:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching</id>
+    <content type="html"><![CDATA[<p><img src="/images/2011/phpconf.jpg" alt="image" /></p>
+
+<p>網址：<a href="http://phpconf.tw/2011">http://phpconf.tw/2011</a></p>
+
+<p><strong>第一屆的台灣 PHP 開發者年會起跑囉！</strong></p>
+
+<p>在一群熱血朋友的支持與踴躍參與下，我們開始籌措了 PHPConf Taiwan 2011 ，從原先計畫的 20 至 30 人的小聚會，到現在居然有將近 150 人說要參加，而且在 OSSF 大力奔走下，第一屆就可以跟其他大型研討會一樣辦在中研院！</p>
+
+<p>11/12 (六) 在中研院「人文社會科學館」的第二會議室，我們一同來參與這場盛會！</p>
+
+<p>報名時間︰10/21 (五) 下午 01:30 ，報名人數︰ 100 人。</p>
+
+<p>歡迎有興趣的朋友們一起來吧!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Misunderstanding about Flash]]></title>
+    <link href="http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash/"/>
+    <updated>2010-10-27T16:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash</id>
+    <content type="html"><![CDATA[<p>今晚在<a href="http://groups.google.com/group/zf-tw/">PHP讀書會</a>上分享的主題：</p>
+
+<div style="width:425px" id="__ss_5576350"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/amf-5576350" title="AMF" target="_blank">AMF</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5576350" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
+
+
+<p><a href="/downloads/files/2010/amf_demo.zip">範例程式碼下載</a></p>
+
+<p>範例裡用的只是單純的傳過去的資料給return回來而已，不過應該可以發現其實不管是跟哪一家的程式語言串接，Flash端的實作方法幾乎都是不需要改變的。</p>
+
+<p>另外同場加映：</p>
+
+<div style="width:425px" id="__ss_5575369"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/misunderstanding-about-flash" title="Misunderstanding about flash" target="_blank">Misunderstanding about flash</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5575369" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
+
+
+<p>若內容有誤還請不吝指教</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Doctrine, the PHP ORM Framework]]></title>
+    <link href="http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/"/>
+    <updated>2008-12-23T14:14:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework</id>
+    <content type="html"><![CDATA[<p><img src="/images/2008/doctrine-logo.png" alt="image" /></p>
+
+<p><a href="http://www.doctrine-project.org/">Doctrine</a>是一個在PHP上的資料庫ORM(Object Relational Mapper)，最近手邊的幾個小案子透過Doctrine來實作。ORM的確是讓開發者少寫不少的SQL查詢，但相對的效能一定是比簡單的SQL要來得 差，我想魚跟熊掌要兼得並不容易，便利跟效能之間總有個天平讓開發者來自已調整，所以ORM好不好用就見人見志囉。</p>
+
+<h2>一、前置作業：</h2>
+
+<h3>1. 系統需求</h3>
+
+<p>依官網上面提到的，Doctrine需要PHP 5.2.3以上的版本，除此之外就不用再另外安裝其它的套件或函式庫即可運作，不過如果要使用PDO(<a href="http://tw2.php.net/manual/en/intro.pdo.php">PHP Data Object</a>)的話，則可能會需要另外安裝PDO驅動程式。</p>
+
+<h3>2. 檢查PDO驅動程式</h3>
+
+<p>如果你要用PDO的話，想要知道你的主機上是不是有安裝你所需要的PDO驅動程式，只要一行簡單的PHP程式放到主機上執行：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php phpinfo(); ?&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+如果你有看到一段PDO的資訊，那差不多應該就是有安裝了，再確認一下是不是有你要的版本，以及是否啟用即可。</p>
+
+<h2>二、取得原始檔</h2>
+
+<p>有幾種取得Doctrine的方法：</p>
+
+<ul>
+<li>SVN(Subversion)</li>
+<li>Pear</li>
+<li>Zip-package</li>
+</ul>
+
+
+<p>如果你熟悉SVN的操作的話，這應該是最簡單使用的了。如果你只是想試玩一下Doctrine的功能的話，你可以下載官網上打包好的<a href="http://www.doctrine-project.org/download/1_0_5/sandbox/1/format/tgz">Sandbox套件</a>來玩。我個人比較喜歡官方打包好的壓縮檔 :)</p>
+
+<h3>什麼是Sandbox套件?</h3>
+
+<p>Doctrine網站的<a href="http://www.doctrine-project.org/download">下載區</a>有貼心的打包了免設定的方便套件，直接下載、解壓縮後，就可以拿來試玩了。這裡面包括了一些範例schema檔案以及可以匯入的資料檔，讓你可以很快的就可以開始體驗Doctrine的優點。</p>
+
+<h2>三、開始第一個專案</h2>
+
+<p>在Doctrine裡，Doctrine_Record是最基本的元件。資料庫裡的每個資料表都會有一個對應的Doctrine_Record類別。這個類別是以<a href="http://en.wikipedia.org/wiki/Active_record_pattern">Active Record</a>這個設計模式實作的，所以在其它語言像是在ROR(Ruby on Rails)上才看得到方便功能，在Doctrine裡也可以使用到了，即使是複雜的資料庫操作，透過這個類別也可以簡單的完成。</p>
+
+<p>在使用Doctrine_Record來建立資料表時，如果沒有特別指定Primary Key的話，Doctrine會自動幫你加一個叫做<code>id</code>的主索引欄位(自動編號)。接下來你需要做的事情，就是建立一個繼承自 Doctrine_Record類別的子類別，然後透過<code>setTableDefinition()</code>以及<code>hasColumn()</code>就可以來建立你的資料表。</p>
+
+<p>為了單純一些，我們這裡只先用一個表格做範例(多個表格之間的關聯性操作，例如一對一、一對多、多對多等關係，再另外開幾篇再寫)。假設我們現在要建立一個 叫做<code>member</code>的會員資料表，這個資料表裡會有id、username、password以及建立日期這幾個欄位，我們可以這樣做：</p>
+
+<p>檔案：models/Member.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt; class Member extends Doctrine_Record</span>
+</span><span class='line'><span class="x"> {</span>
+</span><span class='line'><span class="x">     public function setTableDefinition()</span>
+</span><span class='line'><span class="x">     {</span>
+</span><span class='line'><span class="x">         // 預設將會使用跟&quot;user&quot;做為資料表的名稱(同名)</span>
+</span><span class='line'><span class="x">         // 並且會自動加一個欄位id的主索引鍵</span>
+</span><span class='line'><span class="x">         $this-&amp;gt;hasColumn(&#39;username&#39;, &#39;string&#39;, 30);</span>
+</span><span class='line'><span class="x">         $this-&amp;gt;hasColumn(&#39;password&#39;, &#39;string&#39;, 30);</span>
+</span><span class='line'><span class="x">     }</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">     public function setUp()</span>
+</span><span class='line'><span class="x">     {</span>
+</span><span class='line'><span class="x">         $this-&amp;gt;actAs(&#39;Timestampable&#39;);</span>
+</span><span class='line'><span class="x">     }</span>
+</span><span class='line'><span class="x"> }</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+除了手工打造模型類別外，你也可以使用YAML格式的檔案來建立資料表的schema檔案，底下這個範例的設定跟上面這個類別是一樣的意思，而且也可以透過Doctrine的一些指令來互相轉換。</p>
+
+<p>檔案：schemas/schema.yml
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">Member</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">columns:&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;pre&gt;&lt;code&gt;username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
+</span><span class='line'><span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;  actAs</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">Timestampable</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這裡要注意的是，<strong>YAML的縮排是有意義的</strong>，所以要特別注意縮排的層級。你可以用一行簡單的語法就可以把YAML檔案(.yml)轉換成模型類別(.php)：</p>
+
+<p>檔案：createMode.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt; require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'><span class="x"> Doctrine::generateModelsFromYaml(&#39;schemas/schema.yml&#39;, &#39;models&#39;);</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+執行之後看一下models資料夾有一個自動產生的generated資料夾(如下圖)，你會看到有一個<code>Member.php</code>以 及<code>BaseMember.php</code>。其中，<code>Member.php</code>是可以讓你自己定義一些功能用的，而<code>BaseMember.php</code>裡的內容則是 依據YAML的內容幫你寫好的。(要特別注意BaseMember類別會在每次執行轉換的時候重新產生一次，而Member類別只會產生一次)。</p>
+
+<p><img src="/images/2008/doctrine-5.png" alt="image" /></p>
+
+<p>我們現在有一個透過YAML建立的Doctrine_Record類別，接下來就可以把它匯入資料庫來建立資料表了。</p>
+
+<p>檔案：modelToDatabase.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt; require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'><span class="x"> // 建立資料表</span>
+</span><span class='line'><span class="x"> Doctrine::createTablesFromArray(array(&#39;Member&#39;));</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這樣就搞定了!看一下資料表的樣子：</p>
+
+<p><img src="/images/2008/doctrine-1.png" alt="image" /></p>
+
+<p>如前面說的，它會自動加上<code>id</code>這個欄位，而<code>Timestampable</code>則會自動幫忙加上<code>created_at</code>及<code>updated_at</code>這兩個欄位。</p>
+
+<p>現在我們有一個資料表以及一個對應的模型類別可以讓我們來練習資料的基本操作了(新增、修改、刪除及查詢)。</p>
+
+<h3>新增：</h3>
+
+<p>檔案：testInsert.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">$myTable-&amp;gt;username = &#39;eddie&#39;;</span>
+</span><span class='line'><span class="x">$myTable-&amp;gt;password = &#39;mypassword&#39;;</span>
+</span><span class='line'><span class="x">$myTable-&amp;gt;save();</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+資料表欄位的指定，除了上面這種物件式的存取方式外，也可以使用陣列的方式：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">  $myTable = new Member;</span>
+</span><span class='line'><span class="x">  $myTable[&#39;username&#39;] = &#39;eddie&#39;;</span>
+</span><span class='line'><span class="x">  $myTable[&#39;password&#39;] = &#39;mypassword&#39;;</span>
+</span><span class='line'><span class="x">  $myTable-&gt;save();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+不用寫什麼insert..into..，只要一個<code>save()</code>就完成了! 回頭看一下資料表就會發現，有一些神奇的事情它幫忙做了。上面這段程式碼執行後，member資料表會長得像這樣：</p>
+
+<p><img src="/images/2008/doctrine-2.png" alt="image" /></p>
+
+<h3>修改：</h3>
+
+<p>假設剛剛寫入的那筆資料的id編號是1號，更新方法是先找到它，然後一樣用<code>save()</code>來更新：</p>
+
+<p>檔案：testUpdate.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">$record = $myTable-&amp;gt;getTable()-&amp;gt;find(1);</span>
+</span><span class='line'><span class="x">$record-&amp;gt;password = &#39;mynewpassword&#39;;</span>
+</span><span class='line'><span class="x">$record-&amp;gt;save();</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+結果如下：</p>
+
+<p><img src="/images/2008/doctrine-3.png" alt="image" /></p>
+
+<p>你會發現，password欄位變成”mynewpassword”之外，它的更新時間(updated_at)也跟著更新了。</p>
+
+<h3>刪除：</h3>
+
+<p>跟更新差不多，也是先找到那筆資料後，再給它一個<code>delete()</code>：</p>
+
+<p>檔案：testDelete.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">$myTable-&amp;gt;getTable()-&amp;gt;find(1)-&amp;gt;delete();</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>查詢：</h3>
+
+<p>假設我要找出id編號是1號的資料，可以這樣做：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">  $myTable = new Member;</span>
+</span><span class='line'><span class="x">  $result =$myTable-&gt;getTable()-&gt;find(1);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+除了透過<code>find</code>方法外，Doctrine還有它自已一套叫做<code>DQL</code>的語法，使用方法大致如下：</p>
+
+<p>檔案：testDQL.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">$record = $myTable-&amp;gt;getTable()-&amp;gt;find(1);</span>
+</span><span class='line'><span class="x">$record-&amp;gt;password = &#39;mynewpassword&#39;;</span>
+</span><span class='line'><span class="x">$record-&amp;gt;save();</span>
+</span><span class='line'><span class="x">$result = Doctrine_Query::CREATE()</span>
+</span><span class='line'><span class="x">            -&amp;gt;select(&#39;*&#39;)</span>
+</span><span class='line'><span class="x">            -&amp;gt;from(&#39;Member&#39;)</span>
+</span><span class='line'><span class="x">            -&amp;gt;where(&#39;id = ?&#39;, 1)</span>
+</span><span class='line'><span class="x">            -&amp;gt;fetchArray();</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">print_r($result);</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+印出來的結果如下：</p>
+
+<p><img src="/images/2008/doctrine-4.png" alt="image" /></p>
+
+<p>上面的DQL相當於底下的SQL：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">member</span> <span class="k">where</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+其實DQL的細節也可以另外來寫一篇 :)</p>
+
+<h2>結論</h2>
+
+<p>老實說，如果只是簡單的查詢，Doctrine寫起來不見得比原本的SQL快，而且效能又比較差一些，但如果是比較複雜的查詢，透過Doctrine包裝好 的一些方法，可以不用去想那些單引號、雙引號的問題外，也可以安全的避開可能的危機(例如SQL Injection) ，就如同最前面說的，便利跟效能，我會比較偏向便利的這一方。</p>
+
+<p>更多的細節，可參考<a href="http://www.doctrine-project.org/documentation">Doctrine官網手冊</a>，寫得滿詳細的。</p>
+
+<p>上面的程式碼我也有打包了一份供大家參考囉 :)</p>
+
+<p><a href="http://blog.eddie.com.tw/gallery/1/doctrine-lession1.rar">檔案下載</a></p>
+
+<p>使用前請先看一下config/doctrine_config.php裡面的資料庫相關設定。</p>
+
+<h2>相關連結</h2>
+
+<ul>
+<li><a href="http://www.doctrine-project.org/">Doctrine官方網站</a></li>
+<li><a href="http://groups.google.com/group/doctrine-user">Doctrine User Group</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AMFPHP-搭起Flash與PHP的美麗橋樑]]></title>
+    <link href="http://blog.eddie.com.tw/2008/10/12/amfphp-tutorial/"/>
+    <updated>2008-10-12T11:24:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2008/10/12/amfphp-tutorial</id>
+    <content type="html"><![CDATA[<p><img src="/images/2008/amfphp_logo.gif" alt="image" /></p>
+
+<p>Flash在跟Server在交換資料，比較常見的是一般的文字訊息或是XML，我自己在趕時間的時候，會偷懶的隨便echo一個字出來知會Flash說server程式已經做完了或是程式執行之後的結果，不趕時間且資料量較多的時候，則會乖乖的用XML。不過，最近開始我比較常用的是AMF跟<a href="http://www.json.org/">JSON</a>這兩個方法，其實都還滿方便的，各有其優缺點。</p>
+
+<p>AMF(Action Message Format)，由<a href="http://www.adobe.com/">Adobe</a>公司推出的規格，主要是用來給flash以RPC的方式來交換資料用的，在flash player 6的版本就已經開始支援(AMF0)，直到flash player 9才又推出新規格(AMF3)。其它細節可參考：<a href="http://en.wikipedia.org/wiki/Action_Message_Format">http://en.wikipedia.org/wiki/Action_Message_Format</a></p>
+
+<p>接下來就來個簡單的實作吧 :)</p>
+
+<h4>1. 下載AMF gateway</h4>
+
+<p>找個自己順手的語言</p>
+
+<ul>
+<li><a href="http://www.amfphp.org/">AMFPHP</a>：這是PHP的</li>
+<li><a href="http://pyamf.org/">PyAMF</a>：這是Python的(還不熟，努力學習中)</li>
+<li><a href="http://amfnet.openmymind.net/">AMF.NET</a>：這是.NET的</li>
+</ul>
+
+
+<p>光看名字大概就能猜到它的後端是用什麼做的。其它還有for Java或其它的，有興趣的可以繼續google翻翻看。</p>
+
+<h4>2. 安裝AMF gateway(以AMFPHP為例)</h4>
+
+<p>安裝方法很容易的，只要把下載下來的壓縮檔解開，放在Web server底下一個自己找得到的路徑就行了。我是放在<code>http://127.0.0.1/test/amfphp/</code>底下。</p>
+
+<p>AMFPHP有提供一個很棒的Service Browser，網址是<code>http://127.0.0.1/test/amfphp/browser</code>，這是個用Flex做的介面，可以清楚列出目前在AMF gateway上的服務。</p>
+
+<h4>3. 在AMF gateway上新增一個服務</h4>
+
+<p>我做了一個簡單的php類別檔，存檔為<code>callme.php</code>，並放在AMF gateway的<code>services</code>資料夾裡面(文末有原始檔連結)。PHP不像Java或AS3一樣硬性規定類別名稱一定要跟檔名一樣..至少php5還沒有，但建立這習慣也不錯。
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;class callme</span>
+</span><span class='line'><span class="x">{</span>
+</span><span class='line'><span class="x">    function callmeplease($text)</span>
+</span><span class='line'><span class="x">    {</span>
+</span><span class='line'><span class="x">        return $text;</span>
+</span><span class='line'><span class="x">    }</span>
+</span><span class='line'><span class="x">}</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+上面，我做了一個<code>callme</code>的類別，然後裡面放了一個<code>callmeplease</code>的方法，這個方法會接收一個參數，執行完成之後，會把傳入的參數return回來。這裡只是簡單直接return而已，更複雜的資料庫存取程式也可以寫在這裡...</p>
+
+<p>接下來看一下Service Browser，會發現寫寫的那個新的服務在的左手邊的列表裡：</p>
+
+<p><img src="/images/2008/amfphp.gif" alt="image" /></p>
+
+<p>在右邊的Text輸入文字，按一下右邊的「Call」，應該就可以直接看到結果。(中文支持問題請見文末補充)</p>
+
+<h4>4. 新增一個Fla(這裡以AS3.0為例)</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="o">*;&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;//</span> <span class="err">新增一個</span><span class="nb">NetConnection</span><span class="err">物件</span>
+</span><span class='line'><span class="k">var</span> <span class="nx">test</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;//</span> <span class="err">連上</span><span class="nx">AMF</span> <span class="nx">gateway</span>
+</span><span class='line'><span class="c1">// 這裡每家AMF gateway的實作方法應該都有差別，細節請記得看該實作說明</span>
+</span><span class='line'><span class="nx">test</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1/test/amfphp/gateway.php&#39;</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;//</span> <span class="err">準備一個</span><span class="nb">Responder</span><span class="err">物件來接收事件，用法及參數請參考</span><span class="nx">F1</span><span class="err">說明</span>
+</span><span class='line'><span class="k">var</span> <span class="nx">returnResult</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">ok</span><span class="o">,</span> <span class="nx">ng</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">ok</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">ng</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;//</span><span class="err">以上，我做了</span><span class="nx">ok</span><span class="err">跟</span><span class="nx">ng</span><span class="err">兩個簡單小</span><span class="kd">function</span><span class="err">，分別是</span><span class="nf">trace</span><span class="err">出它們接收到的物件</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">test</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;callme.callmeplease&#39;</span><span class="o">,</span> <span class="nx">returnResult</span><span class="o">,</span> <span class="s1">&#39;hi, flash&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="c1">// 這裡是最重要的動作，就是直接用call這個方法</span>
+</span><span class='line'><span class="c1">// &quot;呼叫&quot;在gateway上面的callme這個服務裡的callmeplease這個方法</span>
+</span><span class='line'><span class="c1">// 第二個參數是接收反應的responder，第三個參數是給callmeplease的參數</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+以上，<code>callme.callmeplease</code>會把”hi, flash”傳給AMF gateway，然後gateway回傳”hi, flash”回來給flash。順利的話，Ctrl + Enter執行，就會在output視窗看到輸出的東西了。</p>
+
+<p>就這樣，你的Flash已經可以跟各家有支援AMF的gateway”對談”了。</p>
+
+<p>上面提到的原始檔在<a href="http://code.eddie.com.tw/downloads/flash/AMF.rar">這裡</a>可以拿得到(其實沒幾行字，就一個.php跟.fla)</p>
+
+<p>還是看不懂嗎? 沒關係，這裡有個很棒的影音教學，看完跟著作一遍就知道大概是怎麼運作的了
+<a href="http://www.gotoandlearn.com/player.php?id=78">http://www.gotoandlearn.com/player.php?id=78</a></p>
+
+<p>希望對大家有幫助 :)</p>
+
+<h5>補充1：</h5>
+
+<p>AMF不久之後已經可以在Zend Framework裡找到native module了，ZF真的是包山包海了 :) ((而且ZF-AMF就是由AMFPHP裡的主導人Wade Arnold來親自操刀)。</p>
+
+<h5>補充2：</h5>
+
+<p>AMFPHP預設的編碼是不支援中文的(會出現亂碼)，不過只要修改一下gateway的程式碼即可。</p>
+
+<p>使用文字編輯器，開啟AMFPHP資料夾的gateway.php，應該可以找到一段跟字碼有關的：</p>
+
+<pre><code>$gateway-&gt;setCharsetHandler("utf8_decode", "ISO-8859-1", "ISO-8859-1");
+</code></pre>
+
+<p>把它修改成：</p>
+
+<pre><code>$gateway-&gt;setCharsetHandler("utf8_decode", "UTF-8", "UTF-8");
+</code></pre>
+
+<p>或是如果你的PHP模組裡有iconv的話也可以這樣改：</p>
+
+<pre><code>$gateway-&gt;setCharsetHandler("iconv","UTF-8","UTF-8");
+</code></pre>
+
+<p>記得，不要改flash裡的<code>useCodePage = true</code>，雖然可能也ok，但這是走回頭路...能使用Unicode就盡量使用它吧 :)</p>
+]]></content>
+  </entry>
+  
+</feed>

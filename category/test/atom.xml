@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Test | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/test/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Automated Testing in Javascript]]></title>
+    <link href="http://blog.eddie.com.tw/2011/12/22/automated-testing-in-javascript/"/>
+    <updated>2011-12-22T05:30:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/12/22/automated-testing-in-javascript</id>
+    <content type="html"><![CDATA[<p>這是在<a href="http://www.jaceju.net/blog/" target="_blank">大澤木小鐵(Jace)</a>主辦的第一回<a href="http://registrano.com/events/webdev-party-01" target="_blank">WebDev Party</a>上用到的投影片：
+<a href="http://speakerdeck.com/u/eddie/p/automated-testing-in-javascript" target="_blank"><img src="/images/2011/speakerdeck-automated-testing-in-javascript.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/automated-testing-in-javascript" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/automated-testing-in-javascript.pdf">Download PDF</a> | <a href="/downloads/files/2011/automated-test-in-javascript.zip">Download ScreenCast</a></p>
+
+<p>這是當天的錄影：
+<iframe src="http://player.vimeo.com/video/34133238?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe></p>
+
+<p>主要內容是分享一些我近期在做自己的產品的時候用到的一些測試工具組合及心得。原本打算用中文做投影片，但還是無法割捨漂亮的英文字體。這應該是今年的最後一場表演了，希望大家會喜歡。</p>
+
+<h3>有提到的工具：</h3>
+
+<ul>
+<li><a href="http://docs.jquery.com/QUnit" target="_blank">QUnit</a> - A easy-to-use JavaScript testing framework.</li>
+<li><a href="http://pivotal.github.com/jasmine/" target="_blank">Jasmine</a> - A BDD framework for testing your JavaScript code.</li>
+<li><a href="http://zombie.labnotes.org/" target="_blank">Zombie.js</a> - A headless testing tool.</li>
+<li><a href="http://sinonjs.org/" target="_blank">Sinon.js</a> - Standalone test spies, stubs and mocks for JavaScript.</li>
+<li><a href="http://www.phantomjs.org/" target="_blank">Phantom.js</a> - A headless WebKit with JavaScript API.</li>
+<li><a href="https://github.com/guard/guard" target="_blank">Guard</a> - A command line tool to easily handle events on file system modifications.</li>
+</ul>
+
+
+<p>若有任何問題或是我講的內容有不對的地方，歡迎大家留言一起討論、指正。之後也會持續的續把一些測試JavaScript的方法跟工具整理成文章，希望可以給大家帶來一點點的幫助。</p>
+]]></content>
+  </entry>
+  
+</feed>

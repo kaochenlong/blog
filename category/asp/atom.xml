@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ASP | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/asp/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ASP Recordset輸出至EXCEL]]></title>
+    <link href="http://blog.eddie.com.tw/2006/03/21/asp-recordset-to-excel/"/>
+    <updated>2006-03-21T23:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2006/03/21/asp-recordset-to-excel</id>
+    <content type="html"><![CDATA[<p>只在ASP裡面加上這行：</p>
+
+<pre><code>Response.ContentType="application/vnd.ms-excel"
+</code></pre>
+
+<p>然後裡面的內容用Table建起來就行了</p>
+
+<p>出乎意料的容易..我記得以前還要弄一些元件的</p>
+
+<p>當然，應該可以做得更進階一些，例如接受上一頁傳來的SQL查詢句，然後依據查詢句的結果自己產生適當格式的EXCEL，變成通用的Excel產生器 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sc-bytes extended logging property is 0 for ASP?]]></title>
+    <link href="http://blog.eddie.com.tw/2005/03/17/sc-bytes-extended-logging-property-is-0-for-asp/"/>
+    <updated>2005-03-17T21:19:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2005/03/17/sc-bytes-extended-logging-property-is-0-for-asp</id>
+    <content type="html"><![CDATA[<p>在用<a href="http://awstats.sourceforge.net/">AWStats</a>做流量統計時，發現只要是ASP的檔案，<code>sc-bytes</code>的都是0。後來才發現是Microsoft IIS的問題，在Microsoft找到答案：
+解決方法有兩種：</p>
+
+<ol>
+<li>從ASP程式下手。</li>
+<li>或是從IIS下手。</li>
+</ol>
+
+
+<h3>解決方法一：</h3>
+
+<p>從IIS 5.0開始，Response.Buffer預設值是打開(True)的(IIS4的預設值是false)，如果要在程式裡關掉它，則需要在程式裡加入：</p>
+
+<pre><code>Response.Buffer = false
+</code></pre>
+
+<h3>解決方法二：</h3>
+
+<p>Step 1:打開Internet Service Manager</p>
+
+<p>Step 2:選擇網站→內容→主目錄頁裡的「應用程式設定(Application Settings)」，點選「設定(Configuration)」</p>
+
+<p>Step 3:選擇「應用程式選項(App Options)」頁面，不要勾選「啟用緩衝處理(Enable buffering)」。</p>
+
+<p>這樣就會把預設的true關掉了，ASP的sc-bytes也就開始會有記錄了。</p>
+
+<h3>Reference：</h3>
+
+<ul>
+<li><a href="http://support.microsoft.com/kb/245198">Response.Buffer Is ON by Default in IIS 5.0</a></li>
+<li><a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;254718">Sc-bytes extended logging property is 0 for ASP files in IIS 5.0</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

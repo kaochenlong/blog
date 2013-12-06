@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Robotlegs | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/robotlegs/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[第九回AS讀書會之測試你的Robotlegs專案]]></title>
+    <link href="http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project/"/>
+    <updated>2011-12-14T02:42:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project</id>
+    <content type="html"><![CDATA[<p>這是在第九回的Flash/AS讀書會上用到的投影片：
+<a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank"><img src="/images/2011/speakerdeck-test-in-robotlegs.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/test-your-robotlegs-project.pdf">Download PDF</a></p>
+
+<p>部份內容是現場Demo，所以沒辦法在投影片裡看到。在分享的過程，從大家的眼神中似乎可以感覺得出來大家對於"寫測試"這件事很陌生(其實我也是新手)，我之後會再花一些時間把關於如何在Flash/ActionScript裡寫測試整理成文章，希望可以讓大家可以更了解TDD(Test-Driven Development)是怎麼一回事，又該怎麼進行。</p>
+
+<p>感謝大家今天天氣這麼冷還能前來參加，咱們下回見 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第八回AS讀書會之Hello Robotlegs]]></title>
+    <link href="http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party/"/>
+    <updated>2011-11-07T01:16:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party</id>
+    <content type="html"><![CDATA[<p>時間很快，已經到第八回了，雖然這回是在週末舉辦，依舊還是相當多的朋友來捧場，相當感動 :)</p>
+
+<p><img src="/images/2011/8th-as-party-1.jpg" alt="image" /></p>
+
+<p>這回我的主題是<a href="http://www.robotlegs.org/">Robotlegs</a>的入門介紹，投影片可以在這邊找得到 <a href="http://www.eddie.com.tw/slides">http://www.eddie.com.tw/slides</a></p>
+
+<p>除了原定我跟另一位講者(<a href="http://blog.roodo.com/sayaku">阿邪哥</a>)之外，這回還有另一位佳賓，是<a href="http://www.packtpub.com/papervision3d-essentials/book">Papervision3D Essentials</a>一書的作者<a href="http://jeffwinder.blogspot.com/">Jeff Winder</a>剛好最近來台灣玩，也一起加入我們一起同樂。(聽說他來台灣騎腳踏車環島，真厲害)</p>
+
+<p><img src="/images/2011/8th-as-party-2.jpg" alt="image" />
+Jeff幫忙補充了一些Robotlegs的東西，也分享他最近做的一些東西。</p>
+
+<p><img src="/images/2011/8th-as-party-3.jpg" alt="image" />
+果然，穿M號的衣服還是太勉強，減肥之路還得繼續努力! 更多照片請見 <a href="https://picasaweb.google.com/108852467279874647445/LetSParty8thASStudyGroup">Picasa相本</a></p>
+
+<p>如同Jeff跟我說的：
+<blockquote><p>"It is always so nice to meet people who share the same passion."</p></blockquote>
+嗯，我覺得那就是當初辦這個聚會的目的了。</p>
+
+<p>最後要再感謝一下來參加的各位朋友，以及臨時被我拉來當攝影師的<a href="http://www.jaceju.net/">鐵哥</a>，咱們下回見 :)</p>
+
+<p>PS: 話說我發現其實開口講英文雖然還是不太習慣，但比我想像中的簡單，似乎常看影集果然多少還是有些幫助(幫自己愛看影集找藉口)。</p>
+]]></content>
+  </entry>
+  
+</feed>

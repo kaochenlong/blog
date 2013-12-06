@@ -1,1 +1,875 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="寫了一陣子的 Objective-C/iOS app，這次讓我們回頭來看點基礎的東西 :) 什麼是 id? 在 Objective-C 裡，變數宣告通常得告知編譯器這個變數的型別，例如這樣： 1
+NSArray* myArray = @[@&quot;eddie&quot;, @&quot;kao &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2013/12/05/object-class-and-meta-class-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2013-12-05T01:55:00+08:00" pubdate>Dec 5<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>寫了一陣子的 Objective-C/iOS app，這次讓我們回頭來看點基礎的東西 :)</p>
+
+<h3>什麼是 id?</h3>
+
+<p>在 Objective-C 裡，變數宣告通常得告知編譯器這個變數的型別，例如這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSArray</span><span class="o">*</span> <span class="n">myArray</span> <span class="o">=</span> <span class="err">@</span><span class="p">[</span><span class="s">@&quot;eddie&quot;</span><span class="p">,</span> <span class="s">@&quot;kao&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>而在 Objective-C 裡有個特別的型別叫做 <code>id</code>，它可以指向任何物件，像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">id</span> <span class="n">myObject</span> <span class="o">=</span> <span class="err">@</span><span class="p">[</span><span class="s">@&quot;eddie&quot;</span><span class="p">,</span> <span class="s">@&quot;kao&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那這個 <code>id</code> 是什麼? 我們直接來從原始程式碼來找這個 <code>id</code> 的定義。大家可以打開 XCode，然後選擇「File」→「Open Quickly..」，應該可以找到 <code>objc.h</code> 這個檔案，往下捲一點，應該可以找到像下面的這幾行程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案名稱：objc.h</span>
+</span><span class='line'><span class="c1">/// A pointer to an instance of a class.</span>
+</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_object</span> <span class="o">*</span><span class="n">id</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就照上面這段註解說的，所謂的 <code>id</code> 就是一個「指向一個實例 (instance) 的指針」，而且 <code>id</code> 這個 Struct 的定義本身就有帶一個 <code>*</code>，這也是為什麼你在宣告其它一般物件型別的變數需要加註一個 <code>*</code> 來表示這是一個指標變數，而使用 <code>id</code> 卻不需要的原因。</p>
+
+<h2>什麼是一個物件 (Object)?</h2>
+
+<p>讓我們再從剛剛那個檔案，順蔓摸瓜的繼續看下去..</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案名稱：objc.h</span>
+</span><span class='line'><span class="c1">/// Represents an instance of a class.</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">Class</span> <span class="n">isa</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>從這段程式碼可以知道，其實所謂的「物件」，說穿了就只是一個 C 的結構 (C Struct)，而在這個 Struct 裡面只有一個 <code>isa</code> 的指針，指向自己所屬的類別。</p>
+
+<p>再來我們來看看在 Objective-C 裡，到底什麼是一個類別(Class)</p>
+
+<h2>什麼是類別 (Class)?</h2>
+
+<p>繼續來看剛剛的那個檔案：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案：objc.h</span>
+</span><span class='line'><span class="c1">/// An opaque type that represents an Objective-C class.</span>
+</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看得出來其實 <code>Class</code> 本身也是一個 C Struct，再往下看一下這個 <code>objc_class</code> 的定義 (runtime.h)：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案：runtime.h</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">Class</span> <span class="n">isa</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#if !__OBJC2__</span>
+</span><span class='line'>    <span class="n">Class</span> <span class="n">super_class</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">long</span> <span class="n">version</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">long</span> <span class="n">info</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">long</span> <span class="n">instance_size</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">struct</span> <span class="n">objc_ivar_list</span> <span class="o">*</span><span class="n">ivars</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">struct</span> <span class="n">objc_method_list</span> <span class="o">**</span><span class="n">methodLists</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">struct</span> <span class="n">objc_cache</span> <span class="o">*</span><span class="n">cache</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">struct</span> <span class="n">objc_protocol_list</span> <span class="o">*</span><span class="n">protocols</span><span class="p">;</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>從上面這段程式碼可以看到，所謂的類別也是一個 C Struct，裡面第一個指針 <code>isa</code> 指向它的所屬類別，第二個指針 <code>super_class</code> 則是指向它的父類別。除此之外還有一些其它的指針，指向例如 instance variables、method list、cache、protocol 等 Struct。</p>
+
+<h2>訊息傳遞 (Message Passing)</h2>
+
+<p>大家在其它 Objective-C 的書上應該常看到，在 Objective-C 的世界裡，方法不像其它程式語言一樣的被直接呼叫，而是透過「訊息傳遞(Message Passing)」方式，像是這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">someObject</span> <span class="nl">saySomething:</span><span class="s">@&quot;hello&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡的 <code>someObject</code> 稱作 <code>recevier</code>，就是接收「訊息」的傢伙，而 <code>saySomething:</code> 就是「訊息」，<code>@"hello"</code> 則是參數。</p>
+
+<p>事實上，在訊息傳遞的過程，當 <code>someObject</code> 這傢伙收到訊息之後，會順著這個物件的 <code>isa</code> 指針找到自己的類別，然後再依照收到的「訊息」去類別的 method list 找出對應的方法。如果在這個類別裡面找到了，就會直接執行它，如果找不到，會再往上一層父類別(super class)找。以上這個流程都是在程式執行過程中(Rumtime)才動態決定的，而不是在編譯(Compile)時期就決定好的。</p>
+
+<p>而這個訊息傳遞的過程畢竟是多做了幾件事，相對感覺會比較耗時，但實際上在程式的執行過程中，一但執行過的方法就會被暫存(cache)下來，下次再收到一樣的訊息的時候就會快得多了。</p>
+
+<p>其實，在 Objective-C 的世界裡，類別本身也是物件，所以你也可以對它「發送訊息」，像是這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="s">@&quot;eddie&quot;</span><span class="p">,</span> <span class="s">@&quot;kao&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看起來就跟在其它程式語言的「類別方法」差不多，但事實上它就是對 <code>NSArray</code> 這個類別發送了 <code>arrayWithObjects:</code> 這個訊息。</p>
+
+<p>接下來我們直接寫一小段程式會比較容易想像：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Animal Class</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Animal</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Fox Class</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Fox</span> : <span class="nc">Animal</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">say</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Fox</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">say</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;What does the fox say!?&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段程式碼建立了兩個類別，分別是 <code>Animal</code> 及 <code>Fox</code> ，而且 <code>Fox</code> 繼承自 <code>Animal</code>，而 <code>Animal</code> 類別則是繼承自 <code>NSObject</code> 類別。</p>
+
+<p>不管是「物件」或是「類別」，因為一樣都是物件，所以他們在收到訊息時的反應流程也是一樣的：</p>
+
+<ul>
+<li>當對「物件」發送訊息的時候，它會順著這個物件的 <code>isa</code> 指針找到它的所屬類別，然後翻看看這個類別的 method list 有沒有符合的方法可以執行；</li>
+<li>當對「類別」發送訊息的時候，它會順著這個類別的 <code>isa</code> 指針找到它的所屬類別(也就是我們待會要說明的 Meta Class)，然後翻看看這個類別的 method list 有沒有符合的方法可以執行。</li>
+</ul>
+
+
+<h2>什麼是 Meta Class?</h2>
+
+<p><code>Meta</code> 這個字我不太懂中文該怎麼翻譯比較好，有人翻譯成「元」，有人翻譯成「後設」，但我個人還是喜歡直接使用 <code>Meta</code> 這個詞就好。</p>
+
+<p>剛剛在看類別的 <code>objc_class</code> 的定義的時候有提到類別的 Struct 裡也有一個 <code>isa</code> 指針，指向它所屬的類別，你可以想像成是它是「類別的類別」，也就是所謂的 <code>Meta Class</code>。</p>
+
+<p>而 Meta Class 其實也是一種類別，所以也跟一般的類別一樣有 <code>isa</code> 跟 <code>super_class</code> 指針&#8230; 所以就可以把這整個的關係用一張圖表來解釋：</p>
+
+<p><img src="/images/2013/objective-c-object-model.png" alt="image" /></p>
+
+<p>看圖說故事：</p>
+
+<ol>
+<li>每個 Class (Fox, Animal, NSObject) 的 <code>isa</code> 指針都指向一個唯一的 Class，這個 Class 稱之為 <code>Meta Class</code>。</li>
+<li>每個 Meta Class 的 <code>isa</code> 指針都是指向最上層的 Meta Class (在我們上面那段範例裡，就是 NSObject 的 Meta Class)，而最上層的 Meta Class 的 <code>isa</code> 則是指向自己，形成一個迴路。</li>
+<li>每個 Meta Class 的 <code>super_class</code> 指針都是指向它原本類別的 Super Class 的 Meta Class，但最上層的 Meta Class 的 <code>super_class</code> 則是指向 NSObject 類別本身。</li>
+<li>最上層的 Class (NSObject)，它的 Super Class 指向 <code>nil</code>。</li>
+</ol>
+
+
+<p>PS: 在 Objective-C 裡有兩種 Root Class(NSObject 跟 NSProxy)，但因為在 Objective-C 裡「大部份」的類別都是 <code>NSObject</code> 的子類別，所以舉例常會說最上層的類別就是 <code>NSObject</code>。</p>
+
+<p>一堆 Class、Super Class、Meta Class 的，有種快打結的感覺了嗎? 其實只要理解上面那張圖片，基本上就不用記這些繞舌的規則了。</p>
+
+<p>但口說無憑，讓我們來寫幾行程式碼驗證一下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Fox</span><span class="o">*</span> <span class="n">lucky</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Fox</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">lucky</span> <span class="n">say</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// about fox instance</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the class of lucky is %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">lucky</span> <span class="n">class</span><span class="p">],</span> <span class="p">[</span><span class="n">lucky</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// about Fox class</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Fox</span> <span class="n">class</span><span class="p">],</span> <span class="p">[</span><span class="n">Fox</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox&#39;s Super Class = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Fox</span> <span class="n">superclass</span><span class="p">],</span> <span class="p">[</span><span class="n">Fox</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaClassOfFox</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">([</span><span class="n">Fox</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaClassOfFox</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox&#39;s Meta Class&#39;s Super Class = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">metaClassOfFox</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaMetaClassOfFox</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">(</span><span class="n">metaClassOfFox</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox&#39;s Meta Class&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaMetaClassOfFox</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// about Animal class</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Animal</span> <span class="n">class</span><span class="p">],</span> <span class="p">[</span><span class="n">Animal</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal&#39;s Super Class = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Animal</span> <span class="n">superclass</span><span class="p">],</span> <span class="p">[</span><span class="n">Animal</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaClassOfAnimal</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">([</span><span class="n">Animal</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaClassOfAnimal</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal&#39;s Meta Class&#39;s Super Class = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">metaClassOfAnimal</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaMetaClassOfAnimal</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">(</span><span class="n">metaClassOfAnimal</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal&#39;s Meta Class&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaMetaClassOfAnimal</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// about NSObject class</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSObject</span> <span class="n">class</span><span class="p">],</span> <span class="p">[</span><span class="n">NSObject</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject&#39;s Super Class = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSObject</span> <span class="n">superclass</span><span class="p">],</span> <span class="p">[</span><span class="n">NSObject</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaClassOfNSObject</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">([</span><span class="n">NSObject</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaClassOfNSObject</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject&#39;s Meta Class&#39;s Super Class = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">metaClassOfNSObject</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaMetaClassOfNSObject</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">(</span><span class="n">metaClassOfNSObject</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject&#39;s Meta Class&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaMetaClassOfNSObject</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>輸出結果如下：</p>
+
+<pre><code>What does the fox say!?
+
+the class of lucky is Fox, address = 0x100002260
+
+Fox = Fox, address = 0x100002260
+Fox's Super Class = Animal, address = 0x100002210
+Fox's Meta Class = 0x100002238
+Fox's Meta Class's Super Class = 0x1000021e8
+Fox's Meta Class's Meta Class = 0x7fff77cce838
+
+Animal = Animal, address = 0x100002210
+Animal's Super Class = NSObject, address = 0x7fff77cce810
+Animal's Meta Class = 0x1000021e8
+Animal's Meta Class's Super Class = 0x7fff77cce838
+Animal's Meta Class's Meta Class = 0x7fff77cce838
+
+NSObject = NSObject, address = 0x7fff77cce810
+NSObject's Super Class = (null), address = 0x0
+NSObject's Meta Class = 0x7fff77cce838
+NSObject's Meta Class's Super Class = 0x7fff77cce810
+NSObject's Meta Class's Meta Class = 0x7fff77cce838
+</code></pre>
+
+<p>輸出結果可能在每個人的電腦上都不一樣，但從輸出的結果就能證明上面那張圖片的每個類別之間的關係。</p>
+
+<p>要特別注意的是，你可能會覺得直接對類別發送 <code>class</code> 訊息就可以得到該類別的 Meta Class，事實上直接對類別發送 <code>class</code> 訊息只會得到該類別自己。要取得類別的 Meta Class，可以透過 <code>object_getClass</code> 來取得。</p>
+
+<p>以上，希望這篇文章能讓大家對 Objective-C 基本的物件跟類別有更進一步的了解。</p>
+
+<p>個人認為，雖然了解這些知識不見得對 iOS app 的開發有直接的幫助，但至少當在寫一個類別或使用一個物件的時候，會更清楚到底是怎麼一回事。如果有哪邊寫錯，還請前輩先進不吝指點。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/10/18/fanxin-app/">分心 FanXin app</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2013/10/18/fanxin-app/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2013-10-18T01:55:00+08:00" pubdate>Oct 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2013/fanxin-app.jpg" alt="image" /></p>
+
+<p>今年二月份剛好有機會到朋友的公司幫忙開發 iOS app：「分心 FanXin」。顧名思義，就是一個可以讓你一邊看電視，一邊分心地跟朋友聊劇情的 app。</p>
+
+<p>下載網址：<a href="https://itunes.apple.com/tw/app/fanxin-fen-xin/id545965153?mt=8" target="_blank">https://itunes.apple.com/tw/app/fanxin-fen-xin/id545965153?mt=8</a></p>
+
+<p>但近期因為覺得我家的那兩隻小朋友在長大的速度變好快，覺得好像再這樣忙下去就會錯過小朋友的成長過程了(像今天才看到我家三歲的小男生拿媽媽的化妝品在畫自己的臉)。所以把專案進度做個段落之後，就要回家來養小孩了(沒錯，我就是要從小開始訓練小朋友寫 code 了!)。</p>
+
+<h2>做玩具與做產品的差別</h2>
+
+<p>這回幾乎把一些常見的 iOS app 常用的東西都再磨過一輪。UI customization 當然是免不了的，另外，從 Facebook SDK 到 remote &amp; local notification，從 HTTP API 的串接到 streaming messaging protocol 的訊息處理，從 Core Data 到 NoSQL 等等，甚至也很幸運的遇到了 iOS 7 的 migration，完全體會到做玩具跟做產品的差別。</p>
+
+<p>這個 app 雖然不是全新打造的，但由於舊版的 app 架構有些不適合新改版的功能需求，所以最後幾乎是整個砍掉重練，從無到有手刻了超過三萬五千多行的程式碼(不包含3rd party library)：
+<img src="/images/2013/fanxin-cloc.png" alt="image" />
+雖然跟一些大型專案比起來還差很遠，但對我個人來說已是個里程碑，除了提昇了不少寫 code 的手感外，也更了解 Objective-C 跟 Cocoa framework 是怎麼回事。</p>
+
+<p><a href="http://fanxin.tv/">分心團隊</a>雖然是個新創團隊，但裡面的成員都不會太新手，有眼光犀利的UI、UX designer 讓整個 app 看起來很精緻，使用起來也更直覺；有優秀的工程師負責處理 API，也有專門負責行銷及想點子的同事，讓開發人員可以 專心的開發 app；除此之外，還有 Web 平台的開發人員，讓 Web 跟 Mobile 都有一樣的功能。在這短短的八個多月的時間跟大家學到不少。</p>
+
+<h2>徵人啟事</h2>
+
+<p>分心團隊目前仍持續有在徵人，有興趣的朋友歡迎來試試看囉!</p>
+
+<ul>
+<li><a href="http://www.104.com.tw/jobbank/custjob/index.php?r=cust&amp;j=5e70436b5a6c3e233c423b1d1d1d1d5f2443a363189j01">徵才頁面</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2013/06/29/about-hhkb-pro2/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2013-06-29T10:02:00+08:00" pubdate>Jun 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2013/hhkb-pro2-1.jpg" alt="image" /></p>
+
+<p>我每天的工作是敲打鍵盤之類的文書工作，所以幫自己找一隻順手的鍵盤也是剛剛好的藉口。</p>
+
+<p>對於 HHKB 鍵盤的傳說，很早之前就有所聽聞了。最知名的應該就是 Richard Stallman 用 HHKB 鍵盤搭配百元電腦的那張照片(鍵盤本身比電腦本體還貴!)。我知道它是神器，但我等凡人即使拿了神器還是凡人，不會變成大神。 而且當初看到鍵盤上沒有方向鍵、沒有 <kbd>CTRL</kbd> 鍵跟 <kbd>F1</kbd> ~ <kbd>F12</kbd> 鍵，在台灣也沒什麼機會試打看看手感，最重要的是，它的價錢不便宜，所以大多只是看看而已。</p>
+
+<p>直到前不久去日本參加活動，有在電腦賣場試打了一下，心一橫的也敗了一隻回來，我挑的是白色無刻的版本。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2013/06/29/about-hhkb-pro2/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2013/06/14/rubykaigi-2013/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2013-06-14T01:55:00+08:00" pubdate>Jun 14<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="info">本篇文章已刊載於 <a href="http://www.openfoundry.org/tw/foss-forum/9002-rubykaigi-2013" target="_blank">OpenFoundry 電子報自由專欄</a>，刊登之內容由專業的 OpenFoundry 團隊潤稿，此篇為原文。</p>
+
+
+<p>今年日本的 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a> 在 5/29(四)、5/30(五)、6/1(六)舉辦，議程是雙軌同時進行，共計有超過五十場演講及十場 Lightning Talk，並包括三場主題演講 (Keynote)，跟上一屆一樣也是三天。這次有超過 500 位 Ruby 開發者參加，其中有超過 100 位是從國外來的，這樣的規模短期內在台灣可能還是沒辦法達到(全台灣真的有在用 Ruby 工作的開發者加起來總數說不定都還不到 500 人)。
+<img src="/images/2013/rubykaigi-opening.jpg" alt="image" />
+photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2013/06/14/rubykaigi-2013/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2013-06-05T01:55:00+08:00" pubdate>Jun 5<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>很高興這次能有機會到日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>，我分享的題目是：&#8221;<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>&#8220;，算是個滿冷門的題目，主要是分享我自己從閱讀 Ruby 原始程式碼中學習到的一些經驗。不過當天還有不少朋友來捧場，讓場子看起來不會太冷清，真是太意外了(其實我也搞不清楚到底有多少人，我當時已經緊張到沒辦法算數了)。<br />
+<span class="translate">Really glad to go to Japan and join the <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>, the topic of my talk is &#8221;<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>&#8221;, which I don&#8217;t think it&#8217;s a popular topic, and it&#8217;s about my experience while reading Ruby source code. Thanks to those friends who are willing to come to my talk.(Actually I was too nervous to count how many people already)</span></p>
+
+<p>在進入主題之前，我問大家有多少人曾經來過台灣，結果在場有十來個人舉手，就以現場人數的比例來說不算少。<br />
+<span class="translate">
+Before I jump into my topic, I asked everyone how many of you have been to Taiwan before, to my surprise, there&#8217;re more than 15 people raised their hand, which is about 20% of the attendees in this hall(I think).</span></p>
+
+<p><a href="https://speakerdeck.com/eddie/code-reading" target="_blank"><img src="/images/2013/rubykaigi-code-reading.jpg" alt="image" /></a>
+<a href="https://speakerdeck.com/eddie/code-reading" target="_blank">View on Speaker Deck</a> | <a href="https://speakerd.s3.amazonaws.com/presentations/0186a390abc5013057536ee43d4d4638/Code_Reading.pdf" target="_blank">Download PDF</a></p>
+
+<p>雖然之前有一些些上台演講的經驗，但這是第一次出國演講，而且還是全程用英文演講，我知道有很多的大神甚至 Ruby Committer 就坐在台下，所以我相當緊張。我那個「上台的前一天不會睡」的魔咒果然還是依舊存在，所以演講當天凌晨四點，我拿著筆電到飯店的大廳練習對著空氣講，練到早上七點，但還是覺得不夠穩。<br />
+<span class="translate">
+Although I have a some experience about having public speech, but it&#8217;s my first time to have a presentation abroad and do my speech in English, and I also know there might be lots of awesome rubyists sitting there, including some Ruby core committer, so I really feel nervous. And I have a curse that &#8220;I won&#8217;t sleep if I have a public presentation on the next day&#8221;, so I practiced in the lobby of the hotel from 4 A.M. to 7 A.M., but still not stable enough.
+</span></p>
+
+<p>我的演講廳是小間的，所以壓力有稍微小一點點。<br />
+<span class="translate">
+My presentation hall is the smaller one, so my pressure is also slightly smaller, too.
+</span></p>
+
+<p>為了怕現場出包，所以在 code review 展示的部份我是用預錄的，不過事後想想好像直接現場操作比較容易掌控時間<br />
+<span class="translate">
+I think I might make some mistakes while presenting, so I recorded the code review demo in advance, but I think the real live demo might be easier for me to control time.
+</span></p>
+
+<p>上午的演講結束後，下午發生的小插曲讓我抖了好大一下。我在演講內容裡有提到一些在 Ruby 的原始碼裡面有一些小地方的命名不太優，當下大家笑得很開心，雖然娛樂效果達到了，但我其實也有點擔心會不會有什麼不好的副作用。結果上午的講場結束，下午就看到<a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">這則</a>：<br />
+<span class="translate">
+After finishing my talk, there&#8217;s something surprised me. In my speech, I mentioned some interesting naming in the Ruby source code just for fun. I know it might be entertaining but still a little worried about if there would be any bad consequence. Then in the afternoon, I saw this <a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">tweet</a>:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-zzak.png" alt="image" /></p>
+
+<p>哇!! 我有嚇到的感覺了，不過因為我個人覺得這樣好像有些失禮，所以當晚的 Official Party，我就親自去跟 @nobu 說聲不好意思，希望沒有造成他的困擾。其實我也是想趁這個機會認識一下只有在網路上才能看得到的傳說大神，而且他好像一點也不在意。<br />
+<span class="translate">
+Wow! That&#8217;s really really surprised me!! and I don&#8217;t know if this would cause any trouble for committer, so I went to @nobu and said sorry to him on the official party in the night, and hope didn&#8217;t cause extra trouble for him. In fact, I went to him also want to know him by this chance, and actually he didn&#8217;t mind at all.
+</span></p>
+
+<p>第三天的議程，我本來就打算要來聽 <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a> 的主題(他是 <a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a> 一書的作者 )，沒想到坐下來沒多久竟然看到自己的名字跟前一天講的東西出現在投影片上：<br />
+<span class="translate">
+In the last day, I was planning to attend <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a>&#8217;s talk, whihc is the author of the book &#8221;<a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a>&#8221;. After sitting in the hall, I suddenly found my name was quoted in the slide:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-jim-gay.jpg" alt="image" /></p>
+
+<p>再度有被嚇到的感覺。<br />
+<span class="translate">
+Yes, Supprised me again.
+</span></p>
+
+<p>活動結束後，RubyKaigi 2013 的頭目角谷<a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">也推了一篇</a>：<br />
+<span class="translate">
+the Organizing Director of RubyKaigi 2013 Shintaro Kakutani also <a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">tweeted this</a>:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-kakutani.png" alt="image" /></p>
+
+<p>再次看到自己的名字被提到，有些驚訝也有些不好意思，不過這個&#8221;Conference-Driven Development(CDD)&#8221; 聽起來好像不錯，而且我喜歡 &#8220;RubyKaigi made Ruby Better&#8221;，如果有朝一日我有能力，我也希望可以多貢獻一些心力。<br />
+<span class="translate">
+I feel surprised again and also little embarrassing, but the &#8220;Conference-Driven Development(CDD)&#8221; sounds workable, and I love the &#8220;RubyKaigi made Ruby Better&#8221;, I hope I can do more contributions to Ruby and this community someday if possible.
+</span></p>
+
+<p>感謝高井さん(<a href="https://twitter.com/takai" target="_blank">@takai</a>)幫我拍的照片，讓我在 <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist 時計</a>上也可以有一張漂亮的照片。<br />
+<span class="translate">
+Thanks to Naoto Takai(<a href="https://twitter.com/takai" target="_blank">@takai</a>) to take a photo for me so that I can have a nice picture on the <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist Tokei</a>.
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-rubyist-clock.jpg" alt="image" />
+photoed by <a href="https://twitter.com/takai" target="_blank">@takai</a></p>
+
+<p>這趟日本之行有學習到不少東西，收獲很多，會在接下來的幾篇文章介紹。最後，有講的不好的地方，還請多多指教。<br >
+<span class="translate">
+Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in next blog posts. At last, if there&#8217;s any bad or something wrong about my speech, please feel free to comment.
+</span></p>
+
+<p>Thank you all, RubyKaigi team, you&#8217;re all AWESOME!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現&#8230;<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

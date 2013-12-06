@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Zend Framework | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/zend-framework/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Doctrine, the PHP ORM Framework]]></title>
+    <link href="http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/"/>
+    <updated>2008-12-23T14:14:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework</id>
+    <content type="html"><![CDATA[<p><img src="/images/2008/doctrine-logo.png" alt="image" /></p>
+
+<p><a href="http://www.doctrine-project.org/">Doctrine</a>是一個在PHP上的資料庫ORM(Object Relational Mapper)，最近手邊的幾個小案子透過Doctrine來實作。ORM的確是讓開發者少寫不少的SQL查詢，但相對的效能一定是比簡單的SQL要來得 差，我想魚跟熊掌要兼得並不容易，便利跟效能之間總有個天平讓開發者來自已調整，所以ORM好不好用就見人見志囉。</p>
+
+<h2>一、前置作業：</h2>
+
+<h3>1. 系統需求</h3>
+
+<p>依官網上面提到的，Doctrine需要PHP 5.2.3以上的版本，除此之外就不用再另外安裝其它的套件或函式庫即可運作，不過如果要使用PDO(<a href="http://tw2.php.net/manual/en/intro.pdo.php">PHP Data Object</a>)的話，則可能會需要另外安裝PDO驅動程式。</p>
+
+<h3>2. 檢查PDO驅動程式</h3>
+
+<p>如果你要用PDO的話，想要知道你的主機上是不是有安裝你所需要的PDO驅動程式，只要一行簡單的PHP程式放到主機上執行：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php phpinfo(); ?&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+如果你有看到一段PDO的資訊，那差不多應該就是有安裝了，再確認一下是不是有你要的版本，以及是否啟用即可。</p>
+
+<h2>二、取得原始檔</h2>
+
+<p>有幾種取得Doctrine的方法：</p>
+
+<ul>
+<li>SVN(Subversion)</li>
+<li>Pear</li>
+<li>Zip-package</li>
+</ul>
+
+
+<p>如果你熟悉SVN的操作的話，這應該是最簡單使用的了。如果你只是想試玩一下Doctrine的功能的話，你可以下載官網上打包好的<a href="http://www.doctrine-project.org/download/1_0_5/sandbox/1/format/tgz">Sandbox套件</a>來玩。我個人比較喜歡官方打包好的壓縮檔 :)</p>
+
+<h3>什麼是Sandbox套件?</h3>
+
+<p>Doctrine網站的<a href="http://www.doctrine-project.org/download">下載區</a>有貼心的打包了免設定的方便套件，直接下載、解壓縮後，就可以拿來試玩了。這裡面包括了一些範例schema檔案以及可以匯入的資料檔，讓你可以很快的就可以開始體驗Doctrine的優點。</p>
+
+<h2>三、開始第一個專案</h2>
+
+<p>在Doctrine裡，Doctrine_Record是最基本的元件。資料庫裡的每個資料表都會有一個對應的Doctrine_Record類別。這個類別是以<a href="http://en.wikipedia.org/wiki/Active_record_pattern">Active Record</a>這個設計模式實作的，所以在其它語言像是在ROR(Ruby on Rails)上才看得到方便功能，在Doctrine裡也可以使用到了，即使是複雜的資料庫操作，透過這個類別也可以簡單的完成。</p>
+
+<p>在使用Doctrine_Record來建立資料表時，如果沒有特別指定Primary Key的話，Doctrine會自動幫你加一個叫做<code>id</code>的主索引欄位(自動編號)。接下來你需要做的事情，就是建立一個繼承自 Doctrine_Record類別的子類別，然後透過<code>setTableDefinition()</code>以及<code>hasColumn()</code>就可以來建立你的資料表。</p>
+
+<p>為了單純一些，我們這裡只先用一個表格做範例(多個表格之間的關聯性操作，例如一對一、一對多、多對多等關係，再另外開幾篇再寫)。假設我們現在要建立一個 叫做<code>member</code>的會員資料表，這個資料表裡會有id、username、password以及建立日期這幾個欄位，我們可以這樣做：</p>
+
+<p>檔案：models/Member.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt; class Member extends Doctrine_Record</span>
+</span><span class='line'><span class="x"> {</span>
+</span><span class='line'><span class="x">     public function setTableDefinition()</span>
+</span><span class='line'><span class="x">     {</span>
+</span><span class='line'><span class="x">         // 預設將會使用跟&quot;user&quot;做為資料表的名稱(同名)</span>
+</span><span class='line'><span class="x">         // 並且會自動加一個欄位id的主索引鍵</span>
+</span><span class='line'><span class="x">         $this-&amp;gt;hasColumn(&#39;username&#39;, &#39;string&#39;, 30);</span>
+</span><span class='line'><span class="x">         $this-&amp;gt;hasColumn(&#39;password&#39;, &#39;string&#39;, 30);</span>
+</span><span class='line'><span class="x">     }</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">     public function setUp()</span>
+</span><span class='line'><span class="x">     {</span>
+</span><span class='line'><span class="x">         $this-&amp;gt;actAs(&#39;Timestampable&#39;);</span>
+</span><span class='line'><span class="x">     }</span>
+</span><span class='line'><span class="x"> }</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+除了手工打造模型類別外，你也可以使用YAML格式的檔案來建立資料表的schema檔案，底下這個範例的設定跟上面這個類別是一樣的意思，而且也可以透過Doctrine的一些指令來互相轉換。</p>
+
+<p>檔案：schemas/schema.yml
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">Member</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">columns:&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;pre&gt;&lt;code&gt;username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
+</span><span class='line'><span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;  actAs</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">Timestampable</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這裡要注意的是，<strong>YAML的縮排是有意義的</strong>，所以要特別注意縮排的層級。你可以用一行簡單的語法就可以把YAML檔案(.yml)轉換成模型類別(.php)：</p>
+
+<p>檔案：createMode.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt; require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'><span class="x"> Doctrine::generateModelsFromYaml(&#39;schemas/schema.yml&#39;, &#39;models&#39;);</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+執行之後看一下models資料夾有一個自動產生的generated資料夾(如下圖)，你會看到有一個<code>Member.php</code>以 及<code>BaseMember.php</code>。其中，<code>Member.php</code>是可以讓你自己定義一些功能用的，而<code>BaseMember.php</code>裡的內容則是 依據YAML的內容幫你寫好的。(要特別注意BaseMember類別會在每次執行轉換的時候重新產生一次，而Member類別只會產生一次)。</p>
+
+<p><img src="/images/2008/doctrine-5.png" alt="image" /></p>
+
+<p>我們現在有一個透過YAML建立的Doctrine_Record類別，接下來就可以把它匯入資料庫來建立資料表了。</p>
+
+<p>檔案：modelToDatabase.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt; require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'><span class="x"> // 建立資料表</span>
+</span><span class='line'><span class="x"> Doctrine::createTablesFromArray(array(&#39;Member&#39;));</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這樣就搞定了!看一下資料表的樣子：</p>
+
+<p><img src="/images/2008/doctrine-1.png" alt="image" /></p>
+
+<p>如前面說的，它會自動加上<code>id</code>這個欄位，而<code>Timestampable</code>則會自動幫忙加上<code>created_at</code>及<code>updated_at</code>這兩個欄位。</p>
+
+<p>現在我們有一個資料表以及一個對應的模型類別可以讓我們來練習資料的基本操作了(新增、修改、刪除及查詢)。</p>
+
+<h3>新增：</h3>
+
+<p>檔案：testInsert.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">$myTable-&amp;gt;username = &#39;eddie&#39;;</span>
+</span><span class='line'><span class="x">$myTable-&amp;gt;password = &#39;mypassword&#39;;</span>
+</span><span class='line'><span class="x">$myTable-&amp;gt;save();</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+資料表欄位的指定，除了上面這種物件式的存取方式外，也可以使用陣列的方式：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">  $myTable = new Member;</span>
+</span><span class='line'><span class="x">  $myTable[&#39;username&#39;] = &#39;eddie&#39;;</span>
+</span><span class='line'><span class="x">  $myTable[&#39;password&#39;] = &#39;mypassword&#39;;</span>
+</span><span class='line'><span class="x">  $myTable-&gt;save();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+不用寫什麼insert..into..，只要一個<code>save()</code>就完成了! 回頭看一下資料表就會發現，有一些神奇的事情它幫忙做了。上面這段程式碼執行後，member資料表會長得像這樣：</p>
+
+<p><img src="/images/2008/doctrine-2.png" alt="image" /></p>
+
+<h3>修改：</h3>
+
+<p>假設剛剛寫入的那筆資料的id編號是1號，更新方法是先找到它，然後一樣用<code>save()</code>來更新：</p>
+
+<p>檔案：testUpdate.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">$record = $myTable-&amp;gt;getTable()-&amp;gt;find(1);</span>
+</span><span class='line'><span class="x">$record-&amp;gt;password = &#39;mynewpassword&#39;;</span>
+</span><span class='line'><span class="x">$record-&amp;gt;save();</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+結果如下：</p>
+
+<p><img src="/images/2008/doctrine-3.png" alt="image" /></p>
+
+<p>你會發現，password欄位變成”mynewpassword”之外，它的更新時間(updated_at)也跟著更新了。</p>
+
+<h3>刪除：</h3>
+
+<p>跟更新差不多，也是先找到那筆資料後，再給它一個<code>delete()</code>：</p>
+
+<p>檔案：testDelete.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">$myTable-&amp;gt;getTable()-&amp;gt;find(1)-&amp;gt;delete();</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>查詢：</h3>
+
+<p>假設我要找出id編號是1號的資料，可以這樣做：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">  $myTable = new Member;</span>
+</span><span class='line'><span class="x">  $result =$myTable-&gt;getTable()-&gt;find(1);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+除了透過<code>find</code>方法外，Doctrine還有它自已一套叫做<code>DQL</code>的語法，使用方法大致如下：</p>
+
+<p>檔案：testDQL.php
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">$record = $myTable-&amp;gt;getTable()-&amp;gt;find(1);</span>
+</span><span class='line'><span class="x">$record-&amp;gt;password = &#39;mynewpassword&#39;;</span>
+</span><span class='line'><span class="x">$record-&amp;gt;save();</span>
+</span><span class='line'><span class="x">$result = Doctrine_Query::CREATE()</span>
+</span><span class='line'><span class="x">            -&amp;gt;select(&#39;*&#39;)</span>
+</span><span class='line'><span class="x">            -&amp;gt;from(&#39;Member&#39;)</span>
+</span><span class='line'><span class="x">            -&amp;gt;where(&#39;id = ?&#39;, 1)</span>
+</span><span class='line'><span class="x">            -&amp;gt;fetchArray();</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">print_r($result);</span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+印出來的結果如下：</p>
+
+<p><img src="/images/2008/doctrine-4.png" alt="image" /></p>
+
+<p>上面的DQL相當於底下的SQL：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">member</span> <span class="k">where</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+其實DQL的細節也可以另外來寫一篇 :)</p>
+
+<h2>結論</h2>
+
+<p>老實說，如果只是簡單的查詢，Doctrine寫起來不見得比原本的SQL快，而且效能又比較差一些，但如果是比較複雜的查詢，透過Doctrine包裝好 的一些方法，可以不用去想那些單引號、雙引號的問題外，也可以安全的避開可能的危機(例如SQL Injection) ，就如同最前面說的，便利跟效能，我會比較偏向便利的這一方。</p>
+
+<p>更多的細節，可參考<a href="http://www.doctrine-project.org/documentation">Doctrine官網手冊</a>，寫得滿詳細的。</p>
+
+<p>上面的程式碼我也有打包了一份供大家參考囉 :)</p>
+
+<p><a href="http://blog.eddie.com.tw/gallery/1/doctrine-lession1.rar">檔案下載</a></p>
+
+<p>使用前請先看一下config/doctrine_config.php裡面的資料庫相關設定。</p>
+
+<h2>相關連結</h2>
+
+<ul>
+<li><a href="http://www.doctrine-project.org/">Doctrine官方網站</a></li>
+<li><a href="http://groups.google.com/group/doctrine-user">Doctrine User Group</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Zend Framework之Zend_Tool]]></title>
+    <link href="http://blog.eddie.com.tw/2008/09/06/zend-tool/"/>
+    <updated>2008-09-06T10:45:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2008/09/06/zend-tool</id>
+    <content type="html"><![CDATA[<p>看到<a href="http://www.djangoproject.com/">Django</a>、<a href="http://www.rubyonrails.org/">Rails</a>之類的Web Framework都有可以快速的產生scaffold的工具，甚至連同樣都是PHP framework的<a href="http://cakephp.org/">CakePHP</a>也有..還好我之前都是在Zend Studio裡直接new一個Zend Framework Project，它也會自動產生基本的架構出來。隨著Zend Framework 1.6版的上市，它也提供了類似的方便工具(不過從目錄名字看起來還是在實驗階段而已..)</p>
+
+<p>我的作業環境是WinXP，如果要在別的系統可參考最底下的參考資料，有提到怎麼修改路徑。</p>
+
+<p>簡單的使用方法如下：</p>
+
+<h4>Step 1.</h4>
+
+<p>到<a href="http://framework.zend.com/">ZF官網</a>下載Zend Framework 1.6，解壓縮之後裡面有個laboratory資料夾，裡面有個ZendL，把它放到你的include_path底下。</p>
+
+<h4>Step 2.</h4>
+
+<p>在laboratory/Zend_Tool/bin裡有個zf.bat跟zf.php，改一下zf.bat裡的php.exe的路徑(如果放在跟php.exe同目錄就不用改了)</p>
+
+<h4>Step 3.</h4>
+
+<p>以上設定完成之後，到cmd模式下，輸入<code>zf show version</code>，應該會出現「Zend Framework Version: 1.6.0」字樣</p>
+
+<h4>Step 4.</h4>
+
+<p>隨便找一個資料夾來試試，輸入<code>zf create project</code>，等一會，它就會幫你把資料夾跟檔案產生好了(如下圖)</p>
+
+<p><img src="/images/2008/zf_scaffold.gif" alt="image" /></p>
+
+<p>完成! 這樣就完成了基本的ZF MVC的骨架出來了，也做了簡單的bootstrap跟幾個預設的controller跟view。不過我發現這個Zend_Tool會把ZF的 library整個也複製一份到library底下，雖然是方便發布，不過我個人是習慣不把它放在web資料夾下..</p>
+
+<p>結論：不管是Zend Studio或是Zend_Tool都可以快速的產生架構出來，我還是習慣用自己的架構..</p>
+
+<p>參考資料：<a href="http://devzone.zend.com/article/3811-Using-Zend_Tool-to-start-up-your-ZF-Project">Zend Developer Zone</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Zend Framework 1.6 Release]]></title>
+    <link href="http://blog.eddie.com.tw/2008/09/03/zend-framework-1-6-release/"/>
+    <updated>2008-09-03T10:34:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2008/09/03/zend-framework-1-6-release</id>
+    <content type="html"><![CDATA[<p>之前用了一陣子的RC版，今天終於正式<a href="http://framework.zend.com/download/current/">Release</a>了，這個1.6版的ZF比1.5版多了不少有趣的東西啊(不過選在跟新聞炒很大的<a href="http://www.google.com/chrome">google chrome</a>同一天出來，鋒頭多少被蓋去了一點點)</p>
+
+<ul>
+<li>Dojo Integration</li>
+<li>SOAP</li>
+<li>Preview of Tooling Project in Laboratory (see /laboratory folder)</li>
+<li>Unit Testing Harness for Controllers</li>
+<li>Lucene 2.3 Index File Format Support</li>
+<li>Zend_Session save handler for Database Tables</li>
+<li>Paginator Component</li>
+<li>Text/Figlet Support</li>
+<li>ReCaptcha Service</li>
+<li>Captcha Form Element</li>
+<li>Zend_Config_Xml Attribute Support</li>
+<li>Zend_File_Transfer Component</li>
+<li>File Upload Form Element</li>
+<li>Zend_Wildfire Component with FireBug Log Writer</li>
+<li>Media View Helpers (Flash, Quicktime, Object, and Page)</li>
+<li>Support in Zend_Translate for INI File Format</li>
+</ul>
+
+
+<p>對我工作上比較大的影響是跟Dojo的整合(我還是比較喜歡jQuery)，這裡<a href="http://andigutmans.blogspot.com/2008/09/zend-framework-16-featuring-dojo-soap.html">有篇文章</a>有寫到1.6版新增的一些功能介紹。</p>
+
+<p>另外，分頁、表單認證碼及檔案上傳功能…這些在做網站時常用的功能，之前都是自己拼裝出來用的，結果在1.6也都加進來了 :) 。我試著直接把1.5版昇級為1.6版，目前手邊的案子看起來都還滿正常的。</p>
+
+<p>下載連結：<a href="http://framework.zend.com/download/current/">http://framework.zend.com/download/current/</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Zend Framework之全國加油站]]></title>
+    <link href="http://blog.eddie.com.tw/2008/06/19/zend-framework-in-action-2/"/>
+    <updated>2008-06-19T10:12:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2008/06/19/zend-framework-in-action-2</id>
+    <content type="html"><![CDATA[<p><img src="/images/2008/npcgas_dull.jpg" alt="image" /></p>
+
+<p>經過了許久個日子的努力，終於讓全國加油站上線了，這次，用的也是ZF(<a href="http://framework.zend.com/">Zend Framework</a>)來實作的。</p>
+
+<p>網站：<a href="http://www.npcgas.com.tw/">http://www.npcgas.com.tw/</a></p>
+
+<p>上次的<a href="http://www.hi-chew.com.tw/%7Eevent01/">HI-CHEW開心堂</a>實作算是第一個試作品，新手上路，所以架構是仿照Rob Allen的<a href="http://akrabat.com/zend-framework-tutorial/">Getting Started with Zend Framework</a>這篇文章來佈署的，但上回實作的過程中總覺得有些不方便的地方，所以這次全國加油站網站在實作的MVC佈署架構，就上次實作的HI-CHEW更模組化一些，期望下次再建構網站時可以有更多的模組能在最小修改(或是不用修改)的情況下再重複使用。</p>
+
+<p>心得：果然，還是直接實作比看一堆文件還學得快，也記得比較牢 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Zend Framework與Dojo的組合]]></title>
+    <link href="http://blog.eddie.com.tw/2008/05/28/zend-framework-dojo-integration/"/>
+    <updated>2008-05-28T10:06:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2008/05/28/zend-framework-dojo-integration</id>
+    <content type="html"><![CDATA[<p>不久前ZF宣佈與Dojo的整合..
+我個人比較愛<a href="http://jquery.com/">jQuery</a>，可惜目前<a href="http://framework.zend.com/">ZF</a>目前選擇的是Dojo當做它的好伴侶。這兩天再來了解一下<a href="http://dojotoolkit.org/">Dojo</a>，期待jQuery也被整合進去呀</p>
+
+<h3>參考資料：</h3>
+
+<ul>
+<li><a href="http://devzone.zend.com/article/3545-Dojo-and-Zend-Framework-Partnership-Announcement">官方消息</a></li>
+<li><a href="http://weierophinney.net/matthew/archives/176-Zend-Framework-Dojo-Integration.html">Zend Framework Dojo Integration</a></li>
+<li><a href="http://weierophinney.net/matthew/uploads/2008-05-27-ZendFramework_Dojo.ppt">Zend Frameowork + Dojo的ppt</a></li>
+</ul>
+
+
+<h3>補充：</h3>
+
+<p>看了一下Dojo的資料，整個是個不小的架構，甚至還得改寫原來html code的習慣…試玩了一下Dojo的Helloworld，真的不太習慣…我還是比習慣jQuery，不過Dojo背後有大廠在支持啊...-_-</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Cocos2D | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/cocos2d/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Game Development with Cocos2d]]></title>
+    <link href="http://blog.eddie.com.tw/2011/03/17/ios-game-development-with-cocos2d/"/>
+    <updated>2011-03-17T13:03:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/03/17/ios-game-development-with-cocos2d</id>
+    <content type="html"><![CDATA[<p><img src="/images/2011/cocos2d_logo.png" alt="image" /></p>
+
+<p>以開發iOS game來說，<a href="http://www.cocos2d-iphone.org/">Cocos2D for iPhone</a>是個很方便的framework，把許多的細節都包起來了，可以省下不少時間。不過即使Cocos2D再方便、再強大，objective-c跟cocoa framework還是得學一下的，不然會非常容易卡關的。</p>
+
+<p>這是昨天在同業聚會分享的投影片</p>
+
+<div style="width:425px" id="__ss_7277690"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/2011-0316-i-os-game-development-with-cocos2d" title="iOS Game Development with Cocos2d" target="_blank">iOS Game Development with Cocos2d</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/7277690" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
+
+
+<p>用到的<a href="/downloads/files/2011/cocos2d-demo-2011-03-16.zip">原始檔</a></p>
+]]></content>
+  </entry>
+  
+</feed>

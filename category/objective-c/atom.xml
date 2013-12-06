@@ -1,0 +1,1287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Objective-C | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/objective-c/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Object, Class and Meta Class in Objective-C]]></title>
+    <link href="http://blog.eddie.com.tw/2013/12/05/object-class-and-meta-class-in-objective-c/"/>
+    <updated>2013-12-05T01:55:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/12/05/object-class-and-meta-class-in-objective-c</id>
+    <content type="html"><![CDATA[<p>寫了一陣子的 Objective-C/iOS app，這次讓我們回頭來看點基礎的東西 :)</p>
+
+<h3>什麼是 id?</h3>
+
+<p>在 Objective-C 裡，變數宣告通常得告知編譯器這個變數的型別，例如這樣：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSArray</span><span class="o">*</span> <span class="n">myArray</span> <span class="o">=</span> <span class="err">@</span><span class="p">[</span><span class="s">@&quot;eddie&quot;</span><span class="p">,</span> <span class="s">@&quot;kao&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>而在 Objective-C 裡有個特別的型別叫做 <code>id</code>，它可以指向任何物件，像這樣：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">id</span> <span class="n">myObject</span> <span class="o">=</span> <span class="err">@</span><span class="p">[</span><span class="s">@&quot;eddie&quot;</span><span class="p">,</span> <span class="s">@&quot;kao&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>那這個 <code>id</code> 是什麼? 我們直接來從原始程式碼來找這個 <code>id</code> 的定義。大家可以打開 XCode，然後選擇「File」→「Open Quickly..」，應該可以找到 <code>objc.h</code> 這個檔案，往下捲一點，應該可以找到像下面的這幾行程式碼：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案名稱：objc.h</span>
+</span><span class='line'><span class="c1">/// A pointer to an instance of a class.</span>
+</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_object</span> <span class="o">*</span><span class="n">id</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>就照上面這段註解說的，所謂的 <code>id</code> 就是一個「指向一個實例 (instance) 的指針」，而且 <code>id</code> 這個 Struct 的定義本身就有帶一個 <code>*</code>，這也是為什麼你在宣告其它一般物件型別的變數需要加註一個 <code>*</code> 來表示這是一個指標變數，而使用 <code>id</code> 卻不需要的原因。</p>
+
+<h2>什麼是一個物件 (Object)?</h2>
+
+<p>讓我們再從剛剛那個檔案，順蔓摸瓜的繼續看下去..</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案名稱：objc.h</span>
+</span><span class='line'><span class="c1">/// Represents an instance of a class.</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Class</span> <span class="n">isa</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>從這段程式碼可以知道，其實所謂的「物件」，說穿了就只是一個 C 的結構 (C Struct)，而在這個 Struct 裡面只有一個 <code>isa</code> 的指針，指向自己所屬的類別。</p>
+
+<p>再來我們來看看在 Objective-C 裡，到底什麼是一個類別(Class)</p>
+
+<h2>什麼是類別 (Class)?</h2>
+
+<p>繼續來看剛剛的那個檔案：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案：objc.h</span>
+</span><span class='line'><span class="c1">/// An opaque type that represents an Objective-C class.</span>
+</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>看得出來其實 <code>Class</code> 本身也是一個 C Struct，再往下看一下這個 <code>objc_class</code> 的定義 (runtime.h)：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案：runtime.h</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Class</span> <span class="n">isa</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="k">if</span> <span class="o">!&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="n">OBJC2</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Class</span> <span class="n">super_class</span><span class="p">;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
+</span><span class='line'><span class="kt">long</span> <span class="n">version</span><span class="p">;</span>
+</span><span class='line'><span class="kt">long</span> <span class="n">info</span><span class="p">;</span>
+</span><span class='line'><span class="kt">long</span> <span class="n">instance_size</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_ivar_list</span> <span class="o">*</span><span class="n">ivars</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_method_list</span> <span class="o">**</span><span class="n">methodLists</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_cache</span> <span class="o">*</span><span class="n">cache</span><span class="p">;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_protocol_list</span> <span class="o">*</span><span class="n">protocols</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">endif</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>從上面這段程式碼可以看到，所謂的類別也是一個 C Struct，裡面第一個指針 <code>isa</code> 指向它的所屬類別，第二個指針 <code>super_class</code> 則是指向它的父類別。除此之外還有一些其它的指針，指向例如 instance variables、method list、cache、protocol 等 Struct。</p>
+
+<h2>訊息傳遞 (Message Passing)</h2>
+
+<p>大家在其它 Objective-C 的書上應該常看到，在 Objective-C 的世界裡，方法不像其它程式語言一樣的被直接呼叫，而是透過「訊息傳遞(Message Passing)」方式，像是這樣：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">someObject</span> <span class="nl">saySomething:</span><span class="s">@&quot;hello&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>這裡的 <code>someObject</code> 稱作 <code>recevier</code>，就是接收「訊息」的傢伙，而 <code>saySomething:</code> 就是「訊息」，<code>@"hello"</code> 則是參數。</p>
+
+<p>事實上，在訊息傳遞的過程，當 <code>someObject</code> 這傢伙收到訊息之後，會順著這個物件的 <code>isa</code> 指針找到自己的類別，然後再依照收到的「訊息」去類別的 method list 找出對應的方法。如果在這個類別裡面找到了，就會直接執行它，如果找不到，會再往上一層父類別(super class)找。以上這個流程都是在程式執行過程中(Rumtime)才動態決定的，而不是在編譯(Compile)時期就決定好的。</p>
+
+<p>而這個訊息傳遞的過程畢竟是多做了幾件事，相對感覺會比較耗時，但實際上在程式的執行過程中，一但執行過的方法就會被暫存(cache)下來，下次再收到一樣的訊息的時候就會快得多了。</p>
+
+<p>其實，在 Objective-C 的世界裡，類別本身也是物件，所以你也可以對它「發送訊息」，像是這樣：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="s">@&quot;eddie&quot;</span><span class="p">,</span> <span class="s">@&quot;kao&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>看起來就跟在其它程式語言的「類別方法」差不多，但事實上它就是對 <code>NSArray</code> 這個類別發送了 <code>arrayWithObjects:</code> 這個訊息。</p>
+
+<p>接下來我們直接寫一小段程式會比較容易想像：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Animal Class</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">Animal</span>
+</span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Fox Class</span>
+</span><span class='line'><span class="err">@</span><span class="n">interface</span> <span class="n">Fox</span> <span class="o">:</span> <span class="n">Animal</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">say</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">Fox</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">say</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;What does the fox say!?&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>上面這段程式碼建立了兩個類別，分別是 <code>Animal</code> 及 <code>Fox</code> ，而且 <code>Fox</code> 繼承自 <code>Animal</code>，而 <code>Animal</code> 類別則是繼承自 <code>NSObject</code> 類別。</p>
+
+<p>不管是「物件」或是「類別」，因為一樣都是物件，所以他們在收到訊息時的反應流程也是一樣的：</p>
+
+<ul>
+<li>當對「物件」發送訊息的時候，它會順著這個物件的 <code>isa</code> 指針找到它的所屬類別，然後翻看看這個類別的 method list 有沒有符合的方法可以執行；</li>
+<li>當對「類別」發送訊息的時候，它會順著這個類別的 <code>isa</code> 指針找到它的所屬類別(也就是我們待會要說明的 Meta Class)，然後翻看看這個類別的 method list 有沒有符合的方法可以執行。</li>
+</ul>
+
+
+<h2>什麼是 Meta Class?</h2>
+
+<p><code>Meta</code> 這個字我不太懂中文該怎麼翻譯比較好，有人翻譯成「元」，有人翻譯成「後設」，但我個人還是喜歡直接使用 <code>Meta</code> 這個詞就好。</p>
+
+<p>剛剛在看類別的 <code>objc_class</code> 的定義的時候有提到類別的 Struct 裡也有一個 <code>isa</code> 指針，指向它所屬的類別，你可以想像成是它是「類別的類別」，也就是所謂的 <code>Meta Class</code>。</p>
+
+<p>而 Meta Class 其實也是一種類別，所以也跟一般的類別一樣有 <code>isa</code> 跟 <code>super_class</code> 指針... 所以就可以把這整個的關係用一張圖表來解釋：</p>
+
+<p><img src="/images/2013/objective-c-object-model.png" alt="image" /></p>
+
+<p>看圖說故事：</p>
+
+<ol>
+<li>每個 Class (Fox, Animal, NSObject) 的 <code>isa</code> 指針都指向一個唯一的 Class，這個 Class 稱之為 <code>Meta Class</code>。</li>
+<li>每個 Meta Class 的 <code>isa</code> 指針都是指向最上層的 Meta Class (在我們上面那段範例裡，就是 NSObject 的 Meta Class)，而最上層的 Meta Class 的 <code>isa</code> 則是指向自己，形成一個迴路。</li>
+<li>每個 Meta Class 的 <code>super_class</code> 指針都是指向它原本類別的 Super Class 的 Meta Class，但最上層的 Meta Class 的 <code>super_class</code> 則是指向 NSObject 類別本身。</li>
+<li>最上層的 Class (NSObject)，它的 Super Class 指向 <code>nil</code>。</li>
+</ol>
+
+
+<p>PS: 在 Objective-C 裡有兩種 Root Class(NSObject 跟 NSProxy)，但因為在 Objective-C 裡「大部份」的類別都是 <code>NSObject</code> 的子類別，所以舉例常會說最上層的類別就是 <code>NSObject</code>。</p>
+
+<p>一堆 Class、Super Class、Meta Class 的，有種快打結的感覺了嗎? 其實只要理解上面那張圖片，基本上就不用記這些繞舌的規則了。</p>
+
+<p>但口說無憑，讓我們來寫幾行程式碼驗證一下：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Fox</span><span class="o">*</span> <span class="n">lucky</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Fox</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">lucky</span> <span class="n">say</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// about fox instance</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the class of lucky is %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">lucky</span> <span class="n">class</span><span class="p">],</span> <span class="p">[</span><span class="n">lucky</span> <span class="n">class</span><span class="p">]);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// about Fox class</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Fox</span> <span class="n">class</span><span class="p">],</span> <span class="p">[</span><span class="n">Fox</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox&#39;s Super Class = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Fox</span> <span class="n">superclass</span><span class="p">],</span> <span class="p">[</span><span class="n">Fox</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaClassOfFox</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">([</span><span class="n">Fox</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaClassOfFox</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox&#39;s Meta Class&#39;s Super Class = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">metaClassOfFox</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaMetaClassOfFox</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">(</span><span class="n">metaClassOfFox</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Fox&#39;s Meta Class&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaMetaClassOfFox</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// about Animal class</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Animal</span> <span class="n">class</span><span class="p">],</span> <span class="p">[</span><span class="n">Animal</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal&#39;s Super Class = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Animal</span> <span class="n">superclass</span><span class="p">],</span> <span class="p">[</span><span class="n">Animal</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaClassOfAnimal</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">([</span><span class="n">Animal</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaClassOfAnimal</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal&#39;s Meta Class&#39;s Super Class = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">metaClassOfAnimal</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaMetaClassOfAnimal</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">(</span><span class="n">metaClassOfAnimal</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Animal&#39;s Meta Class&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaMetaClassOfAnimal</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// about NSObject class</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSObject</span> <span class="n">class</span><span class="p">],</span> <span class="p">[</span><span class="n">NSObject</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject&#39;s Super Class = %@, address = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">NSObject</span> <span class="n">superclass</span><span class="p">],</span> <span class="p">[</span><span class="n">NSObject</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaClassOfNSObject</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">([</span><span class="n">NSObject</span> <span class="n">class</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaClassOfNSObject</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject&#39;s Meta Class&#39;s Super Class = %p&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">metaClassOfNSObject</span> <span class="n">superclass</span><span class="p">]);</span>
+</span><span class='line'><span class="n">Class</span> <span class="n">metaMetaClassOfNSObject</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">(</span><span class="n">metaClassOfNSObject</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;NSObject&#39;s Meta Class&#39;s Meta Class = %p&quot;</span><span class="p">,</span> <span class="n">metaMetaClassOfNSObject</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>輸出結果如下：</p>
+
+<pre><code>What does the fox say!?
+
+the class of lucky is Fox, address = 0x100002260
+
+Fox = Fox, address = 0x100002260
+Fox's Super Class = Animal, address = 0x100002210
+Fox's Meta Class = 0x100002238
+Fox's Meta Class's Super Class = 0x1000021e8
+Fox's Meta Class's Meta Class = 0x7fff77cce838
+
+Animal = Animal, address = 0x100002210
+Animal's Super Class = NSObject, address = 0x7fff77cce810
+Animal's Meta Class = 0x1000021e8
+Animal's Meta Class's Super Class = 0x7fff77cce838
+Animal's Meta Class's Meta Class = 0x7fff77cce838
+
+NSObject = NSObject, address = 0x7fff77cce810
+NSObject's Super Class = (null), address = 0x0
+NSObject's Meta Class = 0x7fff77cce838
+NSObject's Meta Class's Super Class = 0x7fff77cce810
+NSObject's Meta Class's Meta Class = 0x7fff77cce838
+</code></pre>
+
+<p>輸出結果可能在每個人的電腦上都不一樣，但從輸出的結果就能證明上面那張圖片的每個類別之間的關係。</p>
+
+<p>要特別注意的是，你可能會覺得直接對類別發送 <code>class</code> 訊息就可以得到該類別的 Meta Class，事實上直接對類別發送 <code>class</code> 訊息只會得到該類別自己。要取得類別的 Meta Class，可以透過 <code>object_getClass</code> 來取得。</p>
+
+<p>以上，希望這篇文章能讓大家對 Objective-C 基本的物件跟類別有更進一步的了解。</p>
+
+<p>個人認為，雖然了解這些知識不見得對 iOS app 的開發有直接的幫助，但至少當在寫一個類別或使用一個物件的時候，會更清楚到底是怎麼一回事。如果有哪邊寫錯，還請前輩先進不吝指點。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Delegation in Objective-C]]></title>
+    <link href="http://blog.eddie.com.tw/2013/05/24/delegation-in-objective-c/"/>
+    <updated>2013-05-24T01:55:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/05/24/delegation-in-objective-c</id>
+    <content type="html"><![CDATA[<p>在開發 iOS app 的過程中，Delegation(委任) 幾乎是避不掉的東西，例如在 ViewController 裡處理 UITableView 的時候，大家一定都寫過像這樣的程式碼：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">tableView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>坊間的書本大多會教要這樣寫，但不一定有說明為什麼要這麼寫。其實 delegation 的概念並不困難，只是要用程式碼來表達的時候，對新手來說可能就需要多一點的想像力了。</p>
+
+<p>Delegation，中文翻譯成「委任」，委任兩字講的好聽是拜託別人做事，講白一點就是自己不想做或不會做，所以外包出去叫別人做。</p>
+
+<p>但是，就算是要叫別人做也不能隨便找一個路人就可以，舉個例子，我想要把「撰寫 Ruby 程式」這件事委任給別人，要有能力處理這份工作的人至少得知道 Ruby 程式怎麼寫。</p>
+
+<p>那要判斷對方是否有「能力」來接受我的委任，就是問這個被委任的人是否有符合(Conform)我訂的條件(Protocol)，然後這個條件就跟面試新人一樣，某些技能是必須的(Required)，但其它條件是非必須的(Optional)。</p>
+
+<p>一樣以 UITableView 來舉個例子，如果我希望某個 ViewController 可以有能力接受 TableView 的委任，假設這個 UITableView 是設定成一個叫做 <code>tableView</code> 的 IBOutlet 的話，我們可以直接在 ViewDidLoad 的地方這樣寫：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'><span class="n">_tableView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>或是直接在 Storyboard 用拉的也行：</p>
+
+<p><img src="/images/2013/drag-delegate-to-viewcontroller.png" alt="image" /></p>
+
+<p>這樣就完成了 delegation 的設定啦!</p>
+
+<p>但是，剛剛才講到，我怎麼知道這個 ViewController 有能力可以完成我想要委任的工作? 其實就是讓這個 ViewController 實作 <code>UITableViewDelegate</code> 這個 Protocol 就行了。</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span><span class="p">()</span><span class="o">&lt;</span><span class="n">UITableViewDelegate</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>關於 Protocol，大家可以參考之前寫的<a href="/2010/12/11/protocol-in-objective-c/">這篇</a></p>
+
+<p>但是，<code>UITableViewDelegate</code> 這個 protocol 到底定義了哪些東西? 讓我們按著鍵盤的 Cmd 鍵加上滑鼠點擊 <code>UITableViewDelegate</code> 就可以連過去看一下它的定義(部份程式碼省略)：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@protocol</span> <span class="nc">UITableViewDelegate</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">NSObject</span><span class="p">,</span> <span class="n">UIScrollViewDelegate</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">optional</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// ..省略&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Variable height support&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nl">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">heightForRowAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">indexPath</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nl">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">heightForHeaderInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">section</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nl">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">heightForFooterInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">section</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Section header &amp;amp; footer information. Views are preferred over title should you decide to provide both&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="n">UIView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nl">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">viewForHeaderInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">section</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="n">UIView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nl">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">viewForFooterInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">section</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// ..省略&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><code>UITableViewDelegate</code> 這個 protocol 定義在 UIKit 的 UITableView.h 裡面，而且全部都是 optional 的，也就是說就算不實作任何這個 protocol 裡的方法也不會怎麼樣，它還是有自己預設的行為。</p>
+
+<p>但如果你想要做一些 UI 客製化，例如想要動態的調整每個 cell 的高度，你就可以在這個 ViewController，也就是這個 tableview 所「委任」的對象，覆寫這個 method：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">pragma</span> <span class="n">mark</span> <span class="o">-</span> <span class="n">UITableView</span> <span class="n">delegate</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span> <span class="nl">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">heightForRowAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">indexPath</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mf">100.0f</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+
+
+<p>上面的實作這個方法，你可以想像成以下情境：</p>
+
+<blockquote><p>tableview 問 view controller 說：「喂，我每個 cell 要設定多高啊?」</p>
+
+<p>view controller 回答：「就 100 個點(point)吧。」</p></blockquote>
+
+<p>再舉個例子，如果你想要客製化這個 tableview 的 section header 或 footer，就是覆寫這兩個方法：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span> <span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">viewForFooterInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// 內容省略</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="n">UIView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span> <span class="nl">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">viewForHeaderInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">section</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 內容省略</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+
+
+<p>以此類推。</p>
+
+<p>UITableView 所需要的一些行為或是外觀描述，都是透過 delegate 的方式，請被委任的傢伙(通常是那個 tableview 所在的 view controller)告知。</p>
+
+<h2>Delegate 怎麼寫?</h2>
+
+<p>上面大概說明了怎麼用別人寫好的 delegate，如果也想自己仿著做一個，該怎麼做呢?</p>
+
+<p>我這邊來做個簡單的範例，大概就是希望某個 UIView 在進行動畫完成之後透過 delegate 發送一個「喂，我已經搞定囉」的通知，並同時也回傳狀態。</p>
+
+<p>我開了一個新的 Xcode 專案，選了 <code>Single View Application</code>，裡面應該只有預設的 <code>ViewController.h</code> 跟 <code>ViewController.m</code>，接著我新增了一個繼承自 UIView 的類別，叫做 <code>AnimationSquareView</code>：</p>
+
+<p><img src="/images/2013/animationsquareview.jpg" alt="image" /></p>
+
+<p>並且在上面加了一個叫做 <code>run</code> 的 public method：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//== 檔案：AnimationSquareView.h ==&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">UIKit</span><span class="o">/</span><span class="n">UIKit</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">interface</span> <span class="n">AnimationSquareView</span> <span class="o">:</span> <span class="n">UIView</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">run</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// == 檔案：AnimationSquareView.m ==&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="s">&quot;AnimationSquareView.h&quot;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">AnimationSquareView</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">run</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">3.0</span> <span class="nl">animations:</span><span class="o">&lt;</span><span class="n">sup</span><span class="o">&gt;</span><span class="p">{</span><span class="o">&lt;/</span><span class="n">sup</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>  <span class="n">CGRect</span> <span class="n">newFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">150</span><span class="p">,</span>
+</span><span class='line'>                               <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
+</span><span class='line'>                               <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+</span><span class='line'>                               <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">newFrame</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span> <span class="nl">completion:</span><span class="o">&lt;</span><span class="n">sup</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">BOOL</span><span class="o">&lt;/</span><span class="n">sup</span><span class="o">&gt;</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>  <span class="c1">// do something later..</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>這個 <code>run</code> 做的事情就是在 3 秒鐘完成一個簡單的動畫(其實就是讓它自己往右邊移動 150 個點，並且透明度變 50%)。</p>
+
+<p>ViewController 的部份程式碼如下：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// == 檔案：ViewController.m ==&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="s">&quot;ViewController.h&quot;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="s">&quot;AnimationSquareView.h&quot;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">interface</span> <span class="n">ViewController</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">ViewController</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">AnimationSquareView</span><span class="o">*</span> <span class="n">squareView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimationSquareView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview:</span><span class="n">squareView</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">squareView</span> <span class="n">run</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>執行一下，應該會看到一個黑色的方塊緩緩的往右程動，過三秒鐘之後就停下來了：</p>
+
+<p><img src="/images/2013/animation-square-run.png" alt="image" /></p>
+
+<h3>加上 delegate</h3>
+
+<p>如果，我想要讓這個 ViewController 知道這個方塊什麼時候做完它的動畫效果，該怎麼做?</p>
+
+<p>一種方法是可以在那個動畫 block 的 completion 區塊利用 <code>NSNotification Center</code> 並且在 ViewController 搭配 <code>KVO(Key-Value Observing)</code> 來實作，不過我們這邊選擇用 delegation。首先，我先定義一個叫做 <code>AnimationSquareViewDelegate</code> 的 protocol，並且在原來的 <code>AnimationSquareview</code> 類別裡加了一個名為 <code>delegate</code> 的 property：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// == 檔案：AnimationSquare.m ==&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">UIKit</span><span class="o">/</span><span class="n">UIKit</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">class</span> <span class="n">AnimationSquareView</span><span class="p">;</span>
+</span><span class='line'><span class="k">@protocol</span> <span class="nc">AnimationSquareViewDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">optional</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nl">animationSquareView:</span><span class="p">(</span><span class="n">AnimationSquareView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span> <span class="n">squareView</span> <span class="nl">didFinishAnimationWithStatus:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">status</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">interface</span> <span class="n">AnimationSquareView</span> <span class="o">:</span> <span class="n">UIView</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="kt">id</span> <span class="o">&lt;</span><span class="n">AnimationSquareViewDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">run</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>這裡可能有些需要解釋的：</p>
+
+<ol>
+<li><p><code>delegate</code> 這個 property 並不一定要命名為 <code>delegate</code>，只是慣例上通常會使用 <code>delegate</code> 這個名字，你硬是要把它叫 <code>abc</code> 也行，只是在待會我們要設定 delegate 的時候就要用 <code>abc</code> 了。另外，protocol 的定義也不一定要放在同一個 header 檔裡，也可以另外獨立的檔案，不過因為這個 delegate 的行為跟這個類別有關，我通常也會把它寫在同一個檔案裡面。</p></li>
+<li><p>上面第 4 行，為什麼需要那個 <code>@class AnimationSquareView;</code>? 因為在定義 protocol 的當下，這個類別還沒被定義出來，所以 <code>@class</code> 是告訴編譯器說：「我這個 <code>AnimationSquareView</code> 是一個類別，反正我待會就會寫，你先別管這麼多」。</p></li>
+<li><p>Protocol 裡的方法有分兩種，一種是規定必須實作的(required)，另一種則是不一定要實作的(optional)，在這個範例裡，我認為<code>完成動畫</code>的這個方法並不是一個一定要實作的方法，所以我把 <code>animationSquareView:didFinishAnimationWithStatus:</code> 它設定成 optional (如果沒有特別標記，就是 required 的)。</p></li>
+<li><p>Protocol 的名字 <code>AnimationSquareViewDelegate</code> 也不一定要叫這個名字，只是在後面加上個 <code>Delegate</code> 似乎也是慣例。</p></li>
+</ol>
+
+
+<p>再來，我們改寫一下剛剛那段動畫的 completion 區塊的程式碼：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// == 檔案：AnimationSquare.m ==</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">run</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">3.0</span> <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">CGRect</span> <span class="n">newFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">150</span><span class="p">,</span>
+</span><span class='line'>                                 <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
+</span><span class='line'>                                 <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+</span><span class='line'>                                 <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">newFrame</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">completion:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">_delegate</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">animationSquareView:didFinishAnimationWithStatus:</span><span class="p">)])</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">currentStatus</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span><span class="s">@&quot;status&quot;</span><span class="o">:</span> <span class="s">@&quot;finished&quot;</span><span class="p">};</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">_delegate</span> <span class="nl">animationSquareView:</span><span class="n">self</span> <span class="nl">didFinishAnimationWithStatus:</span><span class="n">currentStatus</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>這裡需要解釋的就應該就只有那段 <code>respondsToSelector</code> 了。這段的意思是問自己本身的這個 <code>delegate</code> 是不是有實作 <code>animationSquareView:didFinishAnimationWithStatus:</code> 這個方法，如果有的話，就呼叫它，並且把自己(self)以及狀態(一個NSDictionary)傳入。</p>
+
+<h3>設定 delegate</h3>
+
+<p>再來，回到 ViewController 裡，準備設定我們剛剛寫好的 protocol 跟 delegate：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// == 檔案：ViewController.m ==&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="s">&quot;ViewController.h&quot;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="s">&quot;AnimationSquareView.h&quot;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">interface</span> <span class="n">ViewController</span><span class="p">()</span><span class="o">&lt;</span><span class="n">AnimationSquareViewDelegate</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">ViewController</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">AnimationSquareView</span><span class="o">*</span> <span class="n">squareView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimationSquareView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview:</span><span class="n">squareView</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">squareView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">squareView</span> <span class="n">run</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">pragma</span> <span class="n">mark</span> <span class="o">-</span> <span class="n">AnimationSquareView</span> <span class="n">Delegate</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">animationSquareView:</span><span class="p">(</span><span class="n">AnimationSquareView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">squareView</span> <span class="nl">didFinishAnimationWithStatus:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">status</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;current status = %@&quot;</span><span class="p">,</span> <span class="n">status</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>這邊多了幾行程式碼：</p>
+
+<ol>
+<li><p>第 6 行的地方，在類別後面加上了 <code>&lt;AnimationSquareViewDelegate&gt;</code>，就是告訴編譯器說：「我有遵守(conform) <code>AnimationSquareView</code> 規定的 protocol」，表示可以接受 AnimationSquareView 的委任。</p></li>
+<li><p>第 17 行的地方，設定 <code>squareView.delegate = self</code>，把 squareView 的 delegate 設定到自己身上，也就是目前這個 ViewController。</p></li>
+<li><p>第 22 行到第 25 行，就是實作 protocol 裡定義的方法。</p></li>
+</ol>
+
+
+<p>執行一下，應該可以在動畫執行結束的時候，看到輸出結果。</p>
+
+<p>那，如果第 22 行到第 25 行的程式碼沒實作出來會怎樣? 在我們這個例子，不會怎樣，因為我們並沒有在 protocol 裡設定一定要實作的方法(required)。</p>
+
+<p>透過 delegation，可以降低類別與類別之間的耦合，但仍然可方便的讓類別之間有"溝通"的效果，而且也很容易的可以把要溝通的"訊息"一併傳回。</p>
+
+<p><a href="/downloads/files/2013/DelegateDemo.zip">範例檔下載</a></p>
+
+<p>以上，希望這篇文章能讓大家對 delegation 有更進一步的了解。如果有哪邊寫錯，還請前輩先進指點。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[近期讀書書目]]></title>
+    <link href="http://blog.eddie.com.tw/2010/12/27/some-resources-about-ios-development/"/>
+    <updated>2010-12-27T00:27:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2010/12/27/some-resources-about-ios-development</id>
+    <content type="html"><![CDATA[<p><img src="/images/2010/mybook.jpg" alt="image" /></p>
+
+<p>提供一點近期我自己讀過、正在讀或是打算要讀，覺得不錯的iOS開發工具書及網路資源供大家參考。我個人對這些工具書的作者並沒有利益關係，他們賣再多本我也抽不到趴，僅以我個人的角度提供一些的看法(也可能不夠客觀)，至於我沒讀過或沒翻過的書我就沒辦法了。</p>
+
+<h3>工具書：</h3>
+
+<h4><a href="http://www.amazon.com/Programming-Objective-C-2-0-Stephen-Kochan/dp/0321566157">Programming in Objective-C 2.0</a></h4>
+
+<p><img src="/images/2010/programming_in_objective_c2.jpg" alt="image" /></p>
+
+<p>這本差不多快啃了3/4本，個人感覺算是滿中規中矩的教課書。這本有中譯版，不過我沒看過。</p>
+
+<h4><a href="http://www.amazon.com/Cocoa-Design-Patterns-Erik-Buck/dp/0321535022">Cocoa and Objective-C</a></h4>
+
+<p><img src="/images/2010/cocoa_and_objective_c.jpg" alt="image" /></p>
+
+<p>這本大概讀了2/3左右，作者英文用字不會太艱深，讀起來算是滿輕鬆的，是比較入門的書。</p>
+
+<h4><a href="http://www.amazon.com/Cocoa-Design-Patterns-Erik-Buck/dp/0321535022">Cocoa Design Patterns</a></h4>
+
+<p><img src="/images/2010/cocoa_design_patterns.jpg" alt="image" /></p>
+
+<p>design pattern在Cocoa Framework是很重要的，特別是MVC跟delegate pattern幾乎貫穿全場。這是本算是比較進階的書，才剛開始看第一章而已，不過看起來是相當有內容的。(希望農曆年期間能把它讀完)</p>
+
+<h4><a href="http://www.amazon.com/Learn-iPhone-iPad-Cocos2D-Development/dp/1430233036">Learn iPhone and iPad Cocos2D Game Development</a></h4>
+
+<p><img src="/images/2010/cocos2d_in_iphone.jpg" alt="image" /></p>
+
+<p><a href="http://www.cocos2d.org/">Cocos2D</a> 是一套很棒而且是BSD license的Python framework，後來移植到iOS上變成<a href="http://www.cocos2d-iphone.org/">Cocos2D for iPhone</a>，用來開發2D遊戲很方便，目前App Store裡也有不少的作品是用它開發的。如果先前有過AS3的基礎的話應該會覺得這套framework用起來很友善。這本書目前只讀了2個章節，但可以感受得到作者的用心，而且在<a href="http://www.learn-cocos2d.com/">網站</a>及<a href="http://twitter.com/#!/gaminghorror">twitter</a>上也相當活躍。</p>
+
+<h3>網路資源：</h3>
+
+<p>首推當然是<a href="http://developer.apple.com/devcenter/ios/index.action">Apple自家的網站</a>，有足夠多的參考資料，除了有挖不完的寶之外，也可以順便練一下英文。</p>
+
+<p>再來，Stanford University的<a href="http://www.stanford.edu/class/cs193p/cgi-bin/drupal/">CS193P課程</a>是品質相當好的。上課影音檔跟投影片都可以在線上下載到完整版本，也可以在iTunes免費訂閱到完整的內容。我自己偏好是整個下載到iTunes裡，即使沒有網路也是可以收看；或是把內容同步到iPad上躺在床上睡覺前悠哉的慢慢看。另外國內有人整理了<a href="http://www.inside.com.tw/04/06/cs193p-review">課程摘要</a>(中文)。</p>
+
+<p>目前最新的課程是2010年fall版本，如果你下載的Xcode是比較新的版本(4.x版)，那在收看之前的2009 spring或是2010 winter的課程時可能會遇到操作介面不同的問題。2010 fall用的是比較新版本的Xcode，而且課程名稱也從原本的”iPhone Application Programming”調整成”Developing Apps for iOS”了。</p>
+
+<p>除了Stanford的CS193P之外，<a href="http://matcmadison.edu/">Madison Area Technical College</a>也有一系列的課程，內容是比較進階的，在iTunes store裡搜尋”Advanced iPhone Development”可以找到免費訂閱。</p>
+
+<p>這裡有整理了一些<a href="http://www.applausible.com/blog/?p=546">值得follow的iOS developers的twitter</a>。</p>
+
+<h4>為什麼上面都推薦原文的?</h4>
+
+<p>在資訊界來說，很現實的是外國的月亮比較圓一點，原文的資料的確豐富許多。其實原文書沒想像中的難讀，有的不用一字一句全部精選，只要看書裡的範例程式碼就大概猜得出來那個章節在講什麼了，若有看不懂的地方再回頭細讀內容即可。</p>
+
+<p>再者，真的要小小的抱怨一下，有不少中譯版電腦書翻得不只錯字多多(有的中文字錯就算了，還有的連範例程式碼都有錯..)，語意也不見得通順，讀起來可能比原文還難懂。哪些書我就不方便明講了，一來我的個人觀感不見得客觀，二來也免得擋人財路。</p>
+
+<p>另外，大家在購買工具書之前可能要注意一下書裡的版本，目前最新iOS的SDK是4.x版，但市面上有些書是用3.x版的畫面在做範例。基本上內容是沒差太多，也大多能正常編譯執行，但IDE的操作介面可能會有改位置，對初學者來說可能會有找不到選項的困擾。</p>
+
+<p>常在討論區看到有人建議推薦書目，我覺得適合我的書不見得適合你，建議還是親自走一趟書局，翻一下章節大綱、試讀幾個章節之後再決定囉。以上，就我個人一點點的淺見跟大家分享，如果有覺得不錯的也歡迎大家推薦 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在你的app裡加入廣告]]></title>
+    <link href="http://blog.eddie.com.tw/2010/12/20/add-iad-in-your-app/"/>
+    <updated>2010-12-20T00:15:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2010/12/20/add-iad-in-your-app</id>
+    <content type="html"><![CDATA[<p><img src="/images/2010/iad_logo.jpg" alt="image" /></p>
+
+<p>蘋果的App Store上有許多的軟體，有的重量級的大作是直接掛個價錢就上架，有的是先提供免費的試玩版，滿意再買正式版，其中有些則是不收費，但會放一些廣告在裡面。這些軟體的開發者有的是真的佛心，有的是純練功，不過置入廣告來賺取一些生活費並沒什麼對錯的問題，畢竟大家也都是要過日子。放個廣告上來只要不影響整個app的使用也沒應該沒什麼大礙，畢竟這些開發者也還是需要一些”動力”才能繼續幫大家開發更好用的軟體。</p>
+
+<p>你也許會好奇放這個廣告是能賺什麼錢，在不久前有個故事，就是有個人做了一個手電筒的app，裡面放了廣告，結果這個開發者在第一天就賺了將近1,400美元的收入，CTR將近12%。我不知道這個故事的真實性，也許這個故事只是為了吸引更多的開發者上勾，也或許這只是個特例，不過iAd的拆帳比例是六四分，開發者六，蘋果四。跟一般我們買網站banner的利潤比起來，六成的拆帳不算低。也許是大家覺得新奇，又或是不小心點到(畢竟iPhone那麼小一隻)，跟一般網站banner的CTR比起來，手機上的廣告CTR都還滿高的。</p>
+
+<p>其實要在app上置入廣告還滿容易，不需要寫到程式碼，一樣以前面那個地圖app做範例，首先點擊我要放廣告的那個xib檔，跳出interface builder，在元件庫裡可以找到一個iAd的元件：</p>
+
+<p><img src="/images/2010/iad_component.jpg" alt="image" /></p>
+
+<p>把它拉到場景上，調整一下位置跟尺寸：</p>
+
+<p><img src="/images/2010/iad_added_to_view.png" alt="image" /></p>
+
+<p>最後，因為project預設並沒有把iAd framework放進來，所以需要手動自己加，在Frameworks上按右鍵，選擇”Add” -> “Existing frameworks”：</p>
+
+<p><img src="/images/2010/iad_framework.png" alt="image" /></p>
+
+<p>測試看看，你應該可以看到一個測試的banner：</p>
+
+<p><img src="/images/2010/iad_result.jpg" alt="image" /></p>
+
+<p>點擊之後的效果：</p>
+
+<p><img src="/images/2010/iad_clicked.jpg" alt="image" /></p>
+
+<p>大概這樣就完成了，記得廣告不要放太大塊而影響整個app的運作囉(放大太塊到時候送審的時候也不一定會過)。</p>
+
+<h3>建議閱讀：</h3>
+
+<p><a href="http://developer.apple.com/iad/">Apple Developer – iAd</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iPhone app實作練習-幫你的地圖app加上大頭針]]></title>
+    <link href="http://blog.eddie.com.tw/2010/12/20/add-annotation-to-the-map/"/>
+    <updated>2010-12-20T00:01:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2010/12/20/add-annotation-to-the-map</id>
+    <content type="html"><![CDATA[<p><img src="/images/2010/marker.jpg" alt="image" /></p>
+
+<p>前面幾篇有提到一些<a href="/2010/12/16/category-in-objective-c/">@category</a>跟<a href="/2010/12/11/protocol-in-objective-c/">@progocol</a>，還有一些記憶體管理的東西，我自己也看得頭很花，不過看一堆的理論還不如直接實作來得快。所以，接下來我們就來把前面那個陽春的<a href="/2010/11/26/create-map-application-with-mapkit-framework/">地圖</a>功能，加上一些註解或大頭針的功能，讓整個畫面看起來豐富、實用一些。</p>
+
+<p>首先，我想要做的效果是在地圖上加個大頭針跟註解，如下圖：</p>
+
+<p><img src="/images/2010/ios_map_result2.png" alt="image" /></p>
+
+<p>做法就是在原來的MapView上加上一個註解(Annotation)，讓MapView把它畫出來。要注意的是，Annotation本身不一種View，所以不是看得到的元件，不會直接在畫面上看得到。Annotation類別只是描述一些資料，例如title、subtitle，加到MapView之後，有個叫做MKAnnotationView的類別幫我們畫出來的。而把annotation加到MapView的語法是：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">map_view</span> <span class="nl">addAnnotation:</span><span class="p">(</span><span class="kt">id</span> <span class="o">&lt;</span><span class="n">MKAnnotation</span><span class="o">&gt;</span><span class="p">)</span><span class="n">annotation</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這可以讓你一次加一個Annotation到MapView裡，如果你要一次加多個大頭針進去，則可使用addAnnotations，後面接一個NSArray，裡面裝你要標示的Annotation即可。如果要移掉，則是使用removeAnnotation，如果要移掉多個則是使用removeAnnotations，詳細使用方法可再請參考使用手冊。</p>
+
+<p>回來看上面那行，希望你還記得protocol的東西，如果不記得的話請再看一下<a href="/2010/12/11/protocol-in-objective-c/">這篇</a>複習一下，那行的意思就是說addAnnotation方法後面接的參數必須是個有實作<code>MKAnnotation</code>這個protocol的物件。但是Cocoa Touch並沒有內建Annotation的類別可以直接塞給它，我是滿好奇這麼常用的功能為什麼不直接就內建進來，直接new一個來用就好了。不過沒關係，沒有的話我們就自己手動刻一個。</p>
+
+<p>首先，先在Classes裡新增一個Objective-C class檔案，我把它命名為MyCompany(.m跟.h)，然後我的Classes群組看起來會像這樣：</p>
+
+<p><img src="/images/2010/ios_map_classes.png" alt="image" /></p>
+
+<p>再來，修改一下MyCompany.h裡的@interface，讓它實作自MKAnnotation protocol：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 檔案：MyCompany.h&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Foundation</span><span class="o">/</span><span class="n">Foundation</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">MapKit</span><span class="o">/</span><span class="n">MapKit</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">interface</span> <span class="n">MyCompany</span> <span class="o">:</span> <span class="n">NSObject</span> <span class="o">&lt;</span><span class="n">MKAnnotation</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+好了，然後呢? 要實作哪些方法要怎麼看? 在MKAnnotation上按滑鼠右選，選擇”find text in documentation”，它會去找到這個protocol的相關詳細說明。但我個人會更偏好在MKAnnotation上按住command鍵加上double click，它會跳到這個protocol的定義，直接看原始碼是最快的。MKAnnotation這個protocol的定義如下：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">CoreGraphics</span><span class="o">/</span><span class="n">CoreGraphics</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">CoreLocation</span><span class="o">/</span><span class="n">CoreLocation</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Foundation</span><span class="o">/</span><span class="n">Foundation</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">protocol</span> <span class="n">MKAnnotation</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Center latitude and longitude of the annotion view.</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">optional</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Title and subtitle for use by selection UI.</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">subtitle</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Called as a result of dragging an annotation view.</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">setCoordinate:</span><span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="n">newCoordinate</span> <span class="o">&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="n">OSX_AVAILABLE_STARTING</span><span class="p">(</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;</span><span class="n">MAC_NA</span><span class="p">,</span><span class="n">__IPHONE_4_0</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+從定義看來，實作這個protocol只需要實作做coordinate這個getter就行了，其它的都是optional的。但因為我想要在大頭針上面加上註解說明，所以需要再實作title跟subtitle的setter，程式碼如下：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 檔案：MyCompany.h&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Foundation</span><span class="o">/</span><span class="n">Foundation</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">MapKit</span><span class="o">/</span><span class="n">MapKit</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">interface</span> <span class="n">MyCompany</span> <span class="o">:</span> <span class="n">NSObject</span> <span class="o">&lt;</span><span class="n">MKAnnotation</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">subtitle</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">subtitle</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+骨架好了，再來跳到MyCompany.m，把肉填起來：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 檔案：MyCompany.m&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="s">&quot;MyCompany.h&quot;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">MyCompany</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@synthesize</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">subtitle</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;-</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nl">initWithCoordinate:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">the_coordinate</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">])</span>
+</span><span class='line'>  <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">coordinate</span> <span class="o">=</span> <span class="n">the_coordinate</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">subtitle</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+前面幾行的@synthesize是對應到@property用的，這裡唯一比較長的程式碼是initWithCoordinate，這是個委任的建構子，用來在init的時候把coordinate也一併傳進來。</p>
+
+<p>OK! 到這裡的前置工作已經完成了，接著要把它併到之前那個範例的程式碼裡了，首先別忘了要先把<code>MyCompany.h</code>給import進來：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="n">MyCompany</span><span class="p">.</span><span class="n">h</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+再來一樣直接偷懶的把程式碼全部寫在<code>viewDidLoad</code>裡面：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 建立一個CLLocationCoordinate2D</span>
+</span><span class='line'>  <span class="n">CLLocationCoordinate2D</span> <span class="n">mylocation</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">mylocation</span><span class="p">.</span><span class="n">latitude</span> <span class="o">=</span> <span class="mf">25.01141</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">mylocation</span><span class="p">.</span><span class="n">longitude</span> <span class="o">=</span> <span class="mf">121.42554</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="c1">// 建立一個region，待會要設定給MapView</span>
+</span><span class='line'>  <span class="n">MKCoordinateRegion</span> <span class="n">kaos_digital</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="c1">// 設定經緯度</span>
+</span><span class='line'>  <span class="n">kaos_digital</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">mylocation</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="c1">// 設定縮放比例</span>
+</span><span class='line'>  <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">latitudeDelta</span> <span class="o">=</span> <span class="mf">0.003</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">longitudeDelta</span> <span class="o">=</span> <span class="mf">0.003</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="c1">// 準備一個annotation</span>
+</span><span class='line'>  <span class="n">MyCompany</span> <span class="o">*</span><span class="n">mycompany</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">MyCompany</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCoordinate:</span><span class="n">mylocation</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">mycompany</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@&quot;高思數位網路&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">mycompany</span><span class="p">.</span><span class="n">subtitle</span> <span class="o">=</span> <span class="s">@&quot;媽，我在這裡啦!&quot;</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="p">[</span><span class="n">map_view</span> <span class="nl">setRegion:</span><span class="n">kaos_digital</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="c1">// 把annotation加進MapView裡</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">map_view</span> <span class="nl">addAnnotation:</span><span class="n">mycompany</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+上面這段程式碼是從<a href="/2010/11/26/create-map-application-with-mapkit-framework/">前面那篇</a>借來用的。做到這裡，按下<code>Build and Run</code>，應該就可以看到有一根紅色的大頭針定在畫面上：</p>
+
+<p><img src="/images/2010/ios_map_result1.png" alt="image" /></p>
+
+<p>再點一下大頭針就會跳出說明：</p>
+
+<p><img src="/images/2010/ios_map_result2.png" alt="image" /></p>
+
+<p>其實MKAnnotationView能做的變化還不少，例如變更大頭針的樣式、顏色，或是在註解的左邊或右邊加上按鈕，按下按鈕之後會執行其它的事情(callout)，更詳細的說明可再參考Apple的官方手冊，地圖在行動裝置上能做的應用還挺多的，大家可以再想想怎麼拼裝組合囉 :)</p>
+
+<p><a href="/downloads/files/2010/MapDemo.zip">原始檔下載</a></p>
+
+<h3>建議閱讀：</h3>
+
+<p><a href="http://developer.apple.com/library/ios/#documentation/MapKit/Reference/MKAnnotationView_Class/Reference/Reference.html">iOS Reference Library – MKAnnotationView</a></p>
+]]></content>
+  </entry>
+  
+</feed>

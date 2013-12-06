@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Smarty | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/smarty/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Smarty之星鍋娛樂網]]></title>
+    <link href="http://blog.eddie.com.tw/2008/07/28/starswok/"/>
+    <updated>2008-07-28T10:21:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2008/07/28/starswok</id>
+    <content type="html"><![CDATA[<p><img src="/images/2008/starswok.jpg" alt="image" /></p>
+
+<p>你想當大明星嗎? 嗯，我想 :)</p>
+
+<p>這案子在當初頁面設計尚未底定，且工作時間有限的情況下，我把這案子用<a href="http://www.smarty.net/">Smarty</a>，搭配<a href="http://en.wikipedia.org/wiki/Model-view-controller">MVC</a>(Model-View-Controller)的架構來製作；另外再搭配上<a href="http://subversion.tigris.org/">Subversion</a>的版本控制功能，讓設計人員可以commit他們的template，工程師可以commit他們的程式碼，讓彼此修改頁面而不小心動到程式碼的影響降到最小，在萬一真的不小心改壞了，還可以回朔之前的版本，真的很方便。</p>
+
+<p>這案子另外還有需要跟金流廠商串接的部份(線上刷卡、便利商店代收及網路ATM功能)，忍不住想抱怨一下，有的金流廠商的API很方便(例如綠界)，串接起來很輕鬆；但有的廠商的API，看了一下程式碼實在很老舊，明明就有switch的語法可以用，但還用一堆的if..else..來寫，看了實在火大，又還規定一定要用Big5編碼。(我這人有程式碼潔癖，所以看不下去最後就自己動手改寫了...)</p>
+
+<p>網址：<a href="http://www.starswok.com">http://www.starswok.com</a></p>
+]]></content>
+  </entry>
+  
+</feed>

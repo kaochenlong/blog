@@ -1,0 +1,1125 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="本篇文章已刊載於 OpenFoundry 電子報技術專欄，刊登之內容由專業的 OpenFoundry 團隊潤稿，此篇為原文。 前言 我相信很多人學習Ruby是因為Ruby on Rails的緣故，但Rails在改版的速度很快，而且有時候改版的幅度不小，例如從以前的2.x版本跳到3.x版本， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/page/9/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/16/rvm/">RVM - Ruby enVironment(Version) Manager</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/16/rvm/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-16T15:09:00+08:00" pubdate>Nov 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="info">本篇文章已刊載於 <a href="http://www.openfoundry.org/tw/tech-column/8513-rvm-ruby-environment-version-manager" target="_blank">OpenFoundry 電子報技術專欄</a>，刊登之內容由專業的 OpenFoundry 團隊潤稿，此篇為原文。</p>
+
+
+<h2>前言</h2>
+
+<p>我相信很多人學習<a href="http://www.ruby-lang.org/">Ruby</a>是因為<a href="http://rubyonrails.org/">Ruby on Rails</a>的緣故，但Rails在改版的速度很快，而且有時候改版的幅度不小，例如從以前的2.x版本跳到3.x版本，甚至有些小版號的改版幅度也不小。像是不久前release出來的Rails 3.1.0，就跟3.0.x的架構就差滿多的。就算不談 Rails，光是主流的 Ruby 目前也有 1.8.x 跟 1.9.x 的分支，在功能上都有些差異。</p>
+
+<p>這些新推出來的新玩具有的很好玩，不裝起來試一下就會覺得手很癢。你當然可以在你電腦裡安裝這些不同版本新玩具，但畢竟在自己工作的機器上試是有風險的，萬一把環境弄壞了還得花時間想辦法回復。以往我們可能會使用類似<a href="https://www.virtualbox.org/">VirtualBox</a>之類的軟體來模擬作業環境，玩壞了隨時都可以很快的還原或重建一個新的，不過即使這樣還是有點麻煩。</p>
+
+<p>這時候你就需要<a href="http://beginrescueend.com/">RVM</a>(Ruby enVironment(或Version) Manager)了，有了它，你可以安心的在你的電腦裡同時安裝多個不同版本的Ruby而不會打架，例如標準的MRI(Matz&#8217;s Ruby Interpreter)，或是REE(Ruby Enterprise Edition)，甚至是JRuby、MacRuby都沒問題，在RVM裡都可以都可以隨你高興的切換。RVM裡每個版本的Ruby的gem也都是分開裝的，甚至在同一個Ruby版本底下也可以建立不同的gemset，彼此獨立互不影響。如果哪天覺得膩了、不想玩了，可以用<code>rvm remove</code>指令移掉指定的版本；萬一哪天整個不想要玩了，因為RVM是把檔案安裝在<code>/home</code>的個人帳號資料夾底下，所以也不會去影響到系統的設定，不要的時候就整個<code>~/.rvm</code>資料夾砍掉就行了，不會影響原來系統的設定。也就是因為RVM是安裝在你的個人帳號底下，所以你在安裝過程中是不需要root權限的。</p>
+
+<h2>安裝</h2>
+
+<p>以下提到的各項安裝指令，會以<code>Ubuntu 10.10</code>做為示範。</p>
+
+<p>安裝RVM會需要兩項工具<code>curl</code>跟<code>git</code>，如果沒有的話請用<code>apt-get install curl</code>以及<code>apt-get install git</code>指令把這兩個裝起來(安裝這兩個工具你可能需要有系統的root權限)。這兩項工具安裝完成後，請打開你的終端機，貼上這行：</p>
+
+<pre><code>bash &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+</code></pre>
+
+<p>它就會開始去下載RVM的安裝程式回來並且自動開始進行安裝。完成後還需要做一下簡單的設定，看你用的shell是哪一套而要修改不同的檔案，假設你用的是ubuntu預設的bash shell的話，你可以直接在終端機裡貼下面這行：</p>
+
+<pre><code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm" # Load RVM function' &gt;&gt; ~/.bash_profile
+</code></pre>
+
+<p>更詳細的安裝說明可以參考官網的<a href="https://rvm.beginrescueend.com/rvm/install/">安裝說明</a>。</p>
+
+<h2>使用</h2>
+
+<p>接著我們來看一些在RVM裡常用的指令，<code>rvm list known</code>會列出目前有哪些可以安裝的列表：</p>
+
+<pre><code>&gt; rvm list known
+
+# MRI Rubies
+[ruby-]1.8.6[-p420]
+[ruby-]1.8.6-head
+[ruby-]1.8.7[-p352]
+[ruby-]1.8.7-head
+[ruby-]1.9.1-p378
+[ruby-]1.9.1[-p431]
+[ruby-]1.9.1-head
+[ruby-]1.9.2-p180
+[ruby-]1.9.2[-p290]
+[ruby-]1.9.2-head
+[ruby-]1.9.3-preview1
+[ruby-]1.9.3[-rc1]
+[ruby-]1.9.3-head
+ruby-head
+
+# GoRuby
+goruby
+
+# JRuby
+jruby-1.2.0
+jruby-1.3.1
+jruby-1.4.0
+jruby-1.6.1
+jruby-1.6.2
+jruby-1.6.3
+jruby[-1.6.4]
+jruby-head
+
+# Rubinius
+rbx-1.0.1
+rbx-1.1.1
+rbx-1.2.3
+rbx-1.2.4
+rbx[-head]
+rbx-2.0.0pre
+
+# Ruby Enterprise Edition
+ree-1.8.6
+ree[-1.8.7][-2011.03]
+ree-1.8.6-head
+ree-1.8.7-head
+
+# Kiji
+kiji
+
+# MagLev
+maglev[-26852]
+maglev-head
+
+# Mac OS X Snow Leopard Only
+macruby[-0.10]
+macruby-nightly
+macruby-head
+
+# IronRuby -- Not implemented yet.
+ironruby-0.9.3
+ironruby-1.0-rc2
+ironruby-head
+</code></pre>
+
+<p>長長的一大串，幾乎目前常見的Ruby Interpreter都有了。列表裡的中括號表示那些是可以省略的，所以如果用<code>rvm install</code>來安裝的時候輸入：</p>
+
+<pre><code>&gt; rvm install 1.8.7
+</code></pre>
+
+<p>會自動找<code>[ruby-]1.8.7[-p352]</code>這個版本的Ruby來安裝。前面我們提過可以一次安裝多個不同的版本，所以你也可以再裝個1.9.2的版本：</p>
+
+<pre><code>&gt; rvm install 1.9.2
+</code></pre>
+
+<p>如果你對最新的Ruby 1.9.3版本有興趣，雖然目前還沒正式release，也可以試著裝一份來試一下它的新功能。再來，我們看看目前已經安裝哪些版本：</p>
+
+<pre><code>&gt; rvm list
+
+rvm rubies
+
+        ruby-1.9.2-p290 [ i686 ]
+        ruby-1.8.7-p352 [ i686 ]
+</code></pre>
+
+<p>可以看到我電腦上目前裝了2個版本的Ruby(1.8.7跟1.9.2)，這時候我們來看看Ruby的版本：</p>
+
+<pre><code>&gt; ruby -v
+ruby 1.8.7 (2010-06-23 patchlevel 299) [i686-linux]
+</code></pre>
+
+<p>看到<code>patchlevel</code>只有299，表示這個不是我們剛才安裝的版本，這是系統裡原來就已經裝好的。如果要切換到我們剛才安裝的Ruby 1.9.2版本：</p>
+
+<pre><code>&gt; rvm use 1.9.2
+Using /home/eddie/.rvm/gems/ruby-1.9.2-p290
+</code></pre>
+
+<p>想少打幾個字的話，<code>use</code>也可以省略：</p>
+
+<pre><code>&gt; rvm 1.9.2
+</code></pre>
+
+<p>再來看一下Ruby的版本：</p>
+
+<pre><code>&gt; ruby -v
+ruby 1.9.2p290 (2011-07-09 revision 32553) [i686-linux]
+</code></pre>
+
+<p>已經切換到Ruby 1.9.2了! 不過有個小問題是，RVM會在下次終端機視窗重開的時候回到預設值(就是系統內建的Ruby版本)，所以如果你希望每次開終端機視窗的時候都會切到Ruby 1.9.2的話：</p>
+
+<pre><code>&gt; rvm 1.9.2 --default
+</code></pre>
+
+<p>這樣你每次開終端機視窗就會自動幫你切換到1.9.2版了。如果你想切回到原來系統內建的版本：</p>
+
+<pre><code>&gt; rvm system
+</code></pre>
+
+<p>不要了，想砍掉它?</p>
+
+<pre><code>&gt; rvm remove 1.9.2
+</code></pre>
+
+<p>就可以把指定的版本移除了，相當便利。如果你整個RVM都不想要了，只要把個人帳號底下的<code>.rvm</code>資料夾整個移除，再把<code>.bash_profile</code>的RVM相關設定改回來，就會整個清潔溜溜了。</p>
+
+<h2>運作原理</h2>
+
+<p>你也許會好奇為什麼RVM可以這麼神奇的切換Ruby的環境，我們來看一下系統的預設PATH：</p>
+
+<pre><code>&gt; echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/eddie/.gem/ruby/1.8/bin:/usr/local/lib/python2.6/dist-packages/django/bin:/home/eddie/.rvm/bin:/home/eddie/.rvm/bin
+
+&gt; which ruby
+/usr/bin/ruby
+
+&gt; ruby -v
+ruby 1.8.7 (2010-06-23 patchlevel 299) [i686-linux]
+</code></pre>
+
+<p>(以上內容是我自己電腦裡的設定，可能跟各位的會有些不同)</p>
+
+<p>再來用RVM切換到1.9.2：</p>
+
+<pre><code>&gt; rvm 1.9.2
+Using /home/eddie/.rvm/gems/ruby-1.9.2-p290
+
+&gt; echo $PATH
+/home/eddie/.rvm/gems/ruby-1.9.2-p290/bin:/home/eddie/.rvm/gems/ruby-1.9.2-p290@global/bin:/home/eddie/.rvm/rubies/ruby-1.9.2-p290/bin:/home/eddie/.rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/eddie/.gem/ruby/1.8/bin:/usr/local/lib/python2.6/dist-packages/django/bin
+
+&gt; which ruby
+/home/eddie/.rvm/rubies/ruby-1.9.2-p290/bin/ruby
+
+&gt; ruby -v
+ruby 1.9.2p290 (2011-07-09 revision 32553) [i686-linux]
+</code></pre>
+
+<p>事實上，RVM是把不同版本的Ruby安裝在你的個人帳號底下的<code>.rvm</code>資料夾，在你切換不同版本的Ruby的時候，會幫你把系統預設的PATH的最前面加上這個<code>.rvm</code>的資料夾，當你在終端機底下輸入<code>ruby</code>指令的時候，系統原本的<code>/usr/bin/ruby</code>因為在PATH的比較後面，所以感覺會暫時失效而使用RVM版本的Ruby。你可以試著用<code>rvm info</code>來看看RVM幫你做了哪些設定。</p>
+
+<h2>Gem</h2>
+
+<p>在RVM裡，不同版本的Ruby的gem是各別獨立的，來做個簡單的實驗，例如我們先切換到1.9.2底下：</p>
+
+<pre><code>&gt; gem list
+
+*** LOCAL GEMS ***
+
+bundler (1.0.0.rc.5)
+json (1.6.1 ruby)
+rake (0.9.2 ruby)
+rdoc (3.10 ruby)
+</code></pre>
+
+<p>再來我們切換到1.8.7，然後安裝Rails：</p>
+
+<pre><code>&gt; rvm 1.8.7
+&gt; gem install rails
+</code></pre>
+
+<p>然後你就可以看到一大票的安裝訊息，然後我們看看gem的安裝情形：</p>
+
+<pre><code>&gt; gem list
+
+*** LOCAL GEMS ***
+
+actionmailer (3.1.1)
+actionpack (3.1.1)
+activemodel (3.1.1)
+activerecord (3.1.1)
+.. 略 ..
+rails (3.1.1)
+railties (3.1.1)
+rake (0.9.2 ruby)
+rdoc (3.10 ruby)
+sprockets (2.0.2)
+thor (0.14.6)
+tilt (1.3.3)
+treetop (1.4.10)
+tzinfo (0.3.30)
+</code></pre>
+
+<p>安裝了最新版本的Rails 3.1.1，這時候切回去Ruby 1.9.2再看原來的gem list的話，還是原來的樣子，表示gem是跟著不同版本的Ruby獨立安裝的。</p>
+
+<p>要注意的是我們在RVM安裝的任何Ruby版本都跟系統的Ruby無關，即使版號相同也是不同的Ruby，gem也不會安裝到系統的Ruby裡，所以可以放心的玩。基本上你只要發現你在安裝gem的時候會需要root權限的時候，通常你用的就是系統版本的Ruby了。</p>
+
+<h2>Gemset</h2>
+
+<p>Ruby/Rails的世界在進步很快，套件的版本會一直在變，所以很常看到這個狀況：</p>
+
+<pre><code>&gt; gem list
+.. 略 ..
+rails (3.1.1, 3.1.0, 3.0.9, 3.0.7)
+.. 略 ..
+</code></pre>
+
+<p>同一個套件就裝了二、三個以上的版本，看了實在有些討厭，而且也不知道會不會遇到版本衝突的問題。如果你跟我一樣有這方面的潔癖，你可以選擇把不用的版本移除掉，不過我會建議你用不同的gemset來管理。例如我想同時在1.9.2版本的Ruby底下同時安裝Rails 2.3.9跟3.1.1版本，來看看怎麼做。</p>
+
+<p>先切換到1.9.2之後，建立一個準備要來裝Rails 2.3.9版的gemset：</p>
+
+<pre><code>&gt; rvm gemset create rails-2.3.9
+'rails-2.3.9' gemset created (/home/eddie/.rvm/gems/ruby-1.9.2-p290@rails-2.3.9).
+</code></pre>
+
+<p>這邊不一定要跟我一樣用<code>rails-2.3.9</code>，gemset的名字你可以取自己喜歡的。再來建一個給Rails 3.1.1版的：</p>
+
+<pre><code>&gt; rvm gemset create rails-3.1.1
+'rails-3.1.1' gemset created (/home/eddie/.rvm/gems/ruby-1.9.2-p290@rails-3.1.1).
+</code></pre>
+
+<p>看一下目前的已經建立的gemset：</p>
+
+<pre><code>&gt; rvm gemset list
+
+gemsets for ruby-1.9.2-p290 (found in /home/eddie/.rvm/gems/ruby-1.9.2-p290)
+        global
+        rails-2.3.9
+        rails-3.1.1
+</code></pre>
+
+<p>你看到2個我們剛剛建好的gemset，那個global是整個Ruby預設的gemset，如果沒特別指定的話，gem都是安裝到<code>global</code>裡面。再來我們切換到rails-2.3.9：</p>
+
+<pre><code>  &gt; rvm gemset use rails-2.3.9
+</code></pre>
+
+<p>來安裝一下Rails 2.3.9版</p>
+
+<pre><code>&gt; gem install rails -v='2.3.9' --no-rdoc --no-ri
+Fetching: activesupport-2.3.9.gem (100%)
+Fetching: activerecord-2.3.9.gem (100%)
+.. 略 ..
+Successfully installed activeresource-2.3.9
+Successfully installed rails-2.3.9
+7 gems installed
+</code></pre>
+
+<p>安裝完成，再來切換到rails-3.1.1：</p>
+
+<pre><code>&gt; rvm gemset use rails-3.1.1
+</code></pre>
+
+<p>再來做一樣的動作，只是版號改成3.1.1。兩個gemset都裝好之後來看看結果：</p>
+
+<pre><code>&gt; rvm gemset use rails-2.3.9
+&gt; rails -v
+Rails 2.3.9
+
+&gt; rvm gemset use rails-3.1.1
+&gt; rails -v
+Rails 3.1.1
+</code></pre>
+
+<p>如果你要從別的版本的Ruby直接切換到指定的gemset：</p>
+
+<pre><code>&gt; rvm 1.9.2@rails-3.1.1
+</code></pre>
+
+<p>你可以隨你高興的建立、切換gemset，每個gemset都是獨立的。如果玩膩了或玩爛了，想要把rails-2.3.9這個gemset清空的話：</p>
+
+<pre><code>&gt; rvm gemset empty rails-2.3.9
+WARN: Are you SURE you wish to remove the installed gems for gemset 'ruby-1.9.2-p290@global' (/home/eddie/.rvm/gems/ruby-1.9.2-p290@global)?
+(anything other than 'yes' will cancel) &gt; yes
+</code></pre>
+
+<p>清空只會把安裝的gem砍掉，gemset的名字還會在；如果想把整個gemset刪掉：</p>
+
+<pre><code>&gt; rvm gemset delete rails-2.3.9
+WARN: Are you SURE you wish to remove the entire gemset directory 'rails-2.3.9' (/home/eddie/.rvm/gems/ruby-1.9.2-p290@rails-2.3.9)?
+(anything other than 'yes' will cancel) &gt; yes
+</code></pre>
+
+<h2>各別專案設定</h2>
+
+<p>有時候我們會遇到專案A用的是Ruby 1.8.7，專案B用的是Ruby 1.9.2，雖然RVM可以很快的切換，但偶爾忘了換回來可能也會造成一些困擾。這時候你可以在該專案的資料夾底下放一個<code>.rvmrc</code>的檔案，只要簡單的一行設定：</p>
+
+<pre><code>rvm use 1.9.2@rails-3.1.1
+</code></pre>
+
+<p>如果後面沒特別指定的話，預設會使用global的gemset。在你第一次進到該資料夾的時候會出現一個提示訊息：</p>
+
+<pre><code>&gt; cd project1
+==============================================================================
+= NOTICE                                                                     =
+==============================================================================
+= RVM has encountered a new or modified .rvmrc file in the current directory =
+= This is a shell script and therefore may contain any shell commands.       =
+=                                                                            =
+= Examine the contents of this file carefully to be sure the contents are    =
+= safe before trusting it! ( Choose v[iew] below to view the contents )      =
+==============================================================================
+Do you wish to trust this .rvmrc file? (/tmp/project1/.rvmrc)
+y[es], n[o], v[iew], c[ancel]&gt; yes
+Using /home/eddie/.rvm/gems/ruby-1.9.2-p290 with gemset rails-3.1.1
+</code></pre>
+
+<p>這樣當你下次再用<code>cd</code>指令進到該資料夾的時候，就會自動幫你切換成你指定的Ruby + gemset版本。</p>
+
+<h2>你可能會遇到的麻煩..</h2>
+
+<p>RVM 很方便、很好用，但之前在<a href="http://www.openfoundry.org/">OSSF工作坊</a>開Ruby的課的時候也曾經吃過悶虧。RVM 在安裝的時候，有些特別的package的安裝需要另外處理，像<code>OpenSSL</code>就是其中一例。就算用系統的<code>apt-get install</code>來安裝也沒用，RVM 也是找不到而出現<code>LoadError</code>。需要用以下面這個方式來安裝：</p>
+
+<pre><code>&gt; rvm pkg install openssl
+&gt; rvm remove 1.9.2
+&gt; rvm install 1.9.2 --with-openssl-dir=$rvm_path/usr
+</code></pre>
+
+<p>除了<code>OpenSSL</code>之外，<code>Readline</code>也有類似的狀況，如果你是用RVM在Ubuntu上練習寫Rails的時候特別容易遇到，這點還請多留意。更多詳細內容可<a href="http://beginrescueend.com/packages/">參考這裡</a>。</p>
+
+<h2>結論</h2>
+
+<p>RVM可以快速的在各個版本之間切換，每個版本跟gemset之間也都切得很乾淨，不會影響到原來系統設定，對我這種喜歡嚐鮮、試新玩具又怕把系統搞髒搞爛的人來說，真的是一大福音!</p>
+
+<h2>參考資料</h2>
+
+<ul>
+<li>[<a href="https://rvm.beginrescueend.com/">RVM官網</a>]</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/14/when-jquery-meets-coffeescript/">當jQuery遇上CoffeeScript</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/14/when-jquery-meets-coffeescript/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-14T11:57:00+08:00" pubdate>Nov 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上週的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>，有幾位朋友在會後問我<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>要怎麼樣跟jQuery之類的framework整合在一起，會不會打架? 基本上是不會的，CoffeeScript寫出來的東西就是JavaScript，如果會打架，那表示你即使不用CoffeeScript來寫也一樣打架了。</p>
+
+<p>我們來看看要怎麼把jQuery跟CoffeeScript放一起。</p>
+
+<p>簡單的說，<strong>就跟你平常在用jQuery沒什麼兩樣</strong>，例如你要取得頁面上某個元素：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">$pokemon = </span><span class="nx">$</span><span class="p">(</span><span class="s">&#39;#pikachu&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就可以取得頁面上某個id叫做<code>pikachu</code>的元素(這例子是從那本CoffeeScript的書上借來的 orz)。</p>
+
+<p>再來，你可能寫過這樣的程式：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">().</span><span class="nx">ready</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;hello, jQuery&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就是在頁面載入完成後跟你打聲招呼的程式，在CoffeeScript裡你就這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">$</span><span class="p">().</span><span class="nv">ready = </span><span class="o">-&gt;</span>
+</span><span class='line'>  <span class="nx">alert</span> <span class="s">&quot;hello jQuery&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你是用這種寫法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;hello, jQuery&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>改成CoffeeScript則是：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">$</span> <span class="o">-&gt;</span>
+</span><span class='line'>  <span class="nx">alert</span> <span class="s">&quot;hello, jQuery&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實寫法跟原來的寫法沒什麼兩樣，就一樣<code>$</code>給它用下去吧。</p>
+
+<p>你可能也寫過類似這樣的東西：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s1">&#39;I am clicked&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>意思是「點擊h1元素之後改變它的內容」，改成用CoffeeScript寫的話：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">$</span> <span class="o">-&gt;</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s">&#39;h1&#39;</span><span class="p">).</span><span class="nx">click</span> <span class="o">-&gt;</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="nx">@</span><span class="p">).</span><span class="nx">html</span> <span class="s">&#39;I am clicked&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好像已經簡單到我都不好意思要寫這篇了..</p>
+
+<p>如果要寫jQuery的Plugin呢? 舉個簡單的例子，例用Regular Expression來檢查Email格式的小程式，原本可能會長得像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">isEmail</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">email</span><span class="p">){</span>
+</span><span class='line'>      <span class="k">return</span> <span class="sr">/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">email</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">})(</span><span class="nx">jQuery</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>改成用CoffeeScript寫會長這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">$ = </span><span class="nx">jQuery</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">extend</span>
+</span><span class='line'>  <span class="nv">isEmail: </span><span class="nf">(email) -&gt;</span>
+</span><span class='line'>    <span class="o">/^</span><span class="err">\</span><span class="nx">w</span><span class="o">+</span><span class="p">((</span><span class="o">-</span><span class="err">\</span><span class="nx">w</span><span class="o">+</span><span class="p">)</span><span class="o">|</span><span class="p">(</span><span class="err">\</span><span class="p">.</span><span class="err">\</span><span class="nx">w</span><span class="o">+</span><span class="p">))</span><span class="o">*</span><span class="err">\</span><span class="nx">@</span><span class="p">[</span><span class="nx">A</span><span class="o">-</span><span class="nx">Za</span><span class="o">-</span><span class="nx">z0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="p">((</span><span class="err">\</span><span class="p">.</span><span class="o">|-</span><span class="p">)[</span><span class="nx">A</span><span class="o">-</span><span class="nx">Za</span><span class="o">-</span><span class="nx">z0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="p">)</span><span class="o">*</span><span class="err">\</span><span class="p">.[</span><span class="nx">A</span><span class="o">-</span><span class="nx">Za</span><span class="o">-</span><span class="nx">z0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="nx">$</span><span class="o">/</span><span class="p">.</span><span class="nx">test</span> <span class="nx">email</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>少了一些不必要的大括號跟小括號以及分號，看起來真的清爽多了 :)</p>
+
+<p>另外也有朋友問到，如果CoffeeScript這麼威的話，要不要乾脆把之前寫的JavaScript程式碼全部port成CoffeeScript嗎? 我想這問題的答案就由各位自己評估了。我是因為自己爾後的案子應該會用到Rails 3.x居多，所以會把自己之前寫的一些東西也慢慢的轉過來(但其實也沒多少程式碼)，順便當做練功。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/14/how-do-i-make-my-slide-and-presentation/">閒聊投影片製作與上台表演</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/14/how-do-i-make-my-slide-and-presentation/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-14T01:42:00+08:00" pubdate>Nov 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><span class="warning">請注意，本文有許多個人自以為是的內容，不一定適合每個人，所以請謹慎服用。</span></p>
+
+<p>我之前工作的某個老闆跟我說過「<strong>每次的上台簡報就是一場表演</strong>」，這句話我一直記在心裡。即然是表演，表演內容固然很重要，但&#8221;說故事&#8221;的方法也很重要，不然內容也許真的很棒，但台下卻睡成一團。</p>
+
+<p>不久前看了我的偶像之一<a href="http://www.xxcoder.net/">Lindsay Fallow(a.k.a Stray)</a>的一份簡報<a href="http://www.slideshare.net/stray_and_ruby/robotlegs-2-and-your-brain">Robotlegs 2 and your brain</a>，真的感覺會做投影片的人就是不一樣，即使人不在現場聽演講，簡報裡也沒有太多的文字說明，光看簡報就能大概知道作者想要表達的意思，這很酷!</p>
+
+<p>所以這回在第一屆的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>上用的投影片，我也想來試一下不同的簡報風格。</p>
+
+<h2>投影片準備</h2>
+
+<h3>設定方向</h3>
+
+<p>因為我的場次只有20分鐘，要講很詳細是不可能的，而且我猜聽眾們對這個主題應該有些陌生，所以我把投影片設定在入門簡介等級的，目的是讓大家知道或認識這個主題就好。</p>
+
+<h3>軟體選擇</h3>
+
+<p>其實軟體不是重點，沒有什麼&#8221;用XX軟體來做簡報才是王道&#8221;這回事，只要選擇自己順手的工具來做就行了。前面幾場我選擇用HTML5 + <a href="http://imakewebthings.github.com/deck.js/">Deck.js</a>來做，我覺得效果滿ok的。基於自以為自己是個閃客，本來想用Flash來做，但時間有點趕，而且我想做的內容可能會需要更精準的控制元素的位置，所以最後我選擇了Keynote。</p>
+
+<h3>製作概念</h3>
+
+<p>用圖片來取代我想講的話，讓聽眾看到圖片之後能自行腦補我想表達的意思，這是我這回想要試驗的目標。</p>
+
+<p>例如我想表達CoffeeScript因為是最近才出來的，會不會被大家認為&#8221;嫩&#8221;、&#8221;年輕&#8221;、&#8221;不成熟&#8221;的感覺，本來想找嗷嗷待哺的幼鳥，但因為幼鳥的皮膚顏色並不好看，所以最後找了小鴨：</p>
+
+<p><img src="/images/2011/coffeescript-slide-076.jpg" alt="image" /></p>
+
+<p>再來例如我想表達的是「<strong>JavaScript看起來很容易學、很容易寫，但要寫到夠好卻很不容易</strong>」。閃過腦袋的「簡單」是「a piece of cake」：</p>
+
+<p><img src="/images/2011/coffeescript-slide-009.jpg" alt="image" /></p>
+
+<p>但即使是一片蛋糕，也是有人可以吃的很難看，滿嘴都是：</p>
+
+<p><img src="/images/2011/coffeescript-slide-010.jpg" alt="image" /></p>
+
+<p>圖片真的有達到我想表達的意思嗎? 不確定，如果沒有，表示我還有很大的努力空間。</p>
+
+<p>整體而言，我準備投影片的內容大概只佔了<strong>30%</strong>的時間，<strong>60%</strong>的時間在找圖，剩下的<strong>10%</strong>在順投影片。值得嗎? 我覺得這是不同的嘗試，並沒有值不值得的問題。</p>
+
+<h3>自我介紹</h3>
+
+<p>上台表演是個讓大家認識你的好機會，所以在投影片裡放個自我介紹是很重要的。這是我本來的自我介紹頁：</p>
+
+<p><img src="/images/2011/coffeescript-slide-intro-original.png" alt="image" /></p>
+
+<p>整個都是字，密密麻麻的感覺好像感覺很強大、有幾百年功力的樣子。但我其實並不想在個人頁停留太久，而且寫了一堆，別人也不見得想看，還可能被覺得是在吹噓當年有多勇。真正厲害的角色只要一句：</p>
+
+<blockquote><p>I&#8217;m CEO, Bitch</p></blockquote>
+
+
+<p>輕描淡寫的一句話，大家就知道他的趴數了。</p>
+
+<p>為了讓自己更快讓別人知道我的比較熟悉的技能，所以我做了這張，跟大家說我是寫Flash的：</p>
+
+<p><img src="/images/2011/coffeescript-slide-005.jpg" alt="image" /></p>
+
+<p>然後把前面那個都是字的內容縮減成這樣：</p>
+
+<p><img src="/images/2011/coffeescript-slide-006.jpg" alt="image" /></p>
+
+<p>其實字還是滿多的，所以我不會全部照著唸，在這頁我大概只會停留10秒鐘以內就會離開。至於網站或是聯絡資訊，反正也不會有人想看，所以我在放在最後一張。我把它放在最後一張並不表示不讓它登場。我大概計算過，在我跟大家說謝謝準備下台之後，從我原本站的位置走到我的電腦、關掉投影片，大概有5秒左右的時間，這個時間我預計大家都在拍手，然後我會在這個時候從倒數第二張的QA畫面，切換到最後一張投影片：</p>
+
+<p><img src="/images/2011/coffeescript-slide-081.jpg" alt="image" /></p>
+
+<h3>字型</h3>
+
+<p>全英文投影片? 英文是很厲害是嗎?</p>
+
+<p>當然不是! 不得不說，中文字型的筆畫多，如果想走精緻路線很吃虧，所以除了我的名字是中文的之外，其它的我選用英文來寫。</p>
+
+<p>為了不讓字型搶了圖片的風采，所以我想找細一點的字型，但如果太細到時候播放出來又擔心看不清楚，所以字型的樣式跟粗細在用的時候是要很注意的。系統裡的字型沒有我看喜歡的，所以我上網找找看有沒有漂亮的字型，後來找到<a href="http://www.fontspace.com/glukfonty/rawengulk">Rawengulk</a>這套字型，樣子看起來像這樣：</p>
+
+<p><img src="/images/2011/rawengulk-fonts.png" alt="image" /></p>
+
+<p>免費而且可商業使用。雖然它不是等寬字，不過這套字型從最細到最粗看起來都滿舒服的，在視覺上跟圖片應該會滿搭的(個人感覺)。</p>
+
+<p>順便也<a href="/downloads/files/2011/glukfonty_rawengulk.zip">備份</a>了一下。</p>
+
+<h3>圖片來源</h3>
+
+<p>一開始我是使用Google的圖片搜尋功能，但圖片的尺寸、品質好壞很難控制，而且授權也不見得都有標示清楚。後來才發現<a href="http://www.flickr.com/">Flickr</a>是個很棒的圖片來源，照片多，而且有很多CC(Creative Commons)授權的圖片，只要搜尋的時候加勾選就行了。</p>
+
+<p><img src="/images/2011/flickr-cc.png" alt="image" /></p>
+
+<p>CC授權的作品大多只要在使用的時候標記作者姓名、出處，而且不做為商業用途的話，幾乎可以無限制的使用，感謝這些人無私的奉獻。</p>
+
+<p>然後因為我還沒辦法做到完全只靠圖片就說故事給大家聽，還是需要一些簡單的字比較容易說明，所以在選擇照片的時候我會特別選擇有適當的留白區塊可以讓我填字的照片。</p>
+
+<h2>上台表演</h2>
+
+<h3>上台前準備</h3>
+
+<p>我大概花了10%的時間在練習講自己的投影片，我儘量要求自己記得所有投影片的順序，這樣我才能不用回頭看一下投影片就可以繼續講下去，腦袋裡本來預計要講的故事不會因為這樣中斷，在講的過程中因為自己知道下一頁要講什麼，也比較不會緊張。</p>
+
+<h3>站的位置</h3>
+
+<p>我不喜歡選擇站在講桌後面講話，除非是要操作電腦。</p>
+
+<p>雖然不是第一次來中研院的這個會議廳，但以前都是當聽眾，不知道前面的舞台有多長多寬、視野如何，所以我一早到會場，試了一下投影機沒問題之後就先去試一下舞台，看看哪個位置是我可以看得到我目前簡報播到哪一頁，還可以看到全部的聽眾，也可以讓大家都看得到我。</p>
+
+<p><img src="/images/2011/phpconf-standing-point.jpg" alt="image" />
+photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiwan 2011</p>
+
+<h3>簡報器</h3>
+
+<p>Wii手把真的是個很不錯的簡報器。</p>
+
+<p>Apple雖然有出一隻長得像ipod的遙控器，但它是紅外線的，缺點就是距離短，而且有指向性，只要站太遠或指的角度不對，就沒辦法用。而Wii是使用藍芽跟電腦連結的，不僅距離長，而且不用太刻意指向電腦就可以操作簡報。</p>
+
+<p>有些手機的App可以做到類似的事，但因為手機是平的，不像Wii手把的十字鍵是凸起來的，所以我如果我對這個App不熟的話，可能得先低頭看一下手機的畫面才能操作，而且可能還得一手拿著、另一手來操作，但Wii手把的話則是只要一隻大姆指就可以輕鬆操作了。</p>
+
+<p>除此之外，Wii手把在&#8221;視覺上&#8221;還有某種程度的娛樂效果 :)</p>
+
+<p><img src="/images/2011/phpconf-wii-remote.jpg" alt="image" /><br />
+photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiwan 2011</p>
+
+<h3>麥克風</h3>
+
+<p>因為拿一般的無線麥克風的話，會讓我兩隻手都被佔用，沒辦法有其它手勢，所以我最後跟會場借了小蜜蜂來用。</p>
+
+<p>其實我本來想去找像豬哥亮那種可以把麥克風吊在脖子上的東西，然後把自己搞得像夜市叫賣的，我很愛這種不協調的感覺，只是不知道要去哪邊買就是了。</p>
+
+<h3>與台下聽眾互動</h3>
+
+<p>有些人喜歡在演講過程透過問台下聽眾問題來增加與聽眾的互動，但就我觀察，台灣的聽眾普遍都比較害羞，很容易在問問題的時候會遇到沒人要鳥你的情況。所以問問題就要有用一點小技巧，例如「請問台下有沒有人平常的工作是寫JavaScript呢?」這個問題，我用了反面的問法：「請問台下有沒有人平常的工作是&#8221;不用&#8221;寫JavaScript呢?」，即使大家不捧場，也滿容易再接下去講，場面比較不會僵掉或是中斷原本的流程。</p>
+
+<h3>眼睛看哪裡?</h3>
+
+<p>當然要看正妹啊!!(誤)</p>
+
+<p>上台表演難免會抖，而我自己消除緊張的方法，是在講的過程中，快速掃瞄台下對我講的內容有反應的聽眾，反應包括微笑、點頭等表示聽得懂或認同的，然後把比較多的視線停留在這些人身上來增加自己的一些自信，當自信增加到一定程度之後就比較不會抖了。</p>
+
+<h2>結論</h2>
+
+<p>記得要預先盤算你要做的每個動作的目的以及台下聽眾可能會有的反應(也許是笑、也許是問問題，或是丟雞蛋)。每次的表演結束後，如果有錄影的話，請再花點時間看看自己的表演，看看哪邊是有問題的。不要覺得不好意思，別人眼中的你才是真正的你，鏡子裡的那個自己並不是。看看自己的動作、語調，然後利用每次的演講就改掉一些缺點，才會越來越進步。</p>
+
+<p>我一直相信，只要用心的準備每次的表演，台下的聽眾也會用心的回應你的，即使不是當面跟你說，也會在社群網路上看到正面的回應。</p>
+
+<p>一些個人的想法，與大家分享。</p>
+
+<p>自己要檢討的地方：</p>
+
+<ul>
+<li>講話依舊有些抖</li>
+<li>無謂的手勢太多</li>
+<li>時間的掌控不足</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/12/coffeescript-on-phpconf-taiwan/">CoffeeScript on PHPConf Taiwan 2011</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/12/coffeescript-on-phpconf-taiwan/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-12T10:00:00+08:00" pubdate>Nov 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這是我在第一屆的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>講的主題</p>
+
+<p><a href="http://speakerdeck.com/u/eddie/p/coffeescript-a-better-way-to-write-javascript" target="_blank"><img src="/images/2011/coffeescript-on-phpconf-taiwan-2011.jpg" alt="image" /></a><br />
+<a href="http://speakerdeck.com/u/eddie/p/coffeescript-a-better-way-to-write-javascript" target="_blank">View on Speaker Deck</a><br />
+<a href="/downloads/files/2011/coffeescript.pdf">Download PDF</a></p>
+
+<p>內容是入門等級的介紹，沒有現場實作，只是希望大家可以試著用不同的工具，體會不同的感覺。這次同時也試著用不同的風格來做投影片，不過沒有太多有趣的梗，希望大家會喜歡。</p>
+
+<p>不是我愛撈英文，而是中文字型就真的很吃虧，要做精緻路線的投影片比較麻煩。</p>
+
+<p>話說，<a href="http://speakerdeck.com/" target="_blank">Speaker Deck</a>的設計其實很不錯，沒有廣告，上傳很簡單，而且播放器也不需要Flash Player，就可惜目前少了個全螢幕播放的功能，在電腦上看還不錯，但在公開場合要播放就很吃虧了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/08/canonical-url-problem-in-octopress/">Octopress的Canonical URL問題</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/08/canonical-url-problem-in-octopress/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-08T01:12:00+08:00" pubdate>Nov 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自從把Blog從<a href="http://wordpress.com/">Wordpress</a>搬到<a href="http://octopress.org/">Octopress</a>之後，對我這種愛敲鍵盤的人來說，寫東西真的順手不少。不過最近我發現在要把網址貼到Facebook的時候發現這個情況：</p>
+
+<p><img src="/images/2011/facebook-301-moved-permanently.png" alt="image" /></p>
+
+<p>原本以為會自動抓該網頁的摘要，但卻出現了<code>301 Moved Permanently</code>的字樣，但只要把最尾巴的斜線拿掉就正常了。不過一樣的網址貼到Google+是ok的，於是我把網址丟到Facebook的<a href="https://developers.facebook.com/tools/debug">Debug工具</a>看看是哪邊出了問題：</p>
+
+<p><img src="/images/2011/facebook-circular-redirect.png" alt="image" /></p>
+
+<p>出現了<code>Circular redirect path detected</code>的錯誤訊息，畫面往下捲看看是什麼狀況：</p>
+
+<p><img src="/images/2011/facebook-redirect-path.png" alt="image" /></p>
+
+<p>大概猜到是怎麼回事了，但很好奇到底是哪邊造成的，看了一下我的<code>_config.yml</code>的<code>permalink</code>設定：</p>
+
+<pre><code>permalink: /:year/:month/:day/:title/
+</code></pre>
+
+<p>看起來尾巴有斜線的。接著再翻了一下其它的source才發現，原來在<code>source/_includes/head.html</code>裡有這行：</p>
+
+<figure class='code'><figcaption><span> (source_includes_head.html)</span> <a href='/downloads/code/octopress/source_includes_head.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{% capture canonical %}{{ site.url }}{% if site.permalink contains &#39;.html&#39; %}{{ page.url }}{% else %}{{ page.url | remove:&#39;index.html&#39; | strip_slash }}{% endif %}{% endcapture %}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最後面加了個<code>strip_slash</code>的filter，看起來就是會把slash給脫掉的，我把這個filter拿掉之後，原本的canonical url就會留下<code>/</code>了，整個重新發佈一次之後，再貼到Facebook就沒301的問題了。</p>
+
+<p>似乎不只這樣，原來<a href="http://disqus.com/">Disqus</a>的identifier也是用canonical url(請見<code>source/_includes/disqus.html</code>)。之前一直很好奇為什明明我在Wordpress的留言已經匯入Disqus，從Disqus的dashboard也都看得到，但就是無法顯示在blog文章裡，原來就是這個canonical url差了一個斜線，造成<code>disqus_identifier</code>不同而讀不到.. orz。</p>
+
+<p>剛把它修正之後重新發佈之後，之前在Wordpress的留言就可以正常顯示了。但因為換過來之後沒注意到這點，所以從我換到Octopress之後有來留言的大大們真的很不好意思，您的留言其實還在Disqus裡，只是因為identifier不同而暫時只能留在dashboard裡了。</p>
+
+<p>其實我也不知道為什麼這邊要<code>strip_slash</code>這個filter的存在，也許有它的用意吧，不過我拿掉之後就可以解決我的問題了。</p>
+
+<p>以上，若有哪邊有錯再請跟我說 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/10/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/8/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現&#8230;<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

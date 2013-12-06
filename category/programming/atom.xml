@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Programming | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/programming/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Code Reading @ RubyKaigi 2013]]></title>
+    <link href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/"/>
+    <updated>2013-06-05T01:55:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013</id>
+    <content type="html"><![CDATA[<p>很高興這次能有機會到日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>，我分享的題目是："<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>"，算是個滿冷門的題目，主要是分享我自己從閱讀 Ruby 原始程式碼中學習到的一些經驗。不過當天還有不少朋友來捧場，讓場子看起來不會太冷清，真是太意外了(其實我也搞不清楚到底有多少人，我當時已經緊張到沒辦法算數了)。<br />
+<span class="translate">Really glad to go to Japan and join the <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>, the topic of my talk is "<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>", which I don't think it's a popular topic, and it's about my experience while reading Ruby source code. Thanks to those friends who are willing to come to my talk.(Actually I was too nervous to count how many people already)</span></p>
+
+<p>在進入主題之前，我問大家有多少人曾經來過台灣，結果在場有十來個人舉手，就以現場人數的比例來說不算少。<br />
+<span class="translate">
+Before I jump into my topic, I asked everyone how many of you have been to Taiwan before, to my surprise, there're more than 15 people raised their hand, which is about 20% of the attendees in this hall(I think).</span></p>
+
+<p><a href="https://speakerdeck.com/eddie/code-reading" target="_blank"><img src="/images/2013/rubykaigi-code-reading.jpg" alt="image" /></a>
+<a href="https://speakerdeck.com/eddie/code-reading" target="_blank">View on Speaker Deck</a> | <a href="https://speakerd.s3.amazonaws.com/presentations/0186a390abc5013057536ee43d4d4638/Code_Reading.pdf" target="_blank">Download PDF</a></p>
+
+<p>雖然之前有一些些上台演講的經驗，但這是第一次出國演講，而且還是全程用英文演講，我知道有很多的大神甚至 Ruby Committer 就坐在台下，所以我相當緊張。我那個「上台的前一天不會睡」的魔咒果然還是依舊存在，所以演講當天凌晨四點，我拿著筆電到飯店的大廳練習對著空氣講，練到早上七點，但還是覺得不夠穩。<br />
+<span class="translate">
+Although I have a some experience about having public speech, but it's my first time to have a presentation abroad and do my speech in English, and I also know there might be lots of awesome rubyists sitting there, including some Ruby core committer, so I really feel nervous. And I have a curse that "I won't sleep if I have a public presentation on the next day", so I practiced in the lobby of the hotel from 4 A.M. to 7 A.M., but still not stable enough.
+</span></p>
+
+<p>我的演講廳是小間的，所以壓力有稍微小一點點。<br />
+<span class="translate">
+My presentation hall is the smaller one, so my pressure is also slightly smaller, too.
+</span></p>
+
+<p>為了怕現場出包，所以在 code review 展示的部份我是用預錄的，不過事後想想好像直接現場操作比較容易掌控時間<br />
+<span class="translate">
+I think I might make some mistakes while presenting, so I recorded the code review demo in advance, but I think the real live demo might be easier for me to control time.
+</span></p>
+
+<p>上午的演講結束後，下午發生的小插曲讓我抖了好大一下。我在演講內容裡有提到一些在 Ruby 的原始碼裡面有一些小地方的命名不太優，當下大家笑得很開心，雖然娛樂效果達到了，但我其實也有點擔心會不會有什麼不好的副作用。結果上午的講場結束，下午就看到<a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">這則</a>：<br />
+<span class="translate">
+After finishing my talk, there's something surprised me. In my speech, I mentioned some interesting naming in the Ruby source code just for fun. I know it might be entertaining but still a little worried about if there would be any bad consequence. Then in the afternoon, I saw this <a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">tweet</a>:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-zzak.png" alt="image" /></p>
+
+<p>哇!! 我有嚇到的感覺了，不過因為我個人覺得這樣好像有些失禮，所以當晚的 Official Party，我就親自去跟 @nobu 說聲不好意思，希望沒有造成他的困擾。其實我也是想趁這個機會認識一下只有在網路上才能看得到的傳說大神，而且他好像一點也不在意。<br />
+<span class="translate">
+Wow! That's really really surprised me!! and I don't know if this would cause any trouble for committer, so I went to @nobu and said sorry to him on the official party in the night, and hope didn't cause extra trouble for him. In fact, I went to him also want to know him by this chance, and actually he didn't mind at all.
+</span></p>
+
+<p>第三天的議程，我本來就打算要來聽 <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a> 的主題(他是 <a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a> 一書的作者 )，沒想到坐下來沒多久竟然看到自己的名字跟前一天講的東西出現在投影片上：<br />
+<span class="translate">
+In the last day, I was planning to attend <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a>'s talk, whihc is the author of the book "<a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a>". After sitting in the hall, I suddenly found my name was quoted in the slide:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-jim-gay.jpg" alt="image" /></p>
+
+<p>再度有被嚇到的感覺。<br />
+<span class="translate">
+Yes, Supprised me again.
+</span></p>
+
+<p>活動結束後，RubyKaigi 2013 的頭目角谷<a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">也推了一篇</a>：<br />
+<span class="translate">
+the Organizing Director of RubyKaigi 2013 Shintaro Kakutani also <a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">tweeted this</a>:
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-kakutani.png" alt="image" /></p>
+
+<p>再次看到自己的名字被提到，有些驚訝也有些不好意思，不過這個"Conference-Driven Development(CDD)" 聽起來好像不錯，而且我喜歡 "RubyKaigi made Ruby Better"，如果有朝一日我有能力，我也希望可以多貢獻一些心力。<br />
+<span class="translate">
+I feel surprised again and also little embarrassing, but the "Conference-Driven Development(CDD)" sounds workable, and I love the "RubyKaigi made Ruby Better", I hope I can do more contributions to Ruby and this community someday if possible.
+</span></p>
+
+<p>感謝高井さん(<a href="https://twitter.com/takai" target="_blank">@takai</a>)幫我拍的照片，讓我在 <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist 時計</a>上也可以有一張漂亮的照片。<br />
+<span class="translate">
+Thanks to Naoto Takai(<a href="https://twitter.com/takai" target="_blank">@takai</a>) to take a photo for me so that I can have a nice picture on the <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist Tokei</a>.
+</span></p>
+
+<p><img src="/images/2013/rubykaigi-rubyist-clock.jpg" alt="image" />
+photoed by <a href="https://twitter.com/takai" target="_blank">@takai</a></p>
+
+<p>這趟日本之行有學習到不少東西，收獲很多，會在接下來的幾篇文章介紹。最後，有講的不好的地方，還請多多指教。<br >
+<span class="translate">
+Anyway, I learned a lot on this trip to Japan, and I'll write them down in next blog posts. At last, if there's any bad or something wrong about my speech, please feel free to comment.
+</span></p>
+
+<p>Thank you all, RubyKaigi team, you're all AWESOME!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[我選擇的程式語言]]></title>
+    <link href="http://blog.eddie.com.tw/2011/04/11/my-programming-languages/"/>
+    <updated>2011-04-11T13:54:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2011/04/11/my-programming-languages</id>
+    <content type="html"><![CDATA[<p><img src="/images/2011/tools.jpg" alt="image" /></p>
+
+<p>這篇文章並沒有要比較哪個程式語言比較威，選擇適合自己的，寫得開心才是王道。</p>
+
+<p>工作十餘年，手上吃飯的工具跟換女朋友一樣一直在換，以前看著<a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE</a>的排行榜跟股市一樣起起伏伏，擔心自己學的技術變成非主流、不值錢了，不過年紀大了，在乎的事情也變得不一樣了，腦袋沒辦法裝太多東西，覺得是該定下來的時候了。</p>
+
+<p>當然，一直換的好處就是一直玩新東西，很有趣，但缺點就是學不精。這裡有一篇<a href="http://www.streamhead.com/what-programming-language-to-learn-next/">該學什麼程式語言</a>，我覺得寫得還滿實際的。</p>
+
+<p>跟著主流跑是不錯的選擇，比較安全，工作好找，而且用的人多，遇到問題的時候網路上能找到的答案也多，不過我個人就是喜歡非主流的玩具就是了。以下是一些我目前比較偏好，沒意外的話也應該會把它當做是長期投資的選擇：</p>
+
+<h2>ActionScript</h2>
+
+<h3>Why?</h3>
+
+<ul>
+<li>Flash/Flex專用的程式語言。</li>
+<li>我對它的熟悉程度最高，這應該是我選擇它的主要原因之一。</li>
+<li>學習曲線中等。</li>
+<li>豐富的多媒體支援，即使很多人不喜歡它，但還是目前製作web game/FB game的首選。</li>
+<li>市場需求不算太低，很多台灣的企業還是會選擇用Flash來製作網站，這對”活下來”來說很重要。</li>
+<li>商業公司(<a href="http://www.adobe.com/">Adobe</a>)支援。也許有人就是因為有商業公司而不喜歡，不過我想這比起O社那種把別人買下來之後再把它用一些讓人覺得不舒服的手段把它弄爛好多了。</li>
+<li>一直有在更新，這挺重要的。</li>
+<li>有目前全世界普及率最高的runtime，幾乎每台能上網的電腦都有安裝flash player。</li>
+<li>不用太擔心瀏覽器相容性的問題，這應該是很多web front-end engineer的痛。</li>
+<li>有<a href="http://www.adobe.com/tw/products/air/">AIR</a>可以用! 這是我選擇它的另一個重要原因，AIR除了可以拿來寫一般的應用程式，也可以拿來寫手機的app，特別是昇級到2.6版之後支援更多的iOS的硬體裝置，效能也改善不少(可參考Maso的<a href="http://masolin.blogspot.com/2011/03/air-26-sdkios.html">這篇文章</a>)。</li>
+<li>跨平台，有了flash player跟AIR，你做的網頁或是應用程式真的有機會可以做到”Write Once, Run Anywhere”。</li>
+<li>有很棒的framework(PureMVC、Progression、Gaia、Robotlegs)，也有很多現成的lib可以用(3D、Particle..etc)，不用每次都重新自己打造輪子。</li>
+<li>網路資源多，參考書也不少，官方的API手冊也很棒。</li>
+<li>新版的flash player將支援GPU，能做的事情更多了。</li>
+</ul>
+
+
+<h3>Why NOT?</h3>
+
+<ul>
+<li>效能差? Flash在慢主要是因為太多圖檔在跑來跑去的關係，這即使用其它的來做也不見得比較好。之後的flash player版本會支援GPU，應該會改善很多。</li>
+<li>不開放? 我覺得這不是什麼問題，iOS也沒開放也是一堆人在追。我個人崇尚open source的精神，但並不是什麼東西都要open才是好的。</li>
+<li>開發工具太貴?  我覺得還好，Flash IDE不是一套幾百幾十萬，通常只要一、二個專案就可以賺回來。就算不買官方的軟體，也有免費的Flex SDK加上免費又超威且open source的<a href="http://www.flashdevelop.org/wikidocs/index.php?title=Main_Page">FlashDevelop</a>可以用。</li>
+</ul>
+
+
+<h2>Ruby</h2>
+
+<h3>Why?</h3>
+
+<ul>
+<li>我喜歡它簡單好寫又有趣的語法(純個人喜好)。</li>
+<li>學習曲線中等。</li>
+<li>有很威的<a href="http://rubyonrails.org/">Ruby on Rails</a>可以用，這應該是很多人學習Ruby的原因，甚至很多人以為Rails == Ruby。至於為什麼選擇Rails，可參考<a href="/2010/07/16/internet-campaign-with-ruby-on-rails/">這篇</a>。</li>
+<li>有很多別人寫好的Gem可以用。</li>
+<li>Unix-like跟Mac OS都有內建安裝了，就算是windows也可以找得到安裝的版本，簡單好寫免編譯，拿來當”<a href="http://en.wikipedia.org/wiki/Glue_language">膠水</a>“還不錯用。</li>
+<li>網路資源夠多，官方的reference也做得挺好</li>
+<li>因為學習Ruby/Rails的關係，能玩很多新玩具。這點對我來說很重要，要我一直用一樣的東西實在很痛苦，我不希望自己有一天變成是「號稱有十年工作經驗，但其實是只有一年經驗，但重複九次」。</li>
+</ul>
+
+
+<h3>Why NOT?</h3>
+
+<ul>
+<li>效能差? 如果可以換來更好的開發效率，我覺得還好，而且老實說慢不到哪裡去。</li>
+<li>環境取得不易? 這點倒是真的，支援Rails的主機的確是相對的很少，不過對我來說不是太大的問題，我可以自己想辦法setup自己的主機，或是直接去<a href="http://aws.amazon.com/ec2/">AWS EC2</a>自己弄個instance也能搞定。現在也有mod_rails(<a href="http://www.modrails.com/">passenger</a>)可以掛到現有的apache/nginx上，設定越來越方便。</li>
+<li>工程師不好找? 我想今年XDite在<a href="http://osdc.tw/">OSDC.tw</a>上的那場talk應該有滿好的解釋(<a href="http://www.slideshare.net/xuitejoke/rapid-development-with-rails-7394238">投影片</a>)。</li>
+</ul>
+
+
+<h2>Objective-C</h2>
+
+<h3>Why?</h3>
+
+<ul>
+<li>商業公司(<a href="http://www.apple.com/">Apple</a>)支援，不斷的推出新的設備，i-device的買氣一直居高不下，讓iOS app的需求越來越高，Objective-C的需求自然也跟著上衝，這點不用我講，看它在TIOBE的排名暴衝就知道了。</li>
+<li>是iOS app用的原生語言，其實優點不用太多，如果打算往iOS方向發展，光是”Native”這個優點我就會想選它了。</li>
+<li>系統不開放，我覺得這是優點，至少不用像另一邊的A牌系統，硬體廠商太多，光是解析度就好幾種了(可參考這則<a href="/images/2011/iphone_killers.jpg">有趣的漫畫</a>)。</li>
+<li>市面上的書越來越多，官方的文件更是多到看不完。</li>
+</ul>
+
+
+<h3>Why NOT?</h3>
+
+<ul>
+<li>學習曲線高? 程式語法大家看不習慣，API method名子太長，不過這都只要寫一陣子就會慢慢習慣。</li>
+<li>開發工具要錢? 新版的Xcode4如果沒加入apple developer program的話，需要5塊美金購買，不過5塊美金比起其它的開發工具來說算滿便宜的。</li>
+</ul>
+
+
+<h2>結論</h2>
+
+<p>小的我的腦容量有限，大概目前只能也只想裝這三種了。那其它像Java/C/C++/C#/Python/PHP/ASP的不好嗎? 當然不是不好，不好的話怎麼可能還能長期佔據TIOBE的前幾名? 只能說青菜蘿蔔各有所好，我選擇對我自己來說合適的。</p>
+
+<p>常會聽到有人說XXX語言的效能很差，但這不會是我在乎的點。自己出來開公司就會知道，公司每個月最大的開銷就是人力成本，如果我能用較少人力能換到一樣甚至更高的開發效率，我覺得那種工具就是我要的。</p>
+
+<p>一些個人的想法，供大家參考。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Programming Language Popularity]]></title>
+    <link href="http://blog.eddie.com.tw/2006/04/03/programming-language-popularity/"/>
+    <updated>2006-04-03T23:12:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2006/04/03/programming-language-popularity</id>
+    <content type="html"><![CDATA[<p>幾個有趣的統計資料連結，貼給自己看</p>
+
+<ul>
+<li><a href="http://www.tiobe.com/tpci.htm">TIOBE Programming Community Index</a></li>
+<li><a href="http://www.dedasys.com/articles/language_popularity.html">Programming Language Popularity</a></li>
+<li><a href="http://www.cs.berkeley.edu/%7Eflab/languages.html">Programming Language Usage Graph</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

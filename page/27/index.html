@@ -1,0 +1,1016 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="看一堆Objective-C原理的書，什麼物件、類別、記憶體管理的，沒實作個東西出來就整個沒成就感。突然間想起自己是北醫營養系畢業的，但總是不務正業，終於有機會發揮我專長的時候了，這次就來寫個計算BMI(Body Mass Index)的iPhone app吧。 我的SDK版本是4.1的， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/page/27/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/11/23/iphone-app-in-action/">iPhone App實作練習-BMI</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/11/23/iphone-app-in-action/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-11-23T17:06:00+08:00" pubdate>Nov 23<span>rd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>看一堆Objective-C原理的書，什麼物件、類別、記憶體管理的，沒實作個東西出來就整個沒成就感。突然間想起自己是北醫營養系畢業的，但總是不務正業，終於有機會發揮我專長的時候了，這次就來寫個計算BMI(<a href="http://zh.wikipedia.org/zh/%E8%BA%AB%E9%AB%98%E9%AB%94%E9%87%8D%E6%8C%87%E6%95%B8">Body Mass Index</a>)的iPhone app吧。</p>
+
+<p>我的SDK版本是4.1的，所以如果你的SDK版本跟我的不一樣的話，看到的畫面可能會跟我的不太一樣。</p>
+
+<p>開啟Xcode，選擇iOS Application->View-Base Application：</p>
+
+<p><img src="/images/2010/iphone_new_project.png" alt="image" /></p>
+
+<p>下一步，選擇專案名稱，我這裡取名為「BMI」，存檔，準備開始動工。接下來，你應該會看到一堆資料夾跟檔案(如下圖)：</p>
+
+<p><img src="/images/2010/iphone_xcode.png" alt="image" /></p>
+
+<p>暫時先不解釋那些檔案要幹嘛的，直接按下上方工具列的”Build and Run”按鈕。沒意外的話，你應該會看到一個iPhone模擬器自動開起來，並且看到模擬器裡出現一個空白畫面，上面什麼都沒有，因為我們還沒開始寫 :)</p>
+
+<p>接下來要來上面放一些元件了。請點開Resources裡的BMIViewController.xib (如果你的專案名稱跟我不同的話，檔名也會跟著不同)。點開之後應該會開啟Interface Builder，這個是讓你用視覺的方式把元件佈置到場景上的工具。接下來你應該可以找到一個library視窗(如下圖)，裡面放了許多預先建立好的元件。如果找不到這個視窗的話，請至上方工具列裡選擇”Tools”->”Library”。</p>
+
+<p><img src="/images/2010/iphone_library.png" alt="image" /></p>
+
+<p>接下來我們會從元件庫裡拿幾個元件出來用：</p>
+
+<ul>
+<li>Label 是拿來放一些靜態文字用的，提示使用者某個欄位要輸入什麼值，在這裡也可以拿來做為BMI結果的輸出值。</li>
+<li>Text Field 是用來讓使用者輸入身高體重的地方。</li>
+<li>Button 則是按下去之後會幫我們計算BMI，並呈現在畫面上。</li>
+</ul>
+
+
+<p>接下來請把畫面佈置得如下圖：</p>
+
+<p><img src="/images/2010/iphone_interface_builder.png" alt="image" /></p>
+
+<p>label或是button上的文字，只要點兩下就可以進行編輯。在畫面中間下面，你看到的那個Label字樣，是待會計算完成會出現的結果。但在按下計算之前，它應該是隱藏的，所以點選Label之後，可以從Attributes Inspector把它設定為”hidden”(如下圖)。這樣的話到時候它出場的時候就會看不見了(但在設計階段會看到半透明的)。</p>
+
+<p><img src="/images/2010/iphone_attributes_inspector1.png" alt="image" /></p>
+
+<p>在attributes inspector這邊還有很多屬性是可以自己調整看看的，例如字型、顏色、大小等。</p>
+
+<p>完成之後記得存檔，然後回到xcode，再度按下”Build and Run”，你就可以看到你剛剛做的成果，按鈕可以按了，文字可以輸入了，但應該都還沒功能，而且那個鍵盤會一直卡在那邊，不會自己退下去，接下來我們就要來把這個功能給完成。</p>
+
+<p>回到Xcode，點開左邊Classes裡的BMIViewController.h(同上，如果專案名稱不同，檔名也會不同)，你會看到一個空的類別定義，這裡暫時不詳細說明什麼是類別，先讓大家取得成就感再來研究細節 :)</p>
+
+<p>接下來我們要在<code>@interface</code>裡加幾個屬性跟方法，程式碼如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：BMIViewController.h</span>
+</span><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">BMIViewController</span> : <span class="nc">UIViewController</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">body_height</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">body_weight</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">body_height</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">body_weight</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">result</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span> <span class="nf">calcBMI:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">sender</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span> <span class="nf">keyboardDismiss:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">sender</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡先暫時不說明什麼是IBOutlet、IBAction還有一堆看不懂的語法是要幹嘛的，有機會的話，會在之後的文章裡再來一一說明。簡單的說，這些IBOutlet就是一些待會要給Interface Builder做連結用的，IBAction則是一些”動作”，待會要設定給按鈕按下去之後用的。這裡的IB，指的就是<code>Interface Builder</code>。</p>
+
+<p>定義好了interface之後，接下來請切換到BMIViewController.m，這個檔案看起來有一堆被註解掉的程式碼，可以不理它或是把它刪掉(我有程式碼潔癖，所以我刪了)。再來要來實作剛剛的這些定義，程式碼如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：BMIViewController.m</span>
+</span><span class='line'><span class="cp">#import &quot;BMIViewController.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">BMIViewController</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">body_height</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">body_weight</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">result</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span> <span class="nf">calcBMI:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">sender</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 取得身高數值，並換算成公尺</span>
+</span><span class='line'>  <span class="kt">float</span> <span class="n">height</span> <span class="o">=</span> <span class="p">[[</span><span class="n">body_height</span> <span class="n">text</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 取得體重數值</span>
+</span><span class='line'>  <span class="kt">float</span> <span class="n">weight</span> <span class="o">=</span> <span class="p">[[</span><span class="n">body_weight</span> <span class="n">text</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 顯示計算結果</span>
+</span><span class='line'>  <span class="n">result</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">result</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;您的BMI值是：%.2f&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">weight</span> <span class="o">/</span> <span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">height</span><span class="p">))];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 把鍵盤退下去</span>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span> <span class="nl">keyboardDismiss:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">sender</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">sender</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 設定這兩個欄位的初始為數字及標點符號鍵盤</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body_height</span> <span class="nl">setKeyboardType:</span><span class="n">UIKeyboardTypeNumbersAndPunctuation</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body_weight</span> <span class="nl">setKeyboardType:</span><span class="n">UIKeyboardTypeNumbersAndPunctuation</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body_height</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">body_weight</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">result</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>特別要說明的是，<code>calcBMI</code>方法做的事，就是去取得畫面上的兩個TextFeid的值，計算之後把結果輸出到剛剛那個被我們隱藏起來的Label；<code>keyboardDismiss</code>方法則是要把鍵盤給退下去，而viewDidLoad則是當整個app執行並載入元件完成後會做的事，這裡我們設定那兩個TextField的keyboard屬性為數字+標點符號鍵盤(身高體重應該只要輸入數字跟小數點)。</p>
+
+<p>到這裡，程式碼的部份其實已經算寫完了，但是還沒”串起來”，所以還不會動。接下來我們就是要來做”串起來”的動作。</p>
+
+<p>回到Interface Builder，找到File’s Owner，在上面點滑鼠右鍵應該會出現像下面這個畫面：</p>
+
+<p><img src="/images/2010/iphone_iboutlets_orig.png" alt="image" /></p>
+
+<p>你剛剛寫的程式碼如果沒錯的話，IBOutlet跟IBAction就會在這裡出現了。接下來就是開始歡樂的連連看了。上圖的IBOutlet跟IBAction旁邊都有一個小圈圈，按下body_height屬性右邊的小圈圈，然後拖拉到你剛佈置的那個身體的TextField，如下圖：</p>
+
+<p><img src="/images/2010/iphone_draw_to_obj1.jpg" alt="image" /></p>
+
+<p>body_weight也是以此類推，再來把calcBMI這個IBAction拖拉到計算的按鈕上，它會出現一個選單，選擇”Touch Down”，表示這個IBAction會在這個按鈕被按下去的時候執行：</p>
+
+<p><img src="/images/2010/iphone_draw_to_obj2.jpg" alt="image" /></p>
+
+<p>同樣的把result也拖拉到那個隱藏的label上：</p>
+
+<p><img src="/images/2010/iphone_draw_to_obj3.jpg" alt="image" /></p>
+
+<p>最後比較特別的是keyboardDismiss這個，請把它各別拖拉到身高及體重的TextField，並選擇”Did End On Exit”，這表示當在這兩個TextField按下enter或return之後會做的事，在這裡是把鍵盤給退下去：</p>
+
+<p><img src="/images/2010/iphone_draw_to_obj4.jpg" alt="image" /></p>
+
+<p>如果全部都完成的話，畫面應該看起來會像這樣：</p>
+
+<p><img src="/images/2010/iphone_iboutlets_fin.png" alt="image" /></p>
+
+<p>以上這些”串連”的動作，就是把畫面上的東西跟程式碼串接起來，讓按鈕按下去會有反應，該出現的出現，該隱藏的隱藏。除了從File’s Owner這邊可以拉之外，也可以從另外的Connection視窗來看，例如你點一下那顆計算的按鈕，並切換到Connection視窗(如下圖)，如果看到這顆按鈕目前有跟什麼屬性或動作有連結。在這裡可以看到這個按鈕的Touch Down事件會去觸發calcBMI動作。</p>
+
+<p><img src="/images/2010/iphone_connection.png" alt="image" /></p>
+
+<p>存檔，並回到Xcode環境，按下Build and Run，程式沒錯的話，應該就可以看到你的app啟動了。</p>
+
+<p><img src="/images/2010/iphone_result.png" alt="image" /></p>
+
+<p>最後，當你按下模擬器裡的home按鈕，你看到你的app的icon是白白的(如下圖)：</p>
+
+<p><img src="/images/2010/iphone_blank_icon.jpg" alt="image" /></p>
+
+<p>這樣很醜，應該不會有人想買你的app，所以通常都會設計個漂亮的icon來放上去。製作方法也很容易，icon的尺寸是<code>57×57</code>，開影像處理軟體做好之後，回到Xcode，把做好的圖檔拖拉到Xcode裡的Resources資料夾。它會跳一個視窗出來：</p>
+
+<p><img src="/images/2010/iphone_copy_file.png" alt="image" /></p>
+
+<p>勾選Copy選項，它就會把你剛做的icon圖檔也複製一份到你的專案裡。接著同樣在Resources資料夾裡有個BMI-info.plist檔案(檔名同專案名稱，所以你可能跟我的不一定會一樣)，打開之後中間有個icon file的選項，填入你剛剛做好的icon檔名(我的是eddie_icon.png)。</p>
+
+<p><img src="/images/2010/iphone_plist.png" alt="image" /></p>
+
+<p>存檔，Build and Run，應該就能看到新的icon了：</p>
+
+<p><img src="/images/2010/iphone_app_icon.jpg" alt="image" /></p>
+
+<p>差不多就這樣了。不過其實還有很多防呆裝置沒做，例如欄位沒填，或是數字除以零..等等，還有畫面也都還沒美化過，所以如果你要拿上架去賣錢的話，記得把這些功能補齊。</p>
+
+<p>好啦，這樣你可以準備上架去狠狠賺它個幾百萬了，有賺錢的話記得分紅啊 :)</p>
+
+<p><a href="/downloads/files/2010/BMI.zip">原始檔下載</a></p>
+
+<h3>補充：</h3>
+
+<p>練習久了，你應該會發現在你的模擬器裡塞了一堆的app，如果想要清除的話，請到<code>/Users/個人帳號/Library/Application Support/iPhone Simulator</code>這個資料夾，把裡面的檔案及資料夾砍掉就行了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/11/22/memory-management-in-objective-c/">Objective-C的記憶體管理</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/11/22/memory-management-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-11-22T16:55:00+08:00" pubdate>Nov 22<span>nd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Objective-C的記憶體管理是個重要的主題，把最近啃書的一些心得寫下來讓自己來加深自己的印象，也順便把觀念整理一下。</p>
+
+<p>之前工作上寫習慣PHP/Python/Ruby/AS3這種比較接近人類腦袋的程式語言，很少有機會去碰到pointer(指標)或是記憶體管理的東西。為什麼變數宣告就宣告，為什麼前面要加個星號(*)? 又有的又不用加? 最近在看Objective-C的書就會覺得很不習慣(不過其實看久了也會慢慢習慣就是了)。</p>
+
+<p>在Objective-C裡的記憶體管理主要有兩種，一個是比較常聽到的Garbage Collection(以下縮寫為GC)，另一個則是Reference Counting(以下縮寫為RC)。以車子來舉例的話，你可以先暫時把這兩種記憶體管理方式想像成GC是自排車，RC是手排車，一個會自動幫忙回收沒要用的記憶體，一個則是自己得手動釋放用過不要再用的記憶體。</p>
+
+<p>RC的運作機制是當某個物件生成並初始化之後，它的初始retain count會設定成1(其實不一定，也是有<a href="/2010/11/16/retaincount-of-nsnumber/">例外</a>)。執行該物件的”retain”方法會讓該物件的retain count加1，而<code>release</code>方法會讓retain count減1。當該物件的retain count降到0的時候，這個物件自動會呼叫<code>dealloc</code>方法把自己解決掉，然後把佔用的記憶體還回來。</p>
+
+<p>也許你會覺得，都什麼年代了為什麼還得程式設計師自己用手動的方式來回收記憶體? 換個角度想，程式設計師為自己寫的程式負責也是件好事，另外，也是最主要的原因就是有些環境就是根本不支援GC機制，所以只好用RC來處理。我相信想學Objective-C很多人都是為了想要開發iPhone App而來的，而iPhone正是那個不支援GC環境的其中之一。</p>
+
+<p>又或許你會覺得這樣一顆小物件是能佔多少記憶體。這種東西積沙成塔的，你借了記憶體來用卻沒還回去，久了可能就會造成”漏水”(memory leaking)的情況。為了避免App在執行的過程中莫名奇妙的地方當掉，只好乖乖的來了解一下關於記憶體管理的機制。</p>
+
+<p>Apple官方的開發手冊裡，光是記憶體管理的部份就有<a href="http://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/MemoryMgmt/MemoryMgmt.pdf">五十幾頁的PDF</a>，建議大家抓回來看一下。官方手冊裡開頭提到關於記憶體管理的大原則：</p>
+
+<blockquote><p>You only release or autorelease objects you own.</p><footer><strong>Mac OS X Developer Library</strong><cite><a href='http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmRules.html'>Memory Management Policy</a></cite></footer></blockquote>
+
+
+<p>什麼是你擁用的物件? 當你用<code>alloc</code>、<code>new</code>或是<code>copy</code>開頭的方法建立一個物件的話，程式就會向系統要一塊記憶體來放這顆物件，而這顆物件就算在你頭上。另外當你用對某個物件使用<code>retain</code>方法之後，那顆物件也算是你要負責的；一個物件可以同時有好幾個主人，而當那個物件你不要用的時候，則使用<code>release</code>或是<code>autorelease</code>方法來把這個擁有的關係給斷絕掉，準備把物件清掉並把佔用的記憶體還給系統。直接來看段範例：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span><span class="mi">100</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">retain</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>輸出結果：</p>
+
+<pre><code>the retain count is 1
+the retain count is 2
+the retain count is 1
+</code></pre>
+
+<p>除了retain/release之外，如果被collections，例如array、dictionary或set等等給拉進去的話，它的retain count也會加1；相對的，從Collection裡拿出來的話，它的retain count會減1。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span><span class="mi">100</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count of n is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">array</span> <span class="nl">addObject:</span><span class="n">n</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count of n is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count of n is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">array</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>輸出結果：</p>
+
+<pre><code>the retain count of n is 1
+the retain count of n is 2
+the retain count of n is 1
+</code></pre>
+
+<p>在這個例子裡可以看到，當使用addObject方法把n放進array之後，它的retain count會加1；當使用removeObjectAtIndex把物件從array移出來的時候，它的retain count會減1。最後，當array本身收到release的時候，它會對目前全部的內容物發送release訊息。所以在上面的例子來說，如果在[array release]之後再想存取n變數，就會出現錯誤訊息。</p>
+
+<p>記得，你retain了一個物件，確定沒要再用之後就release掉。<strong>retain跟release的次數通常是成對的</strong>，你手動retain了幾次，到時候就得手動release幾次。</p>
+
+<p>有一些常見可能會發生問題的寫法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">reset</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">zero</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInteger:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="nl">setCount:</span><span class="n">zero</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡用alloc建立物件，卻沒有對等的release，可能造成memory leak。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">reset</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">zero</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithInteger:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="nl">setCount:</span><span class="n">zero</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">zero</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在這裡numberWithIngeter產生的是一個autorelease物件，所以這並不屬於你擁有的，當你對它執行release它可能就會因為retain count變成0而被清掉，在autorelease pool裡因為會再對所有標記為autorelease的物件再送一次release訊息，這時候就會出錯了。請記憶體釋放的原則：「You only release or autorelease objects you own.」，<strong>如果物件不屬於你，就不要隨便對它執行release方法</strong>。</p>
+
+<p>關於Autorelease pool，你可能會在一些剛建立好的專案裡看到它幫寫好幾行程式碼了，autorelease pool並不是真正的GC機制，它比較像是GC的替代品。簡單的說，當你對物件執行<code>autorelease</code>方法時，就是把該物件標記成”待會再釋放”的物件，在每個run loop或是pool drain的時候就會對這些有標記的所有物件發送<code>release</code>訊息。雖說是替代品，但有些地方還是非用不可。</p>
+
+<h3>結論：</h3>
+
+<ol>
+<li>在你跟系統要了一塊記憶體來用的當下，請先養成「我什麼時候會還回去」的習慣。</li>
+<li>retain/release通常都是成對的，手動做了N次的retain，就記得要做N次的release。</li>
+<li>如果你要某個物件，就retain它；如果不用了，就release它，把記憶體還回去。</li>
+</ol>
+
+
+<p>之後會再來說明一些關於<a href="/2010/11/25/autorelease-in-objective-c/">Autorelease pool</a>細節 :)</p>
+
+<p>新手上路，若有錯誤還請不吝指教</p>
+
+<h4>建議閱讀：</h4>
+
+<ul>
+<li><a href="http://www.amazon.com/Programming-Objective-C-2-0-Stephen-Kochan/dp/0321566157">Programming in Objective-C 2.0</a> chapter.17 – Memory Managerment</li>
+<li><a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/MemoryMgmt/MemoryMgmt.html">iOS Reference Library – Memory Management Programming Guide</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/11/16/retaincount-of-nsnumber/">retainCount of NSNumber</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/11/16/retaincount-of-nsnumber/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-11-16T16:49:00+08:00" pubdate>Nov 16<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在Objective-C裡有一種記憶體管理機制叫做<a href="http://en.wikipedia.org/wiki/Reference_counting">Reference Counting</a>，是說當某個物件生成並初始化之後，它的<code>retain count</code>會設定成1。執行該物件的”retain”方法會讓該物件的retain count加1，而<code>release</code>方法會讓retain count減1。當該物件的retain count變成0的時候，這個物件自動會呼叫<code>dealloc</code>方法，然後把記憶體還回來，Objective-C的書上或是官方手冊裡差不多都是這樣教的。</p>
+
+<p>所以，下面的程式碼，2個物件的retain count預期應該會是1：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">10</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">100</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n1 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n1</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n2 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n2</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>輸出結果是：</p>
+
+<pre><code>retain count of n1 is 2
+retain count of n2 is 1
+</code></pre>
+
+<p>n2的retain count是1沒問題，但n1的卻是2，這結果跟我想像的不太一樣，這令我這個初學者很困惑..我知道retainCount不應該被拿來做為流程裡的邏輯判斷的依據，不過我很好奇為什麼會有這樣的差異?</p>
+
+<p>翻了一下網路上的討論，原來是說因為某些數字太常被用到，為了做一些最佳化，所以在系統裡直接就預先產生了一份，再試了一下以下的程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">10</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n1 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n1</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">100</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n2 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n2</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n3</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">100</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n3 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n3</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n4</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">10</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n4 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n4</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>結果是：</p>
+
+<pre><code>retain count of n1 is 2
+retain count of n2 is 1
+retain count of n3 is 1
+retain count of n4 is 3
+</code></pre>
+
+<p>又試著把他們的位址印出來：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// address of nums</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;address of n1 is %p&quot;</span><span class="p">,</span> <span class="n">n1</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;address of n2 is %p&quot;</span><span class="p">,</span> <span class="n">n2</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;address of n3 is %p&quot;</span><span class="p">,</span> <span class="n">n3</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;address of n4 is %p&quot;</span><span class="p">,</span> <span class="n">n4</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>結果是：</p>
+
+<pre><code>address of n1 is 0x100108e20
+address of n2 is 0x10010cb30
+address of n3 is 0x10010cb50
+address of n4 is 0x100108e20
+</code></pre>
+
+<p>這樣似乎就能解釋retain count跟預期不太一樣的原因了，可以看到n1跟n4是指向同一塊記憶體位置，而n2跟n3是不同的位置，retain count都是1，表示n2跟n3在生成的時候是建立一個新的數字，而n1跟n4則是指向一個像是”預先產生而且共享”的數字，所以n1一開始的 retain count是2，n4因為指向跟n1同一個地方，所以retain count變3。而這個最佳化(預先產生)的範圍，似乎是從-1 ~ 12之間。</p>
+
+<p>果然還有很多要學的 :)</p>
+
+<p>新手上路，若有錯誤還請不吝指教!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/10/28/zenburn-color-schema-for-flashbuilder/">Zenburn Color Schema for FlashBuilder</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/10/28/zenburn-color-schema-for-flashbuilder/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-10-28T16:14:00+08:00" pubdate>Oct 28<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我的工作需要長時間看著電腦螢幕，除了用腦袋跟手指頭敲鍵盤之外，眼睛也容易疲勞，低對比(low-contrast)的<a href="http://slinky.imukuppi.org/zenburn/">Zenburn</a>配色一直都是我喜歡的配色方式。近期因為使用Flash Builder在趕案子，雖然說也可以進到設定的地方自己手動一個一個的調顏色，但就是調不出我想要的那個樣子，不過網路上總是有許多強大的善心人士，有人把zenburn的color schema調出來，並做成設定檔可以讓大家來匯入。</p>
+
+<h2>安裝方法：</h2>
+
+<h3>1. 記得千萬一定要先備份你自己的設定檔</h3>
+
+<p>因為下載來的設定檔，跟你自己原來工作的環境可能是不同的，包括快速鍵、workspace…等等的設定，我就是忘了備份就直接匯入別人的設定檔，結果搞得原來的設定都跑掉了，後來去time machine裡把舊的設定檔挖出來再覆蓋回去的..</p>
+
+<p>匯出設定檔：</p>
+
+<p>選擇File -> Export -> Other，點開General，裡面有個Preferences的選項，接著下一步：</p>
+
+<p><img src="/images/2010/flashbuilder_export1.png" alt="image" /></p>
+
+<p>你可以選擇Export All，或是只匯出你想要的設定即可：</p>
+
+<p><img src="/images/2010/flashbuilder_export2.png" alt="image" /></p>
+
+<p>再選擇一下匯出的位置，按下Finish就行了。</p>
+
+<h3>2. 下載zenburn for flash builder的設定檔</h3>
+
+<p><a href="http://github.com/mnem/fb-zenburnish">http://github.com/mnem/fb-zenburnish</a>，在這個頁面底下有說明安裝方法</p>
+
+<p>下載解壓縮後，裡面有個fb-zenburnish.epf跟README檔案(記得要看一下內容)。</p>
+
+<p>如同剛剛匯出的步驟，只是這次是反過來操作。選擇File -> Import -> Other，在General裡找到Preferences選項，選擇你要匯入的epf檔案，沒問題的話按下Finish就完成了。</p>
+
+<p>但 對我來說，因為我想要保留我自己習慣的設定，我只要zenburn的color schema設定就好，所以我的作法是用文字編輯器開啟剛下載的fb-zenburnish.epf後，把內容貼到我自己剛才匯出的設定檔的最後面，最後 再把修改過的設定檔匯回來，這樣我就可以保有我自己的設定以及zenburn的color schema了。</p>
+
+<p>成果照：</p>
+
+<p><img src="/images/2010/zenburn_flashbuilder.png" alt="image" /></p>
+
+<p>對於長時間需要用眼力的人來說，不妨試試看效果，也許會比較輕鬆一些些(未經人體實驗證實，但至少對我來說是有用的)。不過顏色的喜好是很主觀的，也許我覺得喜歡顏色配置的對其它人來說反而可能比預設的更糟或更傷眼..</p>
+
+<p>另外，我也手癢的把Xcode改成zenburn配色了：</p>
+
+<ol>
+<li>下載：<a href="http://mac.softpedia.com/get/Graphics/Xcode-Zenburn-Theme.shtml">http://mac.softpedia.com/get/Graphics/Xcode-Zenburn-Theme.shtml</a></li>
+<li>把下載的xccolortheme檔案複製到 ~/Library/Application Support/Xcode/Color Themes/ 底下</li>
+<li>開啟Xcode，進入Preferences的Fonts &amp; Colors項目，在下拉選單就可以看到zenburn的選項了</li>
+</ol>
+
+
+<p>成果照：</p>
+
+<p><img src="/images/2010/zenburn_xcode.png" alt="image" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/10/27/misunderstanding-about-flash/">Misunderstanding about Flash</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-10-27T16:09:00+08:00" pubdate>Oct 27<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今晚在<a href="http://groups.google.com/group/zf-tw/">PHP讀書會</a>上分享的主題：</p>
+
+<div style="width:425px" id="__ss_5576350"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/amf-5576350" title="AMF" target="_blank">AMF</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5576350" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
+
+
+<p><a href="/downloads/files/2010/amf_demo.zip">範例程式碼下載</a></p>
+
+<p>範例裡用的只是單純的傳過去的資料給return回來而已，不過應該可以發現其實不管是跟哪一家的程式語言串接，Flash端的實作方法幾乎都是不需要改變的。</p>
+
+<p>另外同場加映：</p>
+
+<div style="width:425px" id="__ss_5575369"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/misunderstanding-about-flash" title="Misunderstanding about flash" target="_blank">Misunderstanding about flash</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5575369" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
+
+
+<p>若內容有誤還請不吝指教</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/28/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/26/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現&#8230;<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

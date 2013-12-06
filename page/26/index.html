@@ -1,0 +1,1433 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="承上篇，因為在類別裡，instance variable(以下簡稱ivar)預設是protected的，也就是說只有該類別以及它的子類別才能存取它，如果要給外部使用的話，則需要來幫它加個setter/getter。但每次只為了一個ivar就要寫一對的setter/getter也太麻煩了， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/page/26/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/08/property-and-synthesize/">Property and Synthesize</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/08/property-and-synthesize/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-08T22:13:00+08:00" pubdate>Dec 8<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/ipad_apple.jpg" alt="image" /></p>
+
+<p>承<a href="/2010/12/01/oop-in-objective-c/">上篇</a>，因為在類別裡，instance variable(以下簡稱ivar)預設是protected的，也就是說只有該類別以及它的子類別才能存取它，如果要給外部使用的話，則需要來幫它加個setter/getter。但每次只為了一個ivar就要寫一對的setter/getter也太麻煩了，在Objective-C 2.0之後加入了<code>@property</code>跟<code>@synthesize</code>的語法，讓這個工作簡單多了。借用上一篇的例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果改用<code>@property</code>來寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原來的setter/getter就可以省下來不用寫，然後在@implementation的部份則是使用<code>@synthesize</code>語法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
+</span><span class='line'><span class="c1">// 這個@synthesize語法幫忙產生setter/getter</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello, This is a book&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡的<code>@synthesize price</code>，其實就相當於自動產生了我們在上一篇寫的那一對setter/getter的程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nf">price</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">value</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">price</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣程式碼就簡潔許多了。雖然@synthesize會自動幫忙產生setter/getter，但如果你想要寫自己的setter/getter，或是想要額外添加功能在裡面，只要照著它預設生成的setter/getter方法命名規則就可以了：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// interface</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// implementation</span>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 自定setter</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setPrice:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 故意讓傳入值變2倍</span>
+</span><span class='line'>  <span class="n">price</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">printBookInfo</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello, This is a book&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>@synthesize雖然會自動幫你建立一對setter/getter，但還是會以你建立的為主。</p>
+
+<p>另外，記得在別的程式語言裡可以用點”.”來存取物件的屬性嗎? Objective-C 2.0之後也可以這樣做了，直接看看語法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 一般的setter用法</span>
+</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="nl">setPrice:</span><span class="mi">300</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 一般的getter用法</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">b</span> <span class="n">price</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Objective-C 2.0之後可使用點語法，它會自動呼叫setter並將值傳給它</span>
+</span><span class='line'><span class="n">b</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 這裡則是呼叫getter把值傳回來</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %d&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">price</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="n">release</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣有比較習慣了嗎? 我相信很多人對Objective-C的方括號的語法很感冒，至於程式碼的可讀性就看個人了，方括號語法看久了也是滿習慣的。不過用點語法的時候要注意幾件事，例如你自己寫了一個setter，又在裡面用了點語法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 如果這樣寫的話，會啟動setPrice這個method</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後..就變<strong>無窮迴圈</strong>了! 這點要特別注意一下。</p>
+
+<p>還有個問題是其實這個點語法光從程式碼其實看不太出來到底是物件還是結構還是變數..再來看另一個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CGPoint</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">player</span><span class="p">.</span><span class="n">position</span><span class="p">;</span>
+</span><span class='line'><span class="n">pos</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">acceleration</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這是一段<a href="http://www.cocos2d-iphone.org/">Cocos2D</a>的語法，內容大意是說：「我要建立一個CGPoint變數叫做pos，而這個pos是由player這個CCSprite的position來的」。acceleration是一個<code>UIAcceleration</code>物件，取得acceleration的x的值，修改pos裡的x之後再把整個pos變數塞回去給player這個角色。</p>
+
+<p>這段程式碼對老手來說大概會覺得很弱，覺得這大概是新手，還得要建一個暫存變數，遜! 要是他來寫根本就可以直接併成一行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">acceleration</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但事實上這樣寫的話會丟出一個”lvalue required as left operand of assignment”的編譯錯誤。為什麼會這樣? 分段來看：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實這種”點語法”是一種”語法糖衣(syntactic sugar)”，事實上它是：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">player</span> <span class="n">position</span><span class="p">].</span><span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這邊position是一個getter，可以讓你從player身上取得一個CGPoint型態的position(r-value)，但因為並沒有把指定給某個變數(l-value)，所以當你要想用setter把它寫回去的時候，這個值已經消失了。</p>
+
+<p>感想：看來Objective-C不只語法不同，連一些習慣寫法也不同了，眉眉角角真多!</p>
+
+<h3>建議閱讀：</h3>
+
+<ul>
+<li><a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/ObjectiveC/Articles/ocProperties.html">iOS Reference Library – Declared Properties</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/01/oop-in-objective-c/">OOP in Objective-C</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/01/oop-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-01T21:54:00+08:00" pubdate>Dec 1<span>st</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這回來我們來看看在Objective-C裡的物件導向程式(Object-Oriented Programming)的東西，不過有些像是”何謂物件導向”以及”物件導向的優缺點”之類的基礎觀念就不特別提了，網路上應該可以找到更多更詳細的參考資料，我假設你曾經在別的程式語言有寫過OOP，大概知道繼承、封裝是怎麼回事。</p>
+
+<p>在別的程式語言裡，會用關鍵字<code>class</code>來定義類別，在Objective-C的話則是用<code>@interface</code>這個關鍵字來定義。不要搞混這個@interface跟其它程式語言的interface，它們講的是不同的東西(其它程式語言的interface在Objective-C裡比較像是Protocol，之後會再做說明)。為了讓環境單純一點，我們直接開一個Command Line Tool的專案來練習手感：</p>
+
+<p><img src="/images/2010/objc_new_cmd_project.jpg" alt="image" /></p>
+
+<p>下一步設定專案名稱，我取名為<code>OOPTest</code>。再來我們要來新增個類別，在Source資料夾上按右鍵，新增檔案：</p>
+
+<p><img src="/images/2010/objc_add_new_file.png" alt="image" /></p>
+
+<p>選擇一個Objective-C Class，Subclass的地方選擇NSObject：</p>
+
+<p><img src="/images/2010/objc_new_class.jpg" alt="image" /></p>
+
+<p>再來因為我要來寫個Book的類別，所以我就把它取名為<code>Book.m</code>，這邊要注意的是，這裡有個”Also create Book.h”也把它勾起來，它會一起幫忙產生header檔：</p>
+
+<p><img src="/images/2010/objc_file_naming.png" alt="image" /></p>
+
+<p>要特別說明的是，在Java/AS3裡，類別名稱跟檔案的名稱(*.java、*.as)是要同名的，但在Objective-C裡卻沒這樣的強制規定，不過為了方便維護起見，我會習慣把類別跟檔名取一樣的名字。另外這邊的”.m”跟”.h”檔，.h檔是它的”h”eader定義檔(放@interface的地方)，.m則是它的i”m”plementation實作檔(放@implementation的地方)，其實你要放在同一個檔裡，甚至是全部直接寫在main裡也ok，但為了好維護，通常我們會另外把它拆成兩個檔案來寫。接著我們就要來Book.h裡放類別的定義：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實這個類別定義，用翻譯成一般話就是說「<strong>我定義了一個叫做Book的類別，在這個類別裡有一個price的整數變數，並寫了一對的getter跟setter，還有一個叫做printBookInfo的class method</strong>」。為什麼需要getter跟setter? 在Objective-C裡的類別變數(instance variable，可簡稱為ivar)預設是protected的，所以你沒辦法從外部直接存取。當然也是可以透過@public語法來設定成公開的屬性，但這並不是好的OOP實作方法。</p>
+
+<p>這裡有幾個比較陌生的字，<code>NSObject</code>是Objective-C裡最上層的類別，所有的物件都是繼承自它。要繼承的話，只要用一個冒號”:”即可，後面放的是要繼承的父類別名稱。有注意到前面的加號(+)跟減號(-)了嗎? 它也是有特別意義的，加號代表這個方法是屬於類別方法(class method)，減號則表示這個方法是實體方法(instance method)。有什麼不同? class method是針對類別本身呼叫的，不需要產生instance即可使用，像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">Book</span> <span class="n">printBookInfo</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>而instance method則需要先由類別產生物件，再由物件來呼叫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">book</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">book</span> <span class="nl">setPrice:</span> <span class="mi">20</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">book</span> <span class="n">price</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Java/AS3裡，類別的定義跟實作是寫在一起的，但在Objective-C裡則是分開寫的。到目前為止，我們只用了@interface只是”定義”了類別的骨頭，但還沒實際把肉填進去，要填肉的話，用的是<code>@implementation</code>語法，接著切換到Book.m(你可以用<code>command + option + 上鍵</code>來切換)：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;Book.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nf">price</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">price</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">printBookInfo</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello, This is a book&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>記得我們在@interface裡有定義了2個instance method跟1個class method，在@implementation就要把它實作出來。補充一下，這裡的#import跟在c/c++裡出現的#include有類似的用途，都是把東西給匯進來使用，但這兩個語法最大的差別是<strong>#import只會匯入一次</strong>，所以你可能會在c/c++的程式碼裡常看到#ifdef之類的用法來做檢查，但如果用#import就不用擔心這問題了。</p>
+
+<p>最後回來我們整個程式的進入點，在這個範例裡是OOPTest.m(如果你的專案取名字跟我的不同，這個檔名也會不同)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'><span class="cp">#import &quot;Book.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 新增一個Book實體</span>
+</span><span class='line'>  <span class="n">Book</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 設定價錢</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">b</span> <span class="nl">setPrice:</span><span class="mi">20</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 把價錢印出來    </span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">b</span> <span class="n">price</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 用完記得放掉</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">b</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 這是類別方法</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">Book</span> <span class="n">printBookInfo</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>按下”Build and Run”之後的執行結果：</p>
+
+<pre><code>the price of the book is 20
+Hello, This is a book
+</code></pre>
+
+<p>如果你的程式在編譯過程有發生錯誤而沒辦法正常的執行，那可能是有程式碼打錯字，再回頭檢查看看，常見的錯誤是大小寫打錯，還有每行程式碼最後面記得要加分號。</p>
+
+<p>你也許會好奇，Book哪裡來的<code>alloc</code>跟<code>init</code>，還有<code>release</code>方法? 因為這些方法都是繼承來的，不用特別寫就有了。</p>
+
+<p>不過每次為了某個變數就要寫一對getter/setter應該覺得很煩人吧，Objective-C有提供了<code>@property</code>跟<code>@synthesize</code>語法，之後會再特別說明相關用法。另外，Objective-C是單一繼承的，可以靠<a href="/2010/12/11/protocol-in-objective-c/">Protocol</a>以及<a href="/2010/12/16/category-in-objective-c/">Category</a>來補足這部份的不足。下一篇，我們會來看看@property跟@synthesize是怎麼回事。</p>
+
+<h3>建議閱讀：</h3>
+
+<ul>
+<li><a href="http://www.stanford.edu/class/cs193p/">Stanford University CS193P課程</a></li>
+<li><a href="http://www.amazon.com/Programming-Objective-C-2-0-Stephen-Kochan/dp/0321566157">Programming in Objective-C 2.0</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/11/26/infinite-loop/">Apple電腦之無窮迴圈</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/11/26/infinite-loop/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-11-26T18:25:00+08:00" pubdate>Nov 26<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在<a href="/2010/11/26/create-map-application-with-mapkit-framework/">上一篇</a>練習MapView的時候，發現當把MapView的showsUserLocation打開後，在模擬器上執行的結果，會出現在美國的某個地方：</p>
+
+<p><img src="/images/2010/iphone_show_location.jpg" alt="image" /></p>
+
+<p>拉近一看才發現，原來那個發亮的點的地址是在”Infinite Loop”，正是Apple電腦的總部所在地。然後又到google map上看了一下衛星照片：</p>
+
+<p><img src="/images/2010/infinite_loop_map.jpg" alt="image" /></p>
+
+<p>就是一個圈圈的樣子，如果你用google map的街景模式去看，還會看到在入口的地方放了一個”1″：</p>
+
+<p><img src="/images/2010/1_infinite_loop_pic.jpg" alt="image" /></p>
+
+<p>因為他們的門牌號碼就是”1 infinite loop”(無窮迴圈1號)，真有趣 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/11/26/create-map-application-with-mapkit-framework/">iPhone app實作練習-地圖app</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/11/26/create-map-application-with-mapkit-framework/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-11-26T18:10:00+08:00" pubdate>Nov 26<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/mobile_map.jpg" alt="image" /></p>
+
+<p>有看過在iPhone裡直接秀出地圖app嗎? 看起來挺酷的吧。猜猜看寫一個把google map載入到iphone的功能要花多少時間? 又要寫幾行程式碼? 如果只是要單純的把地圖拉進iPhone顯示，答案是3分鐘以內(還包含開啟Xcode、interface builder跟編譯的時間，如果動作快一點，不用1分鐘就搞定了)，而且還不用寫到一行程式碼，你可以親自開Xcode來試試看就知其實並不會太麻煩的。</p>
+
+<p>在iOS 3.0之前要讀取地圖可能得用一些比較麻煩的方法去抓google map進來，但在3.0之後新增了MapKit Framework之後，人生就都變彩色的了。</p>
+
+<p>打開Xcode，新增專案，這裡我先偷懶的選用view-based application，選擇專案名稱，這裡我幫它取名為<code>MapDemo</code>(不一定要取這名稱，只是如果你取的名稱是不同的，後面專案的程式碼檔名可能會有所不同)。</p>
+
+<p><img src="/images/2010/iphone_new_view_based_app.jpg" alt="image" /></p>
+
+<p>專案新增後，打開Resources資料夾裡的MapDemoViewController.xib，它會自動啟動interface builder，接著到Library裡找到一個叫做<code>MapView</code>的元件，把它拖拉到場景上放好對齊。</p>
+
+<p><img src="/images/2010/iphone_mapview.jpg" alt="image" /></p>
+
+<p>存檔，回到xcode環境。接下來看一下你的Frameworks資料夾，因為預設的Framework只放了UIKit、Foundation跟CoreGraphics這三個，如果要用到MapView的話，還需要把MapKit Framework加進來，不然編譯會發生錯誤。在Frameworks資料夾按右鍵->Add->Existing Frameworks..</p>
+
+<p><img src="/images/2010/iphone_add_framework.jpg" alt="image" /></p>
+
+<p>找到MapKit Framework，把它加進來：</p>
+
+<p><img src="/images/2010/iphone_mapkit.png" alt="image" /></p>
+
+<p>你應該就可以在你的Frameworks資料夾裡看到MapKit了：</p>
+
+<p><img src="/images/2010/iphone_framework_add.jpg" alt="image" /></p>
+
+<p>加好之後，執行Build and Run，這樣就完成了!</p>
+
+<p><img src="/images/2010/iphone_mapview_init.jpg" alt="image" /></p>
+
+<p>從開始到現在如果手腳快一點可能還不用一分鐘就搞定了，而且除了一開始你打了<code>MapDemo</code>幾個字母的專案名稱外，應該沒有再需要用到鍵盤輸入任何程式碼。MapView預設是以Google Map為資料來源，而且這個地圖已經有包含放大、縮小、拖拉的功能了。你可以在試著模擬器裡按著option鍵加滑鼠移動可以模擬你在實機上縮放的手勢。</p>
+
+<p>但是，就這樣出現個世界地圖的app似乎沒什麼鳥用，跟之前看到某房仲業推出的手機看屋的app的複雜度還差得多，不過但至少知道其實在iPhone上面加入地圖功能不算是非常難做的功能。</p>
+
+<p>接著來加一下可以依據經緯度座標來定位的功能：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔名：MapDemoViewController.h</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;MapKit/MapKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">MapDemoViewController</span> : <span class="nc">UIViewController</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">IBOutlet</span> <span class="n">MKMapView</span> <span class="o">*</span><span class="n">map_view</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後到interface builder裡，把這個map_view變數”串”到你剛剛拖到場景上的那個MapView，讓我們在程式碼裡面可以透過這個變數去操作場景上的那個元件。這個動作如果不熟悉的話，可以參考前面那篇<a href="/2010/11/23/iphone-app-in-action/">BMI</a> app實作的文章。</p>
+
+<p><img src="/images/2010/iphone_mapview_outlet.jpg" alt="image" /></p>
+
+<p>串完之後，接著就要來開始寫code了，為了展示目的，我直接把程式碼寫在viewDidLoad裡面：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔名：MapDemoViewController.m</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &quot;MapDemoViewController.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">MapDemoViewController</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 建立一個region，待會要設定給MapView</span>
+</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">kaos_digital</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 設定經緯度</span>
+</span><span class='line'>    <span class="n">kaos_digital</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">latitude</span> <span class="o">=</span> <span class="mf">25.01141</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">kaos_digital</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">longitude</span> <span class="o">=</span> <span class="mf">121.42554</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 設定縮放比例</span>
+</span><span class='line'>    <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">latitudeDelta</span> <span class="o">=</span> <span class="mf">0.007</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">longitudeDelta</span> <span class="o">=</span> <span class="mf">0.007</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 把region設定給MapView</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">map_view</span> <span class="nl">setRegion:</span><span class="n">kaos_digital</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>存檔，回到Xcode執行<code>Build and Run</code>，畫面看起來應該比剛剛的好多了。剛我在程式裡設定的那組經緯度是我公司的位置，沒問題的話你看到的地圖應該會在台灣新北市樹林跟新莊的交界處附近。</p>
+
+<p><img src="/images/2010/iphone_map_result.png" alt="image" /></p>
+
+<p>另外，MapView預設的模式是一般的街道地圖的，你可以用程式來調整：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 這是預設的標準模式</span>
+</span><span class='line'><span class="n">map_view</span><span class="p">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="n">MKMapTypeStandard</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 衛星地圖模式</span>
+</span><span class='line'><span class="n">map_view</span><span class="p">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="n">MKMapTypeSatellite</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 混合模式</span>
+</span><span class='line'><span class="n">map_view</span><span class="p">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="n">MKMapTypeHybrid</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是在interface builder環境，從MapView的inspector去調整：</p>
+
+<p><img src="/images/2010/iphone_map_mode.jpg" alt="image" /></p>
+
+<p>如果你想要秀出使用者的所在位置：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">map_view</span><span class="p">.</span><span class="n">showsUserLocation</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是用inspector設定：</p>
+
+<p><img src="/images/2010/iphone_mapview_inspector.jpg" alt="image" /></p>
+
+<p>如果你把這個選項開啟的話，在模擬器裡會出現在美國的某個有趣的地方：</p>
+
+<p><img src="/images/2010/iphone_show_location.jpg" alt="image" /></p>
+
+<p>希望做到目前這個階段對大家還不會太困難，但老實說就算現在這樣其實也沒什麼用，甚至也不知道到底指定的位置在哪裡，想靠它賺大錢還早。不過沒關係下一篇我們會來弄一些比較進階的功能，例如是幫地圖加上大頭針，或是加一些自訂的icon圖示等功能，讓地圖看起來更漂亮、實用些。但因為可能會用到在Objective-C裡的Protocol觀念，所以在正式開始實作之前，會先來說明一下在Objective-C裡的<a href="/2010/12/16/category-in-objective-c/">Category</a>跟<a href="/2010/12/11/protocol-in-objective-c/">Protocol</a>是怎麼回事。</p>
+
+<p>以上，希望對各位有幫助，若有錯誤的地方還請不吝指教，感謝 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/11/25/autorelease-in-objective-c/">Objective-C記憶體管理之Autorelease</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/11/25/autorelease-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-11-25T17:34:00+08:00" pubdate>Nov 25<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在<a href="/2010/11/22/memory-management-in-objective-c/">上一篇</a>概略的提到了Objective-C裡的記憶體管理，其實Objective-C其實還滿多這種眉眉角角的地方要注意的，接下來我們來看看關於Autorelease Pool的東西。這篇文章會比較長，而且會比較悶又囉嗦，還請多多擔待。</p>
+
+<p>在開始之前要先看一下這一行程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSMutableString</span> <span class="o">*</span><span class="n">s1</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableString</span> <span class="nl">stringWithString:</span><span class="s">@&quot;hello eddie&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果用地球的語言來說，就是「建立一個NSMutableString型態的s1指標變數，這個指標變數指向某個內容為”hello eddie”的<code>NSMutableString</code>物件」，在s1前面的那個星號<code>*</code>表示這個s1是一個指標(pointer)變數，不過這裡不會對指標有太多的說明(因為我跟指標也不熟)，有興趣可再找找C/C++的相關書籍來研究。在Objective-C裡的物件變數都是指標，所以來看看底下這個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 建立2個字串變數</span>
+</span><span class='line'>  <span class="n">NSMutableString</span> <span class="o">*</span><span class="n">s1</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableString</span> <span class="nl">stringWithString:</span><span class="s">@&quot;hello eddie&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">NSMutableString</span> <span class="o">*</span><span class="n">s2</span> <span class="o">=</span> <span class="n">s1</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 印出這兩個字串的位置</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;location of s1 is %p&quot;</span><span class="p">,</span> <span class="n">s1</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;location of s2 is %p&quot;</span><span class="p">,</span> <span class="n">s2</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 印出兩個字串的內容</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;s1 is %@&quot;</span><span class="p">,</span> <span class="n">s1</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;s2 is %@&quot;</span><span class="p">,</span> <span class="n">s2</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 改變了s1的內容</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">s1</span> <span class="nl">setString:</span><span class="s">@&quot;eddie&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 看看這兩個字串的內容是否改變</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;s1 is %@&quot;</span><span class="p">,</span> <span class="n">s1</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;s2 is %@&quot;</span><span class="p">,</span> <span class="n">s2</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>輸出結果：</p>
+
+<pre><code>location of s1 is 0x10010cad0
+location of s2 is 0x10010cad0
+s1 is hello eddie
+s2 is hello eddie
+s1 is eddie
+s2 is eddie
+</code></pre>
+
+<p>因為s1跟s2其實是指向同一個地方，所以印出來的記憶體位置也是相同的。一但修改了s1的內容，指向同一個地方的s2也會跟著改變。為什麼要特別提這個? 待會後面會用到。</p>
+
+<p>回到主題，在上一篇文章有提到東西用完要release掉，把記憶體還給系統，這個autorelease pool照字面看起來像是會自動釋放資源的東西，是沒錯，但其實<strong>它並不是Garbage Collection</strong>。簡單的說，想像你有個游泳池(pool)，裡裝著一堆被標記為autorelease的客人，當這個池子裡的水要放掉的時候，它會自動對這個池子裡的所有客人發送release訊息叫他們滾蛋，上一篇也提到，當這些客人的<strong>retain count降到0</strong>的時候，<code>dealloc</code>方法會自動被呼叫，然後把自己清掉並歸還記憶體。</p>
+
+<p>有點複雜嗎? 我直接借用Stanford大學CS193P第三堂課的其中一張投影片來說明可能會比較清楚：</p>
+
+<p><img src="/images/2010/iphone_life_cycle.png" alt="image" /></p>
+
+<p>這個圖示就是app運作的生命週期，前半段的程式啟動、載入..等等的動作反正就是那麼一回事，重點在於wait for event跟handle event的這個迴圈(run loop)，如果沒意外，這個迴圈會一直執行下去，直到可能有人打電話來中斷了你的app，或是你按了home按鈕離開這個app為止。從圖例裡可以看到而autorelease pool在每個run loop都會進行釋放。</p>
+
+<p>那要怎麼樣把物件設定為autorelease? 兩個方法：</p>
+
+<p>1.明確的呼叫autorelease方法</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n1</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span><span class="mi">100</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.上一篇有提到「當你用alloc、new或是copy開頭的方法建立一個物件的話，程式就會向系統要一塊記憶體來放這顆物件，而這顆物件就算在你頭上」，其實除了這些以外的方法來建立物件件的話，它回傳的就是個autorelease物件了。舉例來說：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 你用alloc建立的，用完就要把它release掉</span>
+</span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span><span class="mi">100</span><span class="p">];</span>
+</span><span class='line'><span class="c1">// 用完之後release</span>
+</span><span class='line'><span class="p">[</span><span class="n">n1</span> <span class="n">release</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n1</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithInt:</span><span class="mi">100</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣不需要再對n1呼叫autorelease方法，這個n1就是autorelease了。</p>
+
+<p>要特別注意的是，autorelease跟release不同，release會馬上在執行後把retain count減1，而autorelease則是<strong>待會</strong>才會減1。另外，在上一篇最後提到的記憶體管理原則：「You only release or autorelease objects you own」，一但你把物件設定為autorelease之後，這個東西基本上就不算是你管的，你之後就不需要也不應該再去對它做release的動作了。</p>
+
+<p>或許你會覺得用一般的release就好了嗎? 為什麼特別需要用到這個autorelease? 其實有些地方還是真的非它不可，我們來看看底下這個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span> <span class="nf">getBookName</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">the_name</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithString:</span><span class="s">@&quot;This is a book&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">the_name</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡我們寫了一個會回傳NSString物件的方法，看起來好像沒問題，而且在其它語言也常這樣寫。但注意到在這邊這個區域變數the_name是用alloc產生的，但都沒地方把它release掉，所以可能會出問題。好吧，即然這樣那就把它release掉，所以改寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span> <span class="nf">getBookName</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">the_name</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithString:</span><span class="s">@&quot;This is a book&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">the_name</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">the_name</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣不行，因為在return之前就release掉了。那把release動作放到return後面?</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span> <span class="nf">getBookName</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">the_name</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithString:</span><span class="s">@&quot;This is a book&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">the_name</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">the_name</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這當然也不行，在return之後的動作是不會執行的。這時候，autorelease就派上用場了：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span> <span class="nf">getBookName</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">the_name</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithString:</span><span class="s">@&quot;This is a book&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">the_name</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣這個區域變數因為被標記成autorelease，它在<strong>待會</strong>，也就是run loop結束的時候會自動被釋放掉了。</p>
+
+<p>再舉個例子，在Objective-C裡，物件的instance variable預設是設定為protected的，如果沒有getter/setter的話是沒辦法取得取得或設定該物件的屬性(如果你是用@property/@synthesis的做法就不用這麼麻煩了)。所以，舉個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nl">setTitle:</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">book_title</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setTitle:</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">book_title</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">title</span> <span class="o">=</span> <span class="n">book_title</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">title</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我在這裡寫了一組getter跟setter，分別可以設定及讀取Book這個類別的title屬性，看起來是很直覺的getter/setter寫法，在其它的程式語言中也常這樣寫。其實在有GC的環境，這樣寫是沒問題的[註1]，但在不支援GC的環境上，例如iphone，這樣的寫法可能會出問題，直接來看個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 建立物件</span>
+</span><span class='line'>  <span class="n">Book</span> <span class="o">*</span><span class="n">book</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">NSMutableString</span> <span class="o">*</span><span class="n">s1</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableString</span> <span class="nl">stringWithString:</span><span class="s">@&quot;hello eddie&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 把字串s1透過setter設定給title屬性</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">book</span> <span class="nl">setTitle:</span><span class="n">s1</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 輸出結果：the title of the book is &#39;hello eddie&#39;</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the title of the book is &#39;%@&#39;&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">book</span> <span class="n">title</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 修改s1的內容</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">s1</span> <span class="nl">setString:</span><span class="s">@&quot;not eddie&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 輸出結果：the title of the book is &#39;not eddie&#39;</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the title of the book is &#39;%@&#39;&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">book</span> <span class="n">title</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 把s1釋放掉</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">s1</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 這一行就爆炸了..</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the title of the book is &#39;%@&#39;&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">book</span> <span class="n">title</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">book</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>記得一開始有提到指標的東西，在這裡當把s1設定給title的時候，其實是s1跟title是指向同一個地方，所以當修改s1，title也會跟著改，這不一定是你想要的結果。更麻煩的是，當你送release訊息給s1之後，title也跟著指不到地方。所以setter的地方應該改寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setTitle:</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">book_title</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">title</span> <span class="o">!=</span> <span class="n">book_title</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">title</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="n">book_title</span> <span class="n">retain</span><span class="p">];</span> <span class="c1">// 或是copy，端看用途而定</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>為什麼這裡要先做判斷是否相同? 因為title跟傳進來的book_title有可能會指向同一個物件，如果直接先把title release掉，會導致book_title一起跟著無法存取。如果title跟傳進來的book_title的記憶體位置不同的話，那就把原來的title放掉，並從把傳進來的book_title做retain(或copy)，確保retain count增加，即使像剛剛那個情況把傳進來的東西release掉，因為retain count不會降到0，所以就還會留著。這裡也可以使用autorelease來處理：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setTitle:</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">book_title</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">title</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="n">book_title</span> <span class="n">retain</span><span class="p">];</span> <span class="c1">// or copy</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這邊就不做判斷了，直接把title設定成autorelease，然後待會交給autorelease pool去放掉就好。</p>
+
+<p>這樣看來，感覺autorelease好像很方便，何不乾脆把全部都交給autorelease pool處理好了? 的確是比較方便沒錯，但如果可以的話，請儘量用手動的release而不要用自動的autorelease。一來程式設計師能在資源用完之後馬上主動還回去本就是個好習慣，二來autorelease是在每個run loop才釋放一次，雖然每個run loop可能是零點零零幾秒而已，但也有可能在一個run loop裡的某個迴圈裡一下子產生太多的物件，還沒跑到pool釋放的地方就爆炸了(通常遇到這種情況會在產生大量物件的地方放個巢狀的pool在裡面，讓內層的pool提早釋放，而不是等到最外層的run loop才釋放)。</p>
+
+<p>希望這篇文章對一起學習的朋友會有幫助，若內容有誤也請不吝指正。</p>
+
+<h3>建議閱讀：</h3>
+
+<ul>
+<li><a href="http://www.stanford.edu/class/cs193p/cgi-bin/drupal/">Stanford大學的CS193P課程</a></li>
+<li><a href="http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-CJBFBEDI">Autorelease Pool</a></li>
+</ul>
+
+
+<p>註1：GC支援功能是可以手動打開，不過要記得不是每個環境都有GC可以用的，在Project Settings裡..</p>
+
+<p><img src="/images/2010/iphone_project_settings.png" alt="image" /></p>
+
+<p>找到Objective-C Garbage Collection的選項，設定成Supported：</p>
+
+<p><img src="/images/2010/iphone_enable_gc.png" alt="image" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/27/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/25/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現&#8230;<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("eddiekao", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

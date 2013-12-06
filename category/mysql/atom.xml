@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: MySQL | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/mysql/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-07T07:19:17+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Crontab & At]]></title>
+    <link href="http://blog.eddie.com.tw/2005/01/19/crontab-and-at/"/>
+    <updated>2005-01-19T17:38:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2005/01/19/crontab-and-at</id>
+    <content type="html"><![CDATA[<p>在Linux系統，<code>crontab</code>跟<code>at</code>都是可以用來做排程，但這兩者的差異是：</p>
+
+<p>at：工作僅執行一次後就會系統中的排程中取消，工作排程會寫入到/var/spool/at目錄下。
+crontab：工作將持續例行性的執行，工作排程會寫入 /var/spool/cron。</p>
+
+<p><code>at</code>的使用方法：</p>
+
+<pre><code>&gt; at TIME
+</code></pre>
+
+<p>如果使用-m參數，則 at會把排程輸出的結果 mail 給下達指令的使用者。</p>
+
+<pre><code>&gt; at 5am
+warning: commands will be executed using (in order) a) $SHELL b) login shell c) /bin/sh
+
+at&gt; mail eddie -s “hi, eddie”
+</code></pre>
+
+<p>按下<code>Ctrl+D</code>就可離開at環境</p>
+
+<pre><code>job １ at 2005-01-19 05:00
+</code></pre>
+
+<p>使用atq可看目前的at排程</p>
+
+<pre><code>&gt; atq
+1　2005-01-19 05:00 a root
+</code></pre>
+
+<p>其中第一個1代表這個排程的編號</p>
+
+<p>使用<code>atm</code>指令可移除已排好的工作</p>
+
+<pre><code>&gt; atm 1
+</code></pre>
+
+<p>接下來介紹crontab的用法：</p>
+
+<pre><code>&gt; crontab [-u user] [-l | -e | -r]
+-u user ：只有 root可使用，可以編譯其他使用者的crontab內容。
+-l：列出 crontab 內容。
+-e：編輯 crontab 內容。
+-r：刪除 crontab 內容。
+</code></pre>
+
+<p>執行<code>crontab -e</code>之後，則會進入一般的文字編輯器畫面編輯。</p>
+
+<p>時間部份有5個欄位，分別是「分」、「時」、「日」、「月」、「星期幾」，最後就是要執行的工作，例如：</p>
+
+<pre><code>0 12 * * * mail eddie -s test
+</code></pre>
+
+<p>就是在每個月的每天的12點0分時，寄一封主旨為test的mail給eddie。其中，「*」代表所有數字。星期幾這欄數值由0~6，0代表星期日。再看一個例子：</p>
+
+<pre><code>*/5 * * * * mail eddie -s test
+</code></pre>
+
+<p>其中「*/5」表示每5分鐘寄一次信。</p>
+
+<p>另外要注意的是，如果只是要刪除某個 crontab 的工作項目，建議使 crontab -e 來編輯，因為使用-r參數，會將所有的工作都移除。</p>
+
+<p>如果是系統的例行性工作，不需要以某人的權限執行，則可編輯「/etc/crontab」檔案，詳細的內容在/etc/crontab檔案裡面有說明。</p>
+]]></content>
+  </entry>
+  
+</feed>
