@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Flash | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/flash/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/flash/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CreateJS, 從 Flash 到 Javascript]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2013/05/20/createjs-from-flash-to-javascript/"/>
+    <link href="http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript/"/>
     <updated>2013-05-20T09:09:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2013/05/20/createjs-from-flash-to-javascript</id>
+    <id>http://blog.eddie.com.tw/2013/05/20/createjs-from-flash-to-javascript</id>
     <content type="html"><![CDATA[<p>這是我在本次 JSDC 的分享的題目，應該是本次議題裡少數跟 Javascript 比較沒直接關係，而且技術含量也相對較低的一場演講。</p>
 
 <p><a href="https://speakerdeck.com/eddie/createjs-from-flash-to-javascript" target="_blank"><img src="/images/2013/jsdc-createjs-from-flash-to-javascript.png" alt="image" /></a>
@@ -63,15 +63,15 @@
   
   <entry>
     <title type="html"><![CDATA[第十二回AS讀書會之關於Event這回事]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2012/06/27/there-is-something-about-event/"/>
+    <link href="http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event/"/>
     <updated>2012-06-27T02:48:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2012/06/27/there-is-something-about-event</id>
+    <id>http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event</id>
     <content type="html"><![CDATA[<p>這是在<a href="http://registrano.com/events/12th-as-study-group">第十二回AS讀書會</a>上用到的投影片，主題是在Flash/ActionScript3裡Event的基本介紹。</p>
 
 <p><a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank"><img src="/images/2012/there-is-something-about-event.jpg" alt="image" /></a>
 <a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/there-is-something-about-event" target="_blank">View on Slideshare</a><br />
-<a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2012/there_is_something_about_event.pdf" target="_blank">PDF</a> |
-<a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2012/12-flash-fash-example-files.zip" target="_blank">Sample Code</a></p>
+<a href="http://blog.eddie.com.tw/downloads/files/2012/there_is_something_about_event.pdf" target="_blank">PDF</a> |
+<a href="http://blog.eddie.com.tw/downloads/files/2012/12-flash-fash-example-files.zip" target="_blank">Sample Code</a></p>
 
 <p>有講的不好或是誤導的部份，還請先進、前輩們不吝指教 :)</p>
 ]]></content>
@@ -79,9 +79,9 @@
   
   <entry>
     <title type="html"><![CDATA[第九回AS讀書會之測試你的Robotlegs專案]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/12/14/test-your-robotlegs-project/"/>
+    <link href="http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project/"/>
     <updated>2011-12-14T02:42:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/12/14/test-your-robotlegs-project</id>
+    <id>http://blog.eddie.com.tw/2011/12/14/test-your-robotlegs-project</id>
     <content type="html"><![CDATA[<p>這是在第九回的Flash/AS讀書會上用到的投影片：
 <a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank"><img src="/images/2011/speakerdeck-test-in-robotlegs.jpg" alt="image" /></a>
 <a href="http://speakerdeck.com/u/eddie/p/test-your-robotlegs-project" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/test-your-robotlegs-project.pdf">Download PDF</a></p>
@@ -94,9 +94,9 @@
   
   <entry>
     <title type="html"><![CDATA[第三梯次Flash/ActionScript 3.0課程]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/12/05/3rd-actionscript-workshop/"/>
+    <link href="http://blog.eddie.com.tw/2011/12/05/3rd-actionscript-workshop/"/>
     <updated>2011-12-05T02:50:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/12/05/3rd-actionscript-workshop</id>
+    <id>http://blog.eddie.com.tw/2011/12/05/3rd-actionscript-workshop</id>
     <content type="html"><![CDATA[<p class="info">2012/4/21 update: 課程將改為以screencast方式進行</p>
 
 
@@ -164,9 +164,9 @@
   
   <entry>
     <title type="html"><![CDATA[第八回AS讀書會之Hello Robotlegs]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/07/robotlegs-introduction-in-8th-as-study-party/"/>
+    <link href="http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party/"/>
     <updated>2011-11-07T01:16:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/11/07/robotlegs-introduction-in-8th-as-study-party</id>
+    <id>http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party</id>
     <content type="html"><![CDATA[<p>時間很快，已經到第八回了，雖然這回是在週末舉辦，依舊還是相當多的朋友來捧場，相當感動 :)</p>
 
 <p><img src="/images/2011/8th-as-party-1.jpg" alt="image" /></p>

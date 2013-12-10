@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ruby on Rails | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/ruby-on-rails/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/ruby-on-rails/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[RVM and Gemsets]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/04/08/rvm-and-gemsets/"/>
+    <link href="http://blog.eddie.com.tw/2011/04/08/rvm-and-gemsets/"/>
     <updated>2011-04-08T13:24:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/04/08/rvm-and-gemsets</id>
+    <id>http://blog.eddie.com.tw/2011/04/08/rvm-and-gemsets</id>
     <content type="html"><![CDATA[<p><img src="/images/2011/rvm_logo.png" alt="image" /></p>
 
 <p>“Living on the edge, stay in the beta world”是件有趣的事，可以試一些新玩具、新想法，但也很怕把系統弄爛又要花時間重灌，以前可能會用virtual machine來建立不同的環境，不過實在有點麻煩。在Ruby有個東西叫做<a href="http://rvm.beginrescueend.com/">RVM</a>(Ruby Version Manager)，可以讓你同時安裝多個不同版本的Ruby，看您是想要裝MRI版本的Ruby，或是REE(Ruby Enterprise Edition)、JRuby、MacRuby，都可以裝在RVM裡指後歡樂的切換。RVM裡每個版本的Ruby的gem也都是分開裝的，所以像之前Rails 3還沒正式release，想裝又不知道會不會怕把原來工作的環境搞爛，但不裝又覺得手很癢，這時候用RVM就對了。</p>
@@ -295,9 +295,9 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
   
   <entry>
     <title type="html"><![CDATA[Misunderstanding about Flash]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2010/10/27/misunderstanding-about-flash/"/>
+    <link href="http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash/"/>
     <updated>2010-10-27T16:09:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2010/10/27/misunderstanding-about-flash</id>
+    <id>http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash</id>
     <content type="html"><![CDATA[<p>今晚在<a href="http://groups.google.com/group/zf-tw/">PHP讀書會</a>上分享的主題：</p>
 
 <div style="width:425px" id="__ss_5576350"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/amf-5576350" title="AMF" target="_blank">AMF</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5576350" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
@@ -318,9 +318,9 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
   
   <entry>
     <title type="html"><![CDATA[Ruby on Rails之門外漢心得]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2010/07/16/internet-campaign-with-ruby-on-rails/"/>
+    <link href="http://blog.eddie.com.tw/2010/07/16/internet-campaign-with-ruby-on-rails/"/>
     <updated>2010-07-16T15:50:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2010/07/16/internet-campaign-with-ruby-on-rails</id>
+    <id>http://blog.eddie.com.tw/2010/07/16/internet-campaign-with-ruby-on-rails</id>
     <content type="html"><![CDATA[<p><img src="/images/2010/rails_logo.png" alt="image" /></p>
 
 <p>這不是討戰文，也不是一篇討論程式語言的誰優誰劣的文章，僅就我個人這半年來使用<a href="http://rubyonrails.org/">Ruby on Rails</a>(以下簡稱RoR，不是那個那個RO線上遊戲)用在工作上的一些簡單的心得跟大家分享。</p>
@@ -466,9 +466,9 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
   
   <entry>
     <title type="html"><![CDATA[Rails Console / irb 裡的方便工具-Hirb]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2010/04/09/hirb-the-convenient-gem-for-console-and-irb/"/>
+    <link href="http://blog.eddie.com.tw/2010/04/09/hirb-the-convenient-gem-for-console-and-irb/"/>
     <updated>2010-04-09T15:33:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2010/04/09/hirb-the-convenient-gem-for-console-and-irb</id>
+    <id>http://blog.eddie.com.tw/2010/04/09/hirb-the-convenient-gem-for-console-and-irb</id>
     <content type="html"><![CDATA[<p>方便的工具，寫起來給自己做個備忘，免得到時候忘記 :)</p>
 
 <p>在做資料庫存取的時候，常會把抓到的model object印出來看看到底內容正確與否。假設我有個名叫Book的model，我從裡面隨便抓一筆資料出來大概會長這樣：</p>
@@ -525,9 +525,9 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
   
   <entry>
     <title type="html"><![CDATA[如何在Rails裡使用AMF]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2010/03/18/rubyamf/"/>
+    <link href="http://blog.eddie.com.tw/2010/03/18/rubyamf/"/>
     <updated>2010-03-18T15:10:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2010/03/18/rubyamf</id>
+    <id>http://blog.eddie.com.tw/2010/03/18/rubyamf</id>
     <content type="html"><![CDATA[<h2>前言</h2>
 
 <p>常聽很多朋友會問：「flash要怎麼樣跟資料庫串接?」。</p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Octopress | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/octopress/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/octopress/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[幫你的Octopress增加文章分類]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/12/05/add-catetories-to-sidebar-in-octopress/"/>
+    <link href="http://blog.eddie.com.tw/2011/12/05/add-catetories-to-sidebar-in-octopress/"/>
     <updated>2011-12-05T10:00:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/12/05/add-catetories-to-sidebar-in-octopress</id>
+    <id>http://blog.eddie.com.tw/2011/12/05/add-catetories-to-sidebar-in-octopress</id>
     <content type="html"><![CDATA[<p>發現在Octopress似乎沒有現成可以放在sidebar的分類，於是便自己動手刻一個，順便練一下手感。程式碼短短的，使用方法也很容易，首先你可以按下面程式碼區塊右上角的download，並將檔案存在Octopress的<code>plugins</code>資料夾：</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (category_list.rb)</span> <a href='/downloads/code/octopress/category_list.rb'>download</a></figcaption>
@@ -284,9 +284,9 @@
   
   <entry>
     <title type="html"><![CDATA[Octopress的Canonical URL問題]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/08/canonical-url-problem-in-octopress/"/>
+    <link href="http://blog.eddie.com.tw/2011/11/08/canonical-url-problem-in-octopress/"/>
     <updated>2011-11-08T01:12:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/11/08/canonical-url-problem-in-octopress</id>
+    <id>http://blog.eddie.com.tw/2011/11/08/canonical-url-problem-in-octopress</id>
     <content type="html"><![CDATA[<p>自從把Blog從<a href="http://wordpress.com/">Wordpress</a>搬到<a href="http://octopress.org/">Octopress</a>之後，對我這種愛敲鍵盤的人來說，寫東西真的順手不少。不過最近我發現在要把網址貼到Facebook的時候發現這個情況：</p>
 
 <p><img src="/images/2011/facebook-301-moved-permanently.png" alt="image" /></p>
@@ -325,9 +325,9 @@
   
   <entry>
     <title type="html"><![CDATA[縮短重新產生文章的時間]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/30/speed-up-octopress-post-regeneration/"/>
+    <link href="http://blog.eddie.com.tw/2011/10/30/speed-up-octopress-post-regeneration/"/>
     <updated>2011-10-30T09:15:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/10/30/speed-up-octopress-post-regeneration</id>
+    <id>http://blog.eddie.com.tw/2011/10/30/speed-up-octopress-post-regeneration</id>
     <content type="html"><![CDATA[<p>搬到<a href="http://octopress.org/">Octopress</a>之後，用Markdown寫文章感覺還不錯，不過慢慢的發現，每次我要寫一篇文章，想要看看它的樣子的時候，都得重新產生一次文章。雖然藉助一些可以所見即所得或內建預覽功能的markdown editor(例如<a href="http://mouapp.com/">Mou</a>或<a href="http://bywordapp.com/">Byword</a>之類的)，但畢竟layout看起來還是不太一樣。</p>
 
 <p>我這種小咖的文章只有大概200篇左右，也許是我電腦等級比較差，每次重新產生文章大概都得等個半分鐘左右，我開始好奇有上千篇文章的人在重新產生一次要花多久時間了。</p>
@@ -347,9 +347,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Install Octopress on Heroku]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/11/how-to-install-octopress-on-heroku/"/>
+    <link href="http://blog.eddie.com.tw/2011/10/11/how-to-install-octopress-on-heroku/"/>
     <updated>2011-10-11T14:15:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/10/11/how-to-install-octopress-on-heroku</id>
+    <id>http://blog.eddie.com.tw/2011/10/11/how-to-install-octopress-on-heroku</id>
     <content type="html"><![CDATA[<h2>為什麼使用Octopress</h2>
 
 <p>這個我想xdite的<a href="http://blog.xdite.net/posts/2011/10/07/what-is-octopress/">Why Octopress?</a>寫得很清楚了，就不多做說明了。</p>

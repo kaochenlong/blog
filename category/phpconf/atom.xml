@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: PHPConf | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/phpconf/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/phpconf/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[閒聊投影片製作與上台表演]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/14/how-do-i-make-my-slide-and-presentation/"/>
+    <link href="http://blog.eddie.com.tw/2011/11/14/how-do-i-make-my-slide-and-presentation/"/>
     <updated>2011-11-14T01:42:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/11/14/how-do-i-make-my-slide-and-presentation</id>
+    <id>http://blog.eddie.com.tw/2011/11/14/how-do-i-make-my-slide-and-presentation</id>
     <content type="html"><![CDATA[<p><span class="warning">請注意，本文有許多個人自以為是的內容，不一定適合每個人，所以請謹慎服用。</span></p>
 
 <p>我之前工作的某個老闆跟我說過「<strong>每次的上台簡報就是一場表演</strong>」，這句話我一直記在心裡。即然是表演，表演內容固然很重要，但"說故事"的方法也很重要，不然內容也許真的很棒，但台下卻睡成一團。</p>
@@ -167,14 +167,14 @@ photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiw
   
   <entry>
     <title type="html"><![CDATA[CoffeeScript on PHPConf Taiwan 2011]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/12/coffeescript-on-phpconf-taiwan/"/>
+    <link href="http://blog.eddie.com.tw/2011/11/12/coffeescript-on-phpconf-taiwan/"/>
     <updated>2011-11-12T10:00:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/11/12/coffeescript-on-phpconf-taiwan</id>
+    <id>http://blog.eddie.com.tw/2011/11/12/coffeescript-on-phpconf-taiwan</id>
     <content type="html"><![CDATA[<p>這是我在第一屆的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>講的主題</p>
 
 <p><a href="http://speakerdeck.com/u/eddie/p/coffeescript-a-better-way-to-write-javascript" target="_blank"><img src="/images/2011/coffeescript-on-phpconf-taiwan-2011.jpg" alt="image" /></a><br />
 <a href="http://speakerdeck.com/u/eddie/p/coffeescript-a-better-way-to-write-javascript" target="_blank">View on Speaker Deck</a><br />
-<a href="http://kaochenlong.github.com/eddie-blog/downloads/files/2011/coffeescript.pdf">Download PDF</a></p>
+<a href="http://blog.eddie.com.tw/downloads/files/2011/coffeescript.pdf">Download PDF</a></p>
 
 <p>內容是入門等級的介紹，沒有現場實作，只是希望大家可以試著用不同的工具，體會不同的感覺。這次同時也試著用不同的風格來做投影片，不過沒有太多有趣的梗，希望大家會喜歡。</p>
 

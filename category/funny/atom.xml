@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Funny | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/funny/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/funny/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[電視影集]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/30/tv-episodes/"/>
+    <link href="http://blog.eddie.com.tw/2011/10/30/tv-episodes/"/>
     <updated>2011-10-30T12:45:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/10/30/tv-episodes</id>
+    <id>http://blog.eddie.com.tw/2011/10/30/tv-episodes</id>
     <content type="html"><![CDATA[<p>我常會笑我老爸老媽每天晚上守著劇情扯到不能再扯的八點檔，然後討論誰的小孩是誰誰誰的私生子，然後誰又是誰的小三。但我自己也好不到哪裡去，即使再忙，也是幾乎每天在看影集。</p>
 
 <p>忘記是從什麼時候開始，我的<a href="http://lindsayrain.blogspot.com/">影集大盤商</a>介紹一些好看的美國影集之後，我就陷入了這個影集無窮迴圈。剛好最近跟朋友們吃飯聊到，於是就來整理一下列表，順便看看我到底浪費了多少生命在上面。</p>
@@ -138,9 +138,9 @@
   
   <entry>
     <title type="html"><![CDATA[Apple電腦之無窮迴圈]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2010/11/26/infinite-loop/"/>
+    <link href="http://blog.eddie.com.tw/2010/11/26/infinite-loop/"/>
     <updated>2010-11-26T18:25:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2010/11/26/infinite-loop</id>
+    <id>http://blog.eddie.com.tw/2010/11/26/infinite-loop</id>
     <content type="html"><![CDATA[<p>在<a href="/2010/11/26/create-map-application-with-mapkit-framework/">上一篇</a>練習MapView的時候，發現當把MapView的showsUserLocation打開後，在模擬器上執行的結果，會出現在美國的某個地方：</p>
 
 <p><img src="/images/2010/iphone_show_location.jpg" alt="image" /></p>
@@ -159,9 +159,9 @@
   
   <entry>
     <title type="html"><![CDATA[2009 PTT Flash 版聚]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2009/10/27/2009-ptt-flash-workshop/"/>
+    <link href="http://blog.eddie.com.tw/2009/10/27/2009-ptt-flash-workshop/"/>
     <updated>2009-10-27T15:00:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2009/10/27/2009-ptt-flash-workshop</id>
+    <id>http://blog.eddie.com.tw/2009/10/27/2009-ptt-flash-workshop</id>
     <content type="html"><![CDATA[<p><img src="/images/2009/DSC01966.JPG" alt="image" /></p>
 
 <p>今年八月底聚集了一些對Flash有熱好的朋友們，讓大家互相認識一下平常在版上互動的人長什麼樣子，也順便透過幾個專題演講來分享一下心得。</p>
@@ -196,9 +196,9 @@
   
   <entry>
     <title type="html"><![CDATA[We Feel Fine]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2006/08/19/we-feel-fine/"/>
+    <link href="http://blog.eddie.com.tw/2006/08/19/we-feel-fine/"/>
     <updated>2006-08-19T00:11:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2006/08/19/we-feel-fine</id>
+    <id>http://blog.eddie.com.tw/2006/08/19/we-feel-fine</id>
     <content type="html"><![CDATA[<p><blockquote><p>Since August 2005, We Feel Fine has been harvesting human feelings from a large number of weblogs. Every few minutes, the system searches the world’s newly posted blog entries for occurrences of the phrases “I feel” and “I am feeling”. When it finds such a phrase, it records the full sentence, up to the period, and identifies the “feeling” expressed in that sentence (e.g. sad, happy, depressed, etc.).</p></blockquote></p>
 
 <p>如同引言所說，它是藉由搜尋引擎的技術，自動到各個Blog上面去搜尋可能符合的字串(例如<code>I feel</code>或是<code>I am feeling</code>..)，集合成資料庫，再透過Flash的互動介面呈現。</p>

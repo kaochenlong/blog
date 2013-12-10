@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Diary | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/diary/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/diary/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[分心 FanXin app]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2013/10/18/fanxin-app/"/>
+    <link href="http://blog.eddie.com.tw/2013/10/18/fanxin-app/"/>
     <updated>2013-10-18T01:55:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2013/10/18/fanxin-app</id>
+    <id>http://blog.eddie.com.tw/2013/10/18/fanxin-app</id>
     <content type="html"><![CDATA[<p><img src="/images/2013/fanxin-app.jpg" alt="image" /></p>
 
 <p>今年二月份剛好有機會到朋友的公司幫忙開發 iOS app：「分心 FanXin」。顧名思義，就是一個可以讓你一邊看電視，一邊分心地跟朋友聊劇情的 app。</p>
@@ -49,9 +49,9 @@
   
   <entry>
     <title type="html"><![CDATA[HHKB Pro2 鍵盤使用心得]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/29/about-hhkb-pro2/"/>
+    <link href="http://blog.eddie.com.tw/2013/06/29/about-hhkb-pro2/"/>
     <updated>2013-06-29T10:02:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2013/06/29/about-hhkb-pro2</id>
+    <id>http://blog.eddie.com.tw/2013/06/29/about-hhkb-pro2</id>
     <content type="html"><![CDATA[<p><img src="/images/2013/hhkb-pro2-1.jpg" alt="image" /></p>
 
 <p>我每天的工作是敲打鍵盤之類的文書工作，所以幫自己找一隻順手的鍵盤也是剛剛好的藉口。</p>
@@ -122,9 +122,9 @@
   
   <entry>
     <title type="html"><![CDATA[RubyKaigi 2013]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/14/rubykaigi-2013/"/>
+    <link href="http://blog.eddie.com.tw/2013/06/14/rubykaigi-2013/"/>
     <updated>2013-06-14T01:55:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2013/06/14/rubykaigi-2013</id>
+    <id>http://blog.eddie.com.tw/2013/06/14/rubykaigi-2013</id>
     <content type="html"><![CDATA[<p class="info">本篇文章已刊載於 <a href="http://www.openfoundry.org/tw/foss-forum/9002-rubykaigi-2013" target="_blank">OpenFoundry 電子報自由專欄</a>，刊登之內容由專業的 OpenFoundry 團隊潤稿，此篇為原文。</p>
 
 
@@ -234,7 +234,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <img src="/images/2013/rubykaigi-matz-keynote.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
-<p>至於其它精彩內容也不需要多做介紹，直接參考 <a href="http://rubykaigi.org/2013/schedule" target="_blank">RubyKaigi 議程</a>頁面會得到更多的資訊。順便厚臉皮的來偷偷廣告一下<a href="http://kaochenlong.github.com/eddie-blog/2013/06/05/code-reading-in-rubykaigi2013/" target="_blank">我自己的主題</a>。</p>
+<p>至於其它精彩內容也不需要多做介紹，直接參考 <a href="http://rubykaigi.org/2013/schedule" target="_blank">RubyKaigi 議程</a>頁面會得到更多的資訊。順便厚臉皮的來偷偷廣告一下<a href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/" target="_blank">我自己的主題</a>。</p>
 
 <h3>演講</h3>
 
@@ -371,9 +371,9 @@ At last, thank you RubyKaigi team, you gave us a AWESOME conference, お疲れ�
   
   <entry>
     <title type="html"><![CDATA[HHKB Pro 2 鍵盤入手]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/03/hhkb-pro2-keyboard/"/>
+    <link href="http://blog.eddie.com.tw/2013/06/03/hhkb-pro2-keyboard/"/>
     <updated>2013-06-03T01:55:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2013/06/03/hhkb-pro2-keyboard</id>
+    <id>http://blog.eddie.com.tw/2013/06/03/hhkb-pro2-keyboard</id>
     <content type="html"><![CDATA[<p><img src="/images/2013/hhkb-pro2-1.jpg" alt="image" /></p>
 
 <p>其實沒什麼，只是敗家紀錄一下，就前幾天去日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi</a> 時候順便帶回來的。而且還特別挑了個無刻的回來：</p>
@@ -390,16 +390,16 @@ At last, thank you RubyKaigi team, you gave us a AWESOME conference, お疲れ�
   
   <entry>
     <title type="html"><![CDATA[第一回 Ruby/Rails 有心人訓練課程]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2013/04/22/1st-ruby-and-rails-training-course/"/>
+    <link href="http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course/"/>
     <updated>2013-04-22T09:09:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2013/04/22/1st-ruby-and-rails-training-course</id>
+    <id>http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course</id>
     <content type="html"><![CDATA[<p class="info">
 第一梯次的課程已在 3/23 開始，並於 4/14 告一段落，感謝大家的參與。
 </p>
 
 
 <p><img src="/images/2013/ruby-course-classroom-2.jpg" alt="image" />
-關於這個課程怎麼來的，詳情請參見<a href="http://kaochenlong.github.com/eddie-blog/2013/02/08/new-rubyist-wanted/">前文</a>。</p>
+關於這個課程怎麼來的，詳情請參見<a href="http://blog.eddie.com.tw/2013/02/08/new-rubyist-wanted/">前文</a>。</p>
 
 <p>為期一個月的 Ruby/Rails 訓練課程，算是告一段落了。</p>
 

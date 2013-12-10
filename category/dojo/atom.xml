@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Dojo | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/dojo/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/dojo/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[dojo toolkit入門(一)]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2008/09/16/dojo-toolkit-tutorial-part-1/"/>
+    <link href="http://blog.eddie.com.tw/2008/09/16/dojo-toolkit-tutorial-part-1/"/>
     <updated>2008-09-16T10:58:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2008/09/16/dojo-toolkit-tutorial-part-1</id>
+    <id>http://blog.eddie.com.tw/2008/09/16/dojo-toolkit-tutorial-part-1</id>
     <content type="html"><![CDATA[<p><img src="/images/2008/dojo_logo.jpg" alt="image" /></p>
 
 <p>雖然我個人還是比較喜歡<a href="http://jquery.com/">jQuery</a>的簡潔方便，而且一些常用的function也都jQuery化了，不過畢竟<a href="http://dojotoolkit.org/">Dojo</a>從<a href="http://framework.zend.com/">Zend Framework</a> 1.6版後就被officially的收進去了，為了ZF寫起來的完整性，還是花點時間來研究一下。</p>

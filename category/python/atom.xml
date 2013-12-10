@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Python | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/python/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/python/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Learn Python and Django from the Beginning]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/21/learn-python-and-django-from-the-beginning/"/>
+    <link href="http://blog.eddie.com.tw/2011/10/21/learn-python-and-django-from-the-beginning/"/>
     <updated>2011-10-21T01:07:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/10/21/learn-python-and-django-from-the-beginning</id>
+    <id>http://blog.eddie.com.tw/2011/10/21/learn-python-and-django-from-the-beginning</id>
     <content type="html"><![CDATA[<h3>Python</h3>
 
 <ol>
@@ -67,9 +67,9 @@
   
   <entry>
     <title type="html"><![CDATA[小結]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/19/django-conclusion/"/>
+    <link href="http://blog.eddie.com.tw/2011/10/19/django-conclusion/"/>
     <updated>2011-10-19T15:32:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/10/19/django-conclusion</id>
+    <id>http://blog.eddie.com.tw/2011/10/19/django-conclusion</id>
     <content type="html"><![CDATA[<h2>官網的文件一定要讀!!</h2>
 
 <p>如果你之後會把Django當做你主力的開發工具的話，目前坊間的書因為版本幾乎都沒跟上，所以大概可以先放旁邊，不過至少要把官網的資料讀過一遍。那如果文件看完怎麼辦? 閱讀原始碼啊!!</p>
@@ -92,9 +92,9 @@
   
   <entry>
     <title type="html"><![CDATA[Django的Flatpage]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/19/django-flatpage/"/>
+    <link href="http://blog.eddie.com.tw/2011/10/19/django-flatpage/"/>
     <updated>2011-10-19T13:15:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/10/19/django-flatpage</id>
+    <id>http://blog.eddie.com.tw/2011/10/19/django-flatpage</id>
     <content type="html"><![CDATA[<p>Django的功能很多，但假設其實你根本不需要這麼多資料庫相關的功能，你只是想做個簡單的個人簡介頁面，然後有個簡單的後台管理介面可以讓你更新內容就好，那你也許可以使用Django的Flatpage就行了。</p>
 
 <p>使用方式很簡單，只要把一些module加上去就行了。請打開<code>settings.py</code>，在<code>INSTALLED_APPS</code>加上<code>django.contrib.flatpages</code>：</p>
@@ -205,9 +205,9 @@ urlpatterns = patterns('',
   
   <entry>
     <title type="html"><![CDATA[從Model到Template]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/19/django-model-to-template/"/>
+    <link href="http://blog.eddie.com.tw/2011/10/19/django-model-to-template/"/>
     <updated>2011-10-19T13:14:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/10/19/django-model-to-template</id>
+    <id>http://blog.eddie.com.tw/2011/10/19/django-model-to-template</id>
     <content type="html"><![CDATA[<p>Model我們會建了，資料也可以從後台或Shell來做新增/修改/刪除/更新，網址會設定了，Template也大概知道怎麼回事了，其實整個Django的MTV(Model-Template-View)架構到這裡已經介紹得差不多了，接下來我們就是要把資料給串起來。</p>
 
 <p>回來看一下先來看一下我們的<code>book/views.py</code>：</p>
@@ -771,9 +771,9 @@ urlpatterns = patterns('',
   
   <entry>
     <title type="html"><![CDATA[Template]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/19/django-template/"/>
+    <link href="http://blog.eddie.com.tw/2011/10/19/django-template/"/>
     <updated>2011-10-19T12:00:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/10/19/django-template</id>
+    <id>http://blog.eddie.com.tw/2011/10/19/django-template</id>
     <content type="html"><![CDATA[<p>上一章我們學到了怎麼設定網址跟對應的action，但畫面的呈現不可能永遠只有一個<code>Hello BookStore!</code>這麼美好。很多時候程式設計師是需要跟美術設計師合作的，通常的流程是工程師會從設計手上拿到HTML + CSS的檔案，如果你曾經用PHP開發過網站，我猜大概你可能是把拿到的<code>.html</code>改成<code>.php</code>，然後開始HTML裡面塞PHP程式碼。Django的MTV架構也差不多，而且Django雖然是Python寫的，但不同的是你不可以在Template裡寫Python的程式碼，你在Template只能用Template提供的API，以及一些filter跟tag(不管是內建或是自己寫的)。</p>
 
 <p>主要的目的就是希望大家不要把以前那種寫義大利程式碼(<a href="http://en.wikipedia.org/wiki/Spaghetti_code">Spaghetti code</a>)的不良習慣帶來Django。</p>

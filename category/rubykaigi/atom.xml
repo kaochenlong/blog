@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: RubyKaigi | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/rubykaigi/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/rubykaigi/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[RubyKaigi 2013]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/14/rubykaigi-2013/"/>
+    <link href="http://blog.eddie.com.tw/2013/06/14/rubykaigi-2013/"/>
     <updated>2013-06-14T01:55:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2013/06/14/rubykaigi-2013</id>
+    <id>http://blog.eddie.com.tw/2013/06/14/rubykaigi-2013</id>
     <content type="html"><![CDATA[<p class="info">本篇文章已刊載於 <a href="http://www.openfoundry.org/tw/foss-forum/9002-rubykaigi-2013" target="_blank">OpenFoundry 電子報自由專欄</a>，刊登之內容由專業的 OpenFoundry 團隊潤稿，此篇為原文。</p>
 
 
@@ -127,7 +127,7 @@ photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p
 <img src="/images/2013/rubykaigi-matz-keynote.jpg" alt="image" />
 photo by <a href="https://twitter.com/eddiekao" target="_blank">@eddiekao</a></p>
 
-<p>至於其它精彩內容也不需要多做介紹，直接參考 <a href="http://rubykaigi.org/2013/schedule" target="_blank">RubyKaigi 議程</a>頁面會得到更多的資訊。順便厚臉皮的來偷偷廣告一下<a href="http://kaochenlong.github.com/eddie-blog/2013/06/05/code-reading-in-rubykaigi2013/" target="_blank">我自己的主題</a>。</p>
+<p>至於其它精彩內容也不需要多做介紹，直接參考 <a href="http://rubykaigi.org/2013/schedule" target="_blank">RubyKaigi 議程</a>頁面會得到更多的資訊。順便厚臉皮的來偷偷廣告一下<a href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/" target="_blank">我自己的主題</a>。</p>
 
 <h3>演講</h3>
 
@@ -264,9 +264,9 @@ At last, thank you RubyKaigi team, you gave us a AWESOME conference, お疲れ�
   
   <entry>
     <title type="html"><![CDATA[Code Reading @ RubyKaigi 2013]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2013/06/05/code-reading-in-rubykaigi2013/"/>
+    <link href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/"/>
     <updated>2013-06-05T01:55:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2013/06/05/code-reading-in-rubykaigi2013</id>
+    <id>http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013</id>
     <content type="html"><![CDATA[<p>很高興這次能有機會到日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>，我分享的題目是："<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>"，算是個滿冷門的題目，主要是分享我自己從閱讀 Ruby 原始程式碼中學習到的一些經驗。不過當天還有不少朋友來捧場，讓場子看起來不會太冷清，真是太意外了(其實我也搞不清楚到底有多少人，我當時已經緊張到沒辦法算數了)。<br />
 <span class="translate">Really glad to go to Japan and join the <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>, the topic of my talk is "<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>", which I don't think it's a popular topic, and it's about my experience while reading Ruby source code. Thanks to those friends who are willing to come to my talk.(Actually I was too nervous to count how many people already)</span></p>
 

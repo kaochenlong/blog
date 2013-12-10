@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: PHPConf Taiwan | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/phpconf-taiwan/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/phpconf-taiwan/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHPConf Taiwan 2011之CoffeeScript影片]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011/"/>
+    <link href="http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011/"/>
     <updated>2011-11-25T18:16:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011</id>
+    <id>http://blog.eddie.com.tw/2011/11/25/coffeescript-video-on-phpconf-taiwan-2011</id>
     <content type="html"><![CDATA[<p>這是在第一屆的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>上講的CoffeeScript的錄影，感謝辛苦的拍攝及後製人員，畫質及收音效果相當的好。
 <iframe width="420" height="315" src="http://www.youtube.com/embed/8i3qTKTr2tk" frameborder="0" allowfullscreen></iframe></p>
 
@@ -35,9 +35,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHPConf Taiwan 2011 is Launching]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/10/14/phpconf-taiwan-2011-is-launching/"/>
+    <link href="http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching/"/>
     <updated>2011-10-14T01:05:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/10/14/phpconf-taiwan-2011-is-launching</id>
+    <id>http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching</id>
     <content type="html"><![CDATA[<p><img src="/images/2011/phpconf.jpg" alt="image" /></p>
 
 <p>網址：<a href="http://phpconf.tw/2011">http://phpconf.tw/2011</a></p>

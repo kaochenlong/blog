@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: EaselJS | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/easeljs/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/easeljs/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Play Canvas with EaselJS]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/09/21/play-canvas-with-easeljs/"/>
+    <link href="http://blog.eddie.com.tw/2011/09/21/play-canvas-with-easeljs/"/>
     <updated>2011-09-21T01:00:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/09/21/play-canvas-with-easeljs</id>
+    <id>http://blog.eddie.com.tw/2011/09/21/play-canvas-with-easeljs</id>
     <content type="html"><![CDATA[<p>這是昨晚在第7回AS讀書會上講的主題："<a href="http://blog.eddie.com.tw/slides/easeljs">Play Canvas with EaselJS</a>"所用到的投影片，內容主要是簡單介紹<a href="http://easeljs.com/">EaselJS</a>的用途，並以幾個簡單的幾個範例來做操作示範。這回是第一次使用的是<a href="http://imakewebthings.github.com/deck.js/">deck.js</a>來製作投影片，很多地方還不太熟悉，希望下回可以改進!</p>
 
 <p>投影片連結：<a href="http://blog.eddie.com.tw/slides/easeljs">http://blog.eddie.com.tw/slides/easeljs</a></p>
@@ -28,9 +28,9 @@
   
   <entry>
     <title type="html"><![CDATA[Zoë – 從SWF匯出SpriteSheet的方便工具]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/09/11/zoe/"/>
+    <link href="http://blog.eddie.com.tw/2011/09/11/zoe/"/>
     <updated>2011-09-11T00:49:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/09/11/zoe</id>
+    <id>http://blog.eddie.com.tw/2011/09/11/zoe</id>
     <content type="html"><![CDATA[<p><a href="/2011/09/10/introduction-to-easeljs/">前一篇</a>簡單的介紹了一下<a href="http://easeljs.com/">EaselJS</a>，其中有個類別叫做<a href="http://easeljs.com/docs/SpriteSheet.html">SpriteSheet</a>，其實它就是把一些連續動作的圖片排排站的集合拼成一張圖，把檔案及相關的frame data包成SpriteSheet之後，再讓這些連續圖檔連續播放，感覺就會像動畫了。在之後的文章應該還會有更多關於SpriteSheet的說明，如果你還是沒辦法想像Spritesheet是怎麼回事，你可以回想一下設計師在Flash做動畫的時候，會在時間軸上安插一堆的關鍵影格(Key Frame)，然後讓每個關鍵影格的動作都稍微有些變化，大概就是這樣的概念，只是HTML5並沒有時間軸可以用。</p>
 
 <p>一個跑步的角色的SpriteSheet圖片可能會長這樣：</p>
@@ -210,9 +210,9 @@
   
   <entry>
     <title type="html"><![CDATA[EaselJS新手上路]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/09/10/introduction-to-easeljs/"/>
+    <link href="http://blog.eddie.com.tw/2011/09/10/introduction-to-easeljs/"/>
     <updated>2011-09-10T00:10:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/09/10/introduction-to-easeljs</id>
+    <id>http://blog.eddie.com.tw/2011/09/10/introduction-to-easeljs</id>
     <content type="html"><![CDATA[<h2>前言</h2>
 
 <p>我一直都沒有忘記我是個閃客(Flasher)的身份，不過近年來因為貪圖紅寶石(Ruby)的漂亮，所以同時也把它一併收到工具箱裡，當做自己謀生的工具之一。</p>

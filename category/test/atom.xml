@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Test | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/test/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/test/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Automated Testing in Javascript]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/12/22/automated-testing-in-javascript/"/>
+    <link href="http://blog.eddie.com.tw/2011/12/22/automated-testing-in-javascript/"/>
     <updated>2011-12-22T05:30:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/12/22/automated-testing-in-javascript</id>
+    <id>http://blog.eddie.com.tw/2011/12/22/automated-testing-in-javascript</id>
     <content type="html"><![CDATA[<p>這是在<a href="http://www.jaceju.net/blog/" target="_blank">大澤木小鐵(Jace)</a>主辦的第一回<a href="http://registrano.com/events/webdev-party-01" target="_blank">WebDev Party</a>上用到的投影片：
 <a href="http://speakerdeck.com/u/eddie/p/automated-testing-in-javascript" target="_blank"><img src="/images/2011/speakerdeck-automated-testing-in-javascript.jpg" alt="image" /></a>
 <a href="http://speakerdeck.com/u/eddie/p/automated-testing-in-javascript" target="_blank">View on Speak Deck</a> | <a href="/downloads/files/2011/automated-testing-in-javascript.pdf">Download PDF</a> | <a href="/downloads/files/2011/automated-test-in-javascript.zip">Download ScreenCast</a></p>

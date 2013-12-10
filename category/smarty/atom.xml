@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Smarty | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/smarty/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/smarty/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Smarty之星鍋娛樂網]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2008/07/28/starswok/"/>
+    <link href="http://blog.eddie.com.tw/2008/07/28/starswok/"/>
     <updated>2008-07-28T10:21:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2008/07/28/starswok</id>
+    <id>http://blog.eddie.com.tw/2008/07/28/starswok</id>
     <content type="html"><![CDATA[<p><img src="/images/2008/starswok.jpg" alt="image" /></p>
 
 <p>你想當大明星嗎? 嗯，我想 :)</p>

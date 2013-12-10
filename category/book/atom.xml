@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Book | 高見龍]]></title>
-  <link href="http://kaochenlong.github.com/eddie-blog/category/book/atom.xml" rel="self"/>
-  <link href="http://kaochenlong.github.com/eddie-blog/"/>
-  <updated>2013-12-11T05:36:09+08:00</updated>
-  <id>http://kaochenlong.github.com/eddie-blog/</id>
+  <link href="http://blog.eddie.com.tw/category/book/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2013-12-11T05:43:06+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[書摘：slide:ology中文版]]></title>
-    <link href="http://kaochenlong.github.com/eddie-blog/2011/11/30/slideology/"/>
+    <link href="http://blog.eddie.com.tw/2011/11/30/slideology/"/>
     <updated>2011-11-30T06:23:00+08:00</updated>
-    <id>http://kaochenlong.github.com/eddie-blog/2011/11/30/slideology</id>
+    <id>http://blog.eddie.com.tw/2011/11/30/slideology</id>
     <content type="html"><![CDATA[<p><img src="/images/2011/book-slideology.jpg" alt="image" /><br />
 書名：slide:ology中文版<br />視覺溝通：讓簡報與聽眾形成一種對話</p>
 
