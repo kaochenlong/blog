@@ -9,7 +9,22 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="官網的文件一定要讀!! 如果你之後會把Django當做你主力的開發工具的話，目前坊間的書因為版本幾乎都沒跟上，所以大概可以先放旁邊，不過至少要把官網的資料讀過一遍。那如果文件看完怎麼辦? 閱讀原始碼啊!! Django本身是open source的，而且是用純Python寫的， &hellip;">
+  <meta name="description" content="Python Python簡介
+安裝Python
+如果你是使用Windows作業系統的話..
+邏輯及流程控制
+Method
+數字
+Boolean
+字串
+List
+Dictionary
+Tuple
+例外處理
+模組
+物件導向程式設計 Django Django簡介
+安裝Django
+開始你的第一個專案 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +93,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/21/learn-python-and-django-from-the-beginning/">Learn Python and Django from the Beginning</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/21/learn-python-and-django-from-the-beginning/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-21T01:07:00+08:00" pubdate>Oct 21<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Python</h3>
+
+<ol>
+<li><a href="/2011/10/12/python-introduction/">Python簡介</a></li>
+<li><a href="/2011/10/12/python-install/">安裝Python</a></li>
+<li><a href="/2011/10/12/install-cygwin-on-windows/">如果你是使用Windows作業系統的話..</a></li>
+<li><a href="/2011/10/12/python-flow-control/">邏輯及流程控制</a></li>
+<li><a href="/2011/10/12/python-method/">Method</a></li>
+<li><a href="/2011/10/13/python-number/">數字</a></li>
+<li><a href="/2011/10/13/python-boolean/">Boolean</a></li>
+<li><a href="/2011/10/13/python-string/">字串</a></li>
+<li><a href="/2011/10/13/python-list/">List</a></li>
+<li><a href="/2011/10/13/python-dictionary/">Dictionary</a></li>
+<li><a href="/2011/10/13/python-tuple/">Tuple</a></li>
+<li><a href="/2011/10/13/python-exception/">例外處理</a></li>
+<li><a href="/2011/10/13/python-module/">模組</a></li>
+<li><a href="/2011/10/13/python-oop/">物件導向程式設計</a></li>
+</ol>
+
+
+<h3>Django</h3>
+
+<ol>
+<li><a href="/2011/10/14/django-introduction/">Django簡介</a></li>
+<li><a href="/2011/10/14/django-install/">安裝Django</a></li>
+<li><a href="/2011/10/18/django-your-first-django-project/">開始你的第一個專案</a></li>
+<li><a href="/2011/10/18/django-create-app/">建立App</a></li>
+<li><a href="/2011/10/19/django-shell/">Django Shell</a></li>
+<li><a href="/2011/10/19/django-more-about-model/">更多關於Model的使用</a></li>
+<li><a href="/2011/10/19/django-db-migration-with-south/">在Django裡做Database Migration</a></li>
+<li><a href="/2011/10/19/django-model-relationship/">資料表的關連</a></li>
+<li><a href="/2011/10/19/django-url/">網址設定</a></li>
+<li><a href="/2011/10/19/django-template/">Template</a></li>
+<li><a href="/2011/10/19/django-model-to-template/">從Model到Template</a></li>
+<li><a href="/2011/10/19/django-flatpage/">Flatpage</a></li>
+<li><a href="/2011/10/19/django-conclusion/">小結</a></li>
+</ol>
+
+
+<p>我另外在<a href="http://python-and-django.heroku.com/">http://python-and-django.heroku.com/</a>也放了一份。</p>
+
+<p>這次是用<a href="http://octopress.org/">Octopress</a> + <a href="http://daringfireball.net/projects/markdown/">Markdown</a>寫的，感覺相當順手，不知不覺就會一直打字下去。內容還沒很完整，我會再找時間把它繼續完成，希望內容對大家有幫助。</p>
+
+<p>如果有寫錯的地方再請不吝告知，感謝!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1002,191 +1094,6 @@ urlpatterns = patterns('',
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/19/django-url/">網址設定</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-url/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-19T10:57:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Model的部份看過之後，接著介紹Django很重要的一個單元，就是怎麼在Django裡設定或設計你網站內的網址。</p>
-
-<p>以前你可以會看到像這樣的網址：</p>
-
-<pre><code>http://www.eddie.com.tw/book/index.php?id=100
-</code></pre>
-
-<p>網址後面接問號又接了一些參數，從網址大概猜得出來這應該是編號(id)第100號的書。這樣的做法不是不好，只是近年來有更好的做法，而且對SEO(<a href="http://en.wikipedia.org/wiki/Search_engine_optimization">Search Engine Optimization</a>)有一些加分的效果：</p>
-
-<pre><code>http://www.eddie.com.tw/book/100
-</code></pre>
-
-<p>這該怎麼做呢? 在Django的網址設定是交給一個叫做<code>urls.py</code>的檔案在管理(其實不限定只有一個，也可以多個/模組化的設定)，先看一下它原來的樣子：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.conf.urls.defaults</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Uncomment the next two lines to enable the admin:</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
-</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="c"># Examples:</span>
-</span><span class='line'>  <span class="c"># url(r&#39;^$&#39;, &#39;bookstore.views.home&#39;, name=&#39;home&#39;),</span>
-</span><span class='line'>  <span class="c"># url(r&#39;^bookstore/&#39;, include(&#39;bookstore.foo.urls&#39;)),</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c"># Uncomment the admin/doc line below to enable admin documentation:</span>
-</span><span class='line'>  <span class="c"># url(r&#39;^admin/doc/&#39;, include(&#39;django.contrib.admindocs.urls&#39;)),</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c"># Uncomment the next line to enable the admin:</span>
-</span><span class='line'>  <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>urls.py</code>的主要功能，就是設定&#8221;當遇到某個網址的request的時候，請找指定的App裡的View的action處理&#8221;。設定網址的對應，可能會需要學一些簡單的<a href="http://en.wikipedia.org/wiki/Regular_expression">Regular Expression</a>語法。</p>
-
-<p>我們先來設定一下整個網站的首頁，讓它交給<code>books/views.py</code>裡的index方法處理：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.conf.urls.defaults</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Uncomment the next two lines to enable the admin:</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
-</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="c"># Examples:</span>
-</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="s">&#39;bookstore.book.views.index&#39;</span><span class="p">),</span>
-</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^books/(?P&lt;book_id&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="s">&#39;bookstore.book.views.detail&#39;</span><span class="p">),</span>
-</span><span class='line'>    <span class="c"># url(r&#39;^bookstore/&#39;, include(&#39;bookstore.foo.urls&#39;)),</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Uncomment the admin/doc line below to enable admin documentation:</span>
-</span><span class='line'>    <span class="c"># url(r&#39;^admin/doc/&#39;, include(&#39;django.contrib.admindocs.urls&#39;)),</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Uncomment the next line to enable the admin:</span>
-</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中這行：</p>
-
-<pre><code>url(r'^$', 'bookstore.book.views.index'),
-</code></pre>
-
-<p>表示「當遇到網址後面沒接東西的時候(也就是大家俗稱的&#8221;首頁&#8221;)，請找<code>book/views.py</code>裡面的index方法處理」，前面的<code>bookstore</code>是整個專案的名稱。設定完之後如果你直接連網址<code>http://127.0.0.1:8000/</code>的話，會看到這個畫面：</p>
-
-<p><img src="/images/django/view_does_not_exist.png" alt="image" /></p>
-
-<p>跳出了<code>ViewDoesNotExist</code>的錯誤訊息了。看到錯誤訊息不用擔心，通常錯誤訊息裡都會跟你說哪邊有錯。原來是我們剛剛把首頁指向之後，但並沒有在對應的地方加上<code>index</code>方法，所以請打開<code>book/views.py</code>，加上<code>index</code>方法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Hello BookStore!&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>存檔後再回來看，你應該就可以看到這個畫面：</p>
-
-<p><img src="/images/django/hello_bookstore.png" alt="image" /></p>
-
-<p>如果你這樣設定：</p>
-
-<pre><code>url(r'books\.php', 'bookstore.book.views.index'),
-</code></pre>
-
-<p>這表示當你連到<code>http://127.0.0.1:8000/books.php</code>的時候，會把request丟給<code>book/views.py</code>的<code>index</code>方法處理。看起來好像是PHP，但其實不是。二、三年前我就曾經用Django做過幫Microsoft做過某個網路行銷活動案，客戶沒有規定要用什麼程式語言(只要會動就好)，不過為了讓客戶覺得我是用ASP.NET開發的，我還特地在<code>urls.py</code>加上<code>.aspx</code>的附檔名。</p>
-
-<p>是有點蠢，不過也挺有趣的不是嗎? :)</p>
-
-<p>接下來，我們再來看看這行：</p>
-
-<pre><code>url(r'^books/(?P&lt;book_id&gt;\d+)/$', 'bookstore.book.views.detail'),
-</code></pre>
-
-<p>意思就是說當遇到<code>http://127.0.0.1:8000/books/100</code>的網址的時候，那個<code>100</code>會被當做<code>book_id</code>傳給<code>book/views.py</code>的<code>detail</code>方法當做參數。</p>
-
-<p>在<code>views.py</code>裡的方法，通常我們會稱它叫做<code>action</code>，每個action方法的第一個參數，一定都是http request，每個action的回傳值，一定要是一個<code>HttpResponse</code>。<code>views.py</code>在一般的MVC架構裡，大概就是Controller之類的角色。</p>
-
-<p>如果你有注意到在<code>urls.py</code>裡的這行註解，長得跟我們寫的不太一樣：</p>
-
-<pre><code>url(r'^bookstore/', include('bookstore.foo.urls')),
-</code></pre>
-
-<p>這其實是另一種url的設定，雞蛋不一定要放在同一個籠子裡。當你的專案如果小的時候，全部放在專案根目錄的<code>urls.py</code>是沒問題的(中央集權)，但隨著功能越加越多，你的網址對應可能會越來越多、越來越複雜，這時候你可以在App裡自己建一個<code>urls.py</code>，然後把所有跟這個App有關的url&#8221;委任&#8221;給它管理(地方自治)，不過這部份的細節就不再多說明，還請再參考官網文件<a href="https://docs.djangoproject.com/en/1.3/topics/http/urls/">URL dispatcher</a>。</p>
-
-<p>即使我們會設定網址了，會寫對應的action了，但還是少了什麼.. 如果設計師拿一個切好版的HTML + CSS給我，難到我要像這樣用<code>HttpResponse</code>整個把它印出來? 當然不是，接著我們來看看在Django的MTV架構裡的T，Template!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/12/">&larr; Older</a>
@@ -1221,6 +1128,10 @@ urlpatterns = patterns('',
 <section>
   <h1>最近的文章</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
+      </li>
     
       <li class="post">
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
@@ -1258,15 +1169,11 @@ urlpatterns = patterns('',
         <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

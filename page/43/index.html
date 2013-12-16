@@ -9,10 +9,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="Postfix的Relay控制，是在/etc/postfix/main.cf裡面做設定，主要有四個部份： inet_interfaces
-mynetworks_style
-mynetworks
-relay_domains inet_interfaces： 預設值是all，如果你的機器有多張網路卡， &hellip;">
+  <meta name="description" content="RedHat宣布不再推出個人免費版本，並把原先RedHat9的相關技術，移至Fedora計劃，目前已推出到Fedora Core3；同時也針對高階伺服器市場推出Red Hat Enterprise Linux(RHEL)。RHEL有AS、ES及WS三種版本，AS是最高階的企業級伺服器， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +78,54 @@ relay_domains inet_interfaces： 預設值是all，如果你的機器有多張�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/03/02/centos/">CentOS</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/03/02/centos/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-03-02T21:14:00+08:00" pubdate>Mar 2<span>nd</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>RedHat宣布不再推出個人免費版本，並把原先RedHat9的相關技術，移至Fedora計劃，目前已推出到Fedora Core3；同時也針對高階伺服器市場推出Red Hat Enterprise Linux(RHEL)。RHEL有AS、ES及WS三種版本，AS是最高階的企業級伺服器，最多可以支援到16個CPU及64G的記憶體，WS則是桌面 工作站，ES則適用於一般中小型企業的社群級伺服器版本。當然，這個RHEL就是要收錢的(軟體費用及技術支援費用)，可以參考一下<a href="http://www.shinewave.net.tw/linux/linux-redhat.htm">這個網站</a>或是<a href="http://www.redhat.com/">RedHat官方網站</a>的價錢。</p>
+
+<p>CentOS : Community ENTerprise Operating System</p>
+
+<p>有 個叫做CentOS的Linux版本，便是以RHEL為架構發展出來的，一樣秉持著Linux的自由精神，可免費下載使用。CentOS2、3聲稱與 RHEL2、3完全100%相容，日前CentOS已經推出第4個版本，本著RHEL的穩定性、支援高階伺服器硬體及低廉的軟體成本，以中、小型企業來 說，CentOS成為架設Linux伺服器的不錯的選擇之一。</p>
+
+<p>當然，軟體免費，不等於Linux就是免費，技術服務不是免費的，所以企業在引進這樣的系統時，也得考量這方面成本。</p>
+
+<p>國內ISO下載：<a href="http://ftp2.tnc.edu.tw/pub1/centos/centos-4/4.0/isos/i386/">ISO image Mirror Site</a></p>
+
+<p>CentOS Official Website：<a href="http://www.centos.org/">http://www.centos.org/</a></p>
+
+<h3>參考資料：</h3>
+
+<p><a href="http://linux.tnc.edu.tw/techdoc/eltoyou/eltoyou.html">http://linux.tnc.edu.tw/techdoc/eltoyou/eltoyou.html</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -421,97 +466,6 @@ Connection closed by foreign host.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2005/02/16/chinese-characters-problem/">中文字處理的問題</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2005/02/16/chinese-characters-problem/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2005-02-16T20:34:00+08:00" pubdate>Feb 16<span>th</span>, 2005</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近在用sed處理中文資料的時候，發現經過處理後，有少數字會變成亂碼，後來才知道原來是locale沒設定好。</p>
-
-<pre><code>&gt; echo ’65,3,”1111″,”謝婷雯”,”xxx@yahoo.com.tw’| sed ‘s/@/”,”/g’
-</code></pre>
-
-<p>結果得到：</p>
-
-<pre><code>65,3,”1111″,”謝?,”雯”,”xxx”,”yahoo.com.tw
-</code></pre>
-
-<p>我在自己帳號下的<code>.bash_profile</code>裡面加上<code>LC_ALL=zh_TW.Big5</code>之後：</p>
-
-<pre><code>&gt; echo ’65,3,”1111″,”謝婷雯”,”xxx@yahoo.com.tw’| sed ‘s/@/”,”/g’
-</code></pre>
-
-<p>結果就是</p>
-
-<pre><code>65,3,”1111″,”謝婷雯”,”xxx”,”yahoo.com.tw
-</code></pre>
-
-<h3>說明：</h3>
-
-<p>locale的環境變數設定有下列幾個：</p>
-
-<ol>
-<li>LC_CTYPE: 字元分類及處理方式。</li>
-<li>LC_COLLATE: 字元順序與字串比較。</li>
-<li>LC_MESSAGES: 程式中用何種語言來顯示訊息。</li>
-<li>LC_MONETARY: 貨幣顯式格式。</li>
-<li>LC_NUMERIC: 數字顯式格式。</li>
-<li>LC_TIME: 日期與時間的顯式格式。</li>
-<li>LC_ALL: 此類別可以一次設定以上所有的類別。</li>
-<li>LANG: 作用類似 LC_ALL，也可用來一次設定所有的 locale 環境。</li>
-</ol>
-
-
-<p>使用locale這個程式可以看到目前locale的設定情形：</p>
-
-<pre><code>&gt; locale
-LANG=en_US.UTF-8
-LC_CTYPE=”zh_TW.Big5″
-LC_NUMERIC=”zh_TW.Big5″
-LC_TIME=”zh_TW.Big5″
-LC_COLLATE=”zh_TW.Big5″
-LC_MONETARY=”zh_TW.Big5″
-LC_MESSAGES=”zh_TW.Big5″
-LC_PAPER=”zh_TW.Big5″
-LC_NAME=”zh_TW.Big5″
-LC_ADDRESS=”zh_TW.Big5″
-LC_TELEPHONE=”zh_TW.Big5″
-LC_MEASUREMENT=”zh_TW.Big5″
-LC_IDENTIFICATION=”zh_TW.Big5″
-LC_ALL=zh_TW.Big5
-</code></pre>
-
-<h3>參考資料：</h3>
-
-<p><a href="http://xcin.linux.org.tw/i18n/pc2000/p2/node4.html">http://xcin.linux.org.tw/i18n/pc2000/p2/node4.html</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/44/">&larr; Older</a>
@@ -546,6 +500,10 @@ LC_ALL=zh_TW.Big5
 <section>
   <h1>最近的文章</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
+      </li>
     
       <li class="post">
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
@@ -583,15 +541,11 @@ LC_ALL=zh_TW.Big5
         <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

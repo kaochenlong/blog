@@ -9,7 +9,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="常看到日本那邊有不少的”AS勉強會”，一群對某樣技術有共同喜好的人聚在一起聊聊最近又學了什麼新技術或有了新的idea，實在很令人羨慕。 就我所知，國內比較有”活性”的聚會，Ruby有Ruby Tuesday，Google Technology有Taipei GTUG， &hellip;">
+  <meta name="description" content="前不久在Grant Skinner大人的twitter上看到這個： Just discovered a handy trick for merging two arrays in JS: arr1.push.apply(arr1, arr2);@gskinnertwitter.com/#!/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,144 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/01/18/faster-array-concatenation-in-as3/">Faster Array Concatenation in AS3</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/01/18/faster-array-concatenation-in-as3/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-01-18T12:10:00+08:00" pubdate>Jan 18<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前不久在Grant Skinner大人的twitter上看到這個：</p>
+
+<blockquote><p>Just discovered a handy trick for merging two arrays in JS: arr1.push.apply(arr1, arr2);</p><footer><strong>@gskinner</strong><cite><a href='https://twitter.com/#!/gskinner/status/24695778207338496'>twitter.com/#!/gskinner/status/&hellip;</a></cite></footer></blockquote>
+
+
+<p>真神奇，原來<code>Function.apply</code>還可以這樣玩，而且這招似乎在AS3上也可行，直接寫幾行程式碼測一下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">function</span> <span class="nx">test_concat</span><span class="p">()</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;== TEST Array Concat ==&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">array1</span><span class="o">:</span><span class="nb">Array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">array2</span><span class="o">:</span><span class="nb">Array</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="o">,</span> <span class="s1">&#39;b&#39;</span><span class="o">,</span> <span class="s1">&#39;c&#39;</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">timer_start</span> <span class="o">=</span> <span class="nf">getTimer</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span> <span class="mi">10000</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nx">array1</span> <span class="o">=</span> <span class="nx">array1</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">array2</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">timer_end</span> <span class="o">=</span> <span class="nf">getTimer</span><span class="p">();</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;the length of array1 is : &quot;</span> <span class="o">+</span> <span class="nx">array1</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;== &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">timer_end</span> <span class="o">-</span> <span class="nx">timer_start</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; miniseconds ==&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">test_push_and_apply</span><span class="p">()</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;== TEST Array Push and Apply ==&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">array1</span><span class="o">:</span><span class="nb">Array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">array2</span><span class="o">:</span><span class="nb">Array</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="o">,</span> <span class="s1">&#39;b&#39;</span><span class="o">,</span> <span class="s1">&#39;c&#39;</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">timer_start</span> <span class="o">=</span> <span class="nf">getTimer</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span> <span class="mi">10000</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nx">array1</span><span class="p">.</span><span class="nx">push</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">array1</span><span class="o">,</span> <span class="nx">array2</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">timer_end</span> <span class="o">=</span> <span class="nf">getTimer</span><span class="p">();</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;the length of array1 is : &quot;</span> <span class="o">+</span> <span class="nx">array1</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;== &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">timer_end</span> <span class="o">-</span> <span class="nx">timer_start</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; miniseconds ==&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 測試</span>
+</span><span class='line'><span class="nx">test_concat</span><span class="p">();</span>
+</span><span class='line'><span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">test_push_and_apply</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>我的環境：</h3>
+
+<ul>
+<li>Macbook Pro</li>
+<li>CPU : Intel Core 2 Duo 2.4 GHz</li>
+<li>RAM : 4 GB</li>
+</ul>
+
+
+<h3>執行結果：</h3>
+
+<pre><code>== TEST Array Concat ==
+the length of array1 is : 30003
+== 4119 miniseconds ==
+
+== TEST Array Push and Apply ==
+the length of array1 is : 30003
+== 5 miniseconds ==
+</code></pre>
+
+<p>array1最後結果內容是一樣的，但花的時間差非常大，我想這其中主要的差異應該是在於<code>Array.concat</code>每次都會產生一個新的array，而且還得再assign給原來的array的緣故。</p>
+
+<p>後來還有看到<a href="http://f-site.org/articles/2011/01/12235027.html">這篇</a>，野中さん有在wonderfl上做了幾個實驗，結果發現跟這兩個array的大小有關。<strike>不過在我的機器上好像在試不出來差異，不知道是不是我哪邊有錯，即使調整兩個array的大小，Function.apply的速度都是遠大於Array.concat的。</strike></p>
+
+<p>update: 是我自己耍笨，測試數字請見連結裡野中さん的那三個測試。</p>
+
+<p>I may be wrong, please correct me if there’s anything wrong :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -422,70 +560,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/20/add-iad-in-your-app/">在你的app裡加入廣告</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/12/20/add-iad-in-your-app/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-12-20T00:15:00+08:00" pubdate>Dec 20<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2010/iad_logo.jpg" alt="image" /></p>
-
-<p>蘋果的App Store上有許多的軟體，有的重量級的大作是直接掛個價錢就上架，有的是先提供免費的試玩版，滿意再買正式版，其中有些則是不收費，但會放一些廣告在裡面。這些軟體的開發者有的是真的佛心，有的是純練功，不過置入廣告來賺取一些生活費並沒什麼對錯的問題，畢竟大家也都是要過日子。放個廣告上來只要不影響整個app的使用也沒應該沒什麼大礙，畢竟這些開發者也還是需要一些”動力”才能繼續幫大家開發更好用的軟體。</p>
-
-<p>你也許會好奇放這個廣告是能賺什麼錢，在不久前有個故事，就是有個人做了一個手電筒的app，裡面放了廣告，結果這個開發者在第一天就賺了將近1,400美元的收入，CTR將近12%。我不知道這個故事的真實性，也許這個故事只是為了吸引更多的開發者上勾，也或許這只是個特例，不過iAd的拆帳比例是六四分，開發者六，蘋果四。跟一般我們買網站banner的利潤比起來，六成的拆帳不算低。也許是大家覺得新奇，又或是不小心點到(畢竟iPhone那麼小一隻)，跟一般網站banner的CTR比起來，手機上的廣告CTR都還滿高的。</p>
-
-<p>其實要在app上置入廣告還滿容易，不需要寫到程式碼，一樣以前面那個地圖app做範例，首先點擊我要放廣告的那個xib檔，跳出interface builder，在元件庫裡可以找到一個iAd的元件：</p>
-
-<p><img src="/images/2010/iad_component.jpg" alt="image" /></p>
-
-<p>把它拉到場景上，調整一下位置跟尺寸：</p>
-
-<p><img src="/images/2010/iad_added_to_view.png" alt="image" /></p>
-
-<p>最後，因為project預設並沒有把iAd framework放進來，所以需要手動自己加，在Frameworks上按右鍵，選擇”Add” -> “Existing frameworks”：</p>
-
-<p><img src="/images/2010/iad_framework.png" alt="image" /></p>
-
-<p>測試看看，你應該可以看到一個測試的banner：</p>
-
-<p><img src="/images/2010/iad_result.jpg" alt="image" /></p>
-
-<p>點擊之後的效果：</p>
-
-<p><img src="/images/2010/iad_clicked.jpg" alt="image" /></p>
-
-<p>大概這樣就完成了，記得廣告不要放太大塊而影響整個app的運作囉(放大太塊到時候送審的時候也不一定會過)。</p>
-
-<h3>建議閱讀：</h3>
-
-<p><a href="http://developer.apple.com/iad/">Apple Developer – iAd</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/25/">&larr; Older</a>
@@ -520,6 +594,10 @@
 <section>
   <h1>最近的文章</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
+      </li>
     
       <li class="post">
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
@@ -557,15 +635,11 @@
         <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 118.94736842105263%'>iOS App Development(12)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 125.26315789473685%'>Objective-C(16)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

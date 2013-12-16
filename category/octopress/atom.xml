@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/octopress/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-11T05:43:06+08:00</updated>
+  <updated>2013-12-16T08:00:44+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -14,11 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[幫你的Octopress增加文章分類]]></title>
+    <title type="html"><![CDATA[幫你的 Octopress 增加文章分類]]></title>
     <link href="http://blog.eddie.com.tw/2011/12/05/add-catetories-to-sidebar-in-octopress/"/>
     <updated>2011-12-05T10:00:00+08:00</updated>
     <id>http://blog.eddie.com.tw/2011/12/05/add-catetories-to-sidebar-in-octopress</id>
-    <content type="html"><![CDATA[<p>發現在Octopress似乎沒有現成可以放在sidebar的分類，於是便自己動手刻一個，順便練一下手感。程式碼短短的，使用方法也很容易，首先你可以按下面程式碼區塊右上角的download，並將檔案存在Octopress的<code>plugins</code>資料夾：</p>
+    <content type="html"><![CDATA[<p>發現在 Octopress 似乎沒有現成可以放在 sidebar 的分類，於是便自己動手刻一個，順便練一下手感。程式碼短短的，使用方法也很容易，首先你可以按下面程式碼區塊右上角的 download，並將檔案存在 Octopress 的 <code>plugins</code> 資料夾：</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (category_list.rb)</span> <a href='/downloads/code/octopress/category_list.rb'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

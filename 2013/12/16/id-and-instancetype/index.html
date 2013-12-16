@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>id 與 instancetype - 高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="這星期我們再來看個有點冷門但我覺得還滿有趣的小東西：instancetype。如果我們去翻一下 NSObject 上 alloc 跟 init 的定義： 1
+2
+3
+4
+5
+6
+7
+8
+// 檔案：NSObject.h
+@interface NSObject &lt;NSObject&gt; { &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/2013/12/16/id-and-instancetype/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <p class="meta">
+    
+      <a class="basic-alignment left" href="/2013/12/05/object-class-and-meta-class-in-objective-c/" title="Previous Post: Object, Class and Meta Class in Objective-C">&laquo; Object, Class and Meta Class in Objective-C</a>
+    
+    
+  </p>
+  
+  <header>
+    
+      <h1 class="entry-title">id 與 instancetype</h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2013/12/16/id-and-instancetype/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2013-12-16T07:35:00+08:00" pubdate>Dec 16<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>這星期我們再來看個有點冷門但我覺得還滿有趣的小東西：<strong>instancetype</strong>。如果我們去翻一下 <code>NSObject</code> 上 <code>alloc</code> 跟 <code>init</code> 的定義：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 檔案：NSObject.h</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">init</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">new</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">alloc</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>會發現 <code>alloc</code> 跟 <code>init</code> 的回傳型態都是 <code>id</code>。而在<a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">上一篇</a>提到，在 Objective-C 裡 <code>id</code> 是一個可以指向任何物件的指針，所以如果這樣寫的話：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSArray</span><span class="o">*</span> <span class="n">myArray</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看起好像沒什麼問題，執行起來也正常，但這裡就有個小小的疑惑了.. 即然 <code>alloc</code> 跟 <code>init</code> 都是回傳 <code>id</code> 型別，Objective-C 是個動態語言，很多資訊是在執行階段(runtime)才會取得，那編譯器(compiler)又是怎麼知道它應該要是個 <code>NSArray</code>?</p>
+
+<!-- more -->
+
+
+<p>根據 <a href="http://clang.llvm.org/docs/LanguageExtensions.html">Clang 的文件</a>說明，原來當我們寫 <code>[NSArray alloc]</code> 的時候，訊息接受者(receiver，也就是 <code>NSArray</code>)收到訊息(message，也就是 <code>alloc</code>)，它並不是真的就乖乖的就只傳回 <code>id</code> 型別，而是回傳 receiver 的型別(a.k.a related result type)，在這個例子就是 <code>NSArray</code>。同理 <code>init</code> 也是一樣，所以 <code>[[NSArray alloc] init]</code> 也會偷偷的回傳 <code>NSArray</code> 型別。在 Objective-C 裡，<code>alloc</code>、<code>new</code>、<code>init</code> 等方法都享有這個特別的服務。</p>
+
+<p>但如果不是這些享有特別服務的方法呢? 例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">createAnimal</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Animal</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">createAnimal</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[[</span><span class="n">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Fox</span> : <span class="nc">Animal</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">say</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Fox</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">say</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;what does the fox say!?&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡我們建立了兩個類別，一個 <code>Animal</code> 一個 <code>Fox</code>，<code>Fox</code> 繼承自 <code>Animal</code>，並且在 <code>Animal</code> 定義了一個類別方法 <code>createAnimal</code>。看起來很正常，但如果接下來不小心這樣寫的話：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">Animal</span> <span class="n">createAnimal</span><span class="p">]</span> <span class="n">say</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這行在編譯階段沒問題，但執行之後就會 crash 了。我們一般不會這樣寫，因為我們光用肉眼就能發現問題在哪裡，父類別 <code>Animal</code> 根本沒有定義或實作 <code>say</code> 方法所以理所當然的會 crash。但為什麼這麼明顯的錯誤在 Xcode 裡沒被挑出來? 因為 <code>+createAnimal</code> 這個方法回傳的是 <code>id</code>，編譯器沒辦法在編譯階段從 <code>id</code> 推敲出它真正的型別，所以只好先放它過關，然後在執行階段就 crash 了。(關於為什麼是在執行階段才知道型別，可參考<a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">這一篇</a>的介紹)</p>
+
+<p>你當然也可以在執行階段再用 <code>respondsToSelector:</code> 之類的方法來檢查，但事實上這個工作可以交給編譯器來做，只要把 <code>id</code> 換成 <code>instancetype</code>，像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span> <span class="nf">createAnimal</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Animal</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span> <span class="nf">createAnimal</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[[</span><span class="n">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣編譯器就會在原本會 crash 的那行跳出一個紅色的警告：</p>
+
+<p><img src="/images/2013/instancetype_error_check.png" alt="image" /></p>
+
+<p>寫著：</p>
+
+<pre><code>No visible @interface for 'Animal' declares the selector 'say'
+</code></pre>
+
+<p>在編譯過程就會幫你把這個問題抓出來了。使用 <code>instancetype</code> 的另一個好處，就是在子類別也可以正確的知道子類別的型別，例如你不小心這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="n">Fox</span> <span class="n">createAnimal</span><span class="p">]</span> <span class="nl">addObject:</span><span class="s">@&quot;hello, fox!&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果這邊回傳的是 <code>id</code> 的話，上面這行在編譯階段也不會有錯，但執行就 crash 了(除非你剛好有幫 Fox 類別實作了 <code>addObject:</code> 方法)。如果改用 <code>instancetype</code> 的話，編譯器就會把問題在編譯階段就抓出來了。</p>
+
+<h2>什麼是 instancetype?</h2>
+
+<p>引用 Clang 文件的一段話：</p>
+
+<blockquote><p>&#8220;instancetype is a contextual keyword that is only permitted in the result type of an Objective-C method&#8221;</p></blockquote>
+
+
+<p>其實 <code>instancetype</code> 就只是個關鍵字(keyword)，它告訴編譯器回傳型態，讓編譯器可以在編譯階段就有足夠的資訊可以來判斷你寫的程式碼是不是有問題。</p>
+
+<h2>用 instancetype 取代 id?</h2>
+
+<p>在 <a href="https://developer.apple.com/wwdc/videos/">WWDC 2013</a> 的影片(404 - Advances in Objective-C)提到在新版的 SDK 加入了 <code>instancetype</code> 這個型別。其實 <code>instancetype</code> 並不是很新的東西，不過 Apple 在最近推出的 SDK 開始把 <code>id</code> 改換成 <code>instancetype</code>，例如我們隨便打開一個內建的類別的 header，例如 <code>NSArray.h</code> 來看看：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 檔案：NSArry.h</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">array</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">arrayWithObject:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">anObject</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">arrayWithObjects:</span><span class="p">(</span><span class="k">const</span> <span class="kt">id</span> <span class="p">[])</span><span class="nv">objects</span> <span class="nf">count:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">cnt</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">arrayWithObjects:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">firstObj</span><span class="p">,</span> <span class="p">...</span> <span class="n">NS_REQUIRES_NIL_TERMINATION</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">arrayWithArray:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">array</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">init</span><span class="p">;</span><span class="cm">/* designated initializer */</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithObjects:</span><span class="p">(</span><span class="k">const</span> <span class="kt">id</span> <span class="p">[])</span><span class="nv">objects</span> <span class="nf">count:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">cnt</span><span class="p">;</span><span class="cm">/* designated initializeralizer */</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithObjects:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">firstObj</span><span class="p">,</span> <span class="p">...</span> <span class="n">NS_REQUIRES_NIL_TERMINATION</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithArray:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">array</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithArray:</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">array</span> <span class="nf">copyItems:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">flag</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>NSArray 的 initializer 以及一些 class method 的回傳型態都也都是改用 <code>instancetype</code> 了。</p>
+
+<p>所以意思是要用 <code>instancetype</code> 來取得 <code>id</code> 的意思嗎? 其實不是的。</p>
+
+<p>Clang 的文件提到 <code>instancetype</code> 是 &#8220;only permitted in the result type of an Objective-C method&#8221;， 也就是說，<code>instancetype</code> 只能作為回傳值，不能作為參數，像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">clickAction:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">sender</span><span class="p">;</span>            <span class="c1">// 這樣寫沒問題</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">clickAction:</span><span class="p">(</span><span class="n">instancetype</span><span class="p">)</span> <span class="n">sender</span><span class="p">;</span>  <span class="c1">// 但這樣寫是不行的</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>簡單的說，<code>instancetype</code> 主要的目的是為了幫助編譯器更了解你的程式碼，提早在編譯階段就發現問題。</p>
+
+<p>至於之前已經寫好的程式碼需要整個用 <code>instancetype</code> 再重新改寫嗎? 其實也沒必要，不改也不會怎麼樣，因為編譯器本來就會幫 <code>alloc</code>、<code>new</code>、<code>init</code> 之類的方法傳回適當的型別，不過如果是新的專案，倒是建議可以試著在適當的地方開始使用 <code>instancetype</code>。</p>
+
+<p>話說，研究這種有點冷門的東西對 iOS app 的開發雖然不會有直接明顯的幫助，但對整個 Objective-C / Cocoa Framework 可以有更進一步的認識，可以更知道我寫的程式碼到底實際上是怎麼運作的，我個人覺得這樣挺有趣的。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">高見龍</span></span>
+      
+
+
+
+
+  
+<time datetime="2013-12-16T07:35:00+08:00" pubdate>Dec 16<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/category/objective-c/'>Objective-C</a>, <a class='category' href='/category/ios-app-development/'>iOS App Development</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.eddie.com.tw/2013/12/16/id-and-instancetype/" data-via="eddiekao" data-counturl="http://blog.eddie.com.tw/2013/12/16/id-and-instancetype/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/12/05/object-class-and-meta-class-in-objective-c/" title="Previous Post: Object, Class and Meta Class in Objective-C">&laquo; Object, Class and Meta Class in Objective-C</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現...<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br /><br />
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/22/1st-ruby-and-rails-training-course/">第一回 Ruby/Rails 有心人訓練課程</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 153.68421052631578%'>Diary(34)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+</section>
+
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <a class="twitter-timeline" href="https://twitter.com/eddiekao" data-widget-id="410520084096884736">Tweets by @eddiekao</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.eddie.com.tw/2013/12/16/id-and-instancetype/';
+        var disqus_url = 'http://blog.eddie.com.tw/2013/12/16/id-and-instancetype/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

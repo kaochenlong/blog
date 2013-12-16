@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby on Rails | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby-on-rails/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-11T05:43:06+08:00</updated>
+  <updated>2013-12-16T08:00:44+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -317,7 +317,7 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ruby on Rails之門外漢心得]]></title>
+    <title type="html"><![CDATA[Ruby on Rails 之門外漢心得]]></title>
     <link href="http://blog.eddie.com.tw/2010/07/16/internet-campaign-with-ruby-on-rails/"/>
     <updated>2010-07-16T15:50:00+08:00</updated>
     <id>http://blog.eddie.com.tw/2010/07/16/internet-campaign-with-ruby-on-rails</id>
@@ -524,7 +524,7 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[如何在Rails裡使用AMF]]></title>
+    <title type="html"><![CDATA[如何在 Rails 裡使用 AMF]]></title>
     <link href="http://blog.eddie.com.tw/2010/03/18/rubyamf/"/>
     <updated>2010-03-18T15:10:00+08:00</updated>
     <id>http://blog.eddie.com.tw/2010/03/18/rubyamf</id>
