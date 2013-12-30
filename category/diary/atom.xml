@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Diary | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/diary/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-24T02:25:32+08:00</updated>
+  <updated>2013-12-31T03:32:10+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[再見 2013，哈囉 2014!]]></title>
+    <link href="http://blog.eddie.com.tw/2013/12/31/hello-2014/"/>
+    <updated>2013-12-31T02:52:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/12/31/hello-2014</id>
+    <content type="html"><![CDATA[<p>很快的，2013 年結束了，照例看了一下 2013 年的<a href="/2013/01/01/hello-2013/">許願清單</a>，完成度差不多只有六成，還有很多進步的空間。</p>
+
+<h2>2013 年幹了哪些事</h2>
+
+<ul>
+<li>今年<a href="/presentations">有 22 場公開的活動</a>，雖然有點累，但很有趣!</li>
+<li>第一屆的 <a href="http://webconf.tw/">WebConf Taiwan</a> 真的非常感謝大家的支持、捧場，活動算是圓滿結束。</li>
+<li>今年第一次厚臉皮的辦了 <a href="/2013/04/22/1st-ruby-and-rails-training-course/">Ruby/Rails 有心人</a>活動，感謝大家的支持。</li>
+<li>今年在日本舉辦的 <a href="http://rubykaigi.org/2013">RubyKaigi</a> 剛好有榮幸投稿上了，所以同時解除了第一次在國外發表演說以及第一次用全英文演講 25 分鐘的成就，也在日本見識到了什麼才叫認真的技術魔人。</li>
+<li>在台北舉辦了兩次的 <a href="http://railsgirls.com/taipei">Rails Girls</a> 活動，出乎意外的受歡迎。</li>
+<li>十月份帶了一家四口前往日本遊山玩水一個多星期，勉強算是有個交待了。</li>
+</ul>
+
+
+<h2>希望可以更熟悉的技能</h2>
+
+<p>資訊這一行，要學習的東西、想要做的事情太多，但人生有限，所以 2014 年只會把時間集中放在這些地方了：</p>
+
+<ul>
+<li>iOS app / Cocoa Framework：這是目前幾乎 80% 的工作時間都在這上面了，不再精進一些怎麼行。</li>
+<li>Ruby / Rails：很有趣的而且具生產力的程式語言/網頁框架，但常看到其它高手的寫法就會覺得自己還差得遠。</li>
+<li>Golang：身邊的朋友不少都投入這個新語言，在效能上有很優異的表現，是時候該學習它了 :)</li>
+</ul>
+
+
+<h2>許願</h2>
+
+<ul>
+<li>希望小朋友們可以平安長大，2014 年也可以再帶他們一起來去旅行。</li>
+<li>希望 WebConf Taiwan 2014 可以順利進行。</li>
+<li>希望 Rails Girls 活動可以繼續辦下去。</li>
+<li>希望「有心人」課程可以繼續辦下去。</li>
+<li>希望繼續推廣 Ruby 給更多的朋友知道。</li>
+<li>希望手上正在做的產品可以順利完成。</li>
+<li>希望公司生意... 順利就好。</li>
+</ul>
+
+
+<p>許了一堆願望，2014 年也要繼續努力!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[分心 FanXin app]]></title>
@@ -385,40 +432,6 @@ At last, thank you RubyKaigi team, you gave us a AWESOME conference, お疲れ�
 <p>不過我很喜歡它打起來的手感，所以.. 喜歡就不需要太多理由了，還在習慣中 :)</p>
 
 <p><a href="/2013/06/29/about-hhkb-pro2/">一個月後的使用心得</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[第一回 Ruby/Rails 有心人訓練課程]]></title>
-    <link href="http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course/"/>
-    <updated>2013-04-22T09:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course</id>
-    <content type="html"><![CDATA[<p class="info">
-第一梯次的課程已在 3/23 開始，並於 4/14 告一段落，感謝大家的參與。
-</p>
-
-
-<p><img src="/images/2013/ruby-course-classroom-2.jpg" alt="image" />
-關於這個課程怎麼來的，詳情請參見<a href="http://blog.eddie.com.tw/2013/02/08/new-rubyist-wanted/">前文</a>。</p>
-
-<p>為期一個月的 Ruby/Rails 訓練課程，算是告一段落了。</p>
-
-<p>不管什麼原因造成的，來信報名的人比我當初預料的要多很多。 當初，小弟只是私心的想要二、三位可以一起工作的伙伴，結果來信報名的最後超過七十位。跟幾位 Ruby 社群的朋友聊過之後，覺得即然有這麼多有心人想要進入 Ruby 圈的話，何不就直接改成短期的訓練營，讓更多的朋友可以有機會更清楚 Ruby/Rails 是怎麼回事。</p>
-
-<p>為了可以顧及教學品質，所以最後僅從七十餘封報名來信中，挑選了二十位參加。</p>
-
-<p>訓練課程沒有跟大家收取費用。就以往的經驗，通常這類型的免費活動很容易到最後出席率會很難看，特別是安排在週六、日，如果遇到氣候不佳就更慘了。但令我感到意外的，簽到本上面總是簽的滿滿的，每回的出席率幾乎都是 100%，在這種挑戰出席率的下雨天，又是在週末的休假時間，再加上上課地點也不算太近(這回還有同學是每星期都從雲林北上來參加的)，實在是令人非常的感動。</p>
-
-<p><img src="/images/2013/fju-mei.png" alt="image" />
-輔大資工系梅教授的這段話，讓我想起 Ruddy Lee 老師在今年一月 <a href="http://webconf.tw" target="_blank">WebConf Taiwan</a> 講的：「一群犧牲假日熱情洋溢的年輕人，讓人覺得臺灣好有希望〜」</p>
-
-<p>感謝輔大 <a href="http://www.nisra.net/" target="_blank">NISRA</a> 社團同學的熱血的奔走幫忙以及現場技術支援，我們才有輔大資工系出借的電腦教室可以使用，很棒的硬體設備。
-<img src="/images/2013/ruby-course-classroom-1.jpg" alt="image" /></p>
-
-<p>另外，也感謝 Ruby 社群的幾位先進的火力支援 <a href="https://twitter.com/ryudoawaru" target="_blank">Ryudo</a>, <a href="https://twitter.com/changmason" target="_blank">Mason</a>, <a href="https://twitter.com/ihower" target="_blank">iHower</a>, <a href="https://twitter.com/weijenlu" target="_blank">Weijenlu</a>.. etc
-<img src="/images/2013/awesome-rubyists.jpg" alt="image" /></p>
-
-<p>這回十分感謝大家的幫忙與捧場，希望六月之後還可以再來規劃第二梯次 :)</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[高見龍]]></title>
   <link href="http://blog.eddie.com.tw/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2013-12-24T02:25:32+08:00</updated>
+  <updated>2013-12-31T03:32:10+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[再見 2013，哈囉 2014!]]></title>
+    <link href="http://blog.eddie.com.tw/2013/12/31/hello-2014/"/>
+    <updated>2013-12-31T02:52:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2013/12/31/hello-2014</id>
+    <content type="html"><![CDATA[<p>很快的，2013 年結束了，照例看了一下 2013 年的<a href="http://blog.eddie.com.tw/2013/01/01/hello-2013/">許願清單</a>，完成度差不多只有六成，還有很多進步的空間。</p>
+
+<h2>2013 年幹了哪些事</h2>
+
+<ul>
+<li>今年<a href="http://blog.eddie.com.tw/presentations">有 22 場公開的活動</a>，雖然有點累，但很有趣!</li>
+<li>第一屆的 <a href="http://webconf.tw/">WebConf Taiwan</a> 真的非常感謝大家的支持、捧場，活動算是圓滿結束。</li>
+<li>今年第一次厚臉皮的辦了 <a href="http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course/">Ruby/Rails 有心人</a>活動，感謝大家的支持。</li>
+<li>今年在日本舉辦的 <a href="http://rubykaigi.org/2013">RubyKaigi</a> 剛好有榮幸投稿上了，所以同時解除了第一次在國外發表演說以及第一次用全英文演講 25 分鐘的成就，也在日本見識到了什麼才叫認真的技術魔人。</li>
+<li>在台北舉辦了兩次的 <a href="http://railsgirls.com/taipei">Rails Girls</a> 活動，出乎意外的受歡迎。</li>
+<li>十月份帶了一家四口前往日本遊山玩水一個多星期，勉強算是有個交待了。</li>
+</ul>
+
+
+<h2>希望可以更熟悉的技能</h2>
+
+<p>資訊這一行，要學習的東西、想要做的事情太多，但人生有限，所以 2014 年只會把時間集中放在這些地方了：</p>
+
+<ul>
+<li>iOS app / Cocoa Framework：這是目前幾乎 80% 的工作時間都在這上面了，不再精進一些怎麼行。</li>
+<li>Ruby / Rails：很有趣的而且具生產力的程式語言/網頁框架，但常看到其它高手的寫法就會覺得自己還差得遠。</li>
+<li>Golang：身邊的朋友不少都投入這個新語言，在效能上有很優異的表現，是時候該學習它了 :)</li>
+</ul>
+
+
+<h2>許願</h2>
+
+<ul>
+<li>希望小朋友們可以平安長大，2014 年也可以再帶他們一起來去旅行。</li>
+<li>希望 WebConf Taiwan 2014 可以順利進行。</li>
+<li>希望 Rails Girls 活動可以繼續辦下去。</li>
+<li>希望「有心人」課程可以繼續辦下去。</li>
+<li>希望繼續推廣 Ruby 給更多的朋友知道。</li>
+<li>希望手上正在做的產品可以順利完成。</li>
+<li>希望公司生意&#8230; 順利就好。</li>
+</ul>
+
+
+<p>許了一堆願望，2014 年也要繼續努力!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[id 與 instancetype]]></title>
@@ -2091,26 +2138,6 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 <li><a href="http://blog.carbonfive.com/2011/10/17/vim-text-objects-the-definitive-guide/">Vim Text Objects: The Definitive Guide</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby without Rails]]></title>
-    <link href="http://blog.eddie.com.tw/2012/04/25/ruby-without-rails/"/>
-    <updated>2012-04-25T15:16:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/04/25/ruby-without-rails</id>
-    <content type="html"><![CDATA[<p>這是在<a href="http://registrano.com/events/webdev-party-03">WebDev Party #3</a>上分享的內容，主題是雖然Rails很威很好用，但如果沒有Rails的話，還可以拿Ruby做些什麼其它的事。</p>
-
-<iframe src="http://player.vimeo.com/video/40948397?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
-
-
-<p>投影片：
-<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank"><img src="http://blog.eddie.com.tw/images/2012/slideshare-ruby-without-rails.jpg" alt="image" /></a>
-<a href="http://www.slideshare.net/aquarianboy/ruby-without-rails" target="_blank">View on Slideshare</a> | <a href="http://blog.eddie.com.tw/downloads/files/2012/ruby_without_rails.pdf" target="_blank">Download PDF</a></p>
-
-<p>希望對大家有幫助。如果有哪邊講錯的還請各位先進前輩不吝給予指正。</p>
-
-<p>[update] 我也把影片上傳一份到<a href="http://www.youtube.com/watch?v=Xp2Ix4yEOGo">Youtube</a>了</p>
 ]]></content>
   </entry>
   
