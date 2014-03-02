@@ -4,7 +4,7 @@
   <title><![CDATA[高見龍]]></title>
   <link href="http://blog.eddie.com.tw/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-03-03T05:46:51+08:00</updated>
+  <updated>2014-03-03T05:52:48+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Taipei.rb 起步走]]></title>
-    <link href="http://blog.eddie.com.tw/2014/03/01/taipei-ruby-group/"/>
-    <updated>2014-03-01T07:50:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2014/03/01/taipei-ruby-group</id>
+    <link href="http://blog.eddie.com.tw/2014/03/03/taipei-ruby-group/"/>
+    <updated>2014-03-03T04:50:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/03/03/taipei-ruby-group</id>
     <content type="html"><![CDATA[<p><img src="http://blog.eddie.com.tw/images/2014/ruby_word.jpg" alt="image" /></p>
 
 <p>台北的 Ruby 社群跟相關活動其實不算少，除了一些個人或學校社團的活動外，人數較多的活動有例如每一、二個月舉辦一次的 Ruby Tuesday，會邀請特定的來賓來分享他們在工作上或個人研究上的專業主題；有年度大型活動 <a href="http://rubyconf.tw/">RubyConf Taiwan</a>，會邀請國內外對 Ruby/Rails 有研究的高手來分享他們的心得，甚至連 Ruby 的老爸 Matz 也會來。除此之外，還有女性朋友專屬的 <a href="http://railsgirls.tw/">Rails Girls</a> 以及每週進行的 <a href="http://ltrt.kktix.cc/">Rails Girls 活動</a> (每週約二十人左右參加)。</p>
