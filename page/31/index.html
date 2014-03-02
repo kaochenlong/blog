@@ -9,7 +9,9 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在IE6的環境下，如果網頁上有div區塊和下拉選單重疊在一起的時候，即使再怎麼調整下拉選單的z-index，下拉選單還是會把div區塊蓋住 (在Firefox是正常的)，google了一下網路上的資料，大多是用iframe來解這個問題，但弄iframe寫起來也是花時間而且不順手。 &hellip;">
+  <meta name="description" content="之前用了一陣子的RC版，今天終於正式Release了，這個1.6版的ZF比1.5版多了不少有趣的東西啊(不過選在跟新聞炒很大的google chrome同一天出來，鋒頭多少被蓋去了一點點) Dojo Integration
+SOAP
+Preview of Tooling Project in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +80,66 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/09/03/zend-framework-1-6-release/">Zend Framework 1.6 Release</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2008/09/03/zend-framework-1-6-release/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2008-09-03T10:34:00+08:00" pubdate>Sep 3<span>rd</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前用了一陣子的RC版，今天終於正式<a href="http://framework.zend.com/download/current/">Release</a>了，這個1.6版的ZF比1.5版多了不少有趣的東西啊(不過選在跟新聞炒很大的<a href="http://www.google.com/chrome">google chrome</a>同一天出來，鋒頭多少被蓋去了一點點)</p>
+
+<ul>
+<li>Dojo Integration</li>
+<li>SOAP</li>
+<li>Preview of Tooling Project in Laboratory (see /laboratory folder)</li>
+<li>Unit Testing Harness for Controllers</li>
+<li>Lucene 2.3 Index File Format Support</li>
+<li>Zend_Session save handler for Database Tables</li>
+<li>Paginator Component</li>
+<li>Text/Figlet Support</li>
+<li>ReCaptcha Service</li>
+<li>Captcha Form Element</li>
+<li>Zend_Config_Xml Attribute Support</li>
+<li>Zend_File_Transfer Component</li>
+<li>File Upload Form Element</li>
+<li>Zend_Wildfire Component with FireBug Log Writer</li>
+<li>Media View Helpers (Flash, Quicktime, Object, and Page)</li>
+<li>Support in Zend_Translate for INI File Format</li>
+</ul>
+
+
+<p>對我工作上比較大的影響是跟Dojo的整合(我還是比較喜歡jQuery)，這裡<a href="http://andigutmans.blogspot.com/2008/09/zend-framework-16-featuring-dojo-soap.html">有篇文章</a>有寫到1.6版新增的一些功能介紹。</p>
+
+<p>另外，分頁、表單認證碼及檔案上傳功能…這些在做網站時常用的功能，之前都是自己拼裝出來用的，結果在1.6也都加進來了 :) 。我試著直接把1.5版昇級為1.6版，目前手邊的案子看起來都還滿正常的。</p>
+
+<p>下載連結：<a href="http://framework.zend.com/download/current/">http://framework.zend.com/download/current/</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -262,45 +324,6 @@ export LANG=zh_TW.UTF-8
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/06/20/google-developer-day-2008/">Google Developer Day 2008 Taiwan的照片出來了</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2008/06/20/google-developer-day-2008/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2008-06-20T10:15:00+08:00" pubdate>Jun 20<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2008/gdd2008.jpg" alt="image" /></p>
-
-<p>我也跑去湊熱鬧了，不過應該是我資質不好，有幾個場次其實聽不太懂，睡得還滿舒服的!
-官方的場記照片出來了，我被拍到好幾張入鏡，不是醜臉就是看起來痴肥&#8230;</p>
-
-<p>網址：<a href="http://picasaweb.google.com.tw/developerday2008/DeveloperDayTaiwan">picasaweb相本</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/32/">&larr; Older</a>
@@ -352,6 +375,10 @@ export LANG=zh_TW.UTF-8
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/01/taipei-ruby-group/">Taipei.rb 起步走</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
@@ -387,15 +414,11 @@ export LANG=zh_TW.UTF-8
         <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 155.26315789473685%'>Diary(35)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 156.8421052631579%'>Diary(36)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 133.1578947368421%'>Ruby(21)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

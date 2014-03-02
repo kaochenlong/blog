@@ -9,7 +9,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="今天試著裝上一顆6G的IDE硬碟，打算來當備份資料用的，感覺不是挺困難。 Step 1.分割partition： &gt; fdisk /dev/hdb原來的硬碟是hda，新的這個是hdb。 Step 2.格式化： &gt; mke2fs /dev/hdb Step 3.建立mount的目錄： & &hellip;">
+  <meta name="description" content="Webmin是一套Web-based的系統管理軟體，原本複雜難記的指令，只透過瀏覽器就可以簡單的完成。不過，方便歸方便，該記的指令式還是要知道怎麼使用。 Step 1:下載Webmin 到Webmin網站http://www.webmin.com/，可以下載tar.gz或rpm格式的， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,59 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/01/25/install-webmin/">Webmin安裝</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/01/25/install-webmin/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-01-25T20:18:00+08:00" pubdate>Jan 25<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Webmin是一套Web-based的系統管理軟體，原本複雜難記的指令，只透過瀏覽器就可以簡單的完成。不過，方便歸方便，該記的指令式還是要知道怎麼使用。</p>
+
+<h3>Step 1:下載Webmin</h3>
+
+<p>到Webmin網站<a href="http://www.webmin.com/">http://www.webmin.com/</a>，可以下載tar.gz或rpm格式的，如果是在linux環境下，下載rpm格式安裝會簡單很多。</p>
+
+<h3>Step 2:安裝Webmin</h3>
+
+<pre><code>&gt; rpm -ivh webmin-x.xxx-x.noarch.rpm
+</code></pre>
+
+<h3>Step 3:使用Webmin</h3>
+
+<p>執行Step2安裝結束後，安裝訊息會告訴你使用網頁瀏覽器連到指定的位置，通常是<code>http://localhost:10000/</code></p>
+
+<p>第一次使用是以root的帳號密碼來登入，為了安全性的考量，建議第一次登入後新增一位跟root同等權限的使用者，然後把root帳號從Webmin系統 移除(對原系統沒影響，只是root不能使用webmin系統而已)，另外，預設的port 10000也建議改到其它的port。</p>
+
+<p>其實Webmin使用並不困難，例如上面提到使用者的新增、修改、更換port這些動作，相信都不難找到在哪裡做設定。</p>
+
+<p>Enjoy it!!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -401,63 +454,9 @@ at&gt; mail eddie -s “hi, eddie”
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2005/01/15/install-phpmyadmin/">安裝phpMyAdmin遇到的問題</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2005/01/15/install-phpmyadmin/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2005-01-15T16:55:00+08:00" pubdate>Jan 15<span>th</span>, 2005</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>MySQL 4.1 以上版本為了提高安全性，使用了新的密碼驗證機制。
-所以，MySQL 的 Client Library 需要 4.0 版本以上。
-但目前在 Client 端所使用的 PHP 版本若為 5.0 以下(如 4.3.9)
-內建的 MySQL Library 大都為 3.23，並不支援新版的密碼驗證機制。</p>
-
-<h2>解決方案</h2>
-
-<p>一、將 PHP 升級為 5.0版以上：</p>
-
-<p>但是大部份的伺服器，包括諸多 Blog 平台，尚未支援 PHP5，這點倒是挺麻煩。</p>
-
-<p>二、MySQL console 下，更新密碼形式改為 OLD_PASSWORD() (設回原來舊版的密碼驗證機制)。</p>
-
-<pre><code>mysql&gt; UPDATE mysql.user SET Password = OLD_PASSWORD(’新的密碼’) WHERE Host = ‘localhost’ AND User = ‘root’
-mysql&gt; FLUSH PRIVILEGES;
-</code></pre>
-
-<h2>參考文件</h2>
-
-<ul>
-<li>MySQL Manual - A.2.3 Client does not support authentication protocol</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/page/46/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -506,6 +505,10 @@ mysql&gt; FLUSH PRIVILEGES;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/01/taipei-ruby-group/">Taipei.rb 起步走</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
@@ -541,15 +544,11 @@ mysql&gt; FLUSH PRIVILEGES;
         <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 155.26315789473685%'>Diary(35)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 156.8421052631579%'>Diary(36)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 133.1578947368421%'>Ruby(21)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

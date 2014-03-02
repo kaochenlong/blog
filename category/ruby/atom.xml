@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-01-06T08:32:05+08:00</updated>
+  <updated>2014-03-03T05:46:51+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,61 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Taipei.rb 起步走]]></title>
+    <link href="http://blog.eddie.com.tw/2014/03/01/taipei-ruby-group/"/>
+    <updated>2014-03-01T07:50:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/03/01/taipei-ruby-group</id>
+    <content type="html"><![CDATA[<p><img src="/images/2014/ruby_word.jpg" alt="image" /></p>
+
+<p>台北的 Ruby 社群跟相關活動其實不算少，除了一些個人或學校社團的活動外，人數較多的活動有例如每一、二個月舉辦一次的 Ruby Tuesday，會邀請特定的來賓來分享他們在工作上或個人研究上的專業主題；有年度大型活動 <a href="http://rubyconf.tw/">RubyConf Taiwan</a>，會邀請國內外對 Ruby/Rails 有研究的高手來分享他們的心得，甚至連 Ruby 的老爸 Matz 也會來。除此之外，還有女性朋友專屬的 <a href="http://railsgirls.tw/">Rails Girls</a> 以及每週進行的 <a href="http://ltrt.kktix.cc/">Rails Girls 活動</a> (每週約二十人左右參加)。</p>
+
+<h2>又一個 Ruby 聚會?</h2>
+
+<p>不過，上述這些活動不是主題不適合新手，或是主題不容易引起共鳴，不然就是有性別限制，像我這種好像會寫一點點程式的高級新手想要找到同好一起學習反而變得不太容易。</p>
+
+<h2>目的/方向</h2>
+
+<p>所以，為了能讓更多對 Ruby/Rails 有興趣的朋友可以有個可以固定而且定期的交流管道，幾位 Ruby 圈的朋友(<a href="https://www.facebook.com/eddiekao">我</a>、<a href="https://www.facebook.com/ryudoawaru">慕凡</a>、<a href="https://www.facebook.com/manic.chuang">Manic</a> 以及 <a href="https://www.facebook.com/tonytonyjan">大兜</a>)就打算來籌備這樣的一個活動。我們想了好幾個名字，最後大家鼓掌通過的名字是「Taipei.rb」</p>
+
+<p>活動的方向很簡單，就是「讀書」 + 「閒聊」。</p>
+
+<p>不像 Ruby Tuesday 之類的主題式分享，Taipei.rb 初期設定的方向是「讀書會」，會先挑幾本書來跟大家一起讀、一起討論，每次活動開始會有一到二位與會者上台進行導讀，並從參與者中挑選下回活動上台的人。</p>
+
+<p>新手/老鳥不拘，願意讀書就行，來找人閒聊或是來求職、求才也都歡迎。當然，性別不拘 :)</p>
+
+<h2>目前暫定書目：</h2>
+
+<h3>Ruby 相關</h3>
+
+<ul>
+<li><a href="http://eloquentruby.com/">Eloquent Ruby</a></li>
+<li><a href="http://www.amazon.com/Metaprogramming-Ruby-Program-Like-Pros/dp/1934356476">Metaprogramming Ruby</a></li>
+</ul>
+
+
+<h3>Rails 相關：</h3>
+
+<ul>
+<li><a href="https://leanpub.com/tr4w">Rails 4 Way</a></li>
+<li><a href="http://ruby.railstutorial.org/">Rails Tutorial</a></li>
+</ul>
+
+
+<h2>週期</h2>
+
+<p>預計每二星期舉辦一次。</p>
+
+<h2>費用</h2>
+
+<p>每人僅需負擔場地費用(約 NT 200 元)即可，不另外收取費用。</p>
+
+<h2>第 0 次兼說明會</h2>
+
+<p>如果各位看完還是不知道這個活動要幹嘛，我們在星期二(3/4)晚上七點，在 DeRoot 有個說明會兼第 0 次的導讀示範，有興趣的朋友請按<a href="http://taipeirb.kktix.cc/events/0000">這裡</a>報名。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Code Reading @ RubyKaigi 2013]]></title>
@@ -226,45 +281,6 @@ Anyway, I learned a lot on this trip to Japan, and I'll write them down in next 
 <p>希望對大家有幫助。如果有哪邊講錯的還請各位先進前輩不吝給予指正。</p>
 
 <p>[update] 我也把影片上傳一份到<a href="http://www.youtube.com/watch?v=Xp2Ix4yEOGo">Youtube</a>了</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby Certified Programmer]]></title>
-    <link href="http://blog.eddie.com.tw/2012/01/18/i-am-ruby-certified-programmer/"/>
-    <updated>2012-01-18T17:57:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/01/18/i-am-ruby-certified-programmer</id>
-    <content type="html"><![CDATA[<p>今天下午我去參加了Ruby的認證考試，運氣不錯，過了。
-<img src="/images/2012/ruby_certifiy_passed.jpg" alt="image" /><br /></p>
-
-<h2>為什麼要去考這個?</h2>
-
-<p>其實當初目的很單純，只是想說即然我現在也都有靠Ruby在吃飯了，再加上這天剛好我要外出一整天在台北市閒晃，就報名順路去考了。</p>
-
-<h2>報名</h2>
-
-<p><a href="http://www.ruby-assn.org/en/certification.htm">Ruby Association</a>的網站可以找到相關訊息以及報名方法，台灣幾家比較大的電腦補習班都可以考。</p>
-
-<p>考試時間是90分鐘，共有50道選擇題(單、複選都有)。英文出題，滿分100分，75分才算及格。英文出題其實不用怕，畢竟不是像托福要考你英文程度的，所以英文題目的敘述不會用太難的字。</p>
-
-<p>喔，忘了說，報名費是150塊美金。</p>
-
-<h2>心得</h2>
-
-<p>我差不多30分鐘就寫完了，剩下的時間再重頭全部檢查一次。</p>
-
-<p>可能我運氣好吧，除了幾題陷阱題之外，遇到的題目都不算太難。不過我覺得這考試感覺有點像在考對API的記憶力，真的需要花腦筋想的題目不多。有些API在實務上並不常用到，所以..我不覺得只要平常有在寫就有辦法通過考試，特別是只有在寫Rails的話，不特別準備一下可能過不了的(畢竟是Ruby認證，不是Rails認證啊)。</p>
-
-<p>準備方向，就.. 常常練習動手寫是基本一定要的(不然我想弄這個證照也沒什麼意義吧)，然後在考前再把幾個重要的Class、Module的API"全部"看過一次，應該就差不多了。我運氣不錯，八十幾分低空飛過(這也表示我還不夠熟)。</p>
-
-<h2>結論</h2>
-
-<p>也許您會好奇，Ruby證照能幹嘛? 到時候拿去貼滷味攤嗎? 老實說，這對我來說並沒什麼實質用途，我不會因為有多這張認證而加薪、案子變多，或是被大公司挖角。</p>
-
-<p>至於"證照有用/無用"的討論，網路上已經很多了，那也不會是我關心的重點。我去報名認證考試只是單純的想多一張獎狀而已(小時候成績不好，所以家裡牆壁上沒幾張獎狀，所以當年Adobe的Flash Developer跟Linux的LPI認證也是這樣來的)，順便測試一下自己對Ruby的熟悉程度罷了 :)</p>
-
-<p><img src="/images/2012/ra_certified.jpg" alt="image" /><br />
-總之，小徽章一枚手入 :)</p>
 ]]></content>
   </entry>
   

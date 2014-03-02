@@ -9,7 +9,16 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="前面提到了OOP的繼承，但不像C++可以有多重繼承，Objective-C是單一繼承的，如果想要做到一個類別同時擁有多種型別的能力，可以透過實作其它型別的interface來達成這個目的。在Java/AS3是用”interface”這個關鍵字，在Objective-C則是用”@protocol &hellip;">
+  <meta name="description" content="iOS的記憶體管理真的不少東西要學，在Objective-C裡有時候會看到一些程式碼這樣寫： 1
+2
+3
+4
+5
+6
+7
+-(void) someMethod
+{ [mybook release]; mybook = nil; [super dealloc];
+} 先把它release掉了， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +87,107 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/15/set-to-nil-after-release-in-objective-c/">Set to Nil After Release</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/15/set-to-nil-after-release-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-15T23:50:00+08:00" pubdate>Dec 15<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/leaking.jpg" alt="image" /></p>
+
+<p>iOS的記憶體管理真的不少東西要學，在Objective-C裡有時候會看到一些程式碼這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">someMethod</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">mybook</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">mybook</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>先把它release掉了，然後下一行再把它指向nil。nil跟其它程式語言裡的null或none是一樣的東西，就是nothing、虛無飄渺、沒有任何東西的意思。</p>
+
+<p>問題是，這個nil是必要的嗎? 不指向nil會出什麼包嗎?</p>
+
+<p>先來釐清一個觀念：對一個物件發送release訊息並不會直接把物件佔用的記憶體還給記憶體，release這個動作只是減少retain count而已，當retain count變成0的時候會自動啟動dealloc，這時候才是真正的被消滅掉。</p>
+
+<p>在Objective-C裡所有的物件變數都是指標，指向某一塊配置的記憶體，所以，下面這行程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">mybook</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>意思是把mybook這個變數指向nil。這樣說來，是不是也不用什麼release了，直接把變數設定成nil不就好了?</p>
+
+<p>我們先來看個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">UIImage</span> <span class="o">*</span><span class="n">img</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImage</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這應該不陌生了，這建立一個名為img的指標變數，並指向某一個UIImage的實體。如果我在它下面再加一行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">img</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImage</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就是再做一次alloc/init，讓剛剛那個img變數指向這個新的實體。看起來很直覺，但指標的東西跟我們一般寫的程式的習慣不同，當你把img指向另一個新的實體，原來舊的實體並不會消失，它會存在記憶體裡，只是沒有人指向它，所以也沒有人能再存取它。當然在有支援GC的環境上，系統會自動回收那些沒人要的東西，但在不支援GC的環境，那個沒人要的孩子就會一個人孤獨的漂流著了，所以如果你要這樣做，請記得先把原來的那顆給release掉，再給它一顆新的。</p>
+
+<p>那如果我再接著這樣做：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">img</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把img指向nil並不會減少retain count，那剛剛前面我產生的第二個物件就會跟第一個物件一樣，它不會消失，它只是在記憶體空間裡漂流，當然它佔用的記憶體也不會還給系統。所以請切記，<strong>如果你要把物件給丟掉，不要直接把變數設成nil，請使用release或autorelease</strong>。</p>
+
+<p>回到最一開始的問題，我的答案是：其實是沒什麼需要一定要在release之後再弄個nil給它，但這樣做是個好習慣。</p>
+
+<h4>那什麼時候會出問題?</h4>
+
+<p>在別的程式語言裡，當你要存取null物件的時候，通常會直接跳錯誤給你看，但在Objective-C裡如果你對nil送訊息的，即使是沒定義的method，它也只會靜靜的不回應而已。所以，回到最前面的程式碼來看，當你把mybook給release之後，也許有那個萬一的情況下，有別的method要存取它，但它可能因為已經被dealloc掉了，所以就會爆炸了(發生機會很小，但不代表永遠不會發生)。但如果把mybook指向nil，即使有人要再來存取這個mybook也不會出現錯誤了。</p>
+
+<p>以上，我對記憶體管理的東西的了解相當有限，所以如果以上內容有誤還請不吝指正 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -934,52 +1044,6 @@ Hello, This is a book
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/11/26/infinite-loop/">Apple電腦之無窮迴圈</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/11/26/infinite-loop/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-11-26T18:25:00+08:00" pubdate>Nov 26<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在<a href="/2010/11/26/create-map-application-with-mapkit-framework/">上一篇</a>練習MapView的時候，發現當把MapView的showsUserLocation打開後，在模擬器上執行的結果，會出現在美國的某個地方：</p>
-
-<p><img src="/images/2010/iphone_show_location.jpg" alt="image" /></p>
-
-<p>拉近一看才發現，原來那個發亮的點的地址是在”Infinite Loop”，正是Apple電腦的總部所在地。然後又到google map上看了一下衛星照片：</p>
-
-<p><img src="/images/2010/infinite_loop_map.jpg" alt="image" /></p>
-
-<p>就是一個圈圈的樣子，如果你用google map的街景模式去看，還會看到在入口的地方放了一個”1″：</p>
-
-<p><img src="/images/2010/1_infinite_loop_pic.jpg" alt="image" /></p>
-
-<p>因為他們的門牌號碼就是”1 infinite loop”(無窮迴圈1號)，真有趣 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/27/">&larr; Older</a>
@@ -1031,6 +1095,10 @@ Hello, This is a book
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/01/taipei-ruby-group/">Taipei.rb 起步走</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
@@ -1066,15 +1134,11 @@ Hello, This is a book
         <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/05/20/createjs-from-flash-to-javascript/">CreateJS, 從 Flash 到 Javascript</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 155.26315789473685%'>Diary(35)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 131.57894736842104%'>Ruby(20)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 156.8421052631579%'>Diary(36)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 133.1578947368421%'>Ruby(21)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
