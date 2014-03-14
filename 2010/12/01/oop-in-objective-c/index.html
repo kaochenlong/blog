@@ -153,7 +153,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>其實這個類別定義，用翻譯成一般話就是說「<strong>我定義了一個叫做Book的類別，在這個類別裡有一個price的整數變數，並寫了一對的getter跟setter，還有一個叫做printBookInfo的class method</strong>」。為什麼需要getter跟setter? 在Objective-C裡的類別變數(instance variable，可簡稱為ivar)預設是protected的，所以你沒辦法從外部直接存取。當然也是可以透過@public語法來設定成公開的屬性，但這並不是好的OOP實作方法。</p>
+<p>其實這個類別定義，用翻譯成一般話就是說「<strong>我定義了一個叫做Book的類別，在這個類別裡有一個price的整數變數，並寫了一對的getter跟setter，還有一個叫做printBookInfo的class method</strong>」。為什麼需要getter跟setter? 在 Objective-C 裡的實體變數(instance variable，可簡稱為ivar)預設是 protected 的，所以你沒辦法從外部直接存取。當然也是可以透過 @public 語法來設定成公開的屬性，但這並不是好的 OOP 實作方法。</p>
 
 <p>這裡有幾個比較陌生的字，<code>NSObject</code>是Objective-C裡最上層的類別，所有的物件都是繼承自它。要繼承的話，只要用一個冒號”:”即可，後面放的是要繼承的父類別名稱。有注意到前面的加號(+)跟減號(-)了嗎? 它也是有特別意義的，加號代表這個方法是屬於類別方法(class method)，減號則表示這個方法是實體方法(instance method)。有什麼不同? class method是針對類別本身呼叫的，不需要產生instance即可使用，像這樣：</p>
 
