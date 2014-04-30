@@ -9,7 +9,13 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="沒有上限? 在Python，數字基本上是沒有上限的。也不是說沒有沒有上限，就用到電腦記憶體用完為止。有些程式語言的數字的值都有一個限制，超過就會發生溢位(overflow)。什麼是溢位? 就像你車子的里程表，假設全部有6個位數，也就是最大顯示是999999，但只要超過這個數字就會從000000開始 &hellip;">
+  <meta name="description" content="Boolean? 真的假的? Boolean值很單純，只有兩種結果，就是真的(True)跟假的(False)，不是真的就是假的，沒有灰色地帶。 哪些東西是假的? 0 數字0
+”” 空字串
+[] 空的List
+() 空的Tuple
+{} 空的Dict
+None
+當然還有False本身也是假的.. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +84,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/13/python-boolean/">Boolean</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-boolean/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-13T13:40:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Boolean? 真的假的?</h2>
+
+<p>Boolean值很單純，只有兩種結果，就是真的(True)跟假的(False)，不是真的就是假的，沒有灰色地帶。</p>
+
+<p>哪些東西是假的?</p>
+
+<ul>
+<li>0 數字0</li>
+<li>”” 空字串</li>
+<li>[] 空的List</li>
+<li>() 空的Tuple</li>
+<li>{} 空的Dict</li>
+<li>None</li>
+<li>當然還有False本身也是假的..</li>
+</ul>
+
+
+<p>因為真的(True)太多種，沒辦法用窮舉法一項一項列出來，所以我們只要記得哪些是假的(False)，然後只要不是假的，就是真的。</p>
+
+<p>要注意的是，在Python，程式碼是有大小寫之分的，所以如果寫成<code>false</code>的話，是認不出來的。</p>
+
+<p>接下來，我們來看看很常使用的字串..</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -684,101 +745,6 @@ please input your password:
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/12/python-install/">安裝Python</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/12/python-install/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-12T16:06:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>不管你用的Linux/FreeBSD/MacOS/Windows..etc，目前Python均有實作品，請至<a href="http://python.org/getit/">http://python.org/getit/</a>找到適合的平台並下載安裝。</p>
-
-<p>不過，我不得小小抱怨一下，Python在Windows上實在是不怎麼友善，包括我們之後要講的Django，原本也有給Windows的懶人安裝包(Instant Django)，但專案似乎也斷頭了。不過也不是沒有解決方法，如果只是要在Windows做練習的話，可參考<a href="/2011/10/12/install-cygwin-on-windows/">下一章</a>。</p>
-
-<p>如果你安裝完成，請打開你的終端機視窗，輸入<code>python</code>就可以進入interactive shell來試玩一下：</p>
-
-<pre><code>&gt; python
-Python 2.6.1 (r261:67515, Jun 24 2010, 21:47:49)
-[GCC 4.2.1 (Apple Inc. build 5646)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; "hello python"
-'hello python'
-&gt;&gt;&gt; 1 + 2
-3
-</code></pre>
-
-<p>在這個shell裡面，你可以很容易的就測試一些簡單的程式碼，看看執行結果是不是跟你想像的是一樣的。有趣的是，如果你在shell裡輸入<code>import this</code>的話：</p>
-
-<pre><code>&gt;&gt;&gt; import this
-The Zen of Python, by Tim Peters
-
-Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-Flat is better than nested.
-Sparse is better than dense.
-Readability counts.
-Special cases aren't special enough to break the rules.
-Although practicality beats purity.
-Errors should never pass silently.
-Unless explicitly silenced.
-In the face of ambiguity, refuse the temptation to guess.
-There should be one-- and preferably only one --obvious way to do it.
-Although that way may not be obvious at first unless you're Dutch.
-Now is better than never.
-Although never is often better than *right* now.
-If the implementation is hard to explain, it's a bad idea.
-If the implementation is easy to explain, it may be a good idea.
-Namespaces are one honking great idea -- let's do more of those!
-</code></pre>
-
-<p>你可以看到Tim Peters寫的The Zen of Python，內文大概說明了Python世界的設計哲學。至於<code>import</code>是做什麼用的，我們在後面的單元會再做說明。</p>
-
-<p>除了shell之外，我們更常把程式碼儲存成一個檔案，附檔名是<code>.py</code>，例如我們把下面這段很簡單的程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/python</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&quot;Hello, Python&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>用任何文字編輯器打完之後，存檔為<code>hello.py</code>，然後回到終端機視窗，輸入<code>python hello.py</code>：</p>
-
-<pre><code>&gt; python test.py
-Hello, Python
-</code></pre>
-
-<p>每種程式語言一定都要不免俗的來一下Hello World打個招呼的，如果在Java，你可能為了要輸出一行簡單的字，還得寫個類別或方法才行，在Python，只要一行<code>print</code>就搞定了，相當簡單吧 :)</p>
-
-<p>其實老是Hello World也沒什麼意義，接下來我們來看一點稍微複雜一點的..</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/17/">&larr; Older</a>
@@ -830,6 +796,10 @@ Hello, Python
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
@@ -865,15 +835,11 @@ Hello, Python
         <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 156.8421052631579%'>Diary(36)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 133.1578947368421%'>Ruby(21)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

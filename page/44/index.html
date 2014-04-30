@@ -9,7 +9,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在使用vi(m)的時候，在文件中要搜尋某個字，會用/somewords來找，找到之後會把符合的字串標出顏色，這個功能有時挺方便，但有時看久了眼睛會花，不是挺舒服。 原來可以把這個方便的功能「暫時」關閉， :nohlsearch 但下次找字串時又會出現高亮度。如果希望往後找字串都不會表示亮度，就是 &hellip;">
+  <meta name="description" content="最近透過非合法的手段，找到了某部正在上映的院線片來看，但在Red Hat 9上用mplayer播放時，中文字幕會變成亂碼。翻了一下網路上其它人的解決方法，我也有正常的中文字幕看了 :) Step 1. 開啟mplayer，修改preferences Step 2. 選擇Subtitle&amp; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/02/27/mplayer/">MPlayer的字幕問題</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/02/27/mplayer/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-02-27T21:00:00+08:00" pubdate>Feb 27<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近透過非合法的手段，找到了某部正在上映的院線片來看，但在Red Hat 9上用mplayer播放時，中文字幕會變成亂碼。翻了一下網路上其它人的解決方法，我也有正常的中文字幕看了 :)</p>
+
+<p>Step 1. 開啟mplayer，修改preferences</p>
+
+<p>Step 2. 選擇Subtitle&amp;OSD標籤:</p>
+
+<p>將subtitle裡encoding選項裡的編碼改成<code>Traditional Chinese Carset(Big5)</code></p>
+
+<p>Step 3. 選擇Font標籤，選擇中文字形:</p>
+
+<p>我是用<code>/usr/share/fonts/zh_TW/TrueType/bsmi001p.ttf</code>(當然也可以選用其它像firefly之類漂亮的字型)，Encoding選<code>Unicode</code>。</p>
+
+<p>Step 4. 其它例如字幕大小、透明度…等，都可以在這裡調整。</p>
+
+<p>這樣一來，我的Mplayer也有漂亮的中文字幕啦 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -478,92 +526,6 @@ apt-get clean
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2005/01/26/redirect-and-pipe/">Redirect and Pipe</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2005/01/26/redirect-and-pipe/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2005-01-26T20:23:00+08:00" pubdate>Jan 26<span>th</span>, 2005</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>什麼是redirect? 簡單的說，就是把目前所得的資料轉到其它地方。例如：</p>
-
-<pre><code>&gt; ls -al &gt; test
-</code></pre>
-
-<p>就會把ls -al所得到的資料，全部轉到test這個檔案。要注意的是，如果test檔案原本不存在，執行上面這個指令後，會建立一個新的檔案；如果test檔案已經存在，那上面這個指令就會把test檔案覆蓋掉!!</p>
-
-<p>如果是這樣的話：</p>
-
-<pre><code>&gt; ls -al &gt;&gt; test
-</code></pre>
-
-<p>兩個大於符號代表會把輸出的結果append到test檔案的最後面。</p>
-
-<p>另外，輸出分成<code>stdout</code>跟<code>stderr</code>兩種，stdout就是一般的輸出結果，當在輸入過程有遇到錯誤時，就會送到stderr，而<code>1&gt;</code>跟<code>2&gt;</code>分別就代表著stdout跟stderr，要注意數字跟大於符號之間沒有空格。</p>
-
-<pre><code>&gt; ls -al 1&gt; test 2&gt; test.err
-</code></pre>
-
-<p>上面這行就是會把ls -al的結果輸出到test檔案，如果遇到錯誤的，就會導向test.err檔案。</p>
-
-<p>redirect是雙向的，除了「>」，也有「&lt;」，例如：</p>
-
-<pre><code>&gt; mail -s “hello, eddie” eddie &lt; /home/eddie/test
-</code></pre>
-
-<p>就是把這個test檔寄給指定的使用者。</p>
-
-<pre><code>&gt; mysql -u root -p mydb &lt; sql.txt
-</code></pre>
-
-<p>就是把檔案sql.txt裡面的sql語法，輸入到mysql裡的mydb資料庫。</p>
-
-<p>而pipe(管線)跟redirect不太一樣，pipe能處理前一個指令傳來的輸出資訊，處理完後再丟給下一個指令(如果有的話)。例如下面這個指令：</p>
-
-<pre><code>&gt; ps aux | grep java | more
-</code></pre>
-
-<p>意思就是說執行ps所輸出的結果，丟到grep裡面，然後grep會把含有<code>java</code>字串的那一行抓出來，grep再把結果輸出給more指令，如果grep輸出的結果超過一頁，more指令就會負責做分頁的動作。</p>
-
-<h3>差別：</h3>
-
-<pre><code>&gt; cat test | mail -s “hi” eddie
-</code></pre>
-
-<p>這個是會把test檔案的內容，輸出給mail程式，再寄出去。</p>
-
-<pre><code>&gt; mail -s “hi” eddie &lt; test
-</code></pre>
-
-<p>這個則是把test檔當作附加檔案寄出信件。</p>
-
-<p>以上大致上是redirect跟pipe的介紹，這在很多地方都用得上，相信熟悉這些技巧將會對系統管理更得心應手。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/45/">&larr; Older</a>
@@ -615,6 +577,10 @@ apt-get clean
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
@@ -650,15 +616,11 @@ apt-get clean
         <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 156.8421052631579%'>Diary(36)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 133.1578947368421%'>Ruby(21)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -9,7 +9,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="來勢洶洶的Google+，有人一用了就決定搬家了，有人覺得還好，沒多好用。Google+會不會讓社群網站的版圖重新洗牌呢? 我沒有預言的特異功能，這就留給時間來證明了。 不過的確是有一些國內外的Flasher/ASer也上去註冊了帳號，至於本人是不是真的會搬過來經營，還是留在原本的Twitter &hellip;">
+  <meta name="description" content="如果你曾經在別的程式語言寫過OOP，你也許對類別的方法存取限制不會太陌生。類別的方法的存取限制常見的有三種：public、protected以及private。 這三種存取限制，比較常聽到的解釋大概會是像這樣： “public就是所有的人都可以直接存取，private是只有在類別內部才可以存取； &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,328 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/07/26/public-protected-and-private-method-in-ruby/">Public, Protected and Private Method in Ruby</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/07/26/public-protected-and-private-method-in-ruby/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-07-26T15:45:00+08:00" pubdate>Jul 26<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>如果你曾經在別的程式語言寫過OOP，你也許對類別的方法存取限制不會太陌生。類別的方法的存取限制常見的有三種：public、protected以及private。</p>
+
+<p>這三種存取限制，比較常聽到的解釋大概會是像這樣：</p>
+
+<blockquote><p>“public就是所有的人都可以直接存取，private是只有在類別內部才可以存取；而protected差不多是在這兩者之間，比private寬鬆一些，但又沒有public那麼自在，protected在同一個類別內或是同一個package，或是繼承它的子類別可以自由取用，但如果不是的話則不可存取。”</p></blockquote>
+
+
+<p>Ruby也有類似的方法存取限制，為什麼特別說「類似」，前面又為什麼需要特別提「大家常聽到的解釋」，因為Ruby在這部份的實作是不太一樣的，待會後面會再詳細說明。</p>
+
+<h3>怎麼做?</h3>
+
+<p>先來看看怎麼寫，Ruby的方法存取限制有兩種寫法，一種是寫在方法定義之前：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Father</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">method_a</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;I am METHOD A in </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">method_b</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;I am METHOD B in </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">protected</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">method_c</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;I am METHOD C in </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">method_secret</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;I am spider man in </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Ruby的類別裡，方法只要沒有特別限制預設就是<code>publilc</code>的，除了一個例外，就是<code>initialize</code>方法，它永遠是private的，只會被<code>new</code>方法呼叫。</p>
+
+<p>把存取控制放在前面的這種寫法，只要在它設定之後的方法定義都會受影響，除非又遇到另一個存取控制的設定。在上面的這段程式碼，method_a跟method_b沒有特別限制，所以是public方法(如果你想要特別加上public也沒問題，只是通常不會這麼做)，method_c是protected方法，而method_secret則是屬於private方法。</p>
+
+<p>另一種的方法存取限制是寫在方法定義之後：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Father</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">method_a</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;I am METHOD A in </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">method_b</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;I am METHOD B in </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">method_c</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;I am METHOD C in </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">method_secret</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;I am spider man in </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">protected</span> <span class="ss">:method_c</span>
+</span><span class='line'>  <span class="kp">private</span> <span class="ss">:method_secret</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>哪種比較好?</h3>
+
+<p>這兩種寫法哪種方法比較好? 都好，隨個人喜好。我個人喜好第一種，因為我習慣會先把public的方法放在類別的上半部，而把private方法放在類別的最底下，所以使用第一種寫法對我來說寫起來比較順手。</p>
+
+<p>其實public、protected以及private這三個在Ruby裡並不是關鍵字，它也只是Ruby裡的方法而已。</p>
+
+<h3>哪裡不一樣?</h3>
+
+<p>前面為什麼會特別提到Ruby的方法存取限制跟其它的程式語言「類似」呢? 雖然Ruby裡的確也有public、protected以及private，但事實上是不太一樣的，特別是private方法。我們先來看一小段的程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">father</span> <span class="o">=</span> <span class="no">Father</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">father</span><span class="o">.</span><span class="n">method_a</span>        <span class="c1"># I am METHOD A in Father</span>
+</span><span class='line'><span class="n">father</span><span class="o">.</span><span class="n">method_b</span>        <span class="c1"># I am METHOD B in Father</span>
+</span><span class='line'><span class="n">father</span><span class="o">.</span><span class="n">method_c</span>        <span class="c1"># NoMethodError</span>
+</span><span class='line'><span class="n">father</span><span class="o">.</span><span class="n">method_secret</span>   <span class="c1"># NoMethodError</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>father是Father類別生出來的實體，而實體的public方法如所預期的印出結果，protected跟private方法呼叫的時候產生NoMethodError的例外，看起來很正常，那到底是哪邊不太一樣?</p>
+
+<p>我們再來做個叫做Son的子類別，繼承自Father類別：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Son</span> <span class="o">&lt;</span> <span class="no">Father</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">son_method_c</span>
+</span><span class='line'>      <span class="n">method_c</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">son_method_secret</span>
+</span><span class='line'>      <span class="n">method_secret</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我給Son類別加了兩個方法，分別會呼叫Father類別的protected跟private方法，再來看範例：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">son</span> <span class="o">=</span> <span class="no">Son</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">son</span><span class="o">.</span><span class="n">method_a</span>           <span class="c1"># I am METHOD A in Son</span>
+</span><span class='line'><span class="n">son</span><span class="o">.</span><span class="n">method_b</span>           <span class="c1"># I am METHOD B in Son</span>
+</span><span class='line'><span class="n">son</span><span class="o">.</span><span class="n">method_c</span>           <span class="c1"># NoMethodError</span>
+</span><span class='line'><span class="n">son</span><span class="o">.</span><span class="n">method_secret</span>      <span class="c1"># NoMethodError</span>
+</span><span class='line'><span class="n">son</span><span class="o">.</span><span class="n">son_method_c</span>       <span class="c1"># I am METHOD C in Son</span>
+</span><span class='line'><span class="n">son</span><span class="o">.</span><span class="n">son_method_secret</span>  <span class="c1"># I am spider man in Son</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在子類別呼叫父類別的protected方法，這不是新鮮事，但你注意到了嗎? 在子類別裡可以直呼叫父類別的private方法耶!</p>
+
+<p>先來看這行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">son</span><span class="o">.</span><span class="n">method_a</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一般我們會把這行翻譯成：</p>
+
+<blockquote><p>“有一個物件叫做son，然後呼叫了son物件的method_a方法”</p></blockquote>
+
+
+<p>不過如果你曾經認識過Smalltalk或是Objective-C的話，你會發現他們會把這行翻譯成：</p>
+
+<blockquote><p>“有一個接收者(receiver)叫做son，然後對著這個recevier送了一個叫做method_a的訊息(message)”</p></blockquote>
+
+
+<p>為什麼特別提這個? 因為<strong>在Ruby裡的private方法，只要沒有明確的指出recevier的話就都可以呼叫</strong>。所以在上面例子裡的Son類別，即使是呼叫父類別的private方法，只要不要有recevier，它就不會有錯誤產生。</p>
+
+<p>也就是因為這樣，在Ruby的private方法其實不只類別自己內部可以存取，它的子類別也可以。再來看一下這段程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">A</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">a</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">b</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">b</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;Hello, This is Private B!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">the_a</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">the_a</span><span class="o">.</span><span class="n">a</span>        <span class="c1"># NoMethodError</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在A類別的a方法呼叫類別內部的b方法，看起來很合理吧，但實際執行就會出錯NoMethodError的例外，說你存取到了private方法了!! 為什麼? 因為你在呼叫方法b的時候加上了<code>self</code>，前面有提到”在呼叫Ruby的private方法時，不能明確的指定recevier”，在這裡卻明確的指出了<code>self</code>，所以出現錯誤訊息了。沒錯，連self也不行。</p>
+
+<p>我們很常用的<code>puts</code>方法，它就是Object這個類別的private方法之一(更正確的說，是Kernel模組mixin到Object類別裡的方法)。我們平常會這樣用：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Hello Ruby&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但如果你這樣做：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">self</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;Hello Ruby&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就會跳出<code>NoMethodError</code>。</p>
+
+<h3>Protected方法?</h3>
+
+<p>那protected方法呢? 它的規定就沒那麼嚴格了，你要指定或不指定recevier都可以；至於public方法，就跟其它語言的定義差不多，隨便你用啦。</p>
+
+<h3>真的這麼private?</h3>
+
+<p>不過，其實Ruby的private方法也不是真的那麼private，轉個彎，一樣可以被外部呼叫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">father</span> <span class="o">=</span> <span class="no">Father</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">father</span><span class="o">.</span><span class="n">method_secret</span>          <span class="c1"># 是我們預期的 NoMethodError 沒錯</span>
+</span><span class='line'><span class="n">father</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:method_secret</span><span class="p">)</span>   <span class="c1"># I am spider man in Father</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>前面提到的<code>puts</code>其實也可以改寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="no">Object</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:puts</span><span class="p">,</span> <span class="s2">&quot;Hello Ruby&quot;</span><span class="p">)</span>  <span class="c1"># Hello Ruby</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這..這樣會不會有點扯? 如果連private都能被直接存取，那當初何必還要這樣設計呢? 還是直接乾脆全部都public就好了?</p>
+
+<p>我想這其實是Ruby當初設計的哲學之一，Ruby把很大部份的權利都下放給程式設計師，讓開發者有最大的彈性空間可以運用(或惡搞)，也就是這樣，在Ruby做Metaprogramming是相對的比在別的程式語言容易的。不只在這裡，你應該還可以在很多地方看到這個Ruby的專屬特性。</p>
+
+<h3>僅供參考</h3>
+
+<p>如果說這些存取限制只是”參考用”，那到底什麼時候會用到?</p>
+
+<p>雖然說它只是”參考用”，我個人還是會把它當做是程式碼的寫作準則。雖然你可以透過send方法來存取private方法，但不代表你就應該這樣做。而且它也不是真的那麼沒有用，像是在寫Rails的時候，Controller裡的Action預設都是public的，如果你的routes.rb如果把路徑的對應全部打開，那所有的Action都有可能透過網址而被存取到，那也許不會是你想要的結果。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -595,297 +917,6 @@ this is mod_method in ModB
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/06/13/some-differences-between-ruby-1-8-and-1-9/">Ruby 1.8 v.s. 1.9</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/06/13/some-differences-between-ruby-1-8-and-1-9/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-06-13T14:54:00+08:00" pubdate>Jun 13<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2011/ruby_logo.png" alt="image" /></p>
-
-<p>其實Ruby 1.9已經推出N年，也算有點年紀的東西了。我想Ruby 1.8跟1.9的版本差別，對一般的developer來說，比較關心的點也許是這兩個版本在語法上有沒有哪邊不同? 是不是在1.8版寫的程式到1.9版都能完全不出問題? 讓我們繼續看下去&#8230;</p>
-
-<h3>Gems變內建的了</h3>
-
-<p>Rubygems在1.8版需要另外安裝，但在1.9安裝的時候也會一併裝進去，另外在1.8版可能偶爾會需要來一行：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">require</span> <span class="s2">&quot;rubygems&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這個在1.9也可以不需要了。</p>
-
-<h3>載入的路徑”有一點”不</h3>
-
-<p>在1.9版，預設的載入路徑把”.”(小數點一點，也就是目前的同錄)給拿掉了，所以在require的時候可能要注意一下。</p>
-
-<h3>支援Unicode</h3>
-
-<p>因為1.9起開始支援unicode，所以tr跟Regexp也都開始看得懂unicode了</p>
-
-<h3>老祖宗變了</h3>
-
-<p>直接來段程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Test</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># ver 1.8</span>
-</span><span class='line'><span class="nb">p</span> <span class="no">Test</span><span class="o">.</span><span class="n">ancestors</span> <span class="c1"># [Test, Object, Kernel]</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># ver 1.9</span>
-</span><span class='line'><span class="nb">p</span> <span class="no">Test</span><span class="o">.</span><span class="n">ancestors</span> <span class="c1"># [Test, Object, Kernel, BasicObject]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ruby 1.9版在Object上面還多了個BasicObject：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
-</span><span class='line'><span class="nb">p</span> <span class="no">Object</span><span class="o">.</span><span class="n">superclass</span> <span class="c1"># nil</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># ver 1.9</span>
-</span><span class='line'><span class="nb">p</span> <span class="no">Object</span><span class="o">.</span><span class="n">superclass</span> <span class="c1"># BasicObject</span>
-</span><span class='line'><span class="nb">p</span> <span class="no">BasicObject</span><span class="o">.</span><span class="n">superclass</span> <span class="c1"># nil</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>BasicObject變成 1.9版的最上層類別了。</p>
-
-<h3>字串處理</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
-</span><span class='line'><span class="nb">p</span> <span class="s2">&quot;hello&quot;</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>   <span class="c1"># 得到101</span>
-</span><span class='line'><span class="nb">p</span> <span class="sc">?a</span>           <span class="c1"># 得到97</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># ver 1.9</span>
-</span><span class='line'><span class="nb">p</span> <span class="s2">&quot;hello&quot;</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>   <span class="c1"># 得到&quot;e&quot;</span>
-</span><span class='line'><span class="nb">p</span> <span class="sc">?a</span>           <span class="c1"># 得到&quot;a&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外，String#each這個方法在1.9已經被拿掉囉，請改用<a href="http://ruby-doc.org/core/classes/String.html#M001209">String#each_byte</a>、<a href="http://ruby-doc.org/core/classes/String.html#M001210">String#each_char</a>以及<a href="http://ruby-doc.org/core/classes/String.html#M001208">String#each_line</a>。</p>
-
-<h3>陣列</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
-</span><span class='line'><span class="nb">p</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">].</span><span class="n">to_s</span>  <span class="c1"># 得到&quot;12345&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># ver 1.9</span>
-</span><span class='line'><span class="nb">p</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">].</span><span class="n">to_s</span>  <span class="c1"># 得到&quot;[1, 2, 3, 4, 5]&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>印出來的結果不一樣了</p>
-
-<h3>Hash</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">me</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;eddie&#39;</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="mi">18</span><span class="p">,</span> <span class="ss">:gender</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># ver 1.8</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">me</span> <span class="c1"># 得到 {:age=&gt;18, :gender=&gt;1, :name=&gt;&quot;eddie&quot;}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># ver 1.9</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">me</span> <span class="c1"># 得到 {:name=&gt;&quot;eddie&quot;, :age=&gt;18, :gender=&gt;1}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在1.9版的hash，不管是新建立或是後來再附加上去，它都變得有”順序”了</p>
-
-<p>另外1.9版有支援新的寫法，上面這段就可以改寫成：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">me</span> <span class="o">=</span> <span class="p">{</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="n">gender</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>它會很聰明的自動把key轉成symbol。在Rails裡常用到的redirect_to，原本這樣寫：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">redirect_to</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="n">index</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>也可以改寫成：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">redirect_to</span> <span class="n">action</span><span class="p">:</span> <span class="n">index</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Block</h3>
-
-<p>看一下這段程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">i</span>
-</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
-</span><span class='line'>  <span class="c1"># do something</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">i</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在1.8版本，最後一行會印出數字5，但在1.9則是印出數字0，block裡的區域變數不會影響到外部的變數了。</p>
-
-<h3>Method</h3>
-
-<p>使用methods方法可以印出該類別或物件的方法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
-</span><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">sort</span>
-</span><span class='line'><span class="o">[</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;=&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;===&quot;</span><span class="p">,</span> <span class="s2">&quot;=~&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;__id__&quot;</span><span class="p">,</span> <span class="s2">&quot;__send__&quot;</span><span class="p">,</span> <span class="s2">&quot;allocate&quot;</span><span class="p">,</span> <span class="s2">&quot;ancestors&quot;</span><span class="p">,</span> <span class="s2">&quot;autoload&quot;</span><span class="p">,</span> <span class="s2">&quot;autoload?&quot;</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="s2">&quot;class_eval&quot;</span><span class="p">,</span> <span class="s2">&quot;class_exec&quot;</span><span class="p">,</span> <span class="s2">&quot;class_variable_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;class_variables&quot;</span><span class="p">,</span> <span class="s2">&quot;clone&quot;</span><span class="p">,</span> <span class="s2">&quot;const_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;const_get&quot;</span><span class="p">,</span> <span class="s2">&quot;const_missing&quot;</span><span class="p">,</span> <span class="s2">&quot;const_set&quot;</span><span class="p">,</span> <span class="s2">&quot;constants&quot;</span><span class="p">,</span> <span class="s2">&quot;display&quot;</span><span class="p">,</span> <span class="s2">&quot;dup&quot;</span><span class="p">,</span> <span class="s2">&quot;enum_for&quot;</span><span class="p">,</span> <span class="s2">&quot;eql?&quot;</span><span class="p">,</span> <span class="s2">&quot;equal?&quot;</span><span class="p">,</span> <span class="s2">&quot;extend&quot;</span><span class="p">,</span> <span class="s2">&quot;freeze&quot;</span><span class="p">,</span> <span class="s2">&quot;frozen?&quot;</span><span class="p">,</span> <span class="s2">&quot;hash&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;include?&quot;</span><span class="p">,</span> <span class="s2">&quot;included_modules&quot;</span><span class="p">,</span> <span class="s2">&quot;inspect&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_eval&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_exec&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_method&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_of?&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_variable_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_variable_get&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_variable_set&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_variables&quot;</span><span class="p">,</span> <span class="s2">&quot;is_a?&quot;</span><span class="p">,</span> <span class="s2">&quot;kind_of?&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;method_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;methods&quot;</span><span class="p">,</span> <span class="s2">&quot;module_eval&quot;</span><span class="p">,</span> <span class="s2">&quot;module_exec&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;new&quot;</span><span class="p">,</span> <span class="s2">&quot;nil?&quot;</span><span class="p">,</span> <span class="s2">&quot;object_id&quot;</span><span class="p">,</span> <span class="s2">&quot;private_class_method&quot;</span><span class="p">,</span> <span class="s2">&quot;private_instance_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;private_method_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;private_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;protected_instance_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;protected_method_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;protected_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;public_class_method&quot;</span><span class="p">,</span> <span class="s2">&quot;public_instance_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;public_method_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;public_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;respond_to?&quot;</span><span class="p">,</span> <span class="s2">&quot;send&quot;</span><span class="p">,</span> <span class="s2">&quot;singleton_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;superclass&quot;</span><span class="p">,</span> <span class="s2">&quot;taint&quot;</span><span class="p">,</span> <span class="s2">&quot;tainted?&quot;</span><span class="p">,</span> <span class="s2">&quot;tap&quot;</span><span class="p">,</span> <span class="s2">&quot;to_a&quot;</span><span class="p">,</span> <span class="s2">&quot;to_enum&quot;</span><span class="p">,</span> <span class="s2">&quot;to_s&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;untaint&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>回傳的是方法的字串陣列。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">sort</span>
-</span><span class='line'><span class="c1"># ver 1.9</span>
-</span><span class='line'><span class="o">[</span><span class="p">:</span><span class="o">!</span><span class="p">,</span> <span class="p">:</span><span class="o">!=</span><span class="p">,</span> <span class="p">:</span><span class="o">!~</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;=</span><span class="p">,</span> <span class="ss">:&lt;=&gt;</span><span class="p">,</span> <span class="ss">:==</span><span class="p">,</span> <span class="ss">:===</span><span class="p">,</span> <span class="p">:</span><span class="o">=~</span><span class="p">,</span> <span class="ss">:&gt;</span><span class="p">,</span> <span class="ss">:&gt;=</span><span class="p">,</span> <span class="ss">:__id__</span><span class="p">,</span> <span class="ss">:__send__</span><span class="p">,</span> <span class="ss">:allocate</span><span class="p">,</span> <span class="ss">:ancestors</span><span class="p">,</span> <span class="ss">:autoload</span><span class="p">,</span> <span class="ss">:autoload?</span><span class="p">,</span> <span class="ss">:class</span><span class="p">,</span> <span class="ss">:class_eval</span><span class="p">,</span> <span class="ss">:class_exec</span><span class="p">,</span> <span class="ss">:class_variable_defined?</span><span class="p">,</span> <span class="ss">:class_variable_get</span><span class="p">,</span> <span class="ss">:class_variable_set</span><span class="p">,</span> <span class="ss">:class_variables</span><span class="p">,</span> <span class="ss">:clone</span><span class="p">,</span> <span class="ss">:const_defined?</span><span class="p">,</span> <span class="ss">:const_get</span><span class="p">,</span> <span class="ss">:const_missing</span><span class="p">,</span> <span class="ss">:const_set</span><span class="p">,</span> <span class="ss">:constants</span><span class="p">,</span> <span class="ss">:define_singleton_method</span><span class="p">,</span> <span class="ss">:display</span><span class="p">,</span> <span class="ss">:dup</span><span class="p">,</span> <span class="ss">:enum_for</span><span class="p">,</span> <span class="ss">:eql?</span><span class="p">,</span> <span class="ss">:equal?</span><span class="p">,</span> <span class="ss">:extend</span><span class="p">,</span> <span class="ss">:freeze</span><span class="p">,</span> <span class="ss">:frozen?</span><span class="p">,</span> <span class="ss">:hash</span><span class="p">,</span> <span class="ss">:include?</span><span class="p">,</span> <span class="ss">:included_modules</span><span class="p">,</span> <span class="ss">:initialize_clone</span><span class="p">,</span> <span class="ss">:initialize_dup</span><span class="p">,</span> <span class="ss">:inspect</span><span class="p">,</span> <span class="ss">:instance_eval</span><span class="p">,</span> <span class="ss">:instance_exec</span><span class="p">,</span> <span class="ss">:instance_method</span><span class="p">,</span> <span class="ss">:instance_methods</span><span class="p">,</span> <span class="ss">:instance_of?</span><span class="p">,</span> <span class="ss">:instance_variable_defined?</span><span class="p">,</span> <span class="ss">:instance_variable_get</span><span class="p">,</span> <span class="ss">:instance_variable_set</span><span class="p">,</span> <span class="ss">:instance_variables</span><span class="p">,</span> <span class="ss">:is_a?</span><span class="p">,</span> <span class="ss">:kind_of?</span><span class="p">,</span> <span class="ss">:method</span><span class="p">,</span> <span class="ss">:method_defined?</span><span class="p">,</span> <span class="ss">:methods</span><span class="p">,</span> <span class="ss">:module_eval</span><span class="p">,</span> <span class="ss">:module_exec</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:nil?</span><span class="p">,</span> <span class="ss">:object_id</span><span class="p">,</span> <span class="ss">:private_class_method</span><span class="p">,</span> <span class="ss">:private_instance_methods</span><span class="p">,</span> <span class="ss">:private_method_defined?</span><span class="p">,</span> <span class="ss">:private_methods</span><span class="p">,</span> <span class="ss">:protected_instance_methods</span><span class="p">,</span> <span class="ss">:protected_method_defined?</span><span class="p">,</span> <span class="ss">:protected_methods</span><span class="p">,</span> <span class="ss">:public_class_method</span><span class="p">,</span> <span class="ss">:public_instance_method</span><span class="p">,</span> <span class="ss">:public_instance_methods</span><span class="p">,</span> <span class="ss">:public_method</span><span class="p">,</span> <span class="ss">:public_method_defined?</span><span class="p">,</span> <span class="ss">:public_methods</span><span class="p">,</span> <span class="ss">:public_send</span><span class="p">,</span> <span class="ss">:remove_class_variable</span><span class="p">,</span> <span class="ss">:respond_to?</span><span class="p">,</span> <span class="ss">:respond_to_missing?</span><span class="p">,</span> <span class="ss">:send</span><span class="p">,</span> <span class="ss">:singleton_class</span><span class="p">,</span> <span class="ss">:singleton_methods</span><span class="p">,</span> <span class="ss">:superclass</span><span class="p">,</span> <span class="ss">:taint</span><span class="p">,</span> <span class="ss">:tainted?</span><span class="p">,</span> <span class="ss">:tap</span><span class="p">,</span> <span class="ss">:to_enum</span><span class="p">,</span> <span class="ss">:to_s</span><span class="p">,</span> <span class="ss">:trust</span><span class="p">,</span> <span class="ss">:try_convert</span><span class="p">,</span> <span class="ss">:untaint</span><span class="p">,</span> <span class="ss">:untrust</span><span class="p">,</span> <span class="ss">:untrusted?</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在1.9變成回傳symbol的陣列了。那會有什麼影響? 如果你有寫到這樣的程式碼來判斷某個類別是否有實作某個方法的話：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">include?</span> <span class="s2">&quot;to_s&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在1.8會是true，但在1.9就會是false了。所以如果你要做這樣的判斷，請使用<code>respond_to?</code>或<code>method_defined?</code>：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">respond_to?</span> <span class="s2">&quot;to_s&quot;</span>
-</span><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">method_defined?</span> <span class="s2">&quot;to_s&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Lambda</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
-</span><span class='line'><span class="n">my_calc</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="p">}</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">my_calc</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># ver 1.9</span>
-</span><span class='line'><span class="n">my_calc2</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="p">{</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="p">}</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">my_calc2</span><span class="o">.</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在1.9版的lambda可以用上面這個方法來寫，而且call方法也可以省略。</p>
-
-<h3>預設參數</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">p</span> <span class="n">hello</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>        <span class="c1"># ArgumentError</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">hello</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>     <span class="c1"># [1, 10, 2]</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">hello</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># [1, 2, 3]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在1.9版在參數個數不夠的時候，可以直接填給沒有預設參數的部份。</p>
-
-<h3>結論</h3>
-
-<p>其實這兩個版本的差異當然不只這樣，我僅就我個人比較常用到的部份做個筆記，順便也提醒自己。以上內容若有任何錯誤再請讓我知道，感謝。</p>
-
-<h4>參考資料：</h4>
-
-<ul>
-<li><a href="http://slideshow.rubyforge.org/ruby19.html">Ruby 1.9: What to Expect</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/21/">&larr; Older</a>
@@ -937,6 +968,10 @@ this is mod_method in ModB
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
@@ -972,15 +1007,11 @@ this is mod_method in ModB
         <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 156.8421052631579%'>Diary(36)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 133.1578947368421%'>Ruby(21)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

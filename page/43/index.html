@@ -9,9 +9,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在用AWStats做流量統計時，發現只要是ASP的檔案，sc-bytes的都是0。後來才發現是Microsoft IIS的問題，在Microsoft找到答案：
-解決方法有兩種： 從ASP程式下手。
-或是從IIS下手。 解決方法一： 從IIS 5.0開始，Response.Buffer預設值是打開( &hellip;">
+  <meta name="description" content="之前有提到在linux上，常常會有安裝軟體A之前，需要安裝軟體B的問題，稱之為相依性(dependency)，要解決相依性的問題，除了之前提到的APT外，Yum也是個很好用的工具。 以下以CentOS4為例： 使用方法： Step 1.匯入GPG-KEY： http://mirror.centos &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +78,74 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/03/28/yum/">方便的套件更新程式-Yum</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/03/28/yum/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-03-28T21:22:00+08:00" pubdate>Mar 28<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前有提到在linux上，常常會有安裝軟體A之前，需要安裝軟體B的問題，稱之為相依性(dependency)，要解決相依性的問題，除了之前提到的APT外，Yum也是個很好用的工具。</p>
+
+<p>以下以<a href="http://www.centos.org/">CentOS4</a>為例：</p>
+
+<h2>使用方法：</h2>
+
+<h3>Step 1.匯入GPG-KEY：</h3>
+
+<p><a href="http://mirror.centos.org/centos/">http://mirror.centos.org/centos/</a>，找到適合版本的GPG-KEY</p>
+
+<pre><code>&gt; rpm –import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-4
+</code></pre>
+
+<h3>Step 2.修改/etc/yum.conf：</h3>
+
+<p><code>/etc/yum.conf</code>這個檔案，可以設定要取用哪些RPM以及Yum伺服器的位置，可以選台比較近的Yum伺服器進行更新。</p>
+
+<h3>Step 3.操作</h3>
+
+<p>更新套件：</p>
+
+<pre><code>/usr/bin/yum update
+</code></pre>
+
+<p>如果要搜尋某個套件，可用</p>
+
+<pre><code>/usr/bin/yum search someRPM
+</code></pre>
+
+<p>如果要安裝某個套件，可用</p>
+
+<pre><code>/usr/bin/yum install someRPM
+</code></pre>
+
+<p>跟APT一樣，如果安裝A軟體需要B軟體，它會連帶把B軟體下載下來安裝之後，再繼續安裝你要的A軟體。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -329,54 +395,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2005/02/27/mplayer/">MPlayer的字幕問題</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2005/02/27/mplayer/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2005-02-27T21:00:00+08:00" pubdate>Feb 27<span>th</span>, 2005</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近透過非合法的手段，找到了某部正在上映的院線片來看，但在Red Hat 9上用mplayer播放時，中文字幕會變成亂碼。翻了一下網路上其它人的解決方法，我也有正常的中文字幕看了 :)</p>
-
-<p>Step 1. 開啟mplayer，修改preferences</p>
-
-<p>Step 2. 選擇Subtitle&amp;OSD標籤:</p>
-
-<p>將subtitle裡encoding選項裡的編碼改成<code>Traditional Chinese Carset(Big5)</code></p>
-
-<p>Step 3. 選擇Font標籤，選擇中文字形:</p>
-
-<p>我是用<code>/usr/share/fonts/zh_TW/TrueType/bsmi001p.ttf</code>(當然也可以選用其它像firefly之類漂亮的字型)，Encoding選<code>Unicode</code>。</p>
-
-<p>Step 4. 其它例如字幕大小、透明度…等，都可以在這裡調整。</p>
-
-<p>這樣一來，我的Mplayer也有漂亮的中文字幕啦 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/44/">&larr; Older</a>
@@ -428,6 +446,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
@@ -463,15 +485,11 @@
         <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 156.8421052631579%'>Diary(36)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 133.1578947368421%'>Ruby(21)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
