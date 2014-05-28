@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="這回來我們來看看在Objective-C裡的物件導向程式(Object-Oriented Programming)的東西，不過有些像是”何謂物件導向”以及”物件導向的優缺點”之類的基礎觀念就不特別提了，網路上應該可以找到更多更詳細的參考資料，我假設你曾經在別的程式語言有寫過OOP，大概知道繼承、 &hellip;">
+  <meta name="description" content="承上篇，因為在類別裡，instance variable(以下簡稱ivar)預設是protected的，也就是說只有該類別以及它的子類別才能存取它，如果要給外部使用的話，則需要來幫它加個setter/getter。但每次只為了一個ivar就要寫一對的setter/getter也太麻煩了， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,296 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/08/property-and-synthesize/">Property and Synthesize</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/08/property-and-synthesize/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-08T22:13:00+08:00" pubdate>Dec 8<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/ipad_apple.jpg" alt="image" /></p>
+
+<p>承<a href="/2010/12/01/oop-in-objective-c/">上篇</a>，因為在類別裡，instance variable(以下簡稱ivar)預設是protected的，也就是說只有該類別以及它的子類別才能存取它，如果要給外部使用的話，則需要來幫它加個setter/getter。但每次只為了一個ivar就要寫一對的setter/getter也太麻煩了，在Objective-C 2.0之後加入了<code>@property</code>跟<code>@synthesize</code>的語法，讓這個工作簡單多了。借用上一篇的例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果改用<code>@property</code>來寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原來的setter/getter就可以省下來不用寫，然後在@implementation的部份則是使用<code>@synthesize</code>語法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
+</span><span class='line'><span class="c1">// 這個@synthesize語法幫忙產生setter/getter</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello, This is a book&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡的<code>@synthesize price</code>，其實就相當於自動產生了我們在上一篇寫的那一對setter/getter的程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nf">price</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">value</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">price</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣程式碼就簡潔許多了。雖然@synthesize會自動幫忙產生setter/getter，但如果你想要寫自己的setter/getter，或是想要額外添加功能在裡面，只要照著它預設生成的setter/getter方法命名規則就可以了：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// interface</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// implementation</span>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 自定setter</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setPrice:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 故意讓傳入值變2倍</span>
+</span><span class='line'>  <span class="n">price</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">printBookInfo</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello, This is a book&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>@synthesize雖然會自動幫你建立一對setter/getter，但還是會以你建立的為主。</p>
+
+<p>另外，記得在別的程式語言裡可以用點”.”來存取物件的屬性嗎? Objective-C 2.0之後也可以這樣做了，直接看看語法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 一般的setter用法</span>
+</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="nl">setPrice:</span><span class="mi">300</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 一般的getter用法</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">b</span> <span class="n">price</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Objective-C 2.0之後可使用點語法，它會自動呼叫setter並將值傳給它</span>
+</span><span class='line'><span class="n">b</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 這裡則是呼叫getter把值傳回來</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %d&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">price</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="n">release</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣有比較習慣了嗎? 我相信很多人對Objective-C的方括號的語法很感冒，至於程式碼的可讀性就看個人了，方括號語法看久了也是滿習慣的。不過用點語法的時候要注意幾件事，例如你自己寫了一個setter，又在裡面用了點語法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 如果這樣寫的話，會啟動setPrice這個method</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後..就變<strong>無窮迴圈</strong>了! 這點要特別注意一下。</p>
+
+<p>還有個問題是其實這個點語法光從程式碼其實看不太出來到底是物件還是結構還是變數..再來看另一個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CGPoint</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">player</span><span class="p">.</span><span class="n">position</span><span class="p">;</span>
+</span><span class='line'><span class="n">pos</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">acceleration</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這是一段<a href="http://www.cocos2d-iphone.org/">Cocos2D</a>的語法，內容大意是說：「我要建立一個CGPoint變數叫做pos，而這個pos是由player這個CCSprite的position來的」。acceleration是一個<code>UIAcceleration</code>物件，取得acceleration的x的值，修改pos裡的x之後再把整個pos變數塞回去給player這個角色。</p>
+
+<p>這段程式碼對老手來說大概會覺得很弱，覺得這大概是新手，還得要建一個暫存變數，遜! 要是他來寫根本就可以直接併成一行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">acceleration</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但事實上這樣寫的話會丟出一個”lvalue required as left operand of assignment”的編譯錯誤。為什麼會這樣? 分段來看：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實這種”點語法”是一種”語法糖衣(syntactic sugar)”，事實上它是：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">player</span> <span class="n">position</span><span class="p">].</span><span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這邊position是一個getter，可以讓你從player身上取得一個CGPoint型態的position(r-value)，但因為並沒有把指定給某個變數(l-value)，所以當你要想用setter把它寫回去的時候，這個值已經消失了。</p>
+
+<p>感想：看來Objective-C不只語法不同，連一些習慣寫法也不同了，眉眉角角真多!</p>
+
+<h3>建議閱讀：</h3>
+
+<ul>
+<li><a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/ObjectiveC/Articles/ocProperties.html">iOS Reference Library – Declared Properties</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -951,273 +1241,6 @@ s2 is eddie
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/11/23/iphone-app-in-action/">iPhone App實作練習-BMI</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/11/23/iphone-app-in-action/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-11-23T17:06:00+08:00" pubdate>Nov 23<span>rd</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>看一堆Objective-C原理的書，什麼物件、類別、記憶體管理的，沒實作個東西出來就整個沒成就感。突然間想起自己是北醫營養系畢業的，但總是不務正業，終於有機會發揮我專長的時候了，這次就來寫個計算BMI(<a href="http://zh.wikipedia.org/zh/%E8%BA%AB%E9%AB%98%E9%AB%94%E9%87%8D%E6%8C%87%E6%95%B8">Body Mass Index</a>)的iPhone app吧。</p>
-
-<p>我的SDK版本是4.1的，所以如果你的SDK版本跟我的不一樣的話，看到的畫面可能會跟我的不太一樣。</p>
-
-<p>開啟Xcode，選擇iOS Application->View-Base Application：</p>
-
-<p><img src="/images/2010/iphone_new_project.png" alt="image" /></p>
-
-<p>下一步，選擇專案名稱，我這裡取名為「BMI」，存檔，準備開始動工。接下來，你應該會看到一堆資料夾跟檔案(如下圖)：</p>
-
-<p><img src="/images/2010/iphone_xcode.png" alt="image" /></p>
-
-<p>暫時先不解釋那些檔案要幹嘛的，直接按下上方工具列的”Build and Run”按鈕。沒意外的話，你應該會看到一個iPhone模擬器自動開起來，並且看到模擬器裡出現一個空白畫面，上面什麼都沒有，因為我們還沒開始寫 :)</p>
-
-<p>接下來要來上面放一些元件了。請點開Resources裡的BMIViewController.xib (如果你的專案名稱跟我不同的話，檔名也會跟著不同)。點開之後應該會開啟Interface Builder，這個是讓你用視覺的方式把元件佈置到場景上的工具。接下來你應該可以找到一個library視窗(如下圖)，裡面放了許多預先建立好的元件。如果找不到這個視窗的話，請至上方工具列裡選擇”Tools”->”Library”。</p>
-
-<p><img src="/images/2010/iphone_library.png" alt="image" /></p>
-
-<p>接下來我們會從元件庫裡拿幾個元件出來用：</p>
-
-<ul>
-<li>Label 是拿來放一些靜態文字用的，提示使用者某個欄位要輸入什麼值，在這裡也可以拿來做為BMI結果的輸出值。</li>
-<li>Text Field 是用來讓使用者輸入身高體重的地方。</li>
-<li>Button 則是按下去之後會幫我們計算BMI，並呈現在畫面上。</li>
-</ul>
-
-
-<p>接下來請把畫面佈置得如下圖：</p>
-
-<p><img src="/images/2010/iphone_interface_builder.png" alt="image" /></p>
-
-<p>label或是button上的文字，只要點兩下就可以進行編輯。在畫面中間下面，你看到的那個Label字樣，是待會計算完成會出現的結果。但在按下計算之前，它應該是隱藏的，所以點選Label之後，可以從Attributes Inspector把它設定為”hidden”(如下圖)。這樣的話到時候它出場的時候就會看不見了(但在設計階段會看到半透明的)。</p>
-
-<p><img src="/images/2010/iphone_attributes_inspector1.png" alt="image" /></p>
-
-<p>在attributes inspector這邊還有很多屬性是可以自己調整看看的，例如字型、顏色、大小等。</p>
-
-<p>完成之後記得存檔，然後回到xcode，再度按下”Build and Run”，你就可以看到你剛剛做的成果，按鈕可以按了，文字可以輸入了，但應該都還沒功能，而且那個鍵盤會一直卡在那邊，不會自己退下去，接下來我們就要來把這個功能給完成。</p>
-
-<p>回到Xcode，點開左邊Classes裡的BMIViewController.h(同上，如果專案名稱不同，檔名也會不同)，你會看到一個空的類別定義，這裡暫時不詳細說明什麼是類別，先讓大家取得成就感再來研究細節 :)</p>
-
-<p>接下來我們要在<code>@interface</code>裡加幾個屬性跟方法，程式碼如下：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：BMIViewController.h</span>
-</span><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">BMIViewController</span> : <span class="nc">UIViewController</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">body_height</span><span class="p">;</span>
-</span><span class='line'>  <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">body_weight</span><span class="p">;</span>
-</span><span class='line'>  <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">body_height</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">body_weight</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">result</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span> <span class="nf">calcBMI:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">sender</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span> <span class="nf">keyboardDismiss:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">sender</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡先暫時不說明什麼是IBOutlet、IBAction還有一堆看不懂的語法是要幹嘛的，有機會的話，會在之後的文章裡再來一一說明。簡單的說，這些IBOutlet就是一些待會要給Interface Builder做連結用的，IBAction則是一些”動作”，待會要設定給按鈕按下去之後用的。這裡的IB，指的就是<code>Interface Builder</code>。</p>
-
-<p>定義好了interface之後，接下來請切換到BMIViewController.m，這個檔案看起來有一堆被註解掉的程式碼，可以不理它或是把它刪掉(我有程式碼潔癖，所以我刪了)。再來要來實作剛剛的這些定義，程式碼如下：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：BMIViewController.m</span>
-</span><span class='line'><span class="cp">#import &quot;BMIViewController.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">BMIViewController</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@synthesize</span> <span class="n">body_height</span><span class="p">;</span>
-</span><span class='line'><span class="k">@synthesize</span> <span class="n">body_weight</span><span class="p">;</span>
-</span><span class='line'><span class="k">@synthesize</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span> <span class="nf">calcBMI:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">sender</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="c1">// 取得身高數值，並換算成公尺</span>
-</span><span class='line'>  <span class="kt">float</span> <span class="n">height</span> <span class="o">=</span> <span class="p">[[</span><span class="n">body_height</span> <span class="n">text</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// 取得體重數值</span>
-</span><span class='line'>  <span class="kt">float</span> <span class="n">weight</span> <span class="o">=</span> <span class="p">[[</span><span class="n">body_weight</span> <span class="n">text</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// 顯示計算結果</span>
-</span><span class='line'>  <span class="n">result</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">result</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;您的BMI值是：%.2f&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">weight</span> <span class="o">/</span> <span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">height</span><span class="p">))];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 把鍵盤退下去</span>
-</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span> <span class="nl">keyboardDismiss:</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">sender</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">sender</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">viewDidLoad</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="c1">// 設定這兩個欄位的初始為數字及標點符號鍵盤</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body_height</span> <span class="nl">setKeyboardType:</span><span class="n">UIKeyboardTypeNumbersAndPunctuation</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body_weight</span> <span class="nl">setKeyboardType:</span><span class="n">UIKeyboardTypeNumbersAndPunctuation</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body_height</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">body_weight</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">result</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>特別要說明的是，<code>calcBMI</code>方法做的事，就是去取得畫面上的兩個TextFeid的值，計算之後把結果輸出到剛剛那個被我們隱藏起來的Label；<code>keyboardDismiss</code>方法則是要把鍵盤給退下去，而viewDidLoad則是當整個app執行並載入元件完成後會做的事，這裡我們設定那兩個TextField的keyboard屬性為數字+標點符號鍵盤(身高體重應該只要輸入數字跟小數點)。</p>
-
-<p>到這裡，程式碼的部份其實已經算寫完了，但是還沒”串起來”，所以還不會動。接下來我們就是要來做”串起來”的動作。</p>
-
-<p>回到Interface Builder，找到File’s Owner，在上面點滑鼠右鍵應該會出現像下面這個畫面：</p>
-
-<p><img src="/images/2010/iphone_iboutlets_orig.png" alt="image" /></p>
-
-<p>你剛剛寫的程式碼如果沒錯的話，IBOutlet跟IBAction就會在這裡出現了。接下來就是開始歡樂的連連看了。上圖的IBOutlet跟IBAction旁邊都有一個小圈圈，按下body_height屬性右邊的小圈圈，然後拖拉到你剛佈置的那個身體的TextField，如下圖：</p>
-
-<p><img src="/images/2010/iphone_draw_to_obj1.jpg" alt="image" /></p>
-
-<p>body_weight也是以此類推，再來把calcBMI這個IBAction拖拉到計算的按鈕上，它會出現一個選單，選擇”Touch Down”，表示這個IBAction會在這個按鈕被按下去的時候執行：</p>
-
-<p><img src="/images/2010/iphone_draw_to_obj2.jpg" alt="image" /></p>
-
-<p>同樣的把result也拖拉到那個隱藏的label上：</p>
-
-<p><img src="/images/2010/iphone_draw_to_obj3.jpg" alt="image" /></p>
-
-<p>最後比較特別的是keyboardDismiss這個，請把它各別拖拉到身高及體重的TextField，並選擇”Did End On Exit”，這表示當在這兩個TextField按下enter或return之後會做的事，在這裡是把鍵盤給退下去：</p>
-
-<p><img src="/images/2010/iphone_draw_to_obj4.jpg" alt="image" /></p>
-
-<p>如果全部都完成的話，畫面應該看起來會像這樣：</p>
-
-<p><img src="/images/2010/iphone_iboutlets_fin.png" alt="image" /></p>
-
-<p>以上這些”串連”的動作，就是把畫面上的東西跟程式碼串接起來，讓按鈕按下去會有反應，該出現的出現，該隱藏的隱藏。除了從File’s Owner這邊可以拉之外，也可以從另外的Connection視窗來看，例如你點一下那顆計算的按鈕，並切換到Connection視窗(如下圖)，如果看到這顆按鈕目前有跟什麼屬性或動作有連結。在這裡可以看到這個按鈕的Touch Down事件會去觸發calcBMI動作。</p>
-
-<p><img src="/images/2010/iphone_connection.png" alt="image" /></p>
-
-<p>存檔，並回到Xcode環境，按下Build and Run，程式沒錯的話，應該就可以看到你的app啟動了。</p>
-
-<p><img src="/images/2010/iphone_result.png" alt="image" /></p>
-
-<p>最後，當你按下模擬器裡的home按鈕，你看到你的app的icon是白白的(如下圖)：</p>
-
-<p><img src="/images/2010/iphone_blank_icon.jpg" alt="image" /></p>
-
-<p>這樣很醜，應該不會有人想買你的app，所以通常都會設計個漂亮的icon來放上去。製作方法也很容易，icon的尺寸是<code>57×57</code>，開影像處理軟體做好之後，回到Xcode，把做好的圖檔拖拉到Xcode裡的Resources資料夾。它會跳一個視窗出來：</p>
-
-<p><img src="/images/2010/iphone_copy_file.png" alt="image" /></p>
-
-<p>勾選Copy選項，它就會把你剛做的icon圖檔也複製一份到你的專案裡。接著同樣在Resources資料夾裡有個BMI-info.plist檔案(檔名同專案名稱，所以你可能跟我的不一定會一樣)，打開之後中間有個icon file的選項，填入你剛剛做好的icon檔名(我的是eddie_icon.png)。</p>
-
-<p><img src="/images/2010/iphone_plist.png" alt="image" /></p>
-
-<p>存檔，Build and Run，應該就能看到新的icon了：</p>
-
-<p><img src="/images/2010/iphone_app_icon.jpg" alt="image" /></p>
-
-<p>差不多就這樣了。不過其實還有很多防呆裝置沒做，例如欄位沒填，或是數字除以零..等等，還有畫面也都還沒美化過，所以如果你要拿上架去賣錢的話，記得把這些功能補齊。</p>
-
-<p>好啦，這樣你可以準備上架去狠狠賺它個幾百萬了，有賺錢的話記得分紅啊 :)</p>
-
-<p><a href="/downloads/files/2010/BMI.zip">原始檔下載</a></p>
-
-<h3>補充：</h3>
-
-<p>練習久了，你應該會發現在你的模擬器裡塞了一堆的app，如果想要清除的話，請到<code>/Users/個人帳號/Library/Application Support/iPhone Simulator</code>這個資料夾，把裡面的檔案及資料夾砍掉就行了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/28/">&larr; Older</a>
@@ -1269,6 +1292,10 @@ s2 is eddie
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
@@ -1304,15 +1331,11 @@ s2 is eddie
         <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

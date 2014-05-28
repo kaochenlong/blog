@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="OOP的精神之一，就是如果你想研發一台新款式的車子，你並不需要重新發明輪子，通常的做法會去繼承某個現有的”車子類別”，然後加上你要的功能跟屬性，改一改就變成一款新的車子可以來騙錢了。 不過有時候你想幫原來的類別加功能，但又不想動到原來的程式碼，例如你可能下載了某款功能超強的2D物理引擎程式碼， &hellip;">
+  <meta name="description" content="前面幾篇有提到一些@category跟@progocol，還有一些記憶體管理的東西，我自己也看得頭很花，不過看一堆的理論還不如直接實作來得快。所以，接下來我們就來把前面那個陽春的地圖功能，加上一些註解或大頭針的功能，讓整個畫面看起來豐富、實用一些。 首先，我想要做的效果是在地圖上加個大頭針跟註解 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,311 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/20/add-annotation-to-the-map/">iPhone app 實作練習 - 幫你的地圖 app 加上大頭針</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/20/add-annotation-to-the-map/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-20T00:01:00+08:00" pubdate>Dec 20<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/marker.jpg" alt="image" /></p>
+
+<p>前面幾篇有提到一些<a href="/2010/12/16/category-in-objective-c/">@category</a>跟<a href="/2010/12/11/protocol-in-objective-c/">@progocol</a>，還有一些記憶體管理的東西，我自己也看得頭很花，不過看一堆的理論還不如直接實作來得快。所以，接下來我們就來把前面那個陽春的<a href="/2010/11/26/create-map-application-with-mapkit-framework/">地圖</a>功能，加上一些註解或大頭針的功能，讓整個畫面看起來豐富、實用一些。</p>
+
+<p>首先，我想要做的效果是在地圖上加個大頭針跟註解，如下圖：</p>
+
+<p><img src="/images/2010/ios_map_result2.png" alt="image" /></p>
+
+<p>做法就是在原來的MapView上加上一個註解(Annotation)，讓MapView把它畫出來。要注意的是，Annotation本身不一種View，所以不是看得到的元件，不會直接在畫面上看得到。Annotation類別只是描述一些資料，例如title、subtitle，加到MapView之後，有個叫做MKAnnotationView的類別幫我們畫出來的。而把annotation加到MapView的語法是：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">map_view</span> <span class="nl">addAnnotation:</span><span class="p">(</span><span class="kt">id</span> <span class="o">&lt;</span><span class="n">MKAnnotation</span><span class="o">&gt;</span><span class="p">)</span><span class="n">annotation</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這可以讓你一次加一個Annotation到MapView裡，如果你要一次加多個大頭針進去，則可使用addAnnotations，後面接一個NSArray，裡面裝你要標示的Annotation即可。如果要移掉，則是使用removeAnnotation，如果要移掉多個則是使用removeAnnotations，詳細使用方法可再請參考使用手冊。</p>
+
+<p>回來看上面那行，希望你還記得protocol的東西，如果不記得的話請再看一下<a href="/2010/12/11/protocol-in-objective-c/">這篇</a>複習一下，那行的意思就是說addAnnotation方法後面接的參數必須是個有實作<code>MKAnnotation</code>這個protocol的物件。但是Cocoa Touch並沒有內建Annotation的類別可以直接塞給它，我是滿好奇這麼常用的功能為什麼不直接就內建進來，直接new一個來用就好了。不過沒關係，沒有的話我們就自己手動刻一個。</p>
+
+<p>首先，先在Classes裡新增一個Objective-C class檔案，我把它命名為MyCompany(.m跟.h)，然後我的Classes群組看起來會像這樣：</p>
+
+<p><img src="/images/2010/ios_map_classes.png" alt="image" /></p>
+
+<p>再來，修改一下MyCompany.h裡的@interface，讓它實作自MKAnnotation protocol：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：MyCompany.h</span>
+</span><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;MapKit/MapKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">MyCompany</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">MKAnnotation</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好了，然後呢? 要實作哪些方法要怎麼看? 在MKAnnotation上按滑鼠右選，選擇”find text in documentation”，它會去找到這個protocol的相關詳細說明。但我個人會更偏好在MKAnnotation上按住command鍵加上double click，它會跳到這個protocol的定義，直接看原始碼是最快的。MKAnnotation這個protocol的定義如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;CoreGraphics/CoreGraphics.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;CoreLocation/CoreLocation.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@protocol</span> <span class="nc">MKAnnotation</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Center latitude and longitude of the annotion view.</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">optional</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Title and subtitle for use by selection UI.</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">subtitle</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Called as a result of dragging an annotation view.</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setCoordinate:</span><span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">newCoordinate</span> <span class="n">__OSX_AVAILABLE_STARTING</span><span class="p">(</span><span class="n">__MAC_NA</span><span class="p">,</span><span class="n">__IPHONE_4_0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>從定義看來，實作這個protocol只需要實作做coordinate這個getter就行了，其它的都是optional的。但因為我想要在大頭針上面加上註解說明，所以需要再實作title跟subtitle的setter，程式碼如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：MyCompany.h</span>
+</span><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;MapKit/MapKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">MyCompany</span> : <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">MKAnnotation</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">subtitle</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">retain</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">subtitle</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>骨架好了，再來跳到MyCompany.m，把肉填起來：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔案：MyCompany.m</span>
+</span><span class='line'><span class="cp">#import &quot;MyCompany.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">MyCompany</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="k">@synthesize</span> <span class="n">subtitle</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">initWithCoordinate:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">the_coordinate</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">])</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="n">coordinate</span> <span class="o">=</span> <span class="n">the_coordinate</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">subtitle</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>前面幾行的@synthesize是對應到@property用的，這裡唯一比較長的程式碼是initWithCoordinate，這是個委任的建構子，用來在init的時候把coordinate也一併傳進來。</p>
+
+<p>OK! 到這裡的前置工作已經完成了，接著要把它併到之前那個範例的程式碼裡了，首先別忘了要先把<code>MyCompany.h</code>給import進來：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import MyCompany.h</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再來一樣直接偷懶的把程式碼全部寫在<code>viewDidLoad</code>裡面：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 建立一個CLLocationCoordinate2D</span>
+</span><span class='line'>  <span class="n">CLLocationCoordinate2D</span> <span class="n">mylocation</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">mylocation</span><span class="p">.</span><span class="n">latitude</span> <span class="o">=</span> <span class="mf">25.01141</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">mylocation</span><span class="p">.</span><span class="n">longitude</span> <span class="o">=</span> <span class="mf">121.42554</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 建立一個region，待會要設定給MapView</span>
+</span><span class='line'>  <span class="n">MKCoordinateRegion</span> <span class="n">kaos_digital</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 設定經緯度</span>
+</span><span class='line'>  <span class="n">kaos_digital</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">mylocation</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 設定縮放比例</span>
+</span><span class='line'>  <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">latitudeDelta</span> <span class="o">=</span> <span class="mf">0.003</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">longitudeDelta</span> <span class="o">=</span> <span class="mf">0.003</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 準備一個annotation</span>
+</span><span class='line'>  <span class="n">MyCompany</span> <span class="o">*</span><span class="n">mycompany</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">MyCompany</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCoordinate:</span><span class="n">mylocation</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">mycompany</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@&quot;高思數位網路&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">mycompany</span><span class="p">.</span><span class="n">subtitle</span> <span class="o">=</span> <span class="s">@&quot;媽，我在這裡啦!&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">map_view</span> <span class="nl">setRegion:</span><span class="n">kaos_digital</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 把annotation加進MapView裡</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">map_view</span> <span class="nl">addAnnotation:</span><span class="n">mycompany</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段程式碼是從<a href="/2010/11/26/create-map-application-with-mapkit-framework/">前面那篇</a>借來用的。做到這裡，按下<code>Build and Run</code>，應該就可以看到有一根紅色的大頭針定在畫面上：</p>
+
+<p><img src="/images/2010/ios_map_result1.png" alt="image" /></p>
+
+<p>再點一下大頭針就會跳出說明：</p>
+
+<p><img src="/images/2010/ios_map_result2.png" alt="image" /></p>
+
+<p>其實MKAnnotationView能做的變化還不少，例如變更大頭針的樣式、顏色，或是在註解的左邊或右邊加上按鈕，按下按鈕之後會執行其它的事情(callout)，更詳細的說明可再參考Apple的官方手冊，地圖在行動裝置上能做的應用還挺多的，大家可以再想想怎麼拼裝組合囉 :)</p>
+
+<p><a href="/downloads/files/2010/MapDemo.zip">原始檔下載</a></p>
+
+<h3>建議閱讀：</h3>
+
+<p><a href="http://developer.apple.com/library/ios/#documentation/MapKit/Reference/MKAnnotationView_Class/Reference/Reference.html">iOS Reference Library – MKAnnotationView</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -666,296 +971,6 @@ Hello everybody!
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/08/property-and-synthesize/">Property and Synthesize</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/12/08/property-and-synthesize/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-12-08T22:13:00+08:00" pubdate>Dec 8<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2010/ipad_apple.jpg" alt="image" /></p>
-
-<p>承<a href="/2010/12/01/oop-in-objective-c/">上篇</a>，因為在類別裡，instance variable(以下簡稱ivar)預設是protected的，也就是說只有該類別以及它的子類別才能存取它，如果要給外部使用的話，則需要來幫它加個setter/getter。但每次只為了一個ivar就要寫一對的setter/getter也太麻煩了，在Objective-C 2.0之後加入了<code>@property</code>跟<code>@synthesize</code>的語法，讓這個工作簡單多了。借用上一篇的例子：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span><span class="p">;</span>
-</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果改用<code>@property</code>來寫：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>原來的setter/getter就可以省下來不用寫，然後在@implementation的部份則是使用<code>@synthesize</code>語法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
-</span><span class='line'><span class="c1">// 這個@synthesize語法幫忙產生setter/getter</span>
-</span><span class='line'><span class="k">@synthesize</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello, This is a book&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡的<code>@synthesize price</code>，其實就相當於自動產生了我們在上一篇寫的那一對setter/getter的程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nf">price</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">value</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">price</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣程式碼就簡潔許多了。雖然@synthesize會自動幫忙產生setter/getter，但如果你想要寫自己的setter/getter，或是想要額外添加功能在裡面，只要照著它預設生成的setter/getter方法命名規則就可以了：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// interface</span>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// implementation</span>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@synthesize</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 自定setter</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setPrice:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">p</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="c1">// 故意讓傳入值變2倍</span>
-</span><span class='line'>  <span class="n">price</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">printBookInfo</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello, This is a book&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>@synthesize雖然會自動幫你建立一對setter/getter，但還是會以你建立的為主。</p>
-
-<p>另外，記得在別的程式語言裡可以用點”.”來存取物件的屬性嗎? Objective-C 2.0之後也可以這樣做了，直接看看語法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 一般的setter用法</span>
-</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="nl">setPrice:</span><span class="mi">300</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 一般的getter用法</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">b</span> <span class="n">price</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Objective-C 2.0之後可使用點語法，它會自動呼叫setter並將值傳給它</span>
-</span><span class='line'><span class="n">b</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 這裡則是呼叫getter把值傳回來</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %d&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">price</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="n">release</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣有比較習慣了嗎? 我相信很多人對Objective-C的方括號的語法很感冒，至於程式碼的可讀性就看個人了，方括號語法看久了也是滿習慣的。不過用點語法的時候要注意幾件事，例如你自己寫了一個setter，又在裡面用了點語法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="c1">// 如果這樣寫的話，會啟動setPrice這個method</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然後..就變<strong>無窮迴圈</strong>了! 這點要特別注意一下。</p>
-
-<p>還有個問題是其實這個點語法光從程式碼其實看不太出來到底是物件還是結構還是變數..再來看另一個例子：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CGPoint</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">player</span><span class="p">.</span><span class="n">position</span><span class="p">;</span>
-</span><span class='line'><span class="n">pos</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">acceleration</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
-</span><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這是一段<a href="http://www.cocos2d-iphone.org/">Cocos2D</a>的語法，內容大意是說：「我要建立一個CGPoint變數叫做pos，而這個pos是由player這個CCSprite的position來的」。acceleration是一個<code>UIAcceleration</code>物件，取得acceleration的x的值，修改pos裡的x之後再把整個pos變數塞回去給player這個角色。</p>
-
-<p>這段程式碼對老手來說大概會覺得很弱，覺得這大概是新手，還得要建一個暫存變數，遜! 要是他來寫根本就可以直接併成一行：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">acceleration</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但事實上這樣寫的話會丟出一個”lvalue required as left operand of assignment”的編譯錯誤。為什麼會這樣? 分段來看：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其實這種”點語法”是一種”語法糖衣(syntactic sugar)”，事實上它是：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">player</span> <span class="n">position</span><span class="p">].</span><span class="n">x</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這邊position是一個getter，可以讓你從player身上取得一個CGPoint型態的position(r-value)，但因為並沒有把指定給某個變數(l-value)，所以當你要想用setter把它寫回去的時候，這個值已經消失了。</p>
-
-<p>感想：看來Objective-C不只語法不同，連一些習慣寫法也不同了，眉眉角角真多!</p>
-
-<h3>建議閱讀：</h3>
-
-<ul>
-<li><a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/ObjectiveC/Articles/ocProperties.html">iOS Reference Library – Declared Properties</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/27/">&larr; Older</a>
@@ -1007,6 +1022,10 @@ Hello everybody!
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
@@ -1042,15 +1061,11 @@ Hello everybody!
         <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

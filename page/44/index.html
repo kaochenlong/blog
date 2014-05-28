@@ -21,7 +21,10 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="最近透過非合法的手段，找到了某部正在上映的院線片來看，但在Red Hat 9上用mplayer播放時，中文字幕會變成亂碼。翻了一下網路上其它人的解決方法，我也有正常的中文字幕看了 :) Step 1. 開啟mplayer，修改preferences Step 2. 選擇Subtitle&amp; &hellip;">
+  <meta name="description" content="Postfix的Relay控制，是在/etc/postfix/main.cf裡面做設定，主要有四個部份： inet_interfaces
+mynetworks_style
+mynetworks
+relay_domains inet_interfaces： 預設值是all，如果你的機器有多張網路卡， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +93,98 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/03/01/postfix-relay-control/">Postfix的Relay Control</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/03/01/postfix-relay-control/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-03-01T21:02:00+08:00" pubdate>Mar 1<span>st</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Postfix的Relay控制，是在<code>/etc/postfix/main.cf</code>裡面做設定，主要有四個部份：</p>
+
+<ol>
+<li>inet_interfaces</li>
+<li>mynetworks_style</li>
+<li>mynetworks</li>
+<li>relay_domains</li>
+</ol>
+
+
+<h2>inet_interfaces：</h2>
+
+<p>預設值是<code>all</code>，如果你的機器有多張網路卡，但又不想要全部都開放 relay，就可以指定只開放給某張網路卡。</p>
+
+<h2>mynetworks_style：</h2>
+
+<p>有三種型態：<code>class</code>、<code>subnet</code>及<code>host</code>，預設值是subnet。</p>
+
+<ul>
+<li>class是可以指定開放給A/B/C class的來源，這種設定方式滿冒險。</li>
+<li>subnet代表你的機器的IP所在網域的任何一個IP都可以接受relay。(如果同一個subnet裡的機器多，要小心可能被當成垃圾信跳板)</li>
+<li>host表示只會設定localhost為信任的網域而已。</li>
+</ul>
+
+
+<h2>mynetworks:</h2>
+
+<p>這可以設定成檔案的方式或是直接以IP/netmask來做設定。例如：</p>
+
+<pre><code>mynetworks=192.168.1.0/24, 127.0.0.0/8
+</code></pre>
+
+<p>而如果要用檔案方式：</p>
+
+<pre><code>mynetworks = 127.0.0.0/8, hash:/etc/postfix/access
+</code></pre>
+
+<p>記得postmap一下這個access檔。</p>
+
+<h3>注意：</h3>
+
+<ol>
+<li>如果沒有設定mynetworks的話，記得把mynetworks_style改成<code>host</code>，不然同一個子網域的IP都可以透過你的機器relay信件(當然如果所有子網域的使用者你都認識的話倒還ok)</li>
+<li>如果有設定 mynetworks_style 以及 mynetwork 時，mynetworks的設定會取代掉mynetworks_style。</li>
+</ol>
+
+
+<h2>relay_domains：</h2>
+
+<p>可以一次指定一個domain來開放relay。例如：</p>
+
+<pre><code>relay_domains = eddie.com.tw
+</code></pre>
+
+<p>這樣的設定是代表所有由eddie.com.tw這個domain來的信件都會被當做可信任的，postfix會幫忙relay。但要注意的是，由「任何地方」來的信件，並且要寄往eddie.com.tw網域的信件，postfix也會幫忙Relay。</p>
+
+<p>詳細設定在<code>/etc/postfix/main.cf</code>裡有說明。</p>
+
+<p>Hinet廣告信跳板測試：<a href="http://lcss.hinet.net/antispam/or_check.pl">http://lcss.hinet.net/antispam/or_check.pl</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -429,115 +524,6 @@ LC_ALL=zh_TW.Big5
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2005/01/27/apt-advenced-package-tool/">APT(Advenced Package Tool)</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2005/01/27/apt-advenced-package-tool/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2005-01-27T20:28:00+08:00" pubdate>Jan 27<span>th</span>, 2005</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>APT(Advenced Package Tool)，是Linux用來管理套件的工具，透過 APT可以更有效率的管理RPM，不管是安裝、移除、或是升級都很方便。然而APT最大的優點，是可以自動處理RPM相依性的問題，例如當安裝 A rpm，而A rpm和B rpm又有相依性的時候，原本作法是先下載B rpm安裝後，再下載A rpm安裝；利用APT則只需要「apt-get install A」就完成了，這樣 APT 就會幫我們下載A rpm，而且會自動下載相依性檔案（B rpm）幫我們安裝，這樣對 RPM 的安裝、移除、或是升級都可以不用去管煩人的相依性問題了。</p>
-
-<h2>安裝：</h2>
-
-<h3>Step 1 安裝apt：</h3>
-
-<pre><code>&gt; rpm -ivh ftp://apt.nc.hcc.edu.tw/pub/freshrpms/redhat/9/apt/apt-0.5.5cnc6-fr1.i386.rpm
-</code></pre>
-
-<h3>Step 2 修改設定：</h3>
-
-<pre><code>&gt;vi /etc/apt/sources.list
-</code></pre>
-
-<p>因為原本預設的apt source是連到國外，速度比較慢。</p>
-
-<pre><code>&gt; rpm http://ayo.freshrpms.net/ fedora/linux/1/i386 core updates freshrpms
-</code></pre>
-
-<p>可以改成新竹縣教育研究發展暨網路中心維護的 APT Server：</p>
-
-<pre><code>&gt; rpm ftp://apt.nc.hcc.edu.tw/pub/apt/redhat/9 i386 os updates freshrpms firefly extra
-</code></pre>
-
-<h2>使用說明：</h2>
-
-<pre><code>&gt; apt-get update
-</code></pre>
-
-<p>更新：這是用來取得記錄在<code>/etc/apt/sources.list</code>內的apt伺服器的套件檔案清單，在使用<code>apt-get dist-upgrade</code>指令升級套件前，要記得先用這指令將套件檔案清單更新。</p>
-
-<p>執行<code>apt-get update</code>指令的時候會同步client端和APT伺服器的RPM索引清單(package list)，APT伺服器的RPM索引清單置於base資料夾內，使用者端電腦取得base資料夾內的bz2 RPM索引清單壓縮檔後，會將其解壓置放於<code>/var/state/apt/lists/</code>。</p>
-
-<pre><code>&gt; apt-get dist-upgrade
-</code></pre>
-
-<p>升級：這裡的升級，並不是由 Red Hat Linux 8.0 變成 9 這樣的升級，而是當 Red Hat 有出升級的 rpm 的時候，利用這個指令，升級我們已經安裝的 rpm；加上<code>-y</code>參數可自動回答yes直接安裝。</p>
-
-<p>當使用者用 apt-get install 或 apt-get dist-upgrade 指令的時候，就會將 /var/state/apt/lists/ 資料夾內的資料和使用者端電腦內的 RPM 資料庫比對，如此一來就可以知道那些RPM已安裝、未安裝、或是可以升級的，然後APT 就會自動透過網路下載需要的rpm回來安裝了。</p>
-
-<pre><code>&gt; apt-cache search
-</code></pre>
-
-<p>搜尋：用這個指令可以搜尋 rpm，例如：<code>apt-cache search httpd</code>，這樣檔名內有httpd字眼的rpm都會出現了。</p>
-
-<pre><code>&gt; apt-cache depends
-</code></pre>
-
-<p>相依性：利用這個指令來看到某個 rpm 的所有相依性檔案，例如：<code>apt-cache depends httpd</code>，這樣 httpd 的所有相依性檔案就會出現了，有時候不確定某個相依性檔案是屬於那個 rpm 時，這個指令就很有用。</p>
-
-<pre><code>&gt; apt-get install
-</code></pre>
-
-<p>安裝：當我們知道rpm名稱的時候，就可以用這指令安裝套件，例如：<code>apt-get install httpd</code>，這樣 apt 就會自動下載httpd的rpm回來安裝，若 httpd 有相依性套件的時候，apt也會自動下載安裝。</p>
-
-<pre><code>&gt; apt-get clean
-</code></pre>
-
-<p>清除：當使用 apt-get install 指令安裝套件，下載下來的 rpm 會放置於 /var/cache/apt/archives，使用<code>apt-get clean</code>指令可以將之清除，避免佔用硬碟空間。</p>
-
-<pre><code>&gt; apt-get remove
-</code></pre>
-
-<p>移除：如果要移除某個 rpm 的時候就可以使用此指令，例如：<code>apt-get remove httpd</code>，就會移除 httpd 了，假如這個 rpm 有相依性套件的時候，apt 也會一併移除。</p>
-
-<p>另外，把apt寫成script排入每天的排程工作(/etc/cron.daily)，就可以每天自動比對更新了：</p>
-
-<pre><code>#!/bin/sh
-apt-get update
-apt-get -y dist-upgrade
-apt-get clean
-</code></pre>
-
-<h3>參考網址：</h3>
-
-<p><a href="http://apt.nc.hcc.edu.tw/web/apt/apt.html">http://apt.nc.hcc.edu.tw/web/apt/apt.html</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/45/">&larr; Older</a>
@@ -589,6 +575,10 @@ apt-get clean
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
@@ -624,15 +614,11 @@ apt-get clean
         <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

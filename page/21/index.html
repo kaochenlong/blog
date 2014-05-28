@@ -21,7 +21,21 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="其實Ruby 1.9已經推出N年，也算有點年紀的東西了。我想Ruby 1.8跟1.9的版本差別，對一般的developer來說，比較關心的點也許是這兩個版本在語法上有沒有哪邊不同? 是不是在1.8版寫的程式到1.9版都能完全不出問題? 讓我們繼續看下去&#8230; Gems變內建的了 &hellip;">
+  <meta name="description" content="Ruby裡的方法呼叫雖然還滿直覺的，不過偶爾可能會因為位置、角色的不同而會有不同的結果。 雙胞胎? 直接來一段程式碼： 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+class ObjA def func puts &quot;this is method func&quot &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +104,279 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/06/16/method-call-in-ruby/">Ruby裡的方法呼叫</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/06/16/method-call-in-ruby/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-06-16T15:02:00+08:00" pubdate>Jun 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ruby裡的方法呼叫雖然還滿直覺的，不過偶爾可能會因為位置、角色的不同而會有不同的結果。</p>
+
+<h3>雙胞胎?</h3>
+
+<p>直接來一段程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">ObjA</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">func</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is method func&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">func</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is a later func&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">obj</span> <span class="o">=</span> <span class="no">ObjA</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">obj</span><span class="o">.</span><span class="n">func</span> <span class="c1"># 猜猜這裡會是什麼?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Ruby裡，如果在同一個scope底下定義了兩個同名的method並不會發生錯誤，但<strong>先定義的method會被後面定義的給蓋掉</strong>，所以執行這段script的話：</p>
+
+<pre><code>&gt; ruby test.rb
+this is a later func
+</code></pre>
+
+<p>如果你有打開ruby的警告模式選項(<code>-w</code>)，在執行的時候就會出現警告訊息：</p>
+
+<pre><code>&gt; ruby -w test.rb
+test.rb:7: warning: method redefined; discarding old func
+test.rb:3: warning: previous definition of func was here
+this is a later func
+</code></pre>
+
+<h3>血脈相連</h3>
+
+<p>再來我們看一下在類別裡的方法呼叫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">ObjA</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">func</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is ObjA&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ObjB</span> <span class="o">&lt;</span> <span class="no">ObjA</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">func</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is ObjB&quot;</span>
+</span><span class='line'>      <span class="k">super</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">obj</span> <span class="o">=</span> <span class="no">ObjB</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">obj</span><span class="o">.</span><span class="n">func</span> <span class="c1"># 猜猜這裡會是什麼?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你在ObjB類別裡的看到的那個”super”，它會<strong>呼叫跟它血緣最近的父類別的同名method</strong>。它會延著繼承一直往上找，如果一直找都找不到同名的method的話，則會跳出錯誤訊息：</p>
+
+<pre><code>NoMethodError: super: no superclass method ‘func’
+</code></pre>
+
+<p>所以上面這段script的執行結果：</p>
+
+<pre><code>&gt; ruby test.rb
+this is ObjB
+this is ObjA
+Who’s your daddy?
+</code></pre>
+
+<p>Ruby的OOP是<strong>單一繼承</strong>的，藉由引入了module的Mixin概念，可以讓你有用到多重繼承的好處，又不擔心多重繼承的問題(例如<a href="http://en.wikipedia.org/wiki/Diamond_problem">鑽石繼承問題</a>)</p>
+
+<p>來看程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">module</span> <span class="nn">ModA</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">mod_method</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is mod_method in ModB&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">func</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is ModA&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">ModB</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">mod_method</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is mod_method in ModB&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">func</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is ModB&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ObjA</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">func</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is ObjA&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ObjB</span> <span class="o">&lt;</span> <span class="no">ObjA</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ModA</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ModB</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">func</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;this is ObjB&quot;</span>
+</span><span class='line'>      <span class="k">super</span>
+</span><span class='line'>      <span class="n">mod_method</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">obj</span> <span class="o">=</span> <span class="no">ObjB</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">obj</span><span class="o">.</span><span class="n">func</span> <span class="c1"># 猜猜這裡會是什麼?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在往下看之前，可以先想一下最後一行的<code>obj.func</code>會印出什麼答案?</p>
+
+<p>在Ruby裡，如果在類別裡有引進了module，而module裡剛好有跟類別定義了同名的method的話，<strong>會以類別裡定義的方法為主</strong>。我們來看一下執行的結果：</p>
+
+<pre><code>&gt; ruby test.rb
+this is ObjB
+this is ModB
+this is mod_method in ModB
+</code></pre>
+
+<p>第一行的”this is ObjB”沒問題，確實是呼叫ObjB的fun，但第二行為什麼是ModB而不是”this is ObjA”? 不是會呼叫離它最近的父類別同名method嗎?</p>
+
+<p>沒錯，的確是呼叫離它最近的父類別同名method，但被module給mixin之後，繼承的族譜有稍微變了。我們直接來看一下這行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="no">ObjB</span><span class="o">.</span><span class="n">ancestors</span> <span class="c1"># [ObjB, ModB, ModA, ObjA, Object, Kernel]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你會發現ObjB的老爸本來應該是ObjA，但透過mixin之後卻變成ModB、ModA、ObjA，再來才是Object(如果在Ruby 1.9版本的話，上面還有個BasicObject)。至於這邊的Kernel是什麼? 它也是個mixin到Object裡的一個module而已。</p>
+
+<p>所以這個地方的<code>super</code>會呼叫離它最近的func，也就是ModB的func。</p>
+
+<p>那假設我們引入了兩個剛好有定義同名method，這樣一來又要呼叫誰的? 規則其實也滿簡單的，跟method定義有點像，就是比較晚include裡來的，會蓋掉前面include的模組方法。所以在這邊的第三行會是”this is mod_method in ModB”</p>
+
+<h3>快快樂樂來寫code</h3>
+
+<p>接下來如果時間允許的話，預計會來把「快快樂樂學Ruby」系列給補完，希望可以在大家在學習Ruby的時候，帶來一些些的幫助。</p>
+
+<p>若內容有錯誤或觀念不正確，再請不吝告知，感謝!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1170,50 +1457,6 @@ Generated configuration file in '/Users/eddie/Backup/config.rb'
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/23/users-in-my-blog/">Users in my blog</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/05/23/users-in-my-blog/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-05-23T14:28:00+08:00" pubdate>May 23<span>rd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天從<a href="http://www.google.com/intl/zh-TW/analytics/">Google Analytics</a>翻了一些我自己這個小blog的數字出來看：</p>
-
-<p><img src="/images/2011/browser_type.png" alt="image" /></p>
-
-<p>雖然僅列出前10名，但看到IE只剩2%多，感覺真好!</p>
-
-<p><img src="/images/2011/screen_type.png" alt="image" /></p>
-
-<p>從前10名的數字來看螢幕解析度的話，大家的螢幕都越來越大，1024×768以下的都快消失了，也許以後設計網站的時候可以有更大的發揮空間了。</p>
-
-<p>不過因為這只是個小小小站，樣本數不多(小於一萬)，而且也不是很平民化的內容，所以應該會有滿大的偏差，僅供參考。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/22/">&larr; Older</a>
@@ -1265,6 +1508,10 @@ Generated configuration file in '/Users/eddie/Backup/config.rb'
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
@@ -1300,15 +1547,11 @@ Generated configuration file in '/Users/eddie/Backup/config.rb'
         <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -21,8 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="世事多變化，總是會有萬一.. 當程式出錯的時候，你可以選擇就讓它壞掉不理它，或是選擇做一些例外處理： try..except &gt;&gt;&gt; print b
-Traceback (most recent call last): File "&lt;stdin&gt;", line 1, &hellip;">
+  <meta name="description" content="懂得用模組，你的人生就會是彩色的.. 這已經不是一人個蠻幹的時代了，在Python，Module可以說是Python的生命也不為過。其實不管是哪種程式語言，不管是內建的函式庫，或是別人寫好的程式碼，可以直接拿來用，才有機會可以早早下班回家或在上班時間打混摸魚又可以把工作準時完成! &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +90,128 @@ Traceback (most recent call last): File "&lt;stdin&gt;", line 1, &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/13/python-module/">模組</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-module/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-13T14:10:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>懂得用模組，你的人生就會是彩色的..</h2>
+
+<p>這已經不是一人個蠻幹的時代了，在Python，Module可以說是Python的生命也不為過。其實不管是哪種程式語言，不管是內建的函式庫，或是別人寫好的程式碼，可以直接拿來用，才有機會可以早早下班回家或在上班時間打混摸魚又可以把工作準時完成!</p>
+
+<h2>巨人的肩膀要怎麼踩</h2>
+
+<p>要把module給拉進來用，用的是<code>import</code>語法，不過<code>import</code>跟斯斯一樣也有兩種寫法，直接看程式碼看看有什麼不同：</p>
+
+<p><code>imoprt module</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">decimal</span>
+</span><span class='line'><span class="k">print</span> <span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;0.1&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;0.1&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;0.1&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;0.3&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另一種<code>from..import..</code>的用法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
+</span><span class='line'><span class="k">print</span> <span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;0.1&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;0.1&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;0.1&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">Decimal</span><span class="p">(</span><span class="s">&#39;0.3&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>如何安裝別人寫好的module</h2>
+
+<p>懂得如何善用官方/3rd party寫好的module，可以讓你事半功倍。若想知道該電腦裡是否有安裝某個module，最簡單的方法就是當你在import該module的時候會出現<code>ImportError</code>：</p>
+
+<pre><code>&gt;&gt;&gt; import django
+Traceback (most recent call last):
+    File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ImportError: No module named django
+</code></pre>
+
+<ul>
+<li>從網站上取得原始檔</li>
+<li>請先閱讀使用說明(重要!)</li>
+<li>python setup.py install</li>
+<li>或可使用setuptools <a href="http://pypi.python.org/pypi/setuptools">http://pypi.python.org/pypi/setuptools</a></li>
+<li>參考網站 PiPy <a href="http://pypi.python.org/pypi">http://pypi.python.org/pypi</a></li>
+</ul>
+
+
+<h2>動手寫 Module</h2>
+
+<p>老是靠別人寫好的，我們也來動手練習寫看看。</p>
+
+<h3>module也是Python程式碼而已</h3>
+
+<p>我們將建立兩個檔案<code>test.py</code>跟<code>my_mod.py</code>，<code>test.py</code>是我們的主程式，而<code>my_mod.py</code>則是我們的module。</p>
+
+<p><code>my_mod.py</code>很單純，就只放了一個簡單的method：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">happy_python</span><span class="p">():</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Happy Python&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>為了管理方便，我建了一個叫做<code>happy</code>的資料夾，裡面放了一個<code>__init__.py</code>的空檔案，並且把<code>my_mod.py</code>也一起放進去，整個資料夾的結構看起來會像這樣：</p>
+
+<p><img src="/images/python/module.png" alt="image" /></p>
+
+<p>再來，我們的<code>test.py</code>主程式大概就長這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">happy.my_mod</span>
+</span><span class='line'><span class="n">happy</span><span class="o">.</span><span class="n">my_mod</span><span class="o">.</span><span class="n">happy_python</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>嫌看起來有點囉嗦嗎? 你也可以改用<code>from..import..</code>的方式來改寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">happy.my_mod</span> <span class="kn">import</span> <span class="n">happy_python</span>
+</span><span class='line'><span class="n">happy_python</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實寫模組沒想像中的困難吧 :)</p>
+
+<h3>那個<code>__init__.py</code>是幹嘛的?</h3>
+
+<p>每個套件裡都必須存在<code>__init__.py</code>這個檔案，它的目的就是告訴Python說這個資料夾請把它當做模組來對待。<code>__init__.py</code>可以是空的，也可以放一些變數或程式在裡面。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -647,207 +768,6 @@ ValueError: list.remove(x): x not in list
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/13/python-string/">字串</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-string/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-13T13:45:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>最常用的資料型態</h2>
-
-<p>不管在哪種程式語言，字串大概都是使用量最大的資料型態。</p>
-
-<h2>單引號跟雙引號的差別?</h2>
-
-<p>其實沒什麼差別。</p>
-
-<h2>操作</h2>
-
-<p>接下來我們看一些常見的字串操作</p>
-
-<h3>字串替換</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="s">&quot;kao&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="s">&#39;eddie = kao&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;my name is </span><span class="si">%(name)s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;name&#39;</span> <span class="p">:</span> <span class="s">&#39;eddie&#39;</span><span class="p">}</span>
-</span><span class='line'><span class="s">&#39;my name is eddie&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>字串格式化</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;my name is </span><span class="si">%10s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="s">&quot;eddie&quot;</span>
-</span><span class='line'><span class="s">&#39;my name is      eddie&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;my name is </span><span class="si">%-10%</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">eddie</span><span class="s">&quot;</span>
-</span><span class='line'><span class="s">&#39;my name is eddie     &#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;the PI is </span><span class="si">%.3f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="mf">3.1415926</span>
-</span><span class='line'><span class="s">&#39;the PI is 3.142&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>len() 字串長度</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">greeting</span> <span class="o">=</span> <span class="s">&quot;hello, eddie&quot;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
-</span><span class='line'><span class="mi">12</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>算字串的長度，其實就是算有幾個字元..</p>
-
-<h3>字串的&#8221;運算&#8221;?</h3>
-
-<p>字串也可以用加號<code>+</code>跟乘號<code>*</code>，不過並不是真的像數字一樣的四則運算：</p>
-
-<p>&#8221;+&#8221;(加號)</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="s">&quot;eddie&quot;</span> <span class="o">+</span> <span class="s">&quot;kao&quot;</span>
-</span><span class='line'><span class="n">eddiekao</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>&#8221;*&#8221;(乘號)</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="s">&quot;eddie&quot;</span><span class="o">*</span><span class="mi">3</span>
-</span><span class='line'><span class="n">eddieeddieeddie</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>有人在嗎?</h3>
-
-<p>使用<code>in</code>語法，可以檢查該字串是否包含某個字元：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;a&quot;</span> <span class="ow">in</span> <span class="s">&quot;abcdefg&quot;</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;x&quot;</span> <span class="ow">in</span> <span class="s">&quot;abcdefg&quot;</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>切割</h3>
-
-<p>split</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_str</span> <span class="o">=</span> <span class="s">&quot;xxx yyy zzz&quot;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-</span><span class='line'><span class="p">[</span><span class="s">&#39;xxx&#39;</span><span class="p">,</span> <span class="s">&#39;yyy&#39;</span><span class="p">,</span> <span class="s">&#39;zzz&#39;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>slice</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_str</span> <span class="o">=</span> <span class="s">&quot;abcdefg&quot;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'><span class="n">a</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="n">g</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
-</span><span class='line'><span class="n">bcd</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="n">abcdef</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>中文字元怎麼切? 怎麼算?</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># encoding: utf-8</span>
-</span><span class='line'><span class="n">my_name</span> <span class="o">=</span> <span class="s">&quot;高見龍&quot;</span>
-</span><span class='line'><span class="n">my_name_unicode</span> <span class="o">=</span> <span class="s">u&quot;高見龍&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_name</span><span class="p">)</span>           <span class="c"># 9</span>
-</span><span class='line'><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_name_unicode</span><span class="p">)</span>   <span class="c"># 3</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">my_name_unicode</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="n">word</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意到前面那個小寫的<code>u</code>嗎? 加上<code>u</code>表示這個字串是unicode的，這樣一來在算字數時候，每個中文字就會被當做一個字元來計算了。</p>
-
-<p>Python的字串還有很多可以介紹的，不過因為我們主要的目的是Django，所以不會打算把所有的字串方法都一一介紹一次，更多細節，請見官網文件：<a href="http://docs.python.org/library/string.html">http://docs.python.org/library/string.html</a> (這是個重要的章節，為了你的將來，請一定要看!)</p>
-
-<p>再來，我們來看看在Python的串列(List)..</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/16/">&larr; Older</a>
@@ -899,6 +819,10 @@ ValueError: list.remove(x): x not in list
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
@@ -934,15 +858,11 @@ ValueError: list.remove(x): x not in list
         <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

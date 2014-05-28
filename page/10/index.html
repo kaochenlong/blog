@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="上週的PHPConf Taiwan，有幾位朋友在會後問我CoffeeScript要怎麼樣跟jQuery之類的framework整合在一起，會不會打架? 基本上是不會的，CoffeeScript寫出來的東西就是JavaScript，如果會打架，那表示你即使不用CoffeeScript來寫也一樣打架了 &hellip;">
+  <meta name="description" content="本篇文章已刊載於 OpenFoundry 電子報技術專欄，刊登之內容由專業的 OpenFoundry 團隊潤稿，此篇為原文。 前言 我相信很多人學習Ruby是因為Ruby on Rails的緣故，但Rails在改版的速度很快，而且有時候改版的幅度不小，例如從以前的2.x版本跳到3.x版本， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,404 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/16/rvm/">RVM - Ruby enVironment(Version) Manager</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/16/rvm/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-16T15:09:00+08:00" pubdate>Nov 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="info">本篇文章已刊載於 <a href="http://www.openfoundry.org/tw/tech-column/8513-rvm-ruby-environment-version-manager" target="_blank">OpenFoundry 電子報技術專欄</a>，刊登之內容由專業的 OpenFoundry 團隊潤稿，此篇為原文。</p>
+
+
+<h2>前言</h2>
+
+<p>我相信很多人學習<a href="http://www.ruby-lang.org/">Ruby</a>是因為<a href="http://rubyonrails.org/">Ruby on Rails</a>的緣故，但Rails在改版的速度很快，而且有時候改版的幅度不小，例如從以前的2.x版本跳到3.x版本，甚至有些小版號的改版幅度也不小。像是不久前release出來的Rails 3.1.0，就跟3.0.x的架構就差滿多的。就算不談 Rails，光是主流的 Ruby 目前也有 1.8.x 跟 1.9.x 的分支，在功能上都有些差異。</p>
+
+<p>這些新推出來的新玩具有的很好玩，不裝起來試一下就會覺得手很癢。你當然可以在你電腦裡安裝這些不同版本新玩具，但畢竟在自己工作的機器上試是有風險的，萬一把環境弄壞了還得花時間想辦法回復。以往我們可能會使用類似<a href="https://www.virtualbox.org/">VirtualBox</a>之類的軟體來模擬作業環境，玩壞了隨時都可以很快的還原或重建一個新的，不過即使這樣還是有點麻煩。</p>
+
+<p>這時候你就需要<a href="http://beginrescueend.com/">RVM</a>(Ruby enVironment(或Version) Manager)了，有了它，你可以安心的在你的電腦裡同時安裝多個不同版本的Ruby而不會打架，例如標準的MRI(Matz&#8217;s Ruby Interpreter)，或是REE(Ruby Enterprise Edition)，甚至是JRuby、MacRuby都沒問題，在RVM裡都可以都可以隨你高興的切換。RVM裡每個版本的Ruby的gem也都是分開裝的，甚至在同一個Ruby版本底下也可以建立不同的gemset，彼此獨立互不影響。如果哪天覺得膩了、不想玩了，可以用<code>rvm remove</code>指令移掉指定的版本；萬一哪天整個不想要玩了，因為RVM是把檔案安裝在<code>/home</code>的個人帳號資料夾底下，所以也不會去影響到系統的設定，不要的時候就整個<code>~/.rvm</code>資料夾砍掉就行了，不會影響原來系統的設定。也就是因為RVM是安裝在你的個人帳號底下，所以你在安裝過程中是不需要root權限的。</p>
+
+<h2>安裝</h2>
+
+<p>以下提到的各項安裝指令，會以<code>Ubuntu 10.10</code>做為示範。</p>
+
+<p>安裝RVM會需要兩項工具<code>curl</code>跟<code>git</code>，如果沒有的話請用<code>apt-get install curl</code>以及<code>apt-get install git</code>指令把這兩個裝起來(安裝這兩個工具你可能需要有系統的root權限)。這兩項工具安裝完成後，請打開你的終端機，貼上這行：</p>
+
+<pre><code>bash &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+</code></pre>
+
+<p>它就會開始去下載RVM的安裝程式回來並且自動開始進行安裝。完成後還需要做一下簡單的設定，看你用的shell是哪一套而要修改不同的檔案，假設你用的是ubuntu預設的bash shell的話，你可以直接在終端機裡貼下面這行：</p>
+
+<pre><code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm" # Load RVM function' &gt;&gt; ~/.bash_profile
+</code></pre>
+
+<p>更詳細的安裝說明可以參考官網的<a href="https://rvm.beginrescueend.com/rvm/install/">安裝說明</a>。</p>
+
+<h2>使用</h2>
+
+<p>接著我們來看一些在RVM裡常用的指令，<code>rvm list known</code>會列出目前有哪些可以安裝的列表：</p>
+
+<pre><code>&gt; rvm list known
+
+# MRI Rubies
+[ruby-]1.8.6[-p420]
+[ruby-]1.8.6-head
+[ruby-]1.8.7[-p352]
+[ruby-]1.8.7-head
+[ruby-]1.9.1-p378
+[ruby-]1.9.1[-p431]
+[ruby-]1.9.1-head
+[ruby-]1.9.2-p180
+[ruby-]1.9.2[-p290]
+[ruby-]1.9.2-head
+[ruby-]1.9.3-preview1
+[ruby-]1.9.3[-rc1]
+[ruby-]1.9.3-head
+ruby-head
+
+# GoRuby
+goruby
+
+# JRuby
+jruby-1.2.0
+jruby-1.3.1
+jruby-1.4.0
+jruby-1.6.1
+jruby-1.6.2
+jruby-1.6.3
+jruby[-1.6.4]
+jruby-head
+
+# Rubinius
+rbx-1.0.1
+rbx-1.1.1
+rbx-1.2.3
+rbx-1.2.4
+rbx[-head]
+rbx-2.0.0pre
+
+# Ruby Enterprise Edition
+ree-1.8.6
+ree[-1.8.7][-2011.03]
+ree-1.8.6-head
+ree-1.8.7-head
+
+# Kiji
+kiji
+
+# MagLev
+maglev[-26852]
+maglev-head
+
+# Mac OS X Snow Leopard Only
+macruby[-0.10]
+macruby-nightly
+macruby-head
+
+# IronRuby -- Not implemented yet.
+ironruby-0.9.3
+ironruby-1.0-rc2
+ironruby-head
+</code></pre>
+
+<p>長長的一大串，幾乎目前常見的Ruby Interpreter都有了。列表裡的中括號表示那些是可以省略的，所以如果用<code>rvm install</code>來安裝的時候輸入：</p>
+
+<pre><code>&gt; rvm install 1.8.7
+</code></pre>
+
+<p>會自動找<code>[ruby-]1.8.7[-p352]</code>這個版本的Ruby來安裝。前面我們提過可以一次安裝多個不同的版本，所以你也可以再裝個1.9.2的版本：</p>
+
+<pre><code>&gt; rvm install 1.9.2
+</code></pre>
+
+<p>如果你對最新的Ruby 1.9.3版本有興趣，雖然目前還沒正式release，也可以試著裝一份來試一下它的新功能。再來，我們看看目前已經安裝哪些版本：</p>
+
+<pre><code>&gt; rvm list
+
+rvm rubies
+
+        ruby-1.9.2-p290 [ i686 ]
+        ruby-1.8.7-p352 [ i686 ]
+</code></pre>
+
+<p>可以看到我電腦上目前裝了2個版本的Ruby(1.8.7跟1.9.2)，這時候我們來看看Ruby的版本：</p>
+
+<pre><code>&gt; ruby -v
+ruby 1.8.7 (2010-06-23 patchlevel 299) [i686-linux]
+</code></pre>
+
+<p>看到<code>patchlevel</code>只有299，表示這個不是我們剛才安裝的版本，這是系統裡原來就已經裝好的。如果要切換到我們剛才安裝的Ruby 1.9.2版本：</p>
+
+<pre><code>&gt; rvm use 1.9.2
+Using /home/eddie/.rvm/gems/ruby-1.9.2-p290
+</code></pre>
+
+<p>想少打幾個字的話，<code>use</code>也可以省略：</p>
+
+<pre><code>&gt; rvm 1.9.2
+</code></pre>
+
+<p>再來看一下Ruby的版本：</p>
+
+<pre><code>&gt; ruby -v
+ruby 1.9.2p290 (2011-07-09 revision 32553) [i686-linux]
+</code></pre>
+
+<p>已經切換到Ruby 1.9.2了! 不過有個小問題是，RVM會在下次終端機視窗重開的時候回到預設值(就是系統內建的Ruby版本)，所以如果你希望每次開終端機視窗的時候都會切到Ruby 1.9.2的話：</p>
+
+<pre><code>&gt; rvm 1.9.2 --default
+</code></pre>
+
+<p>這樣你每次開終端機視窗就會自動幫你切換到1.9.2版了。如果你想切回到原來系統內建的版本：</p>
+
+<pre><code>&gt; rvm system
+</code></pre>
+
+<p>不要了，想砍掉它?</p>
+
+<pre><code>&gt; rvm remove 1.9.2
+</code></pre>
+
+<p>就可以把指定的版本移除了，相當便利。如果你整個RVM都不想要了，只要把個人帳號底下的<code>.rvm</code>資料夾整個移除，再把<code>.bash_profile</code>的RVM相關設定改回來，就會整個清潔溜溜了。</p>
+
+<h2>運作原理</h2>
+
+<p>你也許會好奇為什麼RVM可以這麼神奇的切換Ruby的環境，我們來看一下系統的預設PATH：</p>
+
+<pre><code>&gt; echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/eddie/.gem/ruby/1.8/bin:/usr/local/lib/python2.6/dist-packages/django/bin:/home/eddie/.rvm/bin:/home/eddie/.rvm/bin
+
+&gt; which ruby
+/usr/bin/ruby
+
+&gt; ruby -v
+ruby 1.8.7 (2010-06-23 patchlevel 299) [i686-linux]
+</code></pre>
+
+<p>(以上內容是我自己電腦裡的設定，可能跟各位的會有些不同)</p>
+
+<p>再來用RVM切換到1.9.2：</p>
+
+<pre><code>&gt; rvm 1.9.2
+Using /home/eddie/.rvm/gems/ruby-1.9.2-p290
+
+&gt; echo $PATH
+/home/eddie/.rvm/gems/ruby-1.9.2-p290/bin:/home/eddie/.rvm/gems/ruby-1.9.2-p290@global/bin:/home/eddie/.rvm/rubies/ruby-1.9.2-p290/bin:/home/eddie/.rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/eddie/.gem/ruby/1.8/bin:/usr/local/lib/python2.6/dist-packages/django/bin
+
+&gt; which ruby
+/home/eddie/.rvm/rubies/ruby-1.9.2-p290/bin/ruby
+
+&gt; ruby -v
+ruby 1.9.2p290 (2011-07-09 revision 32553) [i686-linux]
+</code></pre>
+
+<p>事實上，RVM是把不同版本的Ruby安裝在你的個人帳號底下的<code>.rvm</code>資料夾，在你切換不同版本的Ruby的時候，會幫你把系統預設的PATH的最前面加上這個<code>.rvm</code>的資料夾，當你在終端機底下輸入<code>ruby</code>指令的時候，系統原本的<code>/usr/bin/ruby</code>因為在PATH的比較後面，所以感覺會暫時失效而使用RVM版本的Ruby。你可以試著用<code>rvm info</code>來看看RVM幫你做了哪些設定。</p>
+
+<h2>Gem</h2>
+
+<p>在RVM裡，不同版本的Ruby的gem是各別獨立的，來做個簡單的實驗，例如我們先切換到1.9.2底下：</p>
+
+<pre><code>&gt; gem list
+
+*** LOCAL GEMS ***
+
+bundler (1.0.0.rc.5)
+json (1.6.1 ruby)
+rake (0.9.2 ruby)
+rdoc (3.10 ruby)
+</code></pre>
+
+<p>再來我們切換到1.8.7，然後安裝Rails：</p>
+
+<pre><code>&gt; rvm 1.8.7
+&gt; gem install rails
+</code></pre>
+
+<p>然後你就可以看到一大票的安裝訊息，然後我們看看gem的安裝情形：</p>
+
+<pre><code>&gt; gem list
+
+*** LOCAL GEMS ***
+
+actionmailer (3.1.1)
+actionpack (3.1.1)
+activemodel (3.1.1)
+activerecord (3.1.1)
+.. 略 ..
+rails (3.1.1)
+railties (3.1.1)
+rake (0.9.2 ruby)
+rdoc (3.10 ruby)
+sprockets (2.0.2)
+thor (0.14.6)
+tilt (1.3.3)
+treetop (1.4.10)
+tzinfo (0.3.30)
+</code></pre>
+
+<p>安裝了最新版本的Rails 3.1.1，這時候切回去Ruby 1.9.2再看原來的gem list的話，還是原來的樣子，表示gem是跟著不同版本的Ruby獨立安裝的。</p>
+
+<p>要注意的是我們在RVM安裝的任何Ruby版本都跟系統的Ruby無關，即使版號相同也是不同的Ruby，gem也不會安裝到系統的Ruby裡，所以可以放心的玩。基本上你只要發現你在安裝gem的時候會需要root權限的時候，通常你用的就是系統版本的Ruby了。</p>
+
+<h2>Gemset</h2>
+
+<p>Ruby/Rails的世界在進步很快，套件的版本會一直在變，所以很常看到這個狀況：</p>
+
+<pre><code>&gt; gem list
+.. 略 ..
+rails (3.1.1, 3.1.0, 3.0.9, 3.0.7)
+.. 略 ..
+</code></pre>
+
+<p>同一個套件就裝了二、三個以上的版本，看了實在有些討厭，而且也不知道會不會遇到版本衝突的問題。如果你跟我一樣有這方面的潔癖，你可以選擇把不用的版本移除掉，不過我會建議你用不同的gemset來管理。例如我想同時在1.9.2版本的Ruby底下同時安裝Rails 2.3.9跟3.1.1版本，來看看怎麼做。</p>
+
+<p>先切換到1.9.2之後，建立一個準備要來裝Rails 2.3.9版的gemset：</p>
+
+<pre><code>&gt; rvm gemset create rails-2.3.9
+'rails-2.3.9' gemset created (/home/eddie/.rvm/gems/ruby-1.9.2-p290@rails-2.3.9).
+</code></pre>
+
+<p>這邊不一定要跟我一樣用<code>rails-2.3.9</code>，gemset的名字你可以取自己喜歡的。再來建一個給Rails 3.1.1版的：</p>
+
+<pre><code>&gt; rvm gemset create rails-3.1.1
+'rails-3.1.1' gemset created (/home/eddie/.rvm/gems/ruby-1.9.2-p290@rails-3.1.1).
+</code></pre>
+
+<p>看一下目前的已經建立的gemset：</p>
+
+<pre><code>&gt; rvm gemset list
+
+gemsets for ruby-1.9.2-p290 (found in /home/eddie/.rvm/gems/ruby-1.9.2-p290)
+        global
+        rails-2.3.9
+        rails-3.1.1
+</code></pre>
+
+<p>你看到2個我們剛剛建好的gemset，那個global是整個Ruby預設的gemset，如果沒特別指定的話，gem都是安裝到<code>global</code>裡面。再來我們切換到rails-2.3.9：</p>
+
+<pre><code>  &gt; rvm gemset use rails-2.3.9
+</code></pre>
+
+<p>來安裝一下Rails 2.3.9版</p>
+
+<pre><code>&gt; gem install rails -v='2.3.9' --no-rdoc --no-ri
+Fetching: activesupport-2.3.9.gem (100%)
+Fetching: activerecord-2.3.9.gem (100%)
+.. 略 ..
+Successfully installed activeresource-2.3.9
+Successfully installed rails-2.3.9
+7 gems installed
+</code></pre>
+
+<p>安裝完成，再來切換到rails-3.1.1：</p>
+
+<pre><code>&gt; rvm gemset use rails-3.1.1
+</code></pre>
+
+<p>再來做一樣的動作，只是版號改成3.1.1。兩個gemset都裝好之後來看看結果：</p>
+
+<pre><code>&gt; rvm gemset use rails-2.3.9
+&gt; rails -v
+Rails 2.3.9
+
+&gt; rvm gemset use rails-3.1.1
+&gt; rails -v
+Rails 3.1.1
+</code></pre>
+
+<p>如果你要從別的版本的Ruby直接切換到指定的gemset：</p>
+
+<pre><code>&gt; rvm 1.9.2@rails-3.1.1
+</code></pre>
+
+<p>你可以隨你高興的建立、切換gemset，每個gemset都是獨立的。如果玩膩了或玩爛了，想要把rails-2.3.9這個gemset清空的話：</p>
+
+<pre><code>&gt; rvm gemset empty rails-2.3.9
+WARN: Are you SURE you wish to remove the installed gems for gemset 'ruby-1.9.2-p290@global' (/home/eddie/.rvm/gems/ruby-1.9.2-p290@global)?
+(anything other than 'yes' will cancel) &gt; yes
+</code></pre>
+
+<p>清空只會把安裝的gem砍掉，gemset的名字還會在；如果想把整個gemset刪掉：</p>
+
+<pre><code>&gt; rvm gemset delete rails-2.3.9
+WARN: Are you SURE you wish to remove the entire gemset directory 'rails-2.3.9' (/home/eddie/.rvm/gems/ruby-1.9.2-p290@rails-2.3.9)?
+(anything other than 'yes' will cancel) &gt; yes
+</code></pre>
+
+<h2>各別專案設定</h2>
+
+<p>有時候我們會遇到專案A用的是Ruby 1.8.7，專案B用的是Ruby 1.9.2，雖然RVM可以很快的切換，但偶爾忘了換回來可能也會造成一些困擾。這時候你可以在該專案的資料夾底下放一個<code>.rvmrc</code>的檔案，只要簡單的一行設定：</p>
+
+<pre><code>rvm use 1.9.2@rails-3.1.1
+</code></pre>
+
+<p>如果後面沒特別指定的話，預設會使用global的gemset。在你第一次進到該資料夾的時候會出現一個提示訊息：</p>
+
+<pre><code>&gt; cd project1
+==============================================================================
+= NOTICE                                                                     =
+==============================================================================
+= RVM has encountered a new or modified .rvmrc file in the current directory =
+= This is a shell script and therefore may contain any shell commands.       =
+=                                                                            =
+= Examine the contents of this file carefully to be sure the contents are    =
+= safe before trusting it! ( Choose v[iew] below to view the contents )      =
+==============================================================================
+Do you wish to trust this .rvmrc file? (/tmp/project1/.rvmrc)
+y[es], n[o], v[iew], c[ancel]&gt; yes
+Using /home/eddie/.rvm/gems/ruby-1.9.2-p290 with gemset rails-3.1.1
+</code></pre>
+
+<p>這樣當你下次再用<code>cd</code>指令進到該資料夾的時候，就會自動幫你切換成你指定的Ruby + gemset版本。</p>
+
+<h2>你可能會遇到的麻煩..</h2>
+
+<p>RVM 很方便、很好用，但之前在<a href="http://www.openfoundry.org/">OSSF工作坊</a>開Ruby的課的時候也曾經吃過悶虧。RVM 在安裝的時候，有些特別的package的安裝需要另外處理，像<code>OpenSSL</code>就是其中一例。就算用系統的<code>apt-get install</code>來安裝也沒用，RVM 也是找不到而出現<code>LoadError</code>。需要用以下面這個方式來安裝：</p>
+
+<pre><code>&gt; rvm pkg install openssl
+&gt; rvm remove 1.9.2
+&gt; rvm install 1.9.2 --with-openssl-dir=$rvm_path/usr
+</code></pre>
+
+<p>除了<code>OpenSSL</code>之外，<code>Readline</code>也有類似的狀況，如果你是用RVM在Ubuntu上練習寫Rails的時候特別容易遇到，這點還請多留意。更多詳細內容可<a href="http://beginrescueend.com/packages/">參考這裡</a>。</p>
+
+<h2>結論</h2>
+
+<p>RVM可以快速的在各個版本之間切換，每個版本跟gemset之間也都切得很乾淨，不會影響到原來系統設定，對我這種喜歡嚐鮮、試新玩具又怕把系統搞髒搞爛的人來說，真的是一大福音!</p>
+
+<h2>參考資料</h2>
+
+<ul>
+<li>[<a href="https://rvm.beginrescueend.com/">RVM官網</a>]</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -535,63 +933,6 @@ photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiw
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/11/07/robotlegs-introduction-in-8th-as-study-party/">第八回AS讀書會之Hello Robotlegs</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-11-07T01:16:00+08:00" pubdate>Nov 7<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>時間很快，已經到第八回了，雖然這回是在週末舉辦，依舊還是相當多的朋友來捧場，相當感動 :)</p>
-
-<p><img src="/images/2011/8th-as-party-1.jpg" alt="image" /></p>
-
-<p>這回我的主題是<a href="http://www.robotlegs.org/">Robotlegs</a>的入門介紹，投影片可以在這邊找得到 <a href="http://www.eddie.com.tw/slides">http://www.eddie.com.tw/slides</a></p>
-
-<p>除了原定我跟另一位講者(<a href="http://blog.roodo.com/sayaku">阿邪哥</a>)之外，這回還有另一位佳賓，是<a href="http://www.packtpub.com/papervision3d-essentials/book">Papervision3D Essentials</a>一書的作者<a href="http://jeffwinder.blogspot.com/">Jeff Winder</a>剛好最近來台灣玩，也一起加入我們一起同樂。(聽說他來台灣騎腳踏車環島，真厲害)</p>
-
-<p><img src="/images/2011/8th-as-party-2.jpg" alt="image" />
-Jeff幫忙補充了一些Robotlegs的東西，也分享他最近做的一些東西。</p>
-
-<p><img src="/images/2011/8th-as-party-3.jpg" alt="image" />
-果然，穿M號的衣服還是太勉強，減肥之路還得繼續努力! 更多照片請見 <a href="https://picasaweb.google.com/108852467279874647445/LetSParty8thASStudyGroup">Picasa相本</a></p>
-
-<p>如同Jeff跟我說的：</p>
-
-<blockquote><p>&#8220;It is always so nice to meet people who share the same passion.&#8221;</p></blockquote>
-
-
-<p>嗯，我覺得那就是當初辦這個聚會的目的了。</p>
-
-<p>最後要再感謝一下來參加的各位朋友，以及臨時被我拉來當攝影師的<a href="http://www.jaceju.net/">鐵哥</a>，咱們下回見 :)</p>
-
-<p>PS: 話說我發現其實開口講英文雖然還是不太習慣，但比我想像中的簡單，似乎常看影集果然多少還是有些幫助(幫自己愛看影集找藉口)。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/11/">&larr; Older</a>
@@ -643,6 +984,10 @@ Jeff幫忙補充了一些Robotlegs的東西，也分享他最近做的一些東�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
@@ -678,15 +1023,11 @@ Jeff幫忙補充了一些Robotlegs的東西，也分享他最近做的一些東�
         <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

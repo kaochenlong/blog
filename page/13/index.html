@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在Django新增Model是很容易的，只要建立一個繼承自models.Model的類別就行了。但比較麻煩的問題是，如果在syncdb之後還需要調整欄位的話，即使在修改Model屬性再做一次syncdb，會發現Django對於已經sync過的Model會忽略掉。所以如果在syncdb之後要再新增/ &hellip;">
+  <meta name="description" content="我們在開發資料庫相關的網站的時候，通常會用到許多資料表，而且這些資料表之間彼此都有關連性，接著我們就來看看在Django的Model要怎麼實作。 我們現在再來新增一個App： &gt; python manage.py startapp book book/models.py的內容長得像這樣： 1 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,156 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/19/django-model-relationship/">資料表的關連</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-model-relationship/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-19T09:59:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我們在開發資料庫相關的網站的時候，通常會用到許多資料表，而且這些資料表之間彼此都有關連性，接著我們就來看看在Django的Model要怎麼實作。</p>
+
+<p>我們現在再來新增一個App：</p>
+
+<pre><code>&gt; python manage.py startapp book
+</code></pre>
+
+<p><code>book/models.py</code>的內容長得像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">author.models</span> <span class="kn">import</span> <span class="n">Profile</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">title</span>        <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">150</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">page</span>         <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">price</span>        <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">author</span>       <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Profile</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">publish_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;book&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">BookAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">pass</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Book</span><span class="p">,</span> <span class="n">BookAdmin</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡用到了<code>ForeignKey</code>，對應到了我們之前建的<code>Profile類別</code>，表示這本書的作者資料是指向<code>profile</code>的某一筆資料，書對作者來說是一個<code>一對一</code>的關係，但是一個作者可能會寫多本書，作者對書來說就是<code>多對一</code>的關係(雖然現實上一本書可能有超過一個以上的作者，不過我們就把它單純化，讓生活暫時美好一下..)</p>
+
+<p>別忘了把<code>book</code>這個App也設定到<code>settings.py</code>的<code>INSTALLED_APP</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c"># Uncomment the next line to enable the admin:</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c"># Uncomment the next line to enable admin documentation:</span>
+</span><span class='line'>    <span class="c"># &#39;django.contrib.admindocs&#39;,</span>
+</span><span class='line'>    <span class="s">&#39;author&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;book&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行<code>python manage.py sql book</code>，看一下它轉換出來的SQL語法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">BEGIN</span><span class="p">;</span>
+</span><span class='line'><span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s">&quot;book&quot;</span> <span class="p">(</span>
+</span><span class='line'>    <span class="s">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&quot;title&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&quot;page&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&quot;price&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&quot;author_id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">REFERENCES</span> <span class="s">&quot;profile&quot;</span> <span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">),</span>
+</span><span class='line'>    <span class="s">&quot;publish_date&quot;</span> <span class="n">date</span> <span class="n">NOT</span> <span class="n">NULL</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'><span class="p">;</span>
+</span><span class='line'><span class="n">COMMIT</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>執行<code>python manage.py syncdb</code>，把這個<code>Book類別</code>也轉成資料表。因為我們剛才也把<code>Book類別</code>也註冊到Admin模組了，所以我們到後台也可以看得到它。你可以在新增<code>Book</code>資料時候發現它的Author欄位在後台變成下拉選單了：</p>
+
+<p><img src="/images/django/admin_book_and_author.png" alt="image" /></p>
+
+<p>方便吧 :)</p>
+
+<p>Model其實還有很多東西可以介紹的，不過因為我們的目的是為了快速看過一遍Django這個web framework大概是怎麼回事，所以細節還請各位參考<a href="https://docs.djangoproject.com/en/1.3/">官網文件</a>(一定要看!!)。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -782,165 +932,6 @@ No fixtures found.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/18/django-your-first-django-project/">開始你的第一個專案</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/18/django-your-first-django-project/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-18T13:36:00+08:00" pubdate>Oct 18<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Start Your Engine!</h2>
-
-<p>Django安裝好之後，接下來就是要開始你的第一個專案啦。使用方法：</p>
-
-<pre><code>&gt; django-admin.py startproject bookstore
-</code></pre>
-
-<p>請注意，在某些系統安裝Django，並不一定會有<code>django-admin.py</code>，而是只有<code>django-admin</code>，沒有.py的附檔名，為避免找不到檔案以及節省打字時間，建議在輸入<code>django</code>之後就可以按一下TAB鍵，讓系統幫你自動完成。</p>
-
-<p>如果你在執行<code>django-admin</code>的時候出現<code>command not found</code>的錯誤訊息，表示你可能還沒安裝Django，或是安裝的過程有哪邊出了問題，請再回&#8221;<a href="/2011/10/14/django-install/">安裝Django</a>&#8220;章節，看看是不是哪邊有漏了。</p>
-
-<p>沒問題的話，它就會幫你產生一個叫做<code>bookstore</code>的資料夾，內容大概會長得像這樣：</p>
-
-<pre><code>&gt; bookstore  ls -al
-total 32
--rw-r--r--  1 eddie  wheel     0 10 18 13:35 __init__.py
--rw-r--r--  1 eddie  wheel   503 10 18 13:35 manage.py
--rw-r--r--  1 eddie  wheel  5037 10 18 13:35 settings.py
--rw-r--r--  1 eddie  wheel   574 10 18 13:35 urls.py
-</code></pre>
-
-<p>結構很簡單，只有4個檔案：</p>
-
-<ul>
-<li><code>__init__.py</code> 用來告訴Python這個資料夾是一個模組，裡面通常是空的，不過也可以寫一些程式碼在裡面。</li>
-<li><code>manage.py</code> 用來操作整個Django專案的小工具，例如啟動伺服器<code>python manage.py runserver</code>，或是同步資料庫<code>python manage.py syncdb</code></li>
-<li><code>settings.py</code> 設定檔</li>
-<li><code>urls.py</code> 負責網站的路由。</li>
-</ul>
-
-
-<p>新專案開好之後，直接在專案的資料夾裡執行<code>python manage.py runserver</code>：</p>
-
-<pre><code>&gt; python manage.py runserver
-Validating models...
-
-0 errors found
-Django version 1.3.1, using settings 'bookstore.settings'
-Development server is running at http://127.0.0.1:8000/
-Quit the server with CONTROL-C.
-</code></pre>
-
-<p>它會在你的本機開一個port 8000的web server，打開你的瀏覽器，輸入網址<code>http://127.0.0.1:8000/</code>，你應該可以看到這個畫面：
-<img src="/images/django/it_worked.png" alt="image" /></p>
-
-<h2>資料庫設定</h2>
-
-<p>在上面的4個檔案裡有個<code>settings.py</code>，裡面有一段是用來填寫資料庫設定的：</p>
-
-<pre><code>DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-</code></pre>
-
-<p>這邊我們就以展示目的，僅使用SQLite做為資料庫，所以請將<code>ENGINE</code>的欄位改成<code>django.db.backends.sqlite3</code>，並將<code>NAME</code>設定為<code>bookstore</code>。另外一樣在<code>settings.py</code>裡，有幾項設定可以一起修改：</p>
-
-<pre><code>TIME_ZONE = 'Asia/Taipei'
-</code></pre>
-
-<p>修改你的時區，我真希望可以寫<code>Asia/Taiwan</code>!!</p>
-
-<pre><code>LANGUAGE_CODE = 'zh-TW'
-</code></pre>
-
-<p>語系改成繁體中文，這樣到時候後台的語言就會整個變繁體中文版了。</p>
-
-<p>然後回到終端機視窗執行<code>python manage.py syncdb</code>：</p>
-
-<pre><code>&gt; python manage.py syncdb
-
-Creating tables ...
-Creating table auth_permission
-Creating table auth_group_permissions
-Creating table auth_group
-Creating table auth_user_user_permissions
-Creating table auth_user_groups
-Creating table auth_user
-Creating table auth_message
-Creating table django_content_type
-Creating table django_session
-Creating table django_site
-
-You just installed Django's auth system, which means you don't have any superusers defined.
-Would you like to create one now? (yes/no): yes
-Username (Leave blank to use 'eddie'):
-E-mail address: eddie@digik.com.tw
-Password:
-Password (again):
-Superuser created successfully.
-Installing custom SQL ...
-Installing indexes ...
-No fixtures found.
-</code></pre>
-
-<p>過程中會問你是不是要建立帳號密碼，這個是給內建的Admin模組用的，之後就可以用這組帳號密碼登入Django超佛心的Admin模組後台。</p>
-
-<p>你可能會好奇為什麼明明什麼程式都還沒寫，然後就幫我建立了一堆的表格了。這是因為Django預設幫你安裝了一些模組了(你一樣可以在<code>settings.py</code>的<code>INSTALLED_APPS</code>段落找到它幫你預設裝了哪些東西。</p>
-
-<h2>內建的Admin模組</h2>
-
-<p>為什麼說是超佛心的Admin後台模組? 因為你不用寫到任何一行程式就可以有個漂亮而且功能完整的後台可以用了。我們要做的只有幾件事：</p>
-
-<ol>
-<li>打開<code>settings.py</code>，把<code>INSTALLED_APPS</code>的<code>django.contrib.admin</code>前面的<code>#</code>註解拿掉</li>
-<li>打開<code>urls.py</code>，把<code>from django.contrib import admin</code>以及<code>admin.autodiscover()</code>兩行的註解拿掉，然後在<code>urlpatterns</code>的最後一行<code>url(r'^admin/', include(admin.site.urls))</code>的註解也拿掉</li>
-<li>執行<code>python manage.py syncdb</code></li>
-</ol>
-
-
-<p>這樣就完成了，你做的應該只有拿掉幾個註解，以及syncdb的動作而已。然後請打開瀏覽器，網址輸入<code>http://127.0.0.1:8000/admin/</code>，應該可以看到一個登入畫面：
-<img src="/images/django/admin_login.png" alt="image" /></p>
-
-<p>輸入你剛剛設定的帳號密碼之後：</p>
-
-<p><img src="/images/django/admin_main.png" alt="image" /></p>
-
-<p>因為我們還沒有建立任何的Model，所以在這裡除了網站的一些設定以及帳號設定之外，還看不到任何東西。不過想想你還沒寫到一行程式碼就可以有這樣的東西可以用，而且還有中文版的，真的是相當佛心啊!</p>
-
-<p>當然，後台的客製化又是另一個主題了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/14/">&larr; Older</a>
@@ -992,6 +983,10 @@ No fixtures found.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
@@ -1027,15 +1022,11 @@ No fixtures found.
         <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/03/hhkb-pro2-keyboard/">HHKB Pro 2 鍵盤入手</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 158.42105263157896%'>Diary(37)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 134.73684210526315%'>Ruby(22)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
