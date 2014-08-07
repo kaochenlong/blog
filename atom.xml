@@ -4,7 +4,7 @@
   <title><![CDATA[高見龍]]></title>
   <link href="http://blog.eddie.com.tw/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-06-27T15:56:09+08:00</updated>
+  <updated>2014-08-07T08:55:24+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,113 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Code Swift with Vim]]></title>
+    <link href="http://blog.eddie.com.tw/2014/08/07/code-swift-with-vim/"/>
+    <updated>2014-08-07T07:35:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/08/07/code-swift-with-vim</id>
+    <content type="html"><![CDATA[<p>Swift 是今年 Apple 發表的程式語言，在發表的隔月就衝上了 <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE 排行榜</a>的前 20 名。不過因為目前還在 Beta 中，所以除了改規格之外，開發工具的穩定性也還有待加強。</p>
+
+<p>因為我已習慣用終端機 + Vim 工作，所以用 Vim 來練習寫 Swift 也是很正常的(誤)。不過其實真正的原因是之前 beta 版的 Xcode 太容易因為語法錯誤而當掉了。</p>
+
+<h2>Vim plugin</h2>
+
+<p>Vim 什麼沒有，plugin 最多了。不過因為 Swift 剛出來沒多久，外掛還不太多。我目前只有使用 <a href="https://github.com/toyamarinyon/vim-swift">vim-swift</a> 這個 plugin，有支援語法 highlight。</p>
+
+<h2>Swift REPL</h2>
+
+<p>寫 Ruby/Rails 時已很習慣有 <code>irb</code> 之類的 REPL(Read–Eval–Print Loop) 可以用，Swift 這回也有提供 REPL。</p>
+
+<p>因為在我電腦裡同時有安裝 Xcode 5 以及 Xcode 6 beta 5，所以在使用前得需先修改一下設定，開啟終端機後輸入：</p>
+
+<pre><code>$ sudo xcode-select -switch /Applications/Xcode6-Beta5.app
+</code></pre>
+
+<p>上面這個指令路徑設定可能會隨著 Xcode 6 的版本不同而需要做些調整。設定完之後，輸入：</p>
+
+<pre><code>$ xcrun swift
+</code></pre>
+
+<p>或</p>
+
+<pre><code>$ lldb --repl
+</code></pre>
+
+<p>即可進入 Swift 的 REPL 環境。</p>
+
+<p><img src="http://blog.eddie.com.tw/images/2014/swift_repl.png" width="600" alt="image" /></p>
+
+<h2>編譯</h2>
+
+<p>如果只是要寫個沒有畫面的小工具的程式，其實是不需要開 Xcode 的，只要一個簡單的 .swift 檔就可以了。</p>
+
+<pre><code>// 檔案 hello.swift
+println("Hello, Swift!")
+</code></pre>
+
+<p>然後執行：</p>
+
+<pre><code>$ xcrun swift hello.swift
+</code></pre>
+
+<p>應該會在畫面上印出 <code>Hello, Swift!</code> 字樣。如果想要進行編譯，可執行：</p>
+
+<pre><code>$ xcrun swiftc hello.swift
+</code></pre>
+
+<p>這會在該目錄產生一個同名的 <code>hello</code> 執行檔(注意，是 <code>swiftc</code> 而不是 <code>swift</code>)。</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/h6n4RlHk12I" frameborder="0" allowfullscreen></iframe>
+
+
+<p>註：以上是以 Xcode 6 Beta 5 為示範，在之前的版本的指令稍有不同。</p>
+
+<h2>自動執行</h2>
+
+<p>如果每次寫完存檔就要再執行一次 <code>xcrun swift</code> 也太辛苦了，工程師都是很懶的。有個不錯用的 gem 叫做 <a href="https://github.com/guard/guard">Guard</a>可以幫你監視檔案的狀態，一但檔案有異動就跟著執行某些指令。</p>
+
+<p>安裝 gem 是件輕鬆愉快的事，只要一行：</p>
+
+<pre><code>$ gem install guard-shell
+</code></pre>
+
+<p>如果安裝順利，下一步是請 guard 幫我們產生一個 Guardfile：</p>
+
+<pre><code>$ guard init shell
+</code></pre>
+
+<p>你應該可以在該目錄看到 Guardfile 檔案。我稍微做了些小修改如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">guard</span> <span class="ss">:shell</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">/(.*).swift/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="sb">`xcrun swift </span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="si">}</span><span class="sb">`</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個設定檔沒有很特別的東西，大概就是每次執行前先印出個分隔線，然後再印出 <code>xcrun swift</code> 的執行結果。接著只要在該目錄執行 <code>guard</code> 即可進入監看模式。</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/yhPu86RvilI" frameborder="0" allowfullscreen></iframe>
+
+
+<h2>小結</h2>
+
+<p>因為 Vim 指法已習慣成肌肉記憶(muscle memory)，所以我的 Xcode 也通常會安裝 <a href="https://github.com/JugglerShu/XVim">XVim</a> 讓 Xcode 可支援部份的 Vim 指令，不然完全沒辦法工作了。</p>
+
+<p>是說像這樣用 Vim 寫 Swift，練練語法還 ok，但要靠 Vim 純手工刻出 iOS app 真的不是一般人能做到的事，所以其實我真正開發的時候，還是需要依賴 IDE 幫忙的，不然 method name 那麼長、參數那麼多，不靠 IDE 的自動完成，怎麼可能記得住。</p>
+
+<p>即使如此，我個人還是覺得，可以用 Vim 寫程式，就是莫名的有種阿宅的浪漫啊 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[五倍祝福，五倍的紅寶石]]></title>
@@ -587,7 +694,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>這裡的 <code>someObject</code> 稱作 <code>recevier</code>，就是接收「訊息」的傢伙，而 <code>saySomething:</code> 就是「訊息」，<code>@"hello"</code> 則是參數。</p>
+<p>這裡的 <code>someObject</code> 稱作 <code>receiver</code>，就是接收「訊息」的傢伙，而 <code>saySomething:</code> 就是「訊息」，<code>@"hello"</code> 則是參數。</p>
 
 <p>事實上，在訊息傳遞的過程，當 <code>someObject</code> 這傢伙收到訊息之後，會順著這個物件的 <code>isa</code> 指針找到自己的類別，然後再依照收到的「訊息」去類別的 method list 找出對應的方法。如果在這個類別裡面找到了，就會直接執行它，如果找不到，會再往上一層父類別(super class)找。以上這個流程都是在程式執行過程中(Rumtime)才動態決定的，而不是在編譯(Compile)時期就決定好的。</p>
 
@@ -2028,110 +2135,6 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 <a href="http://blog.eddie.com.tw/downloads/files/2012/12-flash-fash-example-files.zip" target="_blank">Sample Code</a></p>
 
 <p>有講的不好或是誤導的部份，還請先進、前輩們不吝指教 :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[爽爽快快學Vim(3) - Vim Plugins]]></title>
-    <link href="http://blog.eddie.com.tw/2012/06/01/screencast-3-vim-plugins/"/>
-    <updated>2012-06-01T17:42:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/06/01/screencast-3-vim-plugins</id>
-    <content type="html"><![CDATA[<p>這一集我來分享一下我自己常在用的Plugin</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/0QFR-_wUoA0" frameborder="0" allowfullscreen></iframe>
-
-
-<p>內嵌進來的影片可能有點小、有點不清楚，建議直接到<a href="http://www.youtube.com/watch?v=0QFR-_wUoA0">Youtube</a>並切換至HD畫質觀看。另外也傳了一份到 <a href="https://vimeo.com/43242882">Vimeo</a> 以及 <a href="http://v.youku.com/v_show/id_XNDA2Mzc2ODcy.html">youku</a></p>
-
-<h2>Plugins</h2>
-
-<h3><a href="http://www.vim.org/scripts/script.php?script_id=2332">vim-pathogen</a></h3>
-
-<p>好用的vim的套件管理工具。通常plugin下載回來之後開一個資料夾整個丟進去就行了，一個plugin就放一個資料夾，如果不要的時候就該資料砍掉就行了</p>
-
-<h3><a href="https://github.com/Lokaltog/vim-powerline">vim-powerline</a></h3>
-
-<p>華麗的狀態列</p>
-
-<h3><a href="https://github.com/c9s/colorselector.vim">SelectColors</a></h3>
-
-<p>c9s大大寫的方便小工具
-只要執行<kbd>:SelectColors</kbd>即可呼叫出快速切換color scheme的小分割視窗</p>
-
-<h3><a href="http://www.vim.org/scripts/script.php?script_id=2540">snipmate</a></h3>
-
-<p>只要只幾個字母再按下tab就可以快速產生snippets，如果覺得不夠或是有自己慣用的snippets也可以自己加</p>
-
-<h3><a href="https://github.com/ap/vim-css-color">vim-css-color</a></h3>
-
-<p>直接在vim裡顯示CSS色碼所代表的顏色</p>
-
-<h3><a href="https://github.com/tpope/vim-surround">surround</a></h3>
-
-<p>文字編輯的好幫手!</p>
-
-<ul>
-<li>進到visual mode並選取文字後 <kbd>S</kbd><kbd>"</kbd> 把選取文字加上雙引號</li>
-<li><kbd>c</kbd><kbd>s</kbd><kbd>"</kbd><kbd>'</kbd> = 把週圍的雙引號換成單引號</li>
-<li><kbd>c</kbd><kbd>s</kbd><kbd>]</kbd><kbd>)</kbd> = 把週圍的方括號換成小括號</li>
-<li><kbd>d</kbd><kbd>s</kbd><kbd>"</kbd> = 刪除週圍的雙引號</li>
-<li><kbd>c</kbd><kbd>s</kbd><kbd>t</kbd> = 刪除週圍的tag</li>
-<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>"</kbd> = 把整行加上雙引號</li>
-<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>(</kbd> = 把整行加上小括號，但小括號與內容會有空格存在</li>
-<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>)</kbd> = 同上，但不會有空格</li>
-<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>{</kbd> = 把整行加上大括號，但大括號與內容會有空格存在</li>
-<li><kbd>y</kbd><kbd>s</kbd><kbd>s</kbd><kbd>}</kbd> = 同上，但不會有空格</li>
-</ul>
-
-
-<h3><a href="http://www.vim.org/scripts/script.php?script_id=3037">vim-indent-object</a></h3>
-
-<p>如果你寫的程式語言是用大括號把程式碼包起來的，你只要按<kbd>v</kbd><kbd>i</kbd><kbd>{</kbd>就可以把大括號裡的東西全部選起來。但如果遇到像ruby或python這種不需要大括號的，就可以用得上它。</p>
-
-<ul>
-<li><kbd>v</kbd><kbd>i</kbd><kbd>i</kbd> 選取相同縮排層級的文字</li>
-<li><kbd>v</kbd><kbd>a</kbd><kbd>i</kbd> 同上，但會連帶上一層級也一併選取</li>
-</ul>
-
-
-<h3><a href="http://www.vim.org/scripts/script.php?script_id=39">vim-matchit</a></h3>
-
-<p>讓 <kbd>%</kbd> 不只可以配對基本的語法，連html的tag也可以比對</p>
-
-<h3><a href="http://www.vim.org/scripts/script.php?script_id=1896">vim-ragtag</a></h3>
-
-<ul>
-<li><kbd>Ctrl</kbd><kbd>x</kbd><kbd>Enter</kbd> = 產生對應的tag，而且中間會加上斷行</li>
-<li><kbd>Ctrl</kbd><kbd>x</kbd><kbd>Space</kbd> = 同上，但不會加上斷行</li>
-</ul>
-
-
-<h3><a href="http://www.vim.org/scripts/script.php?script_id=1658">NERDtree</a></h3>
-
-<p>樹狀目錄結構列表，讓你可以在檔案跟資料夾中切換</p>
-
-<h3><a href="https://github.com/kien/ctrlp.vim">ctrlp</a></h3>
-
-<p>快速找到檔案的好幫手</p>
-
-<ul>
-<li><kbd>Ctrl</kbd><kbd>p</kbd> 啟動</li>
-<li><kbd>Ctrl</kbd><kbd>g</kbd> 關閉</li>
-<li>在啟動中按<kbd>Ctrl</kbd><kbd>f</kbd> 可換切搜尋模式(共有File、Buffer以及MRU三種)</li>
-</ul>
-
-
-<h3><a href="http://www.vim.org/scripts/script.php?script_id=2226">vim-wiki</a></h3>
-
-<p>用vim來寫筆記(wiki)</p>
-
-<h2>小結</h2>
-
-<p>以上，所有的plugin在我的github上的<a href="https://github.com/kaochenlong/eddie-vim">vimrc設定</a>裡應該都找得到。其實我用的plugin並不多，使用上大多還是以vim內建的基本操作為主。如果有哪邊有錯的再請前輩、先進不吝指教</p>
-
-<h2>預告</h2>
-
-<p>眼尖的人可能會發現上面列的都沒有Ruby或Rails相關的plugin。是的這些相關的plugin都會留到下一集，所以下一集會來分享一下怎麼利用Vim在Ruby/Rails裡做開發的，還請稍稍期待一下 :)</p>
 ]]></content>
   </entry>
   

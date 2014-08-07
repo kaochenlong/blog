@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Django | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/django/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-06-27T15:56:09+08:00</updated>
+  <updated>2014-08-07T08:55:24+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -548,27 +548,21 @@ urlpatterns = patterns('',
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="c"># Uncomment the next line to enable the admin:</span>
-</span><span class='line'><span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="s">&#39;django.contrib.humanize&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="c"># Uncomment the next line to enable admin documentation:</span>
-</span><span class='line'><span class="c"># &#39;django.contrib.admindocs&#39;,</span>
-</span><span class='line'><span class="s">&#39;author&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="s">&#39;book&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c"># Uncomment the next line to enable the admin:</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.humanize&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c"># Uncomment the next line to enable admin documentation:</span>
+</span><span class='line'>    <span class="c"># &#39;django.contrib.admindocs&#39;,</span>
+</span><span class='line'>    <span class="s">&#39;author&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;book&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>在使用之前需要用<code>{％ load humanize ％}</code>載入，然後就可以用了：</p>
@@ -823,18 +817,12 @@ urlpatterns = patterns('',
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="s">&#39;templates&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="c"># Put strings here, like &quot;/home/html/django_templates&quot; or &quot;C:/www/django/templates&quot;.</span>
-</span><span class='line'><span class="c"># Always use forward slashes, even on Windows.</span>
-</span><span class='line'><span class="c"># Don&#39;t forget to use absolute paths, not relative paths.</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>    <span class="s">&#39;templates&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c"># Put strings here, like &quot;/home/html/django_templates&quot; or &quot;C:/www/django/templates&quot;.</span>
+</span><span class='line'>    <span class="c"># Always use forward slashes, even on Windows.</span>
+</span><span class='line'>    <span class="c"># Don&#39;t forget to use absolute paths, not relative paths.</span>
+</span><span class='line'><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 設定這個的目的是要告訴Django要去哪邊取得template的檔案，這裡我設定了<code>templates</code>。接著，我們要來自己在專案根目錄底下建立一個<code>templates</code>的資料夾，然後結構像這樣：</p>
 

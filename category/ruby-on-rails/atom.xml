@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby on Rails | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby-on-rails/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-06-27T15:56:09+08:00</updated>
+  <updated>2014-08-07T08:55:24+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -684,12 +684,6 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
 </pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="k">var</span> <span class="nx">nc</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span>
 </span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">objectEncoding</span> <span class="o">=</span> <span class="nb">ObjectEncoding</span><span class="p">.</span><span class="nx">AMF3</span><span class="o">;</span>
 </span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:3000/rubyamf/gateway&#39;</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
@@ -698,20 +692,14 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
 </span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;AmfTestController.hello_world&#39;</span><span class="o">,</span> <span class="nx">responder</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">onOK</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">onErr</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;Error!&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;Error!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 其中比較需要注意的是<code>nc.call</code>那一段，直接呼叫<code>ControllerName.ActionName</code>就行了。</p>
 
@@ -748,9 +736,6 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
 </pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="nx">add_btn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nb">MouseEvent</span><span class="p">.</span><span class="nx">CLICK</span><span class="o">,</span> <span class="nx">click_handler</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">click_handler</span><span class="p">(</span><span class="nx">evt</span><span class="o">:</span><span class="nb">MouseEvent</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
@@ -759,13 +744,10 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
 </span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">objectEncoding</span> <span class="o">=</span> <span class="nb">ObjectEncoding</span><span class="p">.</span><span class="nx">AMF3</span><span class="o">;</span>
 </span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:3000/rubyamf/gateway&#39;</span><span class="p">);</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="k">var</span> <span class="nx">amf_object</span><span class="o">:</span><span class="nb">Object</span> <span class="o">=</span> <span class="p">{</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="s1">&#39;author&#39;</span><span class="o">:</span> <span class="nx">author_txt</span><span class="p">.</span><span class="nx">text</span><span class="o">,</span>
-</span><span class='line'><span class="s1">&#39;content&#39;</span><span class="o">:</span> <span class="nx">content_txt</span><span class="p">.</span><span class="nx">text</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">};</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="k">var</span> <span class="nx">amf_object</span><span class="o">:</span><span class="nb">Object</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s1">&#39;author&#39;</span><span class="o">:</span> <span class="nx">author_txt</span><span class="p">.</span><span class="nx">text</span><span class="o">,</span>
+</span><span class='line'>    <span class="s1">&#39;content&#39;</span><span class="o">:</span> <span class="nx">content_txt</span><span class="p">.</span><span class="nx">text</span>
+</span><span class='line'>  <span class="p">};</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="k">var</span> <span class="nx">responder</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">onOK</span><span class="o">,</span> <span class="nx">onErr</span><span class="p">);</span>
 </span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;AmfTestController.add_book&#39;</span><span class="o">,</span> <span class="nx">responder</span><span class="o">,</span> <span class="nx">amf_object</span><span class="p">);</span>
@@ -796,25 +778,13 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">add_book</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">is_amf</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;Book.create(:author =&amp;gt; params[0][:author], :content =&amp;gt; params[0][:content])</span>
-</span><span class='line'><span class="sr">render :amf =&amp;gt; Book.count</span>
-</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  else&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">render</span> <span class="ss">:text</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="s2">&quot;error&quot;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">is_amf</span>
+</span><span class='line'>    <span class="no">Book</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:author</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="ss">:author</span><span class="o">]</span><span class="p">,</span> <span class="ss">:content</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="ss">:content</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:amf</span> <span class="o">=&gt;</span> <span class="no">Book</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;error&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 這裡可以用<code>is_amf</code>來檢查傳進來的是不是AMF，傳進來的參數可用 params[0] 取得。</p>

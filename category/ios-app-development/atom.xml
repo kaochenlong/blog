@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS App Development | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ios-app-development/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-06-27T15:56:09+08:00</updated>
+  <updated>2014-08-07T08:55:24+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,110 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Code Swift with Vim]]></title>
+    <link href="http://blog.eddie.com.tw/2014/08/07/code-swift-with-vim/"/>
+    <updated>2014-08-07T07:35:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/08/07/code-swift-with-vim</id>
+    <content type="html"><![CDATA[<p>Swift 是今年 Apple 發表的程式語言，在發表的隔月就衝上了 <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE 排行榜</a>的前 20 名。不過因為目前還在 Beta 中，所以除了改規格之外，開發工具的穩定性也還有待加強。</p>
+
+<p>因為我已習慣用終端機 + Vim 工作，所以用 Vim 來練習寫 Swift 也是很正常的(誤)。不過其實真正的原因是之前 beta 版的 Xcode 太容易因為語法錯誤而當掉了。</p>
+
+<h2>Vim plugin</h2>
+
+<p>Vim 什麼沒有，plugin 最多了。不過因為 Swift 剛出來沒多久，外掛還不太多。我目前只有使用 <a href="https://github.com/toyamarinyon/vim-swift">vim-swift</a> 這個 plugin，有支援語法 highlight。</p>
+
+<h2>Swift REPL</h2>
+
+<p>寫 Ruby/Rails 時已很習慣有 <code>irb</code> 之類的 REPL(Read–Eval–Print Loop) 可以用，Swift 這回也有提供 REPL。</p>
+
+<p>因為在我電腦裡同時有安裝 Xcode 5 以及 Xcode 6 beta 5，所以在使用前得需先修改一下設定，開啟終端機後輸入：</p>
+
+<pre><code>$ sudo xcode-select -switch /Applications/Xcode6-Beta5.app
+</code></pre>
+
+<p>上面這個指令路徑設定可能會隨著 Xcode 6 的版本不同而需要做些調整。設定完之後，輸入：</p>
+
+<pre><code>$ xcrun swift
+</code></pre>
+
+<p>或</p>
+
+<pre><code>$ lldb --repl
+</code></pre>
+
+<p>即可進入 Swift 的 REPL 環境。</p>
+
+<p><img src="/images/2014/swift_repl.png" width="600" alt="image" /></p>
+
+<h2>編譯</h2>
+
+<p>如果只是要寫個沒有畫面的小工具的程式，其實是不需要開 Xcode 的，只要一個簡單的 .swift 檔就可以了。</p>
+
+<pre><code>// 檔案 hello.swift
+println("Hello, Swift!")
+</code></pre>
+
+<p>然後執行：</p>
+
+<pre><code>$ xcrun swift hello.swift
+</code></pre>
+
+<p>應該會在畫面上印出 <code>Hello, Swift!</code> 字樣。如果想要進行編譯，可執行：</p>
+
+<pre><code>$ xcrun swiftc hello.swift
+</code></pre>
+
+<p>這會在該目錄產生一個同名的 <code>hello</code> 執行檔(注意，是 <code>swiftc</code> 而不是 <code>swift</code>)。</p>
+
+<p><iframe width="420" height="315" src="http://www.youtube.com/embed/h6n4RlHk12I" frameborder="0" allowfullscreen></iframe></p>
+
+<p>註：以上是以 Xcode 6 Beta 5 為示範，在之前的版本的指令稍有不同。</p>
+
+<h2>自動執行</h2>
+
+<p>如果每次寫完存檔就要再執行一次 <code>xcrun swift</code> 也太辛苦了，工程師都是很懶的。有個不錯用的 gem 叫做 <a href="https://github.com/guard/guard">Guard</a>可以幫你監視檔案的狀態，一但檔案有異動就跟著執行某些指令。</p>
+
+<p>安裝 gem 是件輕鬆愉快的事，只要一行：</p>
+
+<pre><code>$ gem install guard-shell
+</code></pre>
+
+<p>如果安裝順利，下一步是請 guard 幫我們產生一個 Guardfile：</p>
+
+<pre><code>$ guard init shell
+</code></pre>
+
+<p>你應該可以在該目錄看到 Guardfile 檔案。我稍微做了些小修改如下：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">guard</span> <span class="ss">:shell</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">/(.*).swift/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">xcrun</span> <span class="n">swift</span> <span class="c1">#{m[0]}&lt;/code&gt;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>這個設定檔沒有很特別的東西，大概就是每次執行前先印出個分隔線，然後再印出 <code>xcrun swift</code> 的執行結果。接著只要在該目錄執行 <code>guard</code> 即可進入監看模式。</p>
+
+<p><iframe width="420" height="315" src="http://www.youtube.com/embed/yhPu86RvilI" frameborder="0" allowfullscreen></iframe></p>
+
+<h2>小結</h2>
+
+<p>因為 Vim 指法已習慣成肌肉記憶(muscle memory)，所以我的 Xcode 也通常會安裝 <a href="https://github.com/JugglerShu/XVim">XVim</a> 讓 Xcode 可支援部份的 Vim 指令，不然完全沒辦法工作了。</p>
+
+<p>是說像這樣用 Vim 寫 Swift，練練語法還 ok，但要靠 Vim 純手工刻出 iOS app 真的不是一般人能做到的事，所以其實我真正開發的時候，還是需要依賴 IDE 幫忙的，不然 method name 那麼長、參數那麼多，不靠 IDE 的自動完成，怎麼可能記得住。</p>
+
+<p>即使如此，我個人還是覺得，可以用 Vim 寫程式，就是莫名的有種阿宅的浪漫啊 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[id 與 instancetype]]></title>
@@ -29,16 +133,10 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 檔案：NSObject.h</span>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">@interface</span> <span class="bp">NSObject</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">Class</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">init</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
@@ -84,38 +182,26 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="nc">NSObject</span>
-</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">createAnimal</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="bp">NSObject</span>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">createAnimal</span><span class="p">;</span>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">Animal</span>
-</span><span class='line'><span class="o">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">createAnimal</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="p">[[</span><span class="n">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">Animal</span>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">createAnimal</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">interface</span> <span class="n">Fox</span> <span class="o">:</span> <span class="n">Animal</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">say</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@interface</span> <span class="nc">Fox</span> : <span class="nc">Animal</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">say</span><span class="p">;</span>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">Fox</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">say</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;what does the fox say!?&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">Fox</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">say</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;what does the fox say!?&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -139,21 +225,15 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="nc">NSObject</span>
-</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span> <span class="nf">createAnimal</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="bp">NSObject</span>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span> <span class="nf">createAnimal</span><span class="p">;</span>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">Animal</span>
-</span><span class='line'><span class="o">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span> <span class="n">createAnimal</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="p">[[</span><span class="n">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">Animal</span>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span> <span class="nf">createAnimal</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -278,17 +358,11 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案名稱：objc.h</span>
 </span><span class='line'><span class="c1">/// Represents an instance of a class.</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Class</span> <span class="n">isa</span><span class="p">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">};</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">Class</span> <span class="n">isa</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>從這段程式碼可以知道，其實所謂的「物件」，說穿了就只是一個 C 的結構 (C Struct)，而在這個 Struct 裡面只有一個 <code>isa</code> 的指針，指向自己所屬的類別。</p>
@@ -329,13 +403,9 @@
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
 </pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">/// 檔案：runtime.h</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Class</span> <span class="n">isa</span><span class="p">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">Class</span> <span class="n">isa</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="k">if</span> <span class="o">!&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="n">OBJC2</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
 </span><span class='line'>
@@ -365,7 +435,7 @@
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">someObject</span> <span class="nl">saySomething:</span><span class="s">@&quot;hello&quot;</span><span class="p">]</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>這裡的 <code>someObject</code> 稱作 <code>recevier</code>，就是接收「訊息」的傢伙，而 <code>saySomething:</code> 就是「訊息」，<code>@"hello"</code> 則是參數。</p>
+<p>這裡的 <code>someObject</code> 稱作 <code>receiver</code>，就是接收「訊息」的傢伙，而 <code>saySomething:</code> 就是「訊息」，<code>@"hello"</code> 則是參數。</p>
 
 <p>事實上，在訊息傳遞的過程，當 <code>someObject</code> 這傢伙收到訊息之後，會順著這個物件的 <code>isa</code> 指針找到自己的類別，然後再依照收到的「訊息」去類別的 method list 找出對應的方法。如果在這個類別裡面找到了，就會直接執行它，如果找不到，會再往上一層父類別(super class)找。以上這個流程都是在程式執行過程中(Rumtime)才動態決定的，而不是在編譯(Compile)時期就決定好的。</p>
 
@@ -399,29 +469,23 @@
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// Animal Class</span>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Animal</span> : <span class="bp">NSObject</span>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">Animal</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">Animal</span>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Fox Class</span>
-</span><span class='line'><span class="err">@</span><span class="n">interface</span> <span class="n">Fox</span> <span class="o">:</span> <span class="n">Animal</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">say</span><span class="p">;</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Fox</span> : <span class="nc">Animal</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">say</span><span class="p">;</span>
 </span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">Fox</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">say</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;What does the fox say!?&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">Fox</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">say</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;What does the fox say!?&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -622,17 +686,11 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</span><span class='line'><span class="n">_tableView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">_tableView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>或是直接在 Storyboard 用拉的也行：</p>
@@ -752,19 +810,13 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span> <span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">viewForFooterInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// 內容省略</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span> <span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">viewForFooterInSection:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">section</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 內容省略</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="n">UIView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span> <span class="nl">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">viewForHeaderInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">section</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">UIView</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span> <span class="nl">tableView</span><span class="p">:(</span><span class="bp">UITableView</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">viewForHeaderInSection</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">section</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="c1">// 內容省略</span>
 </span><span class='line'><span class="p">}</span>
@@ -837,53 +889,35 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
 <span class='line-number'>31</span>
 <span class='line-number'>32</span>
 <span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// == 檔案：AnimationSquareView.m ==&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="s">&quot;AnimationSquareView.h&quot;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="err">@</span><span class="n">implementation</span> <span class="n">AnimationSquareView</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">AnimationSquareView</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'><span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">run</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">3.0</span> <span class="nl">animations:</span><span class="o">&lt;</span><span class="n">sup</span><span class="o">&gt;</span><span class="p">{</span><span class="o">&lt;/</span><span class="n">sup</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>  <span class="n">CGRect</span> <span class="n">newFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">150</span><span class="p">,</span>
-</span><span class='line'>                               <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
-</span><span class='line'>                               <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
-</span><span class='line'>                               <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">newFrame</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">}</span> <span class="nl">completion:</span><span class="o">&lt;</span><span class="n">sup</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">BOOL</span><span class="o">&lt;/</span><span class="n">sup</span><span class="o">&gt;</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>  <span class="c1">// do something later..</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">3.0</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>      <span class="bp">CGRect</span> <span class="n">newFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">150</span><span class="p">,</span>
+</span><span class='line'>                                   <span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
+</span><span class='line'>                                   <span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+</span><span class='line'>                                   <span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span><span class='line'>      <span class="nb">self</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">newFrame</span><span class="p">;</span>
+</span><span class='line'>      <span class="nb">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// do something later..</span>
+</span><span class='line'>  <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
 </span><span class='line'><span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'>
@@ -1027,30 +1061,24 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
 </pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// == 檔案：AnimationSquare.m ==</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">run</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">3.0</span> <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">CGRect</span> <span class="n">newFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">150</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
-</span><span class='line'>                                 <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">newFrame</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span> <span class="nl">completion:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">_delegate</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">animationSquareView:didFinishAnimationWithStatus:</span><span class="p">)])</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">currentStatus</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span><span class="s">@&quot;status&quot;</span><span class="o">:</span> <span class="s">@&quot;finished&quot;</span><span class="p">};</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">_delegate</span> <span class="nl">animationSquareView:</span><span class="n">self</span> <span class="nl">didFinishAnimationWithStatus:</span><span class="n">currentStatus</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">run</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">3.0</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="bp">CGRect</span> <span class="n">newFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">150</span><span class="p">,</span>
+</span><span class='line'>                                     <span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
+</span><span class='line'>                                     <span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+</span><span class='line'>                                     <span class="nb">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">newFrame</span><span class="p">;</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">delegate</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">animationSquareView</span><span class="p">:</span><span class="nl">didFinishAnimationWithStatus</span><span class="p">:)])</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="bp">NSDictionary</span><span class="o">*</span> <span class="n">currentStatus</span> <span class="o">=</span> <span class="l">@{</span><span class="s">@&quot;status&quot;</span><span class="o">:</span> <span class="s">@&quot;finished&quot;</span><span class="l">}</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">[</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">delegate</span> <span class="nl">animationSquareView</span><span class="p">:</span><span class="nb">self</span> <span class="nl">didFinishAnimationWithStatus</span><span class="p">:</span><span class="n">currentStatus</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>這裡需要解釋的就應該就只有那段 <code>respondsToSelector</code> 了。這段的意思是問自己本身的這個 <code>delegate</code> 是不是有實作 <code>animationSquareView:didFinishAnimationWithStatus:</code> 這個方法，如果有的話，就呼叫它，並且把自己(self)以及狀態(一個NSDictionary)傳入。</p>
@@ -1149,115 +1177,6 @@ NSObject's Meta Class's Meta Class = 0x7fff77cce838
 <p><a href="/downloads/files/2013/DelegateDemo.zip">範例檔下載</a></p>
 
 <p>以上，希望這篇文章能讓大家對 delegation 有更進一步的了解。如果有哪邊寫錯，還請前輩先進指點。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在Titanium Studio使用CoffeeScript來寫app]]></title>
-    <link href="http://blog.eddie.com.tw/2011/08/03/using-coffeescript-in-titanium-studio/"/>
-    <updated>2011-08-03T18:13:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/08/03/using-coffeescript-in-titanium-studio</id>
-    <content type="html"><![CDATA[<p>即然<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>寫出來的東西就是一般的JavaScript，之前就在猜想是不是也可以把CoffeeScript用在<a href="http://www.appcelerator.com/">Titanium Studio</a>裡，果然，有善心人士用Python寫了給Titanium Studio的外掛。</p>
-
-<h2>安裝</h2>
-
-<p>首先，你需要在你電腦裡安裝好CoffeeScript的相關工具，詳情可參考<a href="/2011/08/03/install-coffeescript/">這篇</a>。</p>
-
-<p>相關的工具安裝完成之後，接著請到 <a href="https://github.com/billdawson/ti_coffee_plugin">https://github.com/billdawson/ti_coffee_plugin</a> 下載壓縮檔，解壓縮之後把plugin.py這個檔案放到Titanium Studio的plugin資料夾。以我的電腦來看是放在這個資料夾：</p>
-
-<pre><code>/Library/Application Support/Titanium/plugins/ti_coffee_plugin/1.0/plugin.py
-</code></pre>
-
-<p>如果資料夾不存在的話，就自己手動建吧，檔案放進去之後就算安裝完成了。</p>
-
-<h2>使用</h2>
-
-<p>在每個Titanium Studio的project底下，應該都可以找到一個”tiapp.xml“的檔案：</p>
-
-<p><img src="/images/2011/titanium_plugin_1.png" alt="image" /></p>
-
-<p>找到它之後，請在最下面加上這段：</p>
-
-<pre><code>&lt;plugins&gt;
-    &lt;plugin version="1.0"&gt;ti_coffee_plugin&lt;/plugin&gt;
-&lt;/plugins&gt;
-</code></pre>
-
-<p><img src="/images/2011/titanium_plugin_2.png" alt="image" /></p>
-
-<p>接下來，因為我們要建一個<code>app.coffee</code>來產生<code>app.js</code>，所以原來的app.js就可以先丟掉，然後在Resources資料夾裡建一個叫app.coffee的檔案：</p>
-
-<p><img src="/images/2011/titanium_plugin_3.png" alt="image" /></p>
-
-<p>接著就是打開app.coffee來寫code啦，如果大家懶得寫，可以直接剪貼這段直接貼上：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">Titanium.UI.backgroundColor = </span><span class="s">&#39;white&#39;</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nv">win1 = </span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createWindow</span><span class="p">(</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nv">backgroundColor: </span><span class="s">&#39;white&#39;</span>
-</span><span class='line'><span class="nv">title: </span><span class="s">&#39;CoffeeScript Demo&#39;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nv">label1 = </span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createLabel</span><span class="p">(</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nv">color: </span><span class="s">&#39;#999&#39;</span>
-</span><span class='line'><span class="nv">text: </span><span class="s">&#39;Hello CoffeeScript&#39;</span>
-</span><span class='line'><span class="nv">font:</span>
-</span><span class='line'>    <span class="nx">fontSize</span><span class="o">:</span><span class="mi">30</span>
-</span><span class='line'>    <span class="nv">fontFamily: </span><span class="s">&#39;Helvetica Neue&#39;</span>
-</span><span class='line'><span class="nv">textAlign: </span><span class="s">&#39;center&#39;</span>
-</span><span class='line'><span class="nx">width</span><span class="o">:</span><span class="s">&#39;auto&#39;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">win1</span><span class="p">.</span><span class="nx">add</span> <span class="nx">label1</span>
-</span><span class='line'><span class="nx">win1</span><span class="p">.</span><span class="nx">open</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-打完收工，按下build按鈕，耐心等一下畫面..</p>
-
-<p><img src="/images/2011/titanium_plugin_5.png" alt="image" /></p>
-
-<p>同時你應該也會發現在<code>Resources資料夾</code>裡自動長出了app.js，這個就是神奇的plugin幫我們在build的時候，自動幫我們完成從編譯js檔的工作。</p>
-
-<h2>為什麼好好的JavaScript要改用CoffeeScript來寫?</h2>
-
-<p>大家先看看程式碼的畫面：</p>
-
-<p><img src="/images/2011/titanium_plugin_4.png" alt="image" /></p>
-
-<p>主要是CoffeeScript的語法簡單、清楚很多，例如像是物件可以用YAML的方式來寫。所以像label1裡的參數本來是一層包一層，可以改用更清楚的YAML式的寫法(不過這個多少有個人觀感，說不定有的人覺得原來用大括號的比較清楚)。</p>
-
-<p>好寫是好寫，但也不是完全沒缺點，大家自己看畫面應該會發現到，例如原本Titanium Studio有syntax highlight改用CoffeeScript就沒了，當然code hint就別想了(不知道會不會有善心人士也把這個功能補完)，不然就是先到有支援CoffeeScript的編輯器裡先寫好，再回來Titanium Studion裡進行編譯也是一招。</p>
-
-<p>所以各位客倌就自己取捨囉，供大家參考。</p>
 ]]></content>
   </entry>
   

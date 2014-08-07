@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Vim | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/vim/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-06-27T15:56:09+08:00</updated>
+  <updated>2014-08-07T08:55:24+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,110 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Code Swift with Vim]]></title>
+    <link href="http://blog.eddie.com.tw/2014/08/07/code-swift-with-vim/"/>
+    <updated>2014-08-07T07:35:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/08/07/code-swift-with-vim</id>
+    <content type="html"><![CDATA[<p>Swift 是今年 Apple 發表的程式語言，在發表的隔月就衝上了 <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE 排行榜</a>的前 20 名。不過因為目前還在 Beta 中，所以除了改規格之外，開發工具的穩定性也還有待加強。</p>
+
+<p>因為我已習慣用終端機 + Vim 工作，所以用 Vim 來練習寫 Swift 也是很正常的(誤)。不過其實真正的原因是之前 beta 版的 Xcode 太容易因為語法錯誤而當掉了。</p>
+
+<h2>Vim plugin</h2>
+
+<p>Vim 什麼沒有，plugin 最多了。不過因為 Swift 剛出來沒多久，外掛還不太多。我目前只有使用 <a href="https://github.com/toyamarinyon/vim-swift">vim-swift</a> 這個 plugin，有支援語法 highlight。</p>
+
+<h2>Swift REPL</h2>
+
+<p>寫 Ruby/Rails 時已很習慣有 <code>irb</code> 之類的 REPL(Read–Eval–Print Loop) 可以用，Swift 這回也有提供 REPL。</p>
+
+<p>因為在我電腦裡同時有安裝 Xcode 5 以及 Xcode 6 beta 5，所以在使用前得需先修改一下設定，開啟終端機後輸入：</p>
+
+<pre><code>$ sudo xcode-select -switch /Applications/Xcode6-Beta5.app
+</code></pre>
+
+<p>上面這個指令路徑設定可能會隨著 Xcode 6 的版本不同而需要做些調整。設定完之後，輸入：</p>
+
+<pre><code>$ xcrun swift
+</code></pre>
+
+<p>或</p>
+
+<pre><code>$ lldb --repl
+</code></pre>
+
+<p>即可進入 Swift 的 REPL 環境。</p>
+
+<p><img src="/images/2014/swift_repl.png" width="600" alt="image" /></p>
+
+<h2>編譯</h2>
+
+<p>如果只是要寫個沒有畫面的小工具的程式，其實是不需要開 Xcode 的，只要一個簡單的 .swift 檔就可以了。</p>
+
+<pre><code>// 檔案 hello.swift
+println("Hello, Swift!")
+</code></pre>
+
+<p>然後執行：</p>
+
+<pre><code>$ xcrun swift hello.swift
+</code></pre>
+
+<p>應該會在畫面上印出 <code>Hello, Swift!</code> 字樣。如果想要進行編譯，可執行：</p>
+
+<pre><code>$ xcrun swiftc hello.swift
+</code></pre>
+
+<p>這會在該目錄產生一個同名的 <code>hello</code> 執行檔(注意，是 <code>swiftc</code> 而不是 <code>swift</code>)。</p>
+
+<p><iframe width="420" height="315" src="http://www.youtube.com/embed/h6n4RlHk12I" frameborder="0" allowfullscreen></iframe></p>
+
+<p>註：以上是以 Xcode 6 Beta 5 為示範，在之前的版本的指令稍有不同。</p>
+
+<h2>自動執行</h2>
+
+<p>如果每次寫完存檔就要再執行一次 <code>xcrun swift</code> 也太辛苦了，工程師都是很懶的。有個不錯用的 gem 叫做 <a href="https://github.com/guard/guard">Guard</a>可以幫你監視檔案的狀態，一但檔案有異動就跟著執行某些指令。</p>
+
+<p>安裝 gem 是件輕鬆愉快的事，只要一行：</p>
+
+<pre><code>$ gem install guard-shell
+</code></pre>
+
+<p>如果安裝順利，下一步是請 guard 幫我們產生一個 Guardfile：</p>
+
+<pre><code>$ guard init shell
+</code></pre>
+
+<p>你應該可以在該目錄看到 Guardfile 檔案。我稍微做了些小修改如下：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">guard</span> <span class="ss">:shell</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">/(.*).swift/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">xcrun</span> <span class="n">swift</span> <span class="c1">#{m[0]}&lt;/code&gt;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>這個設定檔沒有很特別的東西，大概就是每次執行前先印出個分隔線，然後再印出 <code>xcrun swift</code> 的執行結果。接著只要在該目錄執行 <code>guard</code> 即可進入監看模式。</p>
+
+<p><iframe width="420" height="315" src="http://www.youtube.com/embed/yhPu86RvilI" frameborder="0" allowfullscreen></iframe></p>
+
+<h2>小結</h2>
+
+<p>因為 Vim 指法已習慣成肌肉記憶(muscle memory)，所以我的 Xcode 也通常會安裝 <a href="https://github.com/JugglerShu/XVim">XVim</a> 讓 Xcode 可支援部份的 Vim 指令，不然完全沒辦法工作了。</p>
+
+<p>是說像這樣用 Vim 寫 Swift，練練語法還 ok，但要靠 Vim 純手工刻出 iOS app 真的不是一般人能做到的事，所以其實我真正開發的時候，還是需要依賴 IDE 幫忙的，不然 method name 那麼長、參數那麼多，不靠 IDE 的自動完成，怎麼可能記得住。</p>
+
+<p>即使如此，我個人還是覺得，可以用 Vim 寫程式，就是莫名的有種阿宅的浪漫啊 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[爽爽快快學Vim(3) - Vim Plugins]]></title>
@@ -367,88 +471,6 @@
 <p>新手上路，還請多多指教 :)</p>
 
 <p>[update] 有對岸的朋友說放在youtube會因為某些神奇的原因沒辦法看，所以我也順手上傳了一份到<a href="https://vimeo.com/40903990">vimeo</a>以及<a href="http://v.youku.com/v_show/id_XMzg1OTU4MzY0.html">youku</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Some Vim Tips and Learning Resources]]></title>
-    <link href="http://blog.eddie.com.tw/2012/04/02/some-vim-tips-and-learning-resources/"/>
-    <updated>2012-04-02T01:52:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/04/02/some-vim-tips-and-learning-resources</id>
-    <content type="html"><![CDATA[<p>I'm still pretty new to Vim and keep practicing Vim everyday, and also started to learn some VimScript by myself, I found some nice learning resources and some easy but AWESOME key combinations.</p>
-
-<h2>Learning Resources</h2>
-
-<h3>Screencasts</h3>
-
-<ul>
-<li><a href="http://vimcasts.org/">VimCasts</a></li>
-<li><a href="http://www.derekwyatt.org/category/vim/">Derek Wyatt's Blog</a></li>
-<li><a href="http://net.tutsplus.com/sessions/vim-essential-plugins/">Vim Essential Plugins</a></li>
-</ul>
-
-
-<h3>Books and Articles</h3>
-
-<ul>
-<li><a href="http://www.swaroopch.org/notes/Vim">A Byte of Vim</a>, it has kinds of translations, including the <a href="http://www.swaroopch.org/notes/Vim_zh-tw">traditional chinese</a> version(not finish yet).</li>
-<li><a href="http://www.amazon.com/Learning-Vim-Editors-Arnold-Robbins/dp/059652983X/">Learn the Vi and Vim editors</a>, published by Oreilly.</li>
-<li>Vi iMproved, you can buy a copy from <a href="http://www.amazon.com/exec/obidos/ASIN/0735710015/stichtingiccfhol">Amazon</a>, or download it for free, it's available as a <a href="http://www.truth.sk/vim/vimbook-OPL.pdf">PDF</a>!</li>
-<li><a href="http://learnvimscriptthehardway.stevelosh.com/">Learn Vimscript the Hard Way</a></li>
-<li>IBM DeveloperWorks VimScript Serial part <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-1/index.html">1</a>, <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-2/index.html">2</a>, <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-3/index.html">3</a>, <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-4/index.html">4</a>, <a href="http://www.ibm.com/developerworks/linux/library/l-vim-script-5/index.html">5</a></li>
-</ul>
-
-
-<h3>Others</h3>
-
-<ul>
-<li><code>vimtutor</code> is a great resource, you can type <code>vimtutor</code> in terminal directly to launch it. there's also some translated version, ex: <code>vimtutor zh</code> would be the tranditional chinese version.</li>
-<li>last but not the least, the best resource is the built-in HELP manual, just type <code>:h something</code>, and you SHOULD read them through at least one time.</li>
-</ul>
-
-
-<h2>Tips</h2>
-
-<ul>
-<li><kbd>d</kbd><kbd>w</kbd> : delete a word from current cursor position.</li>
-<li><kbd>d</kbd><kbd>i</kbd><kbd>w</kbd> : delete the whold word which the cursor is parking.</li>
-<li><kbd>d</kbd><kbd>f</kbd><kbd>Space</kbd> : delete everything until finding the next <kbd>Space</kbd> of the current line.</li>
-<li><kbd>d</kbd><kbd>i</kbd><kbd>(</kbd> : as above, but delete all words within the nearest parenthesis, <kbd>d</kbd><kbd>i</kbd><kbd>[</kbd>, <kbd>d</kbd><kbd>i</kbd><kbd>"</kbd>, and <kbd>d</kbd><kbd>i</kbd><kbd>'</kbd> also do pretty much the same thing.</li>
-<li><kbd>g</kbd><kbd>v</kbd> : re-select last visual select.</li>
-<li><kbd>m</kbd><kbd>a</kbd> to create a marker named <code>a</code> at the current cursor, then by hitting <kbd>'</kbd><kbd>a</kbd> to jump to the <code>a</code> marker. You can use <code>a</code> to <code>z</code> as the name of the marker.</li>
-<li><code>:.![command]</code> will dump the output of the command to your current editing window.</li>
-<li><code>%!xxd</code> turn vim to a hex editor, and <code>%!xxd -r</code> will change it back.</li>
-<li>even you don't manage your file within any version control system, <code>:earlier 10m</code> can help you to change the current file back to 10 minites ago, and <code>:later 10m</code> will jump back to 10 minites later.</li>
-<li><code>:undo 5</code> will go back by 5 changes, and <code>:undolist</code> will show you undo tree.</li>
-<li>you can grab web page source code into your editor directly, just like this <code>vim http://www.eddie.com.tw</code></li>
-</ul>
-
-
-<h2>Some crazy/stupid things</h2>
-
-<p>I use Vim almost everyday now, but to be more sophisticated in it, I did some stupid or crazy things.</p>
-
-<p>First, I removed my ESC key from my keyboard temporarily to force myself using <kbd>Ctrl</kbd><kbd>[</kbd>, instead of hitting <kbd>Esc</kbd> to enter normal mode:</p>
-
-<p><img src="/images/2012/my_keyboard_with_esc.jpg" alt="image" /></p>
-
-<p>Why? actually there's no good reason, just thought it might keep my fingers on main typing area in mode switching.</p>
-
-<p>and second, I re-map the arrow keys to <code>&lt;NOP&gt;</code> to disable them, both in normal mode and insert mode:</p>
-
-<pre><code>map &lt;UP&gt; &lt;NOP&gt;
-map &lt;DOWN&gt; &lt;NOP&gt;
-map &lt;LEFT&gt; &lt;NOP&gt;
-map &lt;RIGHT&gt; &lt;NOP&gt;
-inoremap &lt;UP&gt; &lt;NOP&gt;
-inoremap &lt;DOWN&gt; &lt;NOP&gt;
-inoremap &lt;LEFT&gt; &lt;NOP&gt;
-inoremap &lt;RIGHt&gt; &lt;NOP&gt;
-</code></pre>
-
-<p>You may think I'm crazy, but I think it's a faster way to push those things into my muscle memory. I think there's no shortcut to master Vim, just keep using it everyday.</p>
-
-<p>At last, <a href="https://github.com/kaochenlong/eddie-vim">here</a> is my yet another vimrc configuration. If you have any other tips which are also AWESOME, please let me know :)</p>
 ]]></content>
   </entry>
   

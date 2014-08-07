@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="我們在開發資料庫相關的網站的時候，通常會用到許多資料表，而且這些資料表之間彼此都有關連性，接著我們就來看看在Django的Model要怎麼實作。 我們現在再來新增一個App： &gt; python manage.py startapp book book/models.py的內容長得像這樣： 1 &hellip;">
+  <meta name="description" content="Model的部份看過之後，接著介紹Django很重要的一個單元，就是怎麼在Django裡設定或設計你網站內的網址。 以前你可以會看到像這樣的網址： http://www.eddie.com.tw/book/index.php?id=100 網址後面接問號又接了一些參數， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,191 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/19/django-url/">網址設定</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-url/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-19T10:57:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Model的部份看過之後，接著介紹Django很重要的一個單元，就是怎麼在Django裡設定或設計你網站內的網址。</p>
+
+<p>以前你可以會看到像這樣的網址：</p>
+
+<pre><code>http://www.eddie.com.tw/book/index.php?id=100
+</code></pre>
+
+<p>網址後面接問號又接了一些參數，從網址大概猜得出來這應該是編號(id)第100號的書。這樣的做法不是不好，只是近年來有更好的做法，而且對SEO(<a href="http://en.wikipedia.org/wiki/Search_engine_optimization">Search Engine Optimization</a>)有一些加分的效果：</p>
+
+<pre><code>http://www.eddie.com.tw/book/100
+</code></pre>
+
+<p>這該怎麼做呢? 在Django的網址設定是交給一個叫做<code>urls.py</code>的檔案在管理(其實不限定只有一個，也可以多個/模組化的設定)，先看一下它原來的樣子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.conf.urls.defaults</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Uncomment the next two lines to enable the admin:</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="c"># Examples:</span>
+</span><span class='line'>  <span class="c"># url(r&#39;^$&#39;, &#39;bookstore.views.home&#39;, name=&#39;home&#39;),</span>
+</span><span class='line'>  <span class="c"># url(r&#39;^bookstore/&#39;, include(&#39;bookstore.foo.urls&#39;)),</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># Uncomment the admin/doc line below to enable admin documentation:</span>
+</span><span class='line'>  <span class="c"># url(r&#39;^admin/doc/&#39;, include(&#39;django.contrib.admindocs.urls&#39;)),</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># Uncomment the next line to enable the admin:</span>
+</span><span class='line'>  <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>urls.py</code>的主要功能，就是設定&#8221;當遇到某個網址的request的時候，請找指定的App裡的View的action處理&#8221;。設定網址的對應，可能會需要學一些簡單的<a href="http://en.wikipedia.org/wiki/Regular_expression">Regular Expression</a>語法。</p>
+
+<p>我們先來設定一下整個網站的首頁，讓它交給<code>books/views.py</code>裡的index方法處理：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.conf.urls.defaults</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Uncomment the next two lines to enable the admin:</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c"># Examples:</span>
+</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="s">&#39;bookstore.book.views.index&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^books/(?P&lt;book_id&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="s">&#39;bookstore.book.views.detail&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="c"># url(r&#39;^bookstore/&#39;, include(&#39;bookstore.foo.urls&#39;)),</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Uncomment the admin/doc line below to enable admin documentation:</span>
+</span><span class='line'>    <span class="c"># url(r&#39;^admin/doc/&#39;, include(&#39;django.contrib.admindocs.urls&#39;)),</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Uncomment the next line to enable the admin:</span>
+</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中這行：</p>
+
+<pre><code>url(r'^$', 'bookstore.book.views.index'),
+</code></pre>
+
+<p>表示「當遇到網址後面沒接東西的時候(也就是大家俗稱的&#8221;首頁&#8221;)，請找<code>book/views.py</code>裡面的index方法處理」，前面的<code>bookstore</code>是整個專案的名稱。設定完之後如果你直接連網址<code>http://127.0.0.1:8000/</code>的話，會看到這個畫面：</p>
+
+<p><img src="/images/django/view_does_not_exist.png" alt="image" /></p>
+
+<p>跳出了<code>ViewDoesNotExist</code>的錯誤訊息了。看到錯誤訊息不用擔心，通常錯誤訊息裡都會跟你說哪邊有錯。原來是我們剛剛把首頁指向之後，但並沒有在對應的地方加上<code>index</code>方法，所以請打開<code>book/views.py</code>，加上<code>index</code>方法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Hello BookStore!&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>存檔後再回來看，你應該就可以看到這個畫面：</p>
+
+<p><img src="/images/django/hello_bookstore.png" alt="image" /></p>
+
+<p>如果你這樣設定：</p>
+
+<pre><code>url(r'books\.php', 'bookstore.book.views.index'),
+</code></pre>
+
+<p>這表示當你連到<code>http://127.0.0.1:8000/books.php</code>的時候，會把request丟給<code>book/views.py</code>的<code>index</code>方法處理。看起來好像是PHP，但其實不是。二、三年前我就曾經用Django做過幫Microsoft做過某個網路行銷活動案，客戶沒有規定要用什麼程式語言(只要會動就好)，不過為了讓客戶覺得我是用ASP.NET開發的，我還特地在<code>urls.py</code>加上<code>.aspx</code>的附檔名。</p>
+
+<p>是有點蠢，不過也挺有趣的不是嗎? :)</p>
+
+<p>接下來，我們再來看看這行：</p>
+
+<pre><code>url(r'^books/(?P&lt;book_id&gt;\d+)/$', 'bookstore.book.views.detail'),
+</code></pre>
+
+<p>意思就是說當遇到<code>http://127.0.0.1:8000/books/100</code>的網址的時候，那個<code>100</code>會被當做<code>book_id</code>傳給<code>book/views.py</code>的<code>detail</code>方法當做參數。</p>
+
+<p>在<code>views.py</code>裡的方法，通常我們會稱它叫做<code>action</code>，每個action方法的第一個參數，一定都是http request，每個action的回傳值，一定要是一個<code>HttpResponse</code>。<code>views.py</code>在一般的MVC架構裡，大概就是Controller之類的角色。</p>
+
+<p>如果你有注意到在<code>urls.py</code>裡的這行註解，長得跟我們寫的不太一樣：</p>
+
+<pre><code>url(r'^bookstore/', include('bookstore.foo.urls')),
+</code></pre>
+
+<p>這其實是另一種url的設定，雞蛋不一定要放在同一個籠子裡。當你的專案如果小的時候，全部放在專案根目錄的<code>urls.py</code>是沒問題的(中央集權)，但隨著功能越加越多，你的網址對應可能會越來越多、越來越複雜，這時候你可以在App裡自己建一個<code>urls.py</code>，然後把所有跟這個App有關的url&#8221;委任&#8221;給它管理(地方自治)，不過這部份的細節就不再多說明，還請再參考官網文件<a href="https://docs.djangoproject.com/en/1.3/topics/http/urls/">URL dispatcher</a>。</p>
+
+<p>即使我們會設定網址了，會寫對應的action了，但還是少了什麼.. 如果設計師拿一個切好版的HTML + CSS給我，難到我要像這樣用<code>HttpResponse</code>整個把它印出來? 當然不是，接著我們來看看在Django的MTV架構裡的T，Template!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -298,15 +483,12 @@
 <pre><code>&gt; python setup.py install
 </code></pre>
 
-<br />
-
+<p><br /></p>
 
 <p><span class="warning">請注意，使用<code>apt-get</code>或是<code>easy_install</code>可能都會需要root權限!</span></p>
 
-<br />
-
-
-<p>安裝完成之後，請把south加入到專案的<code>INSTALLED_APPS</code>裡：</p>
+<p><br />
+安裝完成之後，請把south加入到專案的<code>INSTALLED_APPS</code>裡：</p>
 
 <pre><code>INSTALLED_APPS = (
     'django.contrib.auth',
@@ -745,193 +927,6 @@ True
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/18/django-create-app/">建立App</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/18/django-create-app/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-18T15:37:00+08:00" pubdate>Oct 18<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在上一章節我們介紹如何建立一個Django的專案，以及快速的建立起後台管理系統。但事實上它還是什麼都沒有，接下來我們要開始來幫這個空的專案加功能上去了。</p>
-
-<h2>建立App</h2>
-
-<p>這裡這個App跟現在我們常聽到手機的App是不一樣的東西，一個Django專案裡，可以有好幾個App，每個App通常代表的是一個功能。建立App的方法跟之前建立專案的方式有點像，只是關鍵字有些不同，例如我想加一個跟作者(author)有關的功能：</p>
-
-<pre><code>&gt; python manage.py startapp author
-</code></pre>
-
-<p>這個指令會幫你在你的專案裡建立一個叫做<code>author</code>的資料夾，跟專案很像，裡面的有4個檔案，不過稍微有些些的不同：</p>
-
-<pre><code>&gt; ls -l author
-total 24
--rw-r--r--  1 eddie  wheel    0 10 18 16:05 __init__.py
--rw-r--r--  1 eddie  wheel   57 10 18 16:05 models.py
--rw-r--r--  1 eddie  wheel  383 10 18 16:05 tests.py
--rw-r--r--  1 eddie  wheel   26 10 18 16:05 views.py
-</code></pre>
-
-<p><code>__init__.py</code>的目的跟之前專案一樣，是要告訴Python這裡是一個module，其它的看名字大概猜得出來，<code>models.py</code>是給Model用的，<code>views.py</code>則是給View用的，<code>tests.py</code>則是寫測試用的。</p>
-
-<p>接著我們打開<code>models.py</code>，準備來寫一點程式碼了。</p>
-
-<h2>Model</h2>
-
-<p>在Django的Model是負責處理跟資料庫相關的事情，透過Python的類別、屬性跟方法，可以讓你像在操作物件一樣的操作資料表，而且可以避開一些可能的危險，例如<a href="http://en.wikipedia.org/wiki/SQL_injection">SQL Injection</a>。接下來我們來看看在Django的Model要怎麼寫。例如我們要來建一個作者的基本資料，假設一個作者的基本資料可能會有<code>姓名</code>、<code>電話</code>、<code>地址</code>、<code>Email</code> 等欄位，我們在Model裡就這樣寫：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Create your models here.</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡的<code>CharField</code>、<code>IntegerField</code>以及<code>EmailField</code>方法到時候會依照不同的資料庫，各別被轉換成適當的型態。這樣的好處就是，即使原本你的專案用的資料庫是SQLite，今天突然接到老闆或主管的命令說要換成MySQL，因為SQLite跟MySQL在某些欄位的定義可能不太一樣，在以前你可能需要重新調整資料庫存取的程式碼，但現在透過Django的Model來幫我們做這個型態的對應，程式碼不用幾乎不用修改就可以無痛的把資料庫整個換掉了。</p>
-
-<p>接下來，我們要把這個App給安裝到<code>INSTALLED_APPS</code>裡，所以打開專案的<code>settings.py</code>，加上我們剛剛建立的App：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
-</span><span class='line'>  <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="c"># Uncomment the next line to enable the admin:</span>
-</span><span class='line'>  <span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="c"># Uncomment the next line to enable admin documentation:</span>
-</span><span class='line'>  <span class="c"># &#39;django.contrib.admindocs&#39;,</span>
-</span><span class='line'>  <span class="s">&#39;author&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣Django專案就知道我們有這個App了，然後執行<code>python manage.py sql author</code>，可以看到剛剛我們寫的那個<code>Profile</code>類別轉換成成SQL語法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">BEGIN</span><span class="p">;</span>
-</span><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="ss">&quot;author_profile&quot;</span> <span class="p">(</span>
-</span><span class='line'>    <span class="ss">&quot;id&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">&quot;name&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">&quot;age&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">&quot;tel&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">&quot;address&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">&quot;email&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">75</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span>
-</span><span class='line'><span class="p">);</span>
-</span><span class='line'><span class="k">COMMIT</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>原來的<code>CharField</code>會轉換成<code>varchar</code>，參數<code>max_length = 50</code>則被轉換成它的欄位長度，<code>IntegerField</code>轉換成<code>integer</code>，而且即使沒有特別註明，Django也預設在整個表格裡自動的加上了一個<code>id</code>的primary key(如果在MySQL就是autoincrement的欄位)。那<code>EmailField</code>是什麼? 因為Email欄位在開發網站的時候太常用到了，所以Django的Model就直接內建了一個叫做EmailField的方法，它會轉成換<code>varchar(75)</code>，並同時還送了一些欄位驗證的方法，這個我們之後在表單處理的單元會再詳細討論。</p>
-
-<p>當然這個Model不是只有讓你轉換成SQL這麼單純，它還有許多好用的方法讓你在開發網站可以少寫不少程式碼。</p>
-
-<p>到這裡，我們其實還沒真正的把<code>Profile類別</code>轉換成資料庫的表格，你需要執行<code>python manage.py syncdb</code>，如果你寫的程式碼沒問題的話，應該會看到這個結果：</p>
-
-<pre><code>&gt; bookstore  python manage.py syncdb
-Creating tables ...
-Creating table author_profile
-Installing custom SQL ...
-Installing indexes ...
-No fixtures found.
-</code></pre>
-
-<p>執行<code>syncdb</code>之後，Django幫你建立了一個叫做<code>author_profile</code>的表格。Django的Model在建table的時候，預設會依照<code>App名稱 + 類別名稱</code>來建立，如果你想要改掉這個預設的設定，只要在<code>Profile類別</code>裡加上一個meta class，原來的程式碼就會變成這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Create your models here.</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>要注意這個meta class是在原來的class再放一個class。這樣一來，轉出來的表格名稱就會是<code>profile</code>了。在Django的Model裡，Meta Class還有許多可以設定的屬性，更多細節請參考 <a href="https://docs.djangoproject.com/en/1.3/ref/models/options/">https://docs.djangoproject.com/en/1.3/ref/models/options/</a></p>
-
-<p>其實這個表格的名稱對Django的Model來說並不是那麼重要，因為我們在存取資料表的時候，還多透過了Django的ORM幫我們做表格及欄位對照的工作，所以即使使用預設有點囉嗦的表格名稱，或是用你自己設定的名稱，對Django的Model來說都是一樣的。</p>
-
-<p>Django也有提供一個跟Python很像的shell，可以讓你直接透過指令來操作物件，不用寫SQL語法，一樣可以做到資料的新增/修改/查詢/刪除功能，接下來我們先停一下，來看看shell怎麼操作。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/14/">&larr; Older</a>
@@ -983,6 +978,10 @@ No fixtures found.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
@@ -1018,15 +1017,11 @@ No fixtures found.
         <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/05/code-reading-in-rubykaigi2013/">Code Reading @ RubyKaigi 2013</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 134.73684210526315%'>iOS App Development(22)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 114.21052631578948%'>Vim(9)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
@@ -1077,7 +1072,7 @@ No fixtures found.
     | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
     | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
     | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
-    | <a href="http://zhangabc.com/" target="_blank">Er.Z</a>
+    | <a href="http://www.erblah.com" target="_blank">Er.Z</a>
 </section>
 
   
@@ -1089,6 +1084,7 @@ No fixtures found.
   Copyright &copy; 2014 - 高見龍 -
   <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
 </p>
+
 </footer>
   
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Zend Framework | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/zend-framework/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-06-27T15:56:09+08:00</updated>
+  <updated>2014-08-07T08:55:24+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -81,20 +81,18 @@
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt; class Member extends Doctrine_Record</span>
-</span><span class='line'><span class="x"> {</span>
-</span><span class='line'><span class="x">     public function setTableDefinition()</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">     class Member extends Doctrine_Record</span>
 </span><span class='line'><span class="x">     {</span>
-</span><span class='line'><span class="x">         // 預設將會使用跟&quot;user&quot;做為資料表的名稱(同名)</span>
-</span><span class='line'><span class="x">         // 並且會自動加一個欄位id的主索引鍵</span>
-</span><span class='line'><span class="x">         $this-&amp;gt;hasColumn(&#39;username&#39;, &#39;string&#39;, 30);</span>
-</span><span class='line'><span class="x">         $this-&amp;gt;hasColumn(&#39;password&#39;, &#39;string&#39;, 30);</span>
-</span><span class='line'><span class="x">     }</span>
+</span><span class='line'><span class="x">         public function setTableDefinition()</span>
+</span><span class='line'><span class="x">         {</span>
+</span><span class='line'><span class="x">             // 預設將會使用跟&quot;user&quot;做為資料表的名稱(同名)</span>
+</span><span class='line'><span class="x">             // 並且會自動加一個欄位id的主索引鍵</span>
+</span><span class='line'><span class="x">             $this-&gt;hasColumn(&#39;username&#39;, &#39;string&#39;, 30);</span>
+</span><span class='line'><span class="x">             $this-&gt;hasColumn(&#39;password&#39;, &#39;string&#39;, 30);</span>
+</span><span class='line'><span class="x">         }&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="x">     public function setUp()</span>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;     public function setUp()</span>
 </span><span class='line'><span class="x">     {</span>
 </span><span class='line'><span class="x">         $this-&amp;gt;actAs(&#39;Timestampable&#39;);</span>
 </span><span class='line'><span class="x">     }</span>
@@ -111,17 +109,11 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">Member</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">columns:&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">&lt;pre&gt;&lt;code&gt;username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
-</span><span class='line'><span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
-</span><span class='line'><span class="l-Scalar-Plain">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;  actAs</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">Timestampable</span><span class="p-Indicator">]</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">columns</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">actAs</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">Timestampable</span><span class="p-Indicator">]</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 這裡要注意的是，<strong>YAML的縮排是有意義的</strong>，所以要特別注意縮排的層級。你可以用一行簡單的語法就可以把YAML檔案(.yml)轉換成模型類別(.php)：</p>
 
@@ -129,17 +121,9 @@
 <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt; require_once &#39;config/doctrine_config.php&#39;;</span>
-</span><span class='line'><span class="x"> Doctrine::generateModelsFromYaml(&#39;schemas/schema.yml&#39;, &#39;models&#39;);</span>
-</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;p&gt;</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">     require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'><span class="x">     Doctrine::generateModelsFromYaml(&#39;schemas/schema.yml&#39;, &#39;models&#39;);</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 執行之後看一下models資料夾有一個自動產生的generated資料夾(如下圖)，你會看到有一個<code>Member.php</code>以 及<code>BaseMember.php</code>。其中，<code>Member.php</code>是可以讓你自己定義一些功能用的，而<code>BaseMember.php</code>裡的內容則是 依據YAML的內容幫你寫好的。(要特別注意BaseMember類別會在每次執行轉換的時候重新產生一次，而Member類別只會產生一次)。</p>
 
@@ -152,18 +136,10 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt; require_once &#39;config/doctrine_config.php&#39;;</span>
-</span><span class='line'><span class="x"> // 建立資料表</span>
-</span><span class='line'><span class="x"> Doctrine::createTablesFromArray(array(&#39;Member&#39;));</span>
-</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">&lt;p&gt;</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">     require_once &#39;config/doctrine_config.php&#39;;</span>
+</span><span class='line'><span class="x">     // 建立資料表</span>
+</span><span class='line'><span class="x">     Doctrine::createTablesFromArray(array(&#39;Member&#39;));</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 這樣就搞定了!看一下資料表的樣子：</p>
 
@@ -186,12 +162,10 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">    require_once &#39;config/doctrine_config.php&#39;;&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;$myTable = new Member;</span>
 </span><span class='line'><span class="x">$myTable-&amp;gt;username = &#39;eddie&#39;;</span>
 </span><span class='line'><span class="x">$myTable-&amp;gt;password = &#39;mypassword&#39;;</span>
 </span><span class='line'><span class="x">$myTable-&amp;gt;save();</span>
@@ -230,12 +204,10 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">    require_once &#39;config/doctrine_config.php&#39;;&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;$myTable = new Member;</span>
 </span><span class='line'><span class="x">$record = $myTable-&amp;gt;getTable()-&amp;gt;find(1);</span>
 </span><span class='line'><span class="x">$record-&amp;gt;password = &#39;mynewpassword&#39;;</span>
 </span><span class='line'><span class="x">$record-&amp;gt;save();</span>
@@ -262,12 +234,10 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">    require_once &#39;config/doctrine_config.php&#39;;&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;$myTable = new Member;</span>
 </span><span class='line'><span class="x">$myTable-&amp;gt;getTable()-&amp;gt;find(1)-&amp;gt;delete();</span>
 </span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
 </span><span class='line'>
@@ -304,12 +274,10 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php&lt;/p&gt;</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&amp;lt;?php</span>
+</span><span class='line'><span class="x">    require_once &#39;config/doctrine_config.php&#39;;&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;require_once &#39;config/doctrine_config.php&#39;;</span>
-</span><span class='line'>
-</span><span class='line'><span class="x">$myTable = new Member;</span>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;$myTable = new Member;</span>
 </span><span class='line'><span class="x">$record = $myTable-&amp;gt;getTable()-&amp;gt;find(1);</span>
 </span><span class='line'><span class="x">$record-&amp;gt;password = &#39;mynewpassword&#39;;</span>
 </span><span class='line'><span class="x">$record-&amp;gt;save();</span>
