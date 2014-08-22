@@ -4,7 +4,7 @@
   <title><![CDATA[高見龍]]></title>
   <link href="http://blog.eddie.com.tw/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-08-07T08:55:24+08:00</updated>
+  <updated>2014-08-22T10:13:12+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[「有心人」之 Ruby 課程]]></title>
+    <link href="http://blog.eddie.com.tw/2014/08/22/lets-learn-ruby/"/>
+    <updated>2014-08-22T07:35:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/08/22/lets-learn-ruby</id>
+    <content type="html"><![CDATA[<p><img src="http://blog.eddie.com.tw/images/2014/ruby_word.jpg" alt="image" /></p>
+
+<p>記得在去年年初的時候，因為自己想找幾個一起打拼的伙伴而發起了一個「<a href="http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course/">有心人</a>」的活動，感謝大家的捧場以及社群朋友們的支持，活動順利結束。</p>
+
+<p>然後，一直掛在嘴邊說要辦的「第二梯次」，總因為手邊的雜務而擱置。雖然後來斷斷續續的也有在中研院的自由軟體工作坊開一些 Ruby 的入門課或是在社群活動的分享，但就似乎變成有空才能開。</p>
+
+<p>現在，我們成立了一家叫做<a href="http://5xruby.tw">五倍紅寶石</a>的公司，在更多朋友的幫忙下，我們有更多的時間及資源可以來做推廣 Ruby 這件事了，畢竟推廣 Ruby 本來也是當初成立這家公司的最主要目的。</p>
+
+<p>所以，在與夥伴們討論後，我們決定要來持續的無料推廣 Ruby，每個月固定至少會有個一天是 Ruby 推廣課程，希望可以讓更多人可以認識這個有趣可愛的程式語言。</p>
+
+<p>詳情請見：<a href="http://5xruby.tw/courses/lets-learn-ruby-1">http://5xruby.tw/courses/lets-learn-ruby-1</a></p>
+
+<ul>
+<li>上課地點：台北車站附近</li>
+<li>費用：0 元，惟上課學員需自備筆電，作業系統不限。</li>
+</ul>
+
+
+<p>歡迎大家都可以開開心心的來認識、學習這個有趣的程式語言 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Code Swift with Vim]]></title>
@@ -2119,22 +2146,6 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 
 
 <p>初次嘗試舉辦大型研討會，如履薄冰，若有不完備之處，還請諸位先進、前輩不吝指教 :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[第十二回AS讀書會之關於Event這回事]]></title>
-    <link href="http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event/"/>
-    <updated>2012-06-27T02:48:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2012/06/27/there-is-something-about-event</id>
-    <content type="html"><![CDATA[<p>這是在<a href="http://registrano.com/events/12th-as-study-group">第十二回AS讀書會</a>上用到的投影片，主題是在Flash/ActionScript3裡Event的基本介紹。</p>
-
-<p><a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank"><img src="http://blog.eddie.com.tw/images/2012/there-is-something-about-event.jpg" alt="image" /></a>
-<a href="http://speakerdeck.com/u/eddie/p/there-is-something-about-event" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/there-is-something-about-event" target="_blank">View on Slideshare</a><br />
-<a href="http://blog.eddie.com.tw/downloads/files/2012/there_is_something_about_event.pdf" target="_blank">PDF</a> |
-<a href="http://blog.eddie.com.tw/downloads/files/2012/12-flash-fash-example-files.zip" target="_blank">Sample Code</a></p>
-
-<p>有講的不好或是誤導的部份，還請先進、前輩們不吝指教 :)</p>
 ]]></content>
   </entry>
   

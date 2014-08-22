@@ -21,8 +21,18 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="大部份產生Captcha的方式，都是透過Server端的繪圖library(例如GD)，動態產生圖檔做為認證用途。不過用Flash因為本身就可以做繪圖，在實作上比其它程式語法簡單得多 :) 上面這個範例是從Rick Smith的Blog參考來的
-http://www.philosophyme. &hellip;">
+  <meta name="description" content="在BBS或Yahoo!知識+上面常看到有人在問要怎麼另開小視窗，或是依據不同使用者的螢幕解析度開啟不同大小的視窗，怕自己久沒用也忘記，乾脆貼一篇給自己參考，也供有需要的人參考 :) 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+&lt;script language=&quot; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +101,87 @@ http://www.philosophyme. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2006/12/04/open-new-window/">開新視窗</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2006/12/04/open-new-window/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2006-12-04T00:49:00+08:00" pubdate>Dec 4<span>th</span>, 2006</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在BBS或Yahoo!知識+上面常看到有人在問要怎麼另開小視窗，或是依據不同使用者的螢幕解析度開啟不同大小的視窗，怕自己久沒用也忘記，乾脆貼一篇給自己參考，也供有需要的人參考 :)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">language</span><span class="o">=</span><span class="s2">&quot;javascript&quot;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">newwindow</span><span class="p">(</span><span class="nx">theURL</span><span class="p">,</span><span class="nx">winName</span><span class="p">,</span><span class="nx">targetName</span><span class="p">,</span><span class="nx">features</span><span class="p">){</span>
+</span><span class='line'>  <span class="nb">eval</span><span class="p">(</span><span class="nx">winName</span><span class="o">+</span><span class="s2">&quot;=window.open(&#39;&quot;</span><span class="o">+</span><span class="nx">theURL</span><span class="o">+</span><span class="s2">&quot;&#39;,&#39;&quot;</span><span class="o">+</span><span class="nx">targetName</span><span class="o">+</span><span class="s2">&quot;&#39;,&#39;&quot;</span><span class="o">+</span><span class="nx">features</span><span class="o">+</span><span class="s2">&quot;&#39;)&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">openWindow</span><span class="p">(){</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">_w</span> <span class="o">=</span> <span class="mi">800</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">_h</span> <span class="o">=</span> <span class="mi">600</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">newwindow</span><span class="p">(</span><span class="s1">&#39;main.htm&#39;</span><span class="p">,</span><span class="s1">&#39;newWin&#39;</span><span class="p">,</span><span class="s1">&#39;newWin&#39;</span><span class="p">,</span><span class="s1">&#39;width=&#39;</span> <span class="o">+</span><span class="nx">_w</span> <span class="o">+</span><span class="s1">&#39;,height=&#39;</span> <span class="o">+</span><span class="nx">_h</span>  <span class="o">+</span><span class="s1">&#39;,scrollbars=0,left=&#39;</span> <span class="o">+</span><span class="p">(</span><span class="nx">screen</span><span class="p">.</span><span class="nx">width</span><span class="o">-</span><span class="nx">_w</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span><span class="s1">&#39;,top=&#39;</span>  <span class="o">+</span><span class="p">(</span><span class="nx">screen</span><span class="p">.</span><span class="nx">height</span><span class="o">-</span><span class="nx">_h</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這個片段程式碼可以新開一個800×600的視窗，視窗頁面檔名叫main.htm，位置會剛好開在螢幕正中間。其中，<em>w跟</em>h是新視窗的寬度跟高度，如果要變成全螢幕的話，則可修改成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">_w</span> <span class="o">=</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">_h</span> <span class="o">=</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果要在Flash裡面開新視窗：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="nx">myButton</span><span class="p">.</span><span class="nx">onRelease</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="c1">//myButton為該按鈕的instance name</span>
+</span><span class='line'>  <span class="nf">getURL</span><span class="p">(</span><span class="s2">&quot;javascript:openWindow();&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -301,44 +392,6 @@ http://www.philosophyme. &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2006/11/21/actionscript-2-vs-3/">ActionScript 2.0 V.S. 3.0</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2006/11/21/actionscript-2-vs-3/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2006-11-21T00:31:00+08:00" pubdate>Nov 21<span>st</span>, 2006</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>每次臨時要找都找不太到，記下來提醒自己 :)</p>
-
-<p><a href="http://livedocs.macromedia.com/flex/2/langref/migration.html">差異比較表</a></p>
-
-<p>另外再記一篇AS3跟Java5語法的<a href="http://flexblog.faratasystems.com/?p=115">比較表</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/39/">&larr; Older</a>
@@ -390,6 +443,10 @@ http://www.philosophyme. &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
@@ -425,15 +482,11 @@ http://www.philosophyme. &hellip;">
         <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

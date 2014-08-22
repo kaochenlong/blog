@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="這是在大澤木小鐵(Jace)主辦的第一回WebDev Party上用到的投影片： View on Speak Deck | Download PDF | Download ScreenCast 這是當天的錄影： 主要內容是分享一些我近期在做自己的產品的時候用到的一些測試工具組合及心得。 &hellip;">
+  <meta name="description" content="前言 在十年前開始接觸FreeBSD的時候，就聽聞過Vi/Vim這東西，那時候第一眼的感覺是：「這東西看起來好陽春，功能一定也很陽春」。當時在終端機上也還有別的編輯器可以選擇，例如Joe、Nano等，而且在本機的作業系統(Windows)也有其它的選擇，例如UltraEdit。 以前會覺得寫程式、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,156 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/12/26/vim/">Vim</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/12/26/vim/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-12-26T19:58:00+08:00" pubdate>Dec 26<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>前言</h2>
+
+<p>在十年前開始接觸FreeBSD的時候，就聽聞過Vi/Vim這東西，那時候第一眼的感覺是：「這東西看起來好陽春，功能一定也很陽春」。當時在終端機上也還有別的編輯器可以選擇，例如Joe、Nano等，而且在本機的作業系統(Windows)也有其它的選擇，例如UltraEdit。</p>
+
+<p>以前會覺得寫程式、開發軟體，沒有IDE一定沒辦法。有些程式、軟體的確是需要IDE的幫忙，不然不知道怎麼寫。直到近幾年的工作幾乎用的都是文字編輯器，才發現其實文字編輯器可以做的事情相當多。二年多前開始把作業系統換成Mac OS之後，除了要寫Flash需要開Flash IDE + Flash Builder之外，其它幾乎就是只用<a href="http://macromates.com/">TextMate</a>了。雖然說它的中文顯示問題一直被大家嫌到不行，而且傳說中的2.0版也一直沒消息，但它依舊是我開發上的首選工具。</p>
+
+<p>TextMate 2實在是讓人等太久了，所以大家開始找它的替代品。不久前發現<a href="http://www.sublimetext.com/2">Sublime Text 2</a>這個編輯器，它的中文字是正常的，外掛看起來也滿夠用的，而且還可以吃TextMate的bundle跟theme，本來打算換過去的時候突然出現TextMate 2的消息了，聽說中文顯示是正常的。但這時候我卻想，我還要過著這種逐水草而居的生活到什麼時候? 難道沒有一款編輯器是可以學了之後就一直用的嗎?</p>
+
+<p>這時候我想到不久前才剛過20歲生日的Vi/Vim。雖然不久前陣子有練了一下手感，但沒認真下定決心要把它當成是自己吃飯的工具。於是，就找了個週末來認真的練了一下手感，發現出乎我意料的好用，之前在TextMate/Sublime Text 2上可以做的功能，在Vim幾乎都有替代品，我以前真的是錯怪它了!</p>
+
+<p>以下大概是我目前有用到的外掛跟設定，不是很多，但就我自己工作上用得到的。這是我目前的樣子(其實NERDTree比我想像中的漂亮)
+<img src="/images/2011/vim-screen.png" alt="image" /></p>
+
+<h2>外掛與設定</h2>
+
+<p><a href="https://github.com/kaochenlong/eddie-vim/blob/master/plugin/settings/Settings.vim" target="_blank">我的.vimrc設定</a></p>
+
+<p class="info">我把自己的設定檔跟用到的plugin放了一份在<a href="https://github.com/kaochenlong/eddie-vim" target="_blank">這裡</a>，有興趣的朋友可以參考看看 :)</p>
+
+
+<h3>我用到的外掛：</h3>
+
+<h4><a href="https://github.com/tpope/vim-pathogen">Pathogen</a></h4>
+
+<p>用來管理外掛的外掛。以前安裝外掛，常常得把一包程式裡的各個資料夾到處撒在<code>~/.vim</code>資料夾裡，現在透過pathogen的話只要放在<code>~/.vim/bundle</code>裡就差不多行了，相當方便。</p>
+
+<h4><a href="https://github.com/scrooloose/nerdtree">NerdTree</a> &amp;&amp; <a href="https://github.com/jistr/vim-nerdtree-tabs">NerdTreeTab</a></h4>
+
+<p>Vim的檔案總管啦，當資料夾一多，沒有它不知道該怎麼工作了。</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/CPu9mDpSYj0" frameborder="0" allowfullscreen></iframe>
+
+
+<p>我在.vimrc裡有把NERDTreeToggle設定到F2鍵上，這樣就可以快速的打開、關閉了。</p>
+
+<h4><a href="https://github.com/scrooloose/nerdcommenter">NerdCommenter</a></h4>
+
+<p>用這個可以方便的幫程式碼來做註解</p>
+
+<h4><a href="https://github.com/msanders/snipmate.vim">SnipMate</a></h4>
+
+<p>看名字就知道它是從TextMate借過來的，如果覺得有不足的也可以自己建。</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/xV2IsE5OHd4" frameborder="0" allowfullscreen></iframe>
+
+
+<h4><a href="https://github.com/wincent/Command-T">Command-T</a></h4>
+
+<p>TextMate跟Sublime Text 2都有可以快速搜尋檔案的功能，這個則是補足了Vim這方面的功能，也是我決定把Vim當做主要工具的原因之一。</p>
+
+<ul>
+<li>update: 後來發現<a href="https://github.com/kien/ctrlp.vim">ctrlp</a>用起來更方便，而且不需要另外compile ruby就可以使用。</li>
+</ul>
+
+
+<h4><a href="https://github.com/tpope/vim-surround">Surround</a></h4>
+
+<p>可以很快的處理單引號、雙引號以及一些html常用的tag的問題，熟練的話會很方便。</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/5HF4jSyPpvs" frameborder="0" allowfullscreen></iframe>
+
+
+<h4><a href="https://github.com/tpope/vim-repeat">Repeat</a></h4>
+
+<p>Vim內建的repeat功能在遇到某些事件的時候似乎會失效，加上這個外掛就沒問題了。</p>
+
+<h4><a href="https://github.com/Lokaltog/vim-easymotion">EasyMotion</a></h4>
+
+<p>可以在不需要滑鼠的幫助下，快速的切換游標的位置。</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/Dmv6-dguS3g" frameborder="0" allowfullscreen></iframe>
+
+
+<h4>幾個自己有在用的syntax highlight以及配色</h4>
+
+<ul>
+<li><a href="http://www.vim.org/scripts/script.php?script_id=1061">actionscript</a></li>
+<li><a href="https://github.com/kchmck/vim-coffee-script">coffeescript</a></li>
+<li><a href="https://github.com/plasticboy/vim-markdown/">markdown</a></li>
+<li><a href="https://github.com/vim-ruby/vim-ruby">ruby</a></li>
+<li><a href="https://github.com/tpope/vim-rails">rails</a></li>
+</ul>
+
+
+<p>發現我幾乎整篇都是偷懶的直接貼別人的影片啊 Orz</p>
+
+<p>另外如果你本來在TextMate下有喜歡的配色，也可以透過<a href="http://coloration.sickill.net/">這個工具</a>來轉成給Vim的格式。</p>
+
+<p><span class="warning">有些外掛的更新後續都是在github上，要用的時候請注意最後更新日期。</span>
+<br /></p>
+
+<h2>其它工具</h2>
+
+<h3><a href="http://www.alfredapp.com/" target="_blank">Alfred</a></h3>
+
+<p>付費軟體。有這個工具的幫忙，原本螢幕下方放滿的工具就可以少放很多了，要開軟體也不需要用滑鼠去點，只要輸入幾個關鍵字就可以跳出來：</p>
+
+<p><img src="/images/2011/tool-alfred.png" alt="image" /></p>
+
+<h3><a href="https://chrome.google.com/webstore/detail/dbepggeogbaibhgnhhndojpepiihcmeb" target="_blank">Vimium</a></h3>
+
+<p>讓瀏覽器也用Vim的操作方式來瀏覽(Chrome限定)</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/OUl2mJnjwbY" frameborder="0" allowfullscreen></iframe>
+
+
+<h3><a href="http://vimperator.org/vimperator" target="_blank">Vimperator</a></h3>
+
+<p>Firefox也有類似功能的外掛可以用，感謝<a href="http://laoyang945.github.com/" target="_blank">老杨</a>提供。</p>
+
+<h2>結論</h2>
+
+<p>自己順手的兵器，其實應該只要一把就夠了。雖然我用的是MacVim，但會儘量避免用太多Mac專屬的設定，這樣一來我在本機的作業環境(Mac OS、Windows、Ubuntu)在切換的時候都可以有差不多的編輯習慣，甚至連遠端終端機作業的時候也不會差很多。</p>
+
+<p>Vim很強大，但它不是一個可以一、兩天就能上手的工具。我相信只要學得好，它絕對是可以到哪裡都走透透的兵器。現在還不夠熟，不過我相信一直強迫自己用下去，遲早可以跟它變好朋友。(像這篇文章就是在Vim底下打的，打得很不順，但就強迫自己練習)。接下來應該就是繼續把它再磨利一點，再練得順手一些，讓自己可以更快的完成工作，有更多時間可以做自己想做的事，以及陪家人(講是這樣講.. 但大概會花更多時間再寫更多的程式碼吧)</p>
+
+<p>各位如果有不錯的外掛也歡迎留言一起討論囉 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -552,101 +702,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/12/05/3rd-actionscript-workshop/">第三梯次 Flash/ActionScript 3.0 課程</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/12/05/3rd-actionscript-workshop/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-12-05T02:50:00+08:00" pubdate>Dec 5<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p class="info">2012/4/21 update: 課程將改為以screencast方式進行</p>
-
-
-<p>話說在2007年的時候，我曾經很自以為是的辦過一次Flash/AS課程，那時候用的還是AS2.0，來參加的朋友大概五、六位，地點一開始很克難的選在師大附近某家可以上網的簡餐店(後來才移往我自己公司裡上課)；2009年的年中有再辦過第二梯次，這次用的是AS3.0，地點則是商請某個同行友人幫忙借用他們公司大樓的會議室跟投影設備，這回環境比較好一些，參與人數比較多一點，記得最多有將近快10位朋友來參加。</p>
-
-<p>這兩階梯次都是針對沒學過AS程式的朋友從頭講起的，沒有收費用。</p>
-
-<p>沒意外的話，農曆年完之後再來個第三梯次，用的當然也是AS3.0，同樣也是不會收費用的(視場地規定，也許會有低消或場地費)，屆時再歡迎有興趣想學AS3，但卻不知道從何開始的朋友參加。</p>
-
-<p>也許各位最近聽說&#8221;Flash快不行了，HTML5才是王道&#8221;之類的話，以我看來，Flash並沒有不行，目前大部份的web game都還是用Flash開發的，而且Flash現在還有AIR可以用，能做的事情幾乎跟一般native的應用程式差不多；更何況HTML5也還不是王道，它連標準都還沒定，而且還有最可怕的各家瀏覽器支援問題..雖然我自己也開始在練HTML5 + JavaScript的手感，但這跟Flash行不行無關，純屬個人興趣。</p>
-
-<h3>跟現在的AS讀書會有什麼不同?</h3>
-
-<p><a href="https://www.facebook.com/thestudygroup">AS讀書會</a>目前是演講形式，我相信很多在讀書會聽完，大家只是聽一聽，回家很快就會忘光光，所以如果開課的話，我會要求大家想辦法帶電腦過來現場實作。因為是小班制，所以有問題馬上可以大家一起討論。</p>
-
-<p>沒有什麼不可抗力的事情發生的話，上課頻率大概會是每週一次(可能會是在每週六的下午)，每次約2~3小時，全部上完大概一、二個月，所以如果沒把握能一週固定空出2~3小時的朋友就請把機會讓給別人囉。另外，我會準備每次上課的大綱，讓大家可以在現場練習，還可以帶回家複習。</p>
-
-<h3>對象</h3>
-
-<p>有心想學ActionScript 3.0但不知道從哪邊開始的人，至於想學動畫或設計的話我就幫不上忙了，那不是我的專長 :)</p>
-
-<h3>內容</h3>
-
-<p>從最簡單的基礎(變數、迴圈、function到OOP)，到套用好用的library/framework，可以實際做個小案子出來。</p>
-
-<h3>人數</h3>
-
-<p>大概10~15人</p>
-
-<h3>地點</h3>
-
-<p>應該會在台北市某個靠近捷運、有投影設備、麥克風，而且可以上網的地方(未定，如果有朋友可以推薦就更好了)。</p>
-
-<h3>會有錄影嗎?</h3>
-
-<p>不會 :)</p>
-
-<h3>費用</h3>
-
-<p>最多就是場地費吧 (當然如果有人要付我錢，我會很樂意收下的)</p>
-
-<h3>什麼時候報名?</h3>
-
-<p>應該農曆年過後一、二個月 :)</p>
-
-<p>[2012.2.22 update] 最近不少朋友在問這個還有沒有要繼續，放心，當然有，目前正在編寫教材中。不過因為最近小的手邊的專案正在趕，所以可能進度會慢一些，預計應該可以在三月份開始(希望)。</p>
-
-<h3>真的這麼佛心? 有何目的?</h3>
-
-<p>當然有目的，我的目的很明顯也不怕大家知道：</p>
-
-<ul>
-<li>複習我的AS3，程式很久沒寫會忘記</li>
-<li>練習講話!!</li>
-</ul>
-
-
-<p>我並沒有打算也沒那個本事要跟電腦補習班搶生意，我只是單純的因為我自己不是資訊相關科系畢業，在自學AS的路上吃過不少苦頭，也知道很多設計師在面臨程式碼的時候的痛苦，希望藉由我的一些經驗分享，讓大家少踩一些雷。</p>
-
-<p>但修行最終還是得靠個人，千萬不要相信來了之後回去就會變強。之前有來參加過的朋友，有的已經在同行業界有不錯的成績，但也有的到現在還是什麼都不會。</p>
-
-<p>屆時歡迎有興趣的朋友來參加，不過抱著只想來看看的心態的朋友就不歡迎了 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/9/">&larr; Older</a>
@@ -698,6 +753,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
@@ -733,15 +792,11 @@
         <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

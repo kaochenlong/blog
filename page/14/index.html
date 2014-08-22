@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在上一章節我們介紹如何建立一個Django的專案，以及快速的建立起後台管理系統。但事實上它還是什麼都沒有，接下來我們要開始來幫這個空的專案加功能上去了。 建立App 這裡這個App跟現在我們常聽到手機的App是不一樣的東西，一個Django專案裡，可以有好幾個App，每個App通常代表的是一個功能 &hellip;">
+  <meta name="description" content="有互動才是王道!! 學過Python的朋友應該都知道，Python有個很方便的互動shell，可以讓你在互動的指令模式底下，試驗一下程式碼是不是可以正確執行，是個相當方便的工具。在Django也提供了類似的工具，只要輸入python manage.py shell，就會進入shell模式， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,109 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/19/django-shell/">Django Shell</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-shell/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-19T00:25:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>有互動才是王道!!</h2>
+
+<p>學過Python的朋友應該都知道，Python有個很方便的互動shell，可以讓你在互動的指令模式底下，試驗一下程式碼是不是可以正確執行，是個相當方便的工具。在Django也提供了類似的工具，只要輸入<code>python manage.py shell</code>，就會進入shell模式，而且還有把該專案的一些設定也一起加進來，也就是說你可以在shell裡面直接就可以操作資料庫。</p>
+
+<p>接著來看看怎麼樣在shell裡面新增/修改/刪除資料：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;</span> <span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">shell</span>
+</span><span class='line'><span class="n">Python</span> <span class="mf">2.6</span><span class="o">.</span><span class="mi">1</span> <span class="p">(</span><span class="n">r261</span><span class="p">:</span><span class="mi">67515</span><span class="p">,</span> <span class="n">Jun</span> <span class="mi">24</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">21</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">49</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span><span class="n">GCC</span> <span class="mf">4.2</span><span class="o">.</span><span class="mi">1</span> <span class="p">(</span><span class="n">Apple</span> <span class="n">Inc</span><span class="o">.</span> <span class="n">build</span> <span class="mi">5646</span><span class="p">)]</span> <span class="n">on</span> <span class="n">darwin</span>
+</span><span class='line'><span class="n">Type</span> <span class="s">&quot;help&quot;</span><span class="p">,</span> <span class="s">&quot;copyright&quot;</span><span class="p">,</span> <span class="s">&quot;credits&quot;</span> <span class="ow">or</span> <span class="s">&quot;license&quot;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+</span><span class='line'><span class="p">(</span><span class="n">InteractiveConsole</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">author.models</span> <span class="kn">import</span> <span class="n">Profile</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span><span class='line'><span class="p">[]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">eddie</span> <span class="o">=</span> <span class="n">Profile</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;eddie kao&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">tel</span> <span class="o">=</span> <span class="s">&quot;0928123123&quot;</span><span class="p">,</span> <span class="n">address</span> <span class="o">=</span> <span class="s">&quot;Taipei, Taiwan&quot;</span><span class="p">,</span> <span class="n">email</span> <span class="o">=</span> <span class="s">&quot;eddie@digik.com.tw&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">eddie</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span><span class='line'><span class="p">[</span><span class="o">&lt;</span><span class="n">Profile</span><span class="p">:</span> <span class="n">Profile</span> <span class="nb">object</span><span class="o">&gt;</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">eddie</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">eddie</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'><span class="s">&#39;eddie kao&#39;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span> <span class="o">=</span> <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span><span class="o">.</span><span class="n">email</span>
+</span><span class='line'><span class="s">u&#39;eddie@digik.com.tw&#39;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s">&#39;eddie@anotheremail.com&#39;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>從上面的程式碼可以看到，我們都是透過<code>Profile類別</code>來做操作，例如我們在第10行建立了一個<code>Profile類別</code>的實體eddie，並在建立的時候傳入了一些參數(其實這些參數就是每個欄位的對應名稱)，接著我們在第11行執行<code>eddie.save()</code>，這樣就新增了一筆資料到<code>profile</code>的資料表裡了；第21行，透過<code>get</code>方法取得一個id = 1的物件出來，第25行設定新值之後，第26行一樣執行<code>someone.save()</code>進行資料的更新；如果你要刪除該筆資料，在第28行執行<code>delete()</code>，該筆資料就會被刪除。</p>
+
+<p>透過類別跟物件的操作，讓你可以不用寫SQL語法也能操作資料庫。</p>
+
+<p>要提醒大家，不用寫SQL語法不代表你可以不用懂SQL語法，事實上像這樣的ORM(<a href="http://en.wikipedia.org/wiki/Object-relational_mapping">Object-Relational Mapping</a>)只是讓你用比較抽象的方式來操作資料，但如果你不知道實際上它到底幫你做了什麼事，當你要組合比較複雜的查詢的時候就會踢到鐵板了。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -563,52 +666,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/14/phpconf-taiwan-2011-is-launching/">PHPConf Taiwan 2011 is Launching</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-14T01:05:00+08:00" pubdate>Oct 14<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2011/phpconf.jpg" alt="image" /></p>
-
-<p>網址：<a href="http://phpconf.tw/2011">http://phpconf.tw/2011</a></p>
-
-<p><strong>第一屆的台灣 PHP 開發者年會起跑囉！</strong></p>
-
-<p>在一群熱血朋友的支持與踴躍參與下，我們開始籌措了 PHPConf Taiwan 2011 ，從原先計畫的 20 至 30 人的小聚會，到現在居然有將近 150 人說要參加，而且在 OSSF 大力奔走下，第一屆就可以跟其他大型研討會一樣辦在中研院！</p>
-
-<p>11/12 (六) 在中研院「人文社會科學館」的第二會議室，我們一同來參與這場盛會！</p>
-
-<p>報名時間︰10/21 (五) 下午 01:30 ，報名人數︰ 100 人。</p>
-
-<p>歡迎有興趣的朋友們一起來吧!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/15/">&larr; Older</a>
@@ -660,6 +717,10 @@ Type "help", "copyright", "credits" or "license" for more information.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
@@ -695,15 +756,11 @@ Type "help", "copyright", "credits" or "license" for more information.
         <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

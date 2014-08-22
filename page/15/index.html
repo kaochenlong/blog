@@ -21,32 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="建立類別(Class) 類別命名建議：首字大寫 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-class ClassA(object): def __init__(self): print &quot;Hello &hellip;">
+  <meta name="description" content="網址：http://phpconf.tw/2011 第一屆的台灣 PHP 開發者年會起跑囉！ 在一群熱血朋友的支持與踴躍參與下，我們開始籌措了 PHPConf Taiwan 2011 ，從原先計畫的 20 至 30 人的小聚會，到現在居然有將近 150 人說要參加，而且在 OSSF 大力奔走下， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -115,6 +90,52 @@ class ClassA(object): def __init__(self): print &quot;Hello &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/14/phpconf-taiwan-2011-is-launching/">PHPConf Taiwan 2011 is Launching</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/14/phpconf-taiwan-2011-is-launching/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-14T01:05:00+08:00" pubdate>Oct 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2011/phpconf.jpg" alt="image" /></p>
+
+<p>網址：<a href="http://phpconf.tw/2011">http://phpconf.tw/2011</a></p>
+
+<p><strong>第一屆的台灣 PHP 開發者年會起跑囉！</strong></p>
+
+<p>在一群熱血朋友的支持與踴躍參與下，我們開始籌措了 PHPConf Taiwan 2011 ，從原先計畫的 20 至 30 人的小聚會，到現在居然有將近 150 人說要參加，而且在 OSSF 大力奔走下，第一屆就可以跟其他大型研討會一樣辦在中研院！</p>
+
+<p>11/12 (六) 在中研院「人文社會科學館」的第二會議室，我們一同來參與這場盛會！</p>
+
+<p>報名時間︰10/21 (五) 下午 01:30 ，報名人數︰ 100 人。</p>
+
+<p>歡迎有興趣的朋友們一起來吧!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -585,235 +606,6 @@ TypeError: 'tuple' object does not support item assignment
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/13/python-dictionary/">Dictionary</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-dictionary/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-13T13:55:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>字典</h2>
-
-<p>有的程式語言稱它叫&#8221;Hash Table&#8221;，有的管它叫做&#8221;物件&#8221;，基本上Python的Dictionary就長這個樣子：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">eddie</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;first_name&quot;</span> <span class="p">:</span> <span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="s">&quot;last_name&quot;</span> <span class="p">:</span> <span class="s">&quot;kao&quot;</span><span class="p">,</span> <span class="s">&quot;age&quot;</span> <span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>List是用中括號，Dictionary則是使用大括號。Dictionary是由Key及Value之配對組合而成，順序不重要，但Key的大小寫有分別。跟List一樣，並不限定只能放同一種型態的資料。</p>
-
-<h3>Nested Dictionary</h3>
-
-<p>可以一層包一層..</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">author</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;name&quot;</span> <span class="p">:</span> <span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="s">&quot;profile&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;age&quot;</span> <span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s">&quot;tel&quot;</span> <span class="p">:</span> <span class="s">&quot;0928123456&quot;</span><span class="p">}</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>操作</h2>
-
-<p>來看看怎麼操作Dictionary。</p>
-
-<h3>取用</h3>
-
-<pre><code>&gt;&gt;&gt; my_dict = {'first_name': 'eddie', 'last_name': 'kao', 'age': 30}
-&gt;&gt;&gt; my_dict["first_name"]
-'eddie'
-</code></pre>
-
-<h3>新增</h3>
-
-<pre><code>&gt;&gt;&gt; my_dict = {'first_name': 'eddie', 'last_name': 'kao', 'age': 30}
-&gt;&gt;&gt; my_dict["weight"] = 80
-&gt;&gt;&gt; my_dict
-{'first_name': 'eddie', 'last_name': 'kao', 'age': 30, 'weight': 80}
-</code></pre>
-
-<h3>修改</h3>
-
-<pre><code>&gt;&gt;&gt; my_dict = {'first_name': 'eddie', 'last_name': 'kao', 'age': 30}
-&gt;&gt;&gt; my_dict['last_name'] = 'lee'
-&gt;&gt;&gt; my_dict
-{'first_name': 'eddie', 'last_name': 'lee', 'age': 30}
-</code></pre>
-
-<h3>刪除/清空</h3>
-
-<pre><code>&gt;&gt;&gt; my_dict = {'first_name': 'eddie', 'last_name': 'lee', 'age': 30}
-&gt;&gt;&gt; my_dict.clear()
-&gt;&gt;&gt; my_dict
-{}
-&gt;&gt;&gt; del my_dict
-&gt;&gt;&gt; my_dict
-Traceback (most recent call last):
-    File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-NameError: name 'my_dict' is not defined
-</code></pre>
-
-<h3>其它</h3>
-
-<ol>
-<li>len : 檢查Dict的個數</li>
-<li>in / not in : 檢查是某個Key否存在該dictionary裡，回傳Boolean值</li>
-<li>copy : 將Dict之內容複製至另一變數</li>
-<li>has_key : 檢查是否有某個Key存在，回傳Boolean值</li>
-<li>items : 將Dict的key/value拆成Tuple之組合，回傳List</li>
-<li>keys :  將Dict的key部份回傳成List</li>
-<li>values : 將Dict的value部份回傳成List</li>
-<li>get : 取得指定key的值，第二個參數則是指定當找不到該key的導候所回傳的預設值</li>
-</ol>
-
-
-<p>千言萬語，抵不過直接看程式碼：</p>
-
-<pre><code>&gt;&gt;&gt; my_dict = {'first_name': 'eddie', 'last_name': 'kao', 'age': 30, 'weight': 80}
-&gt;&gt;&gt; len(my_dict)
-4
-&gt;&gt;&gt; "eddie" in my_dict
-False
-&gt;&gt;&gt; "first_name" in my_dict
-True
-&gt;&gt;&gt; my_dict.has_key("age")
-True
-&gt;&gt;&gt; my_dict.items()
-[('first_name', 'eddie'), ('last_name', 'kao'), ('age', 30), ('weight', 80)]
-&gt;&gt;&gt; my_dict.keys()
-['first_name', 'last_name', 'age', 'weight']
-&gt;&gt;&gt; my_dict.values()
-['eddie', 'kao', 30, 80]
-&gt;&gt;&gt; my_dict.get("age")
-30
-&gt;&gt;&gt; my_dict.get("height", 180)
-180
-</code></pre>
-
-<h3>本是同根生..</h3>
-
-<p>當在處理像List或是Dictionary這種比較複雜的資料結構的時候，有個新手可能常會犯的錯誤，我們來看一段程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="n">b</span>                  <span class="c"># [&#39;x&#39;, 2, 3]</span>
-</span><span class='line'><span class="k">print</span> <span class="n">a</span>                  <span class="c"># [&#39;x&#39;, 2, 3]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;name&quot;</span> <span class="p">:</span> <span class="s">&quot;eddie&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">y</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;kao&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="n">y</span>                  <span class="c"># {&quot;name&quot; : &quot;kao&quot;}</span>
-</span><span class='line'><span class="k">print</span> <span class="n">x</span>                  <span class="c"># {&quot;name&quot; : &quot;kao&quot;}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-</span><span class='line'><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;a&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="n">i</span>                  <span class="c"># [&#39;a&#39;, 2, 3]</span>
-</span><span class='line'><span class="k">print</span> <span class="n">j</span>                  <span class="c"># [&#39;a&#39;, 2, 3]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意到了嗎? 第2行、第10行、第17行的把某變數指定給另一個變數，但修改過新的變數的值之後，舊的變數的內容也跟著改了! 這是因為其實那個指定的動作只是個「請把b變數指向a」而已，所以遇到這種有&#8221;內容物&#8221;的資料型態，例如List跟Dictionary，當修改了b的值之後，a的值也跟著變了，因為他們兩個根本就是指到同一個地方。</p>
-
-<p>這在Tuple就沒問題啦，因為Tuple是唯讀的。</p>
-
-<p>那如果想讓兩個變數各保有原來的值而不互相影響呢?</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="n">b</span>          <span class="c"># [1, 2, 3]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;a&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="n">b</span>          <span class="c"># [&#39;a&#39;, 2, 3]</span>
-</span><span class='line'><span class="k">print</span> <span class="n">a</span>          <span class="c"># [1, 2, 3]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;name&quot;</span> <span class="p">:</span> <span class="s">&quot;eddie&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="n">y</span>          <span class="c"># {&#39;name&#39; : &#39;eddie&#39;}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">y</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;kao&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="n">y</span>          <span class="c"># {&#39;name&#39; : &#39;kao&#39;}</span>
-</span><span class='line'><span class="k">print</span> <span class="n">x</span>          <span class="c"># {&#39;name&#39; : &#39;eddie&#39;}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>就是複製一份並指令給新的變數囉! 不過這遇上巢狀結構還是會有出狀況，因為<code>[:]</code>或是Dictiony內建的<code>copy()</code>方法只會複製最表層而已，內部巢狀結構還是會有一樣的狀況。如果要整個完全複製，請使用<code>copy</code>模組的<code>deepcopy()</code>，細節請參考官網文件：<a href="http://docs.python.org/library/copy.html">http://docs.python.org/library/copy.html</a></p>
-
-<p>更多精彩內容，請見官網文件：<a href="http://docs.python.org/tutorial/datastructures.html">http://docs.python.org/tutorial/datastructures.html</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/16/">&larr; Older</a>
@@ -865,6 +657,10 @@ True
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
@@ -900,15 +696,11 @@ True
         <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="Model的部份看過之後，接著介紹Django很重要的一個單元，就是怎麼在Django裡設定或設計你網站內的網址。 以前你可以會看到像這樣的網址： http://www.eddie.com.tw/book/index.php?id=100 網址後面接問號又接了一些參數， &hellip;">
+  <meta name="description" content="上一章我們學到了怎麼設定網址跟對應的action，但畫面的呈現不可能永遠只有一個Hello BookStore!這麼美好。很多時候程式設計師是需要跟美術設計師合作的，通常的流程是工程師會從設計手上拿到HTML + CSS的檔案，如果你曾經用PHP開發過網站，我猜大概你可能是把拿到的.html改成. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,150 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/19/django-template/">Template</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-template/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-19T12:00:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上一章我們學到了怎麼設定網址跟對應的action，但畫面的呈現不可能永遠只有一個<code>Hello BookStore!</code>這麼美好。很多時候程式設計師是需要跟美術設計師合作的，通常的流程是工程師會從設計手上拿到HTML + CSS的檔案，如果你曾經用PHP開發過網站，我猜大概你可能是把拿到的<code>.html</code>改成<code>.php</code>，然後開始HTML裡面塞PHP程式碼。Django的MTV架構也差不多，而且Django雖然是Python寫的，但不同的是你不可以在Template裡寫Python的程式碼，你在Template只能用Template提供的API，以及一些filter跟tag(不管是內建或是自己寫的)。</p>
+
+<p>主要的目的就是希望大家不要把以前那種寫義大利程式碼(<a href="http://en.wikipedia.org/wiki/Spaghetti_code">Spaghetti code</a>)的不良習慣帶來Django。</p>
+
+<p>回來看一下我們原來的<code>book/views.py</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Hello BookStore!&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接著我們把原本的<code>HttpResponse</code>改寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/index.html&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你有注意到<code>shortcuts</code>字樣，應該不難猜得出來因為這個功能太常用了，所以本來其實要寫一堆東西(例如要用loader把template抓出來，再把結果render出來)，變成一行<code>render_to_response</code>就搞定，我很偷懶，所以平常幾乎都是用<code>render_to_response</code>就夠了。</p>
+
+<p>你可能會好奇，這個<code>book/index.html</code>要放在哪裡? 先等等，我們先改個設定，請打開專案根目錄的<code>settings.py</code>，在<code>TEMPLATE_DIRS</code>裡加一些東西：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>    <span class="s">&#39;templates&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c"># Put strings here, like &quot;/home/html/django_templates&quot; or &quot;C:/www/django/templates&quot;.</span>
+</span><span class='line'>    <span class="c"># Always use forward slashes, even on Windows.</span>
+</span><span class='line'>    <span class="c"># Don&#39;t forget to use absolute paths, not relative paths.</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定這個的目的是要告訴Django要去哪邊取得template的檔案，這裡我設定了<code>templates</code>。接著，我們要來自己在專案根目錄底下建立一個<code>templates</code>的資料夾，然後結構像這樣：</p>
+
+<p><img src="/images/django/template_structure.png" alt="image" /></p>
+
+<p>原來的這行程式碼：</p>
+
+<pre><code>return render_to_response('book/index.html')
+</code></pre>
+
+<p>就會知道去哪邊找<code>index.html</code>這個檔案了。</p>
+
+<p>這樣一來，你從設計那邊拿到的HTML檔案，就可以依照像<code>index.html</code>這樣的規則來擺放了。</p>
+
+<h2>Template API</h2>
+
+<p>前面提到，在Template裡不可以放Python的程式碼，只能放Template提到的API。什麼是Template API? 我直接從Django官網文件偷一小段程式碼來看：</p>
+
+<figure class='code'><figcaption><span>Template API Demo  (template_api_demo.py)</span> <a href='/downloads/code/django/template_api_demo.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">latest_poll_list</span> <span class="o">%</span><span class="p">}</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">poll</span> <span class="ow">in</span> <span class="n">latest_poll_list</span> <span class="o">%</span><span class="p">}</span>
+</span><span class='line'>        <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;/polls/{{ poll.id }}/&quot;</span><span class="o">&gt;</span><span class="p">{{</span> <span class="n">poll</span><span class="o">.</span><span class="n">question</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span>
+</span><span class='line'>    <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span><span class="o">%</span> <span class="k">else</span> <span class="o">%</span><span class="p">}</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">No</span> <span class="n">polls</span> <span class="n">are</span> <span class="n">available</span><span class="o">.&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你看到的這些程式碼，是可以寫在<code>.html</code>裡的，反正到時候Django會把<code>.html</code>當做Template讀出來之後再解析它，最後把內容render給使用者看。</p>
+
+<p>以<code>if .. else ..</code>來說，因為在HTML裡沒辦法對齊(就算對齊了萬一被設計師拿回去改過回來可能又不齊了)，所以Template API要用一個結束標記，告訴Django說這個<code>if</code>已經在這裡結尾了。</p>
+
+<p>在Template裡，如果看到{％ .. ％}的，表示它是一個邏輯運算或是語法，通常不會有輸出值；而看到{{ .. }}的話，就是會把裡面的值給吐出來餵在HTML裡的。</p>
+
+<p>Template API很多，在繼續往下之後，請你先看一下<a href="https://docs.djangoproject.com/en/1.3/ref/templates/api/">https://docs.djangoproject.com/en/1.3/ref/templates/api/</a>這份資料，知道一下Template API是怎麼一回事，又跟一般的Python程式碼有什麼不同?</p>
+
+<p>大概看過之後，接著我們來看看怎麼樣把資料給丟到Template裡呈現出來。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -824,109 +968,6 @@ True
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/19/django-shell/">Django Shell</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-shell/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-19T00:25:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>有互動才是王道!!</h2>
-
-<p>學過Python的朋友應該都知道，Python有個很方便的互動shell，可以讓你在互動的指令模式底下，試驗一下程式碼是不是可以正確執行，是個相當方便的工具。在Django也提供了類似的工具，只要輸入<code>python manage.py shell</code>，就會進入shell模式，而且還有把該專案的一些設定也一起加進來，也就是說你可以在shell裡面直接就可以操作資料庫。</p>
-
-<p>接著來看看怎麼樣在shell裡面新增/修改/刪除資料：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;</span> <span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">shell</span>
-</span><span class='line'><span class="n">Python</span> <span class="mf">2.6</span><span class="o">.</span><span class="mi">1</span> <span class="p">(</span><span class="n">r261</span><span class="p">:</span><span class="mi">67515</span><span class="p">,</span> <span class="n">Jun</span> <span class="mi">24</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">21</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">49</span><span class="p">)</span>
-</span><span class='line'><span class="p">[</span><span class="n">GCC</span> <span class="mf">4.2</span><span class="o">.</span><span class="mi">1</span> <span class="p">(</span><span class="n">Apple</span> <span class="n">Inc</span><span class="o">.</span> <span class="n">build</span> <span class="mi">5646</span><span class="p">)]</span> <span class="n">on</span> <span class="n">darwin</span>
-</span><span class='line'><span class="n">Type</span> <span class="s">&quot;help&quot;</span><span class="p">,</span> <span class="s">&quot;copyright&quot;</span><span class="p">,</span> <span class="s">&quot;credits&quot;</span> <span class="ow">or</span> <span class="s">&quot;license&quot;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
-</span><span class='line'><span class="p">(</span><span class="n">InteractiveConsole</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">author.models</span> <span class="kn">import</span> <span class="n">Profile</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-</span><span class='line'><span class="p">[]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">eddie</span> <span class="o">=</span> <span class="n">Profile</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;eddie kao&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">tel</span> <span class="o">=</span> <span class="s">&quot;0928123123&quot;</span><span class="p">,</span> <span class="n">address</span> <span class="o">=</span> <span class="s">&quot;Taipei, Taiwan&quot;</span><span class="p">,</span> <span class="n">email</span> <span class="o">=</span> <span class="s">&quot;eddie@digik.com.tw&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">eddie</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-</span><span class='line'><span class="p">[</span><span class="o">&lt;</span><span class="n">Profile</span><span class="p">:</span> <span class="n">Profile</span> <span class="nb">object</span><span class="o">&gt;</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">eddie</span><span class="o">.</span><span class="n">id</span>
-</span><span class='line'><span class="mi">1</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">eddie</span><span class="o">.</span><span class="n">name</span>
-</span><span class='line'><span class="s">&#39;eddie kao&#39;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span> <span class="o">=</span> <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span><span class="o">.</span><span class="n">email</span>
-</span><span class='line'><span class="s">u&#39;eddie@digik.com.tw&#39;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s">&#39;eddie@anotheremail.com&#39;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">someone</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>從上面的程式碼可以看到，我們都是透過<code>Profile類別</code>來做操作，例如我們在第10行建立了一個<code>Profile類別</code>的實體eddie，並在建立的時候傳入了一些參數(其實這些參數就是每個欄位的對應名稱)，接著我們在第11行執行<code>eddie.save()</code>，這樣就新增了一筆資料到<code>profile</code>的資料表裡了；第21行，透過<code>get</code>方法取得一個id = 1的物件出來，第25行設定新值之後，第26行一樣執行<code>someone.save()</code>進行資料的更新；如果你要刪除該筆資料，在第28行執行<code>delete()</code>，該筆資料就會被刪除。</p>
-
-<p>透過類別跟物件的操作，讓你可以不用寫SQL語法也能操作資料庫。</p>
-
-<p>要提醒大家，不用寫SQL語法不代表你可以不用懂SQL語法，事實上像這樣的ORM(<a href="http://en.wikipedia.org/wiki/Object-relational_mapping">Object-Relational Mapping</a>)只是讓你用比較抽象的方式來操作資料，但如果你不知道實際上它到底幫你做了什麼事，當你要組合比較複雜的查詢的時候就會踢到鐵板了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/14/">&larr; Older</a>
@@ -978,6 +1019,10 @@ True
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
@@ -1013,15 +1058,11 @@ True
         <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

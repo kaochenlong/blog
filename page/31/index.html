@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="雖然我個人還是比較喜歡jQuery的簡潔方便，而且一些常用的function也都jQuery化了，不過畢竟Dojo從Zend Framework 1.6版後就被officially的收進去了，為了ZF寫起來的完整性，還是花點時間來研究一下。 廢話不多說，先來試玩一下! 步驟一：下載它 到dojo &hellip;">
+  <meta name="description" content="Flash在跟Server在交換資料，比較常見的是一般的文字訊息或是XML，我自己在趕時間的時候，會偷懶的隨便echo一個字出來知會Flash說server程式已經做完了或是程式執行之後的結果，不趕時間且資料量較多的時候，則會乖乖的用XML。不過，最近開始我比較常用的是AMF跟JSON這兩個方法 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,189 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/10/12/amfphp-tutorial/">AMFPHP - 搭起 Flash 與 PHP 的美麗橋樑</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2008/10/12/amfphp-tutorial/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2008-10-12T11:24:00+08:00" pubdate>Oct 12<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2008/amfphp_logo.gif" alt="image" /></p>
+
+<p>Flash在跟Server在交換資料，比較常見的是一般的文字訊息或是XML，我自己在趕時間的時候，會偷懶的隨便echo一個字出來知會Flash說server程式已經做完了或是程式執行之後的結果，不趕時間且資料量較多的時候，則會乖乖的用XML。不過，最近開始我比較常用的是AMF跟<a href="http://www.json.org/">JSON</a>這兩個方法，其實都還滿方便的，各有其優缺點。</p>
+
+<p>AMF(Action Message Format)，由<a href="http://www.adobe.com/">Adobe</a>公司推出的規格，主要是用來給flash以RPC的方式來交換資料用的，在flash player 6的版本就已經開始支援(AMF0)，直到flash player 9才又推出新規格(AMF3)。其它細節可參考：<a href="http://en.wikipedia.org/wiki/Action_Message_Format">http://en.wikipedia.org/wiki/Action_Message_Format</a></p>
+
+<p>接下來就來個簡單的實作吧 :)</p>
+
+<h4>1. 下載AMF gateway</h4>
+
+<p>找個自己順手的語言</p>
+
+<ul>
+<li><a href="http://www.amfphp.org/">AMFPHP</a>：這是PHP的</li>
+<li><a href="http://pyamf.org/">PyAMF</a>：這是Python的(還不熟，努力學習中)</li>
+<li><a href="http://amfnet.openmymind.net/">AMF.NET</a>：這是.NET的</li>
+</ul>
+
+
+<p>光看名字大概就能猜到它的後端是用什麼做的。其它還有for Java或其它的，有興趣的可以繼續google翻翻看。</p>
+
+<h4>2. 安裝AMF gateway(以AMFPHP為例)</h4>
+
+<p>安裝方法很容易的，只要把下載下來的壓縮檔解開，放在Web server底下一個自己找得到的路徑就行了。我是放在<code>http://127.0.0.1/test/amfphp/</code>底下。</p>
+
+<p>AMFPHP有提供一個很棒的Service Browser，網址是<code>http://127.0.0.1/test/amfphp/browser</code>，這是個用Flex做的介面，可以清楚列出目前在AMF gateway上的服務。</p>
+
+<h4>3. 在AMF gateway上新增一個服務</h4>
+
+<p>我做了一個簡單的php類別檔，存檔為<code>callme.php</code>，並放在AMF gateway的<code>services</code>資料夾裡面(文末有原始檔連結)。PHP不像Java或AS3一樣硬性規定類別名稱一定要跟檔名一樣..至少php5還沒有，但建立這習慣也不錯。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">callme</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">function</span> <span class="nf">callmeplease</span><span class="p">(</span><span class="nv">$text</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="nv">$text</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面，我做了一個<code>callme</code>的類別，然後裡面放了一個<code>callmeplease</code>的方法，這個方法會接收一個參數，執行完成之後，會把傳入的參數return回來。這裡只是簡單直接return而已，更複雜的資料庫存取程式也可以寫在這裡&#8230;</p>
+
+<p>接下來看一下Service Browser，會發現寫寫的那個新的服務在的左手邊的列表裡：</p>
+
+<p><img src="/images/2008/amfphp.gif" alt="image" /></p>
+
+<p>在右邊的Text輸入文字，按一下右邊的「Call」，應該就可以直接看到結果。(中文支持問題請見文末補充)</p>
+
+<h4>4. 新增一個Fla(這裡以AS3.0為例)</h4>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="o">*;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 新增一個NetConnection物件</span>
+</span><span class='line'><span class="k">var</span> <span class="nx">test</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 連上AMF gateway</span>
+</span><span class='line'><span class="c1">// 這裡每家AMF gateway的實作方法應該都有差別，細節請記得看該實作說明</span>
+</span><span class='line'><span class="nx">test</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1/test/amfphp/gateway.php&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 準備一個Responder物件來接收事件，用法及參數請參考F1說明</span>
+</span><span class='line'><span class="k">var</span> <span class="nx">returnResult</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">ok</span><span class="o">,</span> <span class="nx">ng</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">ok</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">ng</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//以上，我做了ok跟ng兩個簡單小function，分別是trace出它們接收到的物件</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">test</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;callme.callmeplease&#39;</span><span class="o">,</span> <span class="nx">returnResult</span><span class="o">,</span> <span class="s1">&#39;hi, flash&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="c1">// 這裡是最重要的動作，就是直接用call這個方法</span>
+</span><span class='line'><span class="c1">// &quot;呼叫&quot;在gateway上面的callme這個服務裡的callmeplease這個方法</span>
+</span><span class='line'><span class="c1">// 第二個參數是接收反應的responder，第三個參數是給callmeplease的參數</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上，<code>callme.callmeplease</code>會把”hi, flash”傳給AMF gateway，然後gateway回傳”hi, flash”回來給flash。順利的話，Ctrl + Enter執行，就會在output視窗看到輸出的東西了。</p>
+
+<p>就這樣，你的Flash已經可以跟各家有支援AMF的gateway”對談”了。</p>
+
+<p>上面提到的原始檔在<a href="http://code.eddie.com.tw/downloads/flash/AMF.rar">這裡</a>可以拿得到(其實沒幾行字，就一個.php跟.fla)</p>
+
+<p>還是看不懂嗎? 沒關係，這裡有個很棒的影音教學，看完跟著作一遍就知道大概是怎麼運作的了
+<a href="http://www.gotoandlearn.com/player.php?id=78">http://www.gotoandlearn.com/player.php?id=78</a></p>
+
+<p>希望對大家有幫助 :)</p>
+
+<h5>補充1：</h5>
+
+<p>AMF不久之後已經可以在Zend Framework裡找到native module了，ZF真的是包山包海了 :) ((而且ZF-AMF就是由AMFPHP裡的主導人Wade Arnold來親自操刀)。</p>
+
+<h5>補充2：</h5>
+
+<p>AMFPHP預設的編碼是不支援中文的(會出現亂碼)，不過只要修改一下gateway的程式碼即可。</p>
+
+<p>使用文字編輯器，開啟AMFPHP資料夾的gateway.php，應該可以找到一段跟字碼有關的：</p>
+
+<pre><code>$gateway-&gt;setCharsetHandler("utf8_decode", "ISO-8859-1", "ISO-8859-1");
+</code></pre>
+
+<p>把它修改成：</p>
+
+<pre><code>$gateway-&gt;setCharsetHandler("utf8_decode", "UTF-8", "UTF-8");
+</code></pre>
+
+<p>或是如果你的PHP模組裡有iconv的話也可以這樣改：</p>
+
+<pre><code>$gateway-&gt;setCharsetHandler("iconv","UTF-8","UTF-8");
+</code></pre>
+
+<p>記得，不要改flash裡的<code>useCodePage = true</code>，雖然可能也ok，但這是走回頭路&#8230;能使用Unicode就盡量使用它吧 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -435,48 +618,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/08/08/select-z-index-in-ie6/">IE6 之 Select 的 Z-Index 設定</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2008/08/08/select-z-index-in-ie6/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2008-08-08T10:31:00+08:00" pubdate>Aug 8<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在IE6的環境下，如果網頁上有div區塊和下拉選單重疊在一起的時候，即使再怎麼調整下拉選單的z-index，下拉選單還是會把div區塊蓋住 (在Firefox是正常的)，google了一下網路上的資料，大多是用iframe來解這個問題，但弄iframe寫起來也是花時間而且不順手。有善心人士把這段程式碼寫成<a href="http://jquery.com/">jQuery</a>的plugin：<a href="http://plugins.jquery.com/project/bgiframe">bgiframe</a>，只要簡單的呼叫plugin，就可以在div底下插入一段可以把下拉選單遮住的iframe，div區塊就可以正常顯示了。</p>
-
-<p>程式碼很簡單，直接看線上demo就知道了；有需要的也可以整包下載回去 :)</p>
-
-<ul>
-<li>線上demo：<a href="http://labs.eddie.com.tw/javascript/div.htm">http://labs.eddie.com.tw/javascript/div.htm</a></li>
-<li>整包下載：<a href="http://labs.eddie.com.tw/javascript/div.rar">http://labs.eddie.com.tw/javascript/div.rar</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/32/">&larr; Older</a>
@@ -528,6 +669,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
@@ -563,15 +708,11 @@
         <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/14/rubykaigi-2013/">RubyKaigi 2013</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 136.31578947368422%'>Ruby(23)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
