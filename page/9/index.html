@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="2012/4/21 update: 課程將改為以screencast方式進行 話說在2007年的時候，我曾經很自以為是的辦過一次Flash/AS課程，那時候用的還是AS2.0，來參加的朋友大概五、六位，地點一開始很克難的選在師大附近某家可以上網的簡餐店(後來才移往我自己公司裡上課)； &hellip;">
+  <meta name="description" content="發現在 Octopress 似乎沒有現成可以放在 sidebar 的分類，於是便自己動手刻一個，順便練一下手感。程式碼短短的，使用方法也很容易，首先你可以按下面程式碼區塊右上角的 download，並將檔案存在 Octopress 的 plugins 資料夾： (category_list.rb &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,272 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/12/05/add-catetories-to-sidebar-in-octopress/">幫你的 Octopress 增加文章分類</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/12/05/add-catetories-to-sidebar-in-octopress/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-12-05T10:00:00+08:00" pubdate>Dec 5<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>發現在 Octopress 似乎沒有現成可以放在 sidebar 的分類，於是便自己動手刻一個，順便練一下手感。程式碼短短的，使用方法也很容易，首先你可以按下面程式碼區塊右上角的 download，並將檔案存在 Octopress 的 <code>plugins</code> 資料夾：</p>
+
+<figure class='code'><figcaption><span> (category_list.rb)</span> <a href='/downloads/code/octopress/category_list.rb'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># encoding: utf-8</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">Jekyll</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Site</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">create_category_list</span>
+</span><span class='line'>      <span class="n">write_to_tag_cloud</span> <span class="k">if</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_tag_cloud&#39;</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">write_to_sidebar</span> <span class="k">if</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_sidebar&#39;</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kp">private</span>
+</span><span class='line'>    <span class="c1"># generate category tag list and write to &#39;source/_includes/asides/categories_tag.html&#39;</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">write_to_tag_cloud</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s1">&#39; =&gt; Creating Categories Tag Cloud&#39;</span>
+</span><span class='line'>      <span class="n">lists</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>      <span class="n">max</span><span class="p">,</span> <span class="n">min</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="vi">@categories</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span> <span class="o">|</span><span class="n">str</span><span class="o">|</span> <span class="n">str</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">category</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">count</span> <span class="o">=</span> <span class="vi">@categories</span><span class="o">[</span><span class="n">category</span><span class="o">].</span><span class="n">count</span>
+</span><span class='line'>        <span class="n">lists</span><span class="o">[</span><span class="n">category</span><span class="o">]</span> <span class="o">=</span> <span class="n">count</span>
+</span><span class='line'>        <span class="n">max</span> <span class="o">=</span> <span class="n">count</span> <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">max</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">html</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span><span class='line'>      <span class="n">lists</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span> <span class="n">category</span><span class="p">,</span> <span class="n">counter</span> <span class="o">|</span>
+</span><span class='line'>        <span class="n">url</span> <span class="o">=</span> <span class="n">get_category_url</span> <span class="n">category</span>
+</span><span class='line'>        <span class="n">style</span> <span class="o">=</span> <span class="s2">&quot;font-size: </span><span class="si">#{</span><span class="mi">100</span> <span class="o">+</span> <span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="nb">Float</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span><span class="o">/</span><span class="n">max</span><span class="p">)</span><span class="si">}</span><span class="s2">%&quot;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_counter&#39;</span><span class="o">]</span>
+</span><span class='line'>          <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; &lt;a href=&#39;</span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39; style=&#39;</span><span class="si">#{</span><span class="n">style</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">#{</span><span class="n">category</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2">(</span><span class="si">#{</span><span class="vi">@categories</span><span class="o">[</span><span class="n">category</span><span class="o">].</span><span class="n">count</span><span class="si">}</span><span class="s2">)&lt;/a&gt; &quot;</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; &lt;a href=&#39;</span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39; style=&#39;</span><span class="si">#{</span><span class="n">style</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">#{</span><span class="n">category</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2">&lt;/a&gt; &quot;</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vi">@source</span><span class="p">,</span> <span class="s1">&#39;_includes/asides/categories_tag.html&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">file</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;{% if site.category_tag_cloud %}</span>
+</span><span class='line'><span class="s2">&lt;section&gt;</span>
+</span><span class='line'><span class="s2">&lt;h1&gt;</span><span class="si">#{</span><span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_title&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;Categories&#39;</span><span class="si">}</span><span class="s2">&lt;/h1&gt;</span>
+</span><span class='line'><span class="s2">&lt;span class=&#39;categories_tag&#39;&gt;</span><span class="si">#{</span><span class="n">html</span><span class="si">}</span><span class="s2">&lt;/span&gt;</span>
+</span><span class='line'><span class="s2">&lt;/section&gt;</span>
+</span><span class='line'><span class="s2">{% endif %}</span>
+</span><span class='line'><span class="s2">&quot;&quot;&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># generate category lists and write to &#39;source/_includes/asides/categories_sidebar.html&#39;</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">write_to_sidebar</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s1">&#39; =&gt; Creating Categories Sidebar&#39;</span>
+</span><span class='line'>      <span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;&lt;ul&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="c1"># case insensitive sorting</span>
+</span><span class='line'>      <span class="vi">@categories</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span> <span class="o">|</span><span class="n">str</span><span class="o">|</span> <span class="n">str</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">category</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">url</span> <span class="o">=</span> <span class="n">get_category_url</span> <span class="n">category</span>
+</span><span class='line'>        <span class="k">if</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_counter&#39;</span><span class="o">]</span>
+</span><span class='line'>          <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;  &lt;li&gt;&lt;a href=&#39;</span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">#{</span><span class="n">category</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="vi">@categories</span><span class="o">[</span><span class="n">category</span><span class="o">].</span><span class="n">count</span><span class="si">}</span><span class="s2">)&lt;/a&gt;&lt;/li&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;  &lt;li&gt;&lt;a href=&#39;</span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">#{</span><span class="n">category</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2">&lt;/a&gt;&lt;/li&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&lt;/ul&gt;&quot;</span>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="vi">@source</span><span class="p">,</span> <span class="s1">&#39;_includes/asides/categories_sidebar.html&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">file</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;{% if site.category_sidebar %}</span>
+</span><span class='line'><span class="s2">&lt;section&gt;</span>
+</span><span class='line'><span class="s2">&lt;h1&gt;</span><span class="si">#{</span><span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_title&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;Categories&#39;</span><span class="si">}</span><span class="s2">&lt;/h1&gt;</span>
+</span><span class='line'><span class="si">#{</span><span class="n">html</span><span class="si">}</span><span class="s2"></span>
+</span><span class='line'><span class="s2">&lt;/section&gt;</span>
+</span><span class='line'><span class="s2">{% endif %}</span>
+</span><span class='line'><span class="s2">&quot;&quot;&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">get_category_url</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">dir</span> <span class="o">=</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;category_dir&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;categories&#39;</span>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">join</span> <span class="vi">@config</span><span class="o">[</span><span class="s1">&#39;root&#39;</span><span class="o">]</span><span class="p">,</span> <span class="n">dir</span><span class="p">,</span> <span class="n">category</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/_|\P{Word}/</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/-{2,}/</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">CategoryList</span> <span class="o">&lt;</span> <span class="no">Generator</span>
+</span><span class='line'>    <span class="n">safe</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">priority</span> <span class="ss">:low</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span><span class="o">[</span><span class="s1">&#39;category_list&#39;</span><span class="o">]</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;## Generating Categories..&quot;</span>
+</span><span class='line'>        <span class="n">site</span><span class="o">.</span><span class="n">create_category_list</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>程式碼寫得有點髒，應該有更漂亮的寫法 :)</p>
+
+<p>再來，請打開根目錄的<code>_config.yml</code>，加上一些設定：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="c1"># ----------------------- #</span>
+</span><span class='line'><span class="c1">#    Categories           #</span>
+</span><span class='line'><span class="c1"># ----------------------- #</span>
+</span><span class='line'><span class="c1"># create categories page</span>
+</span><span class='line'><span class="l-Scalar-Plain">category_list</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'><span class="c1"># use counter after categories</span>
+</span><span class='line'><span class="l-Scalar-Plain">category_counter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'><span class="c1"># category title</span>
+</span><span class='line'><span class="l-Scalar-Plain">category_title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">分類</span>
+</span><span class='line'><span class="c1"># create an include categories list in @source/_includes/asides/categories_sidebar.html</span>
+</span><span class='line'><span class="c1"># and don&#39;t forget to add &#39;asides/categories_sidebar.html&#39; into @default_asides if you want to enable it.</span>
+</span><span class='line'><span class="l-Scalar-Plain">category_sidebar</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'><span class="c1"># create an include categories tag cloud page in @source/_includes/asides/categories_tag.html</span>
+</span><span class='line'><span class="c1"># and don&#39;t forget to add &#39;asides/categories_tag.html&#39; to @default_asides if you want to enable it.</span>
+</span><span class='line'><span class="l-Scalar-Plain">category_tag_cloud</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，<code>category_list</code>就是用來啟用是否產生側類分類的；<code>category_counter</code>就是用來決定要不要秀出計數器，<code>category_title</code>是那個區塊的標題，<code>category_sidebar</code>跟<code>category_tag_cloud</code>打開的話，則各會產生兩個用來include的檔案。<code>category_sidebar</code>的效果就是一個一個的排下來，但如果你的文章分類很多可能會讓頁面拉很長，如果不喜歡，也可以改用<code>category_tag_cloud</code>的呈現效果。</p>
+
+<p>產生完檔案還不夠，你還需要在<code>_config.yml</code>加一下你要include的區塊，以下是我自己的設定，請依個人需要修改：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">asides/about.html</span><span class="p-Indicator">,</span> <span class="nv">asides/recent_posts.html</span><span class="p-Indicator">,</span> <span class="nv">asides/categories_tag.html</span><span class="p-Indicator">,</span> <span class="nv">asides/googleplus.html</span><span class="p-Indicator">,</span> <span class="nv">asides/plurk.html</span><span class="p-Indicator">,</span> <span class="nv">asides/recent_comments.html</span><span class="p-Indicator">,</span> <span class="nv">asides/twitter.html</span><span class="p-Indicator">,</span> <span class="nv">asides/links.html</span><span class="p-Indicator">,</span> <span class="nv">asides/advertise.html</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最後，重新<code>rake generate</code>之後應該就可以看到成果了，就如同你現在正在看的這篇文章的右手邊分類一樣的效果。</p>
+
+<p><span class="info">為了tag cloud看起來不會太擠，你可能會需要用CSS來調整一下<code>line-height</code>。</span></p>
+
+<p>不確定這樣做是不是最好的做法，而且有些程式碼我還是硬寫在Ruby裡的，如果有更好的做法還請不吝告知 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -361,127 +627,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/11/19/extend-functionality-for-your-class/">幫你的類別增加功能</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/11/19/extend-functionality-for-your-class/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-11-19T01:29:00+08:00" pubdate>Nov 19<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>CoffeeScript很有趣也很好寫，雖然它提供了許多的語法糖衣(Syntactic sugar)，讓你用短短的幾行程式碼就能換來原來你在JavaScript要做的事。但說白了它本質上還是JavaScript，JavaScript做不到的事，用CoffeeScript一樣也做不到。</p>
-
-<p>不過有些很常做的工作，例字串變換大小寫，雖然JavaScript的字串本身已經有<code>toUpperCase()</code>以及<code>toLowerCase()</code>的功能，但我已經寫習慣Ruby的<code>upcase</code>跟<code>downcase</code>，要記那麼多個名字實在很辛苦，每次都得去google一才下知道要怎麼寫；又如果我想把某個字串重複10次，在Ruby有<code>*</code>可以用，但在JavaScript似乎沒有原生的function可以用.. 有沒有辦法也自己做一些讓自己順手的小工具，讓自己寫程式的時候順利一些呢?</p>
-
-<p>如果你曾經寫過Python或Ruby，就會知道其實它們的類別裡的方法是可以很簡單的被打開再新增或覆寫(open class)，在JavaScript/CoffeeScript也有類似的做法，在CoffeeScript就是使用<code>::</code>來幫原來已經定義好的類別再增加功能：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">repeat = </span><span class="nf">(n) -&gt;</span>
-</span><span class='line'>  <span class="nb">Array</span><span class="p">(</span><span class="nx">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">).</span><span class="nx">join</span> <span class="nx">@</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">downcase = </span><span class="o">-&gt;</span>
-</span><span class='line'>  <span class="nx">@toLowerCase</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">upcase = </span><span class="o">-&gt;</span>
-</span><span class='line'>  <span class="nx">@toUpperCase</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">find = </span><span class="nf">(str) -&gt;</span>
-</span><span class='line'>  <span class="nx">@indexOf</span> <span class="nx">str</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">has = </span><span class="nf">(str) -&gt;</span>
-</span><span class='line'>  <span class="p">(</span><span class="nx">@indexOf</span> <span class="nx">str</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯出來的JavaScript長這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">repeat</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">downcase</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">upcase</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">find</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">str</span><span class="p">);</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">has</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">str</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其實那個<code>::</code>，用的就是<code>prototype</code>啦，這樣一來，你就可以寫出這樣的程式：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;a&quot;</span><span class="p">.</span><span class="nx">repeat</span> <span class="mi">10</span>                     <span class="c1"># aaaaaaaaaa</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;this is a book&quot;</span><span class="p">.</span><span class="nx">upper</span><span class="p">()</span>          <span class="c1"># THIS IS A BOOK</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;this is a book&quot;</span><span class="p">.</span><span class="nx">find</span> <span class="s">&quot;book&quot;</span>      <span class="c1"># 10</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;this is a book&quot;</span><span class="p">.</span><span class="nx">has</span> <span class="s">&quot;book&quot;</span>       <span class="c1"># true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>程式看起來乾淨多了，也習慣多了，心情也會比較好一些。</p>
-
-<p>PS: 不知道會不會有善心人士會把Python或Ruby一些好用的功能也port一份過來? 還是早就已經有了.. :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/10/">&larr; Older</a>
@@ -533,6 +678,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
       </li>
     
@@ -568,15 +717,11 @@
         <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

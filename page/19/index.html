@@ -21,12 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="這是前幾天在PHP讀書會上跟大家分享的主題 – CoffeeScript 基本上內容大多跟CoffeeScript官網上的差不多，強烈建議一定至少要讀過一次。另外不嫌棄的話，可搭配前面幾篇文章一起服用： 簡介篇
-安裝篇
-使用篇
-基本篇(一)
-基本篇(二)
-OOP篇 抱歉我的聲音有點小聲， &hellip;">
+  <meta name="description" content="剛好昨天有朋友問到，就順便筆記一下。 Ruby官方文件很多，但有時對入門的朋友來說，常會遇到「我想看看XX方法的詳細用法，我該找哪個類別或模組的文件?」的問題。簡單的說，「常翻文件」就是這個問題最好的答案啦，除此之外，你也可以使用”Object#method“來找。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,6 +90,77 @@ OOP篇 抱歉我的聲音有點小聲， &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/09/how-to-find-a-method-definition-in-ruby/">在Ruby如何找到方法的定義?</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/09/how-to-find-a-method-definition-in-ruby/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-09T00:04:00+08:00" pubdate>Aug 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>剛好昨天有朋友問到，就順便筆記一下。</p>
+
+<p>Ruby官方文件很多，但有時對入門的朋友來說，常會遇到「我想看看XX方法的詳細用法，我該找哪個類別或模組的文件?」的問題。簡單的說，「常翻文件」就是這個問題最好的答案啦，除此之外，你也可以使用”<a href="http://www.ruby-doc.org/core/classes/Object.html#M001038">Object#method</a>“來找。</p>
+
+<p>例如我想要知道<code>puts</code>這個很常用的方法是定義在哪邊的：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">print</span> <span class="nb">method</span><span class="p">(</span><span class="ss">:puts</span><span class="p">)</span>   <span class="c1"># &lt;Method: Object(Kernel)#puts&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它會回傳一個Method類別的實體，並且寫著<code>Object(Kernel)#puts</code>，表示這個<code>puts</code>方法是被定義在Object的(事實上是在Kernel，透過Mixin混到Object裡的)</p>
+
+<p>回傳的這個Method類別實體其實也可以直接呼叫，例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">my_puts</span> <span class="o">=</span> <span class="nb">method</span><span class="p">(</span><span class="ss">:puts</span><span class="p">)</span>
+</span><span class='line'><span class="n">my_puts</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;Hello Ruby&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外在寫Rails的時候，有時候想要知道某個好用的方法或helper是放在哪邊，想看看原始碼是怎麼寫的，也可以透過這個方式(Ruby 1.9限定)：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_support/all&#39;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="mi">10</span><span class="o">.</span><span class="n">day</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:ago</span><span class="p">)</span><span class="o">.</span><span class="n">source_location</span>
+</span><span class='line'><span class="c1"># [&quot;/Users/eddie/.rvm/gems/ruby-1.9.2-p180/gems/activesupport-3.0.9/lib/active_support/core_ext/numeric/time.rb&quot;, 63]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Method#source_location會回傳一個陣列，裡面放著檔名以及在第幾行。</p>
+
+<h3>參考資料：</h3>
+
+<p>Ruby API – <a href="http://www.ruby-doc.org/core/classes/Method.html">Method類別</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -815,568 +881,6 @@ not   =&gt;  !
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/08/03/coffeescript-basic-part-1/">CoffeeScript 基本篇(一)</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/08/03/coffeescript-basic-part-1/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-08-03T16:15:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>首先，<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>的官網的文件寫得相當的詳細，強烈建議各位一定要看，只要看完一輪，大概就知道CoffeeScript是怎麼一回事了。</p>
-
-<p>底下你看到的<code>console.log</code>，通常是拿來debug用的，並不會真的在網頁上產生結果，請搭配<a href="https://addons.mozilla.org/zh-tw/firefox/addon/firebug/">Firebug</a>使用。</p>
-
-<h3>註解</h3>
-
-<p>CoffeeScript跟Ruby一樣，使用<code>#</code>字號來做註解，而且註解的內容在編譯過的js檔裡是看不到的。如果要做多行註解，則是使用3個<code>#</code>字號。</p>
-
-<h3>變數宣告</h3>
-
-<p>其實變數不用特別宣告，直接抓來用就好了，例如：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">age = </span><span class="mi">18</span><span class="p">;</span>
-</span><span class='line'><span class="nv">name = </span><span class="s">&quot;CoffeeScript&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">age</span><span class="p">,</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'><span class="nx">age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
-</span><span class='line'><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;CoffeeScript&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>看到了嗎? 它幫你宣告好了<code>age</code>跟<code>name</code>兩個變數，而且該加的分號都加上去了。</p>
-
-<p>如果你要組合字串，除了用加號來串接外，CoffeeScript也從Ruby那邊借來了string interpolation：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">greeting = </span><span class="s">&quot;hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">greeting</span> <span class="o">=</span> <span class="s2">&quot;hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>要注意的是，如果你用的是<strong>單引號</strong>的話，string interpolation不會發生作用。</p>
-
-<p>跟Ruby一樣，string interpolation可以放一個完整的expression，例如：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">greeting = </span><span class="s">&quot;hello, </span><span class="si">#{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="nx">name</span>
-</span><span class='line'>      <span class="nx">name</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>      <span class="s">&quot;CoffeeScript&quot;</span>
-</span><span class='line'><span class="si">}</span><span class="s">&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">greeting</span><span class="p">;</span>
-</span><span class='line'><span class="nx">greeting</span> <span class="o">=</span> <span class="s2">&quot;hello, &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">name</span> <span class="o">?</span> <span class="nx">name</span> <span class="o">:</span> <span class="s2">&quot;CoffeeScript&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Function</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">say_hello = </span><span class="o">-&gt;</span>
-</span><span class='line'>  <span class="s">&quot;Hello CoffeeScript&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">say_hello</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">say_hello</span><span class="p">;</span>
-</span><span class='line'><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="s2">&quot;Hello CoffeeScript&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nx">say_hello</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>像Ruby一樣，function的最後一個執行結果自動就是整個function的回傳值，所以這邊即使沒有特別寫return，該加上的return、大括號以及分號，都在編譯成js檔之後加上去了。(你要特別加上return也ok，不會變兩個return的)</p>
-
-<p>再來，如果你要給function傳進參數的話：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">age = </span><span class="mi">18</span><span class="p">;</span>
-</span><span class='line'><span class="nv">name = </span><span class="s">&quot;CoffeeScript&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="nv">greeting = </span><span class="s">&quot;hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-</span><span class='line'><span class="nv">say_hello = </span><span class="nf">(name) -&gt;</span>
-</span><span class='line'><span class="k">if</span> <span class="nx">name</span>
-</span><span class='line'>  <span class="s">&quot;hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'>  <span class="nx">greeting</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span><span class="p">()</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span> <span class="s">&quot;eddie&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">age</span><span class="p">,</span> <span class="nx">greeting</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">say_hello</span><span class="p">;</span>
-</span><span class='line'><span class="nx">age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
-</span><span class='line'><span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;CoffeeScript&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="nx">greeting</span> <span class="o">=</span> <span class="s2">&quot;hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="s2">&quot;hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nx">greeting</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">());</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">));</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">));</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣就可以傳參數進去了。</p>
-
-<p>上面這段範例有兩件事要特別留意，首先，CoffeeScript像Python一樣使用縮排(identation)做為程式碼區塊的判斷，所以上面<code>if..else..</code>的縮排是有意義的。是的，<strong>if後面不用加then</strong>。</p>
-
-<p>第二，注意到在上面傳參數的時候，像Ruby一樣的省略掉了小括號嗎? 編譯出來的結果跟有小括號的是一樣的。那為什麼say_hello不傳參數的時候不能像Ruby一樣省略參數? 我想是因為CoffeeScript沒辦法真的像Ruby一樣辨識say_hello到底是一般的變數，還是沒有參數的方法呼叫，所以請記得，<strong>如果沒傳參數給function，請記得加上小括號</strong>。</p>
-
-<p>如果你要讓參數有預設值：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">say_hello = </span><span class="nf">(name = &quot;CoffeeScript&quot;) -&gt;</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">say_hello</span><span class="p">;</span>
-</span><span class='line'><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;CoffeeScript&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">);</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在Ruby裡傳參數，有叫做<strong>Splat</strong>的概念，可以一次傳進多個選擇性的參數，在CoffeeScript也有借來用，只是寫法有點不太一樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">say_hello = </span><span class="nf">(name, others...) -&gt;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="nx">others</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
-</span><span class='line'>      <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s"> and </span><span class="si">#{</span><span class="nx">others</span><span class="si">}</span><span class="s">&quot;</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>      <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span> <span class="s">&quot;eddie&quot;</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span> <span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="s">&quot;kao&quot;</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">say_hello</span> <span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="s">&quot;kao&quot;</span><span class="p">,</span> <span class="s">&quot;joanne&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">say_hello</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">__slice</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">;</span>
-</span><span class='line'><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">others</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">name</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">others</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span> <span class="o">?</span> <span class="nx">__slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">:</span> <span class="p">[];</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">others</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="nx">others</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">));</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="s2">&quot;kao&quot;</span><span class="p">));</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="s2">&quot;kao&quot;</span><span class="p">,</span> <span class="s2">&quot;joanne&quot;</span><span class="p">));</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>第二個參數others後面接三個點，表示它是一個「可有可無而且可以不定數量」的參數，而傳進來的參數變成一個陣列，看到編譯出來的程式碼就覺得如果要自己手工寫出這段程式碼要想好一下子的..</p>
-
-<p>像Ruby一樣，CoffeeScript支援變數多重指定，但寫法有些不一樣，需要特別加上中括號，所以可以這樣玩：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="p">[</span><span class="nx">first</span><span class="p">,</span> <span class="nx">others</span><span class="p">...,</span> <span class="nx">last</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">first</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">last</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">others</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">first</span><span class="p">,</span> <span class="nx">last</span><span class="p">,</span> <span class="nx">others</span><span class="p">,</span> <span class="nx">_i</span><span class="p">,</span> <span class="nx">_ref</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">__slice</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">;</span>
-</span><span class='line'><span class="nx">_ref</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">others</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">&lt;=</span> <span class="nx">_ref</span><span class="p">.</span><span class="nx">length</span> <span class="o">?</span> <span class="nx">__slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">_ref</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">_i</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">:</span> <span class="p">(</span><span class="nx">_i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[]),</span> <span class="nx">last</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">[</span><span class="nx">_i</span><span class="o">++</span><span class="p">];</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">first</span><span class="p">);</span>     <span class="err">#</span> <span class="mi">1</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">last</span><span class="p">);</span>      <span class="err">#</span> <span class="mi">10</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">others</span><span class="p">);</span>    <span class="err">#</span> <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span> <span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>變數可以多重指派，當然也可以交換：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">x = </span><span class="mi">1</span>
-</span><span class='line'><span class="nv">y = </span><span class="mi">10</span>
-</span><span class='line'><span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">y</span><span class="p">,</span> <span class="nx">x</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">x</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">y</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">_ref</span><span class="p">;</span>
-</span><span class='line'><span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'><span class="nx">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-</span><span class='line'><span class="nx">_ref</span> <span class="o">=</span> <span class="p">[</span><span class="nx">y</span><span class="p">,</span> <span class="nx">x</span><span class="p">],</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">_ref</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">y</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>可以用原來的方式寫function嗎?</h3>
-
-<p>你不一定要照著CoffeeScript的方式寫，如果CoffeeScript的語法讓你覺得不舒服，你希望可以用你習慣的JavaScript語法的話也ok，你可以這樣做：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">say_hello = </span><span class="o">`</span><span class="nx">function</span><span class="p">(</span><span class="nx">name</span><span class="p">){</span>
-</span><span class='line'>  <span class="k">return</span> <span class="s">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">name</span>
-</span><span class='line'><span class="p">}</span><span class="o">`</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在反單引號(backtick)包起來的內容，在編譯的時候會照你寫的內容輸出，只是這樣一來用CoffeeSCript就沒意義啦!</p>
-
-<h3>陣列</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">heroes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spider Man&#39;</span><span class="p">,</span> <span class="s1">&#39;Captain America&#39;</span><span class="p">,</span> <span class="s1">&#39;X-men&#39;</span><span class="p">,</span> <span class="s1">&#39;Iron Man&#39;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在CoffeeScript裡，你可以用多行表示：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">heroes = </span><span class="p">[</span>
-</span><span class='line'>  <span class="s">&#39;Spider Man&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s">&#39;Captain America&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s">&#39;X-men&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s">&#39;Iron Man&#39;</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">heroes</span><span class="p">;</span>
-</span><span class='line'><span class="nx">heroes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spider Man&#39;</span><span class="p">,</span> <span class="s1">&#39;Captain America&#39;</span><span class="p">,</span> <span class="s1">&#39;X-men&#39;</span><span class="p">,</span> <span class="s1">&#39;Iron Man&#39;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>甚至連每行後面的逗點也都可以省下來。</p>
-
-<p>CoffeeScript從Ruby借來了<code>Range</code>：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">students = </span><span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">students</span><span class="p">;</span>
-</span><span class='line'><span class="nx">students</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果是多一個點：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">students = </span><span class="p">[</span><span class="mi">1</span><span class="p">...</span><span class="mi">10</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">students</span><span class="p">;</span>
-</span><span class='line'><span class="nx">students</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果你把Range反過來寫，例如[10..1]，它就會變成從10到1的數字陣列。但如果把Range的數字放大一點：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">students = </span><span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">100</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">students</span><span class="p">,</span> <span class="nx">_i</span><span class="p">,</span> <span class="nx">_results</span><span class="p">;</span>
-</span><span class='line'><span class="nx">students</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">_results</span> <span class="o">=</span> <span class="p">[];</span>
-</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="nx">_i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">_i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">;</span> <span class="nx">_i</span><span class="o">++</span><span class="p">){</span> <span class="nx">_results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">_i</span><span class="p">);</span> <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">_results</span><span class="p">;</span>
-</span><span class='line'><span class="p">}).</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>只要Range大於20就會改用迴圈的方式來建構這個陣列。</p>
-
-<p>陣列的操作也是很容易的</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">heroes</span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="mi">2</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">heroes</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果利用Range來替換或新增陣列的內容：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">heroes</span><span class="p">[</span><span class="mi">1</span><span class="p">..</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Batman&quot;</span><span class="p">,</span> <span class="s">&quot;ThunderCat&quot;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">_ref</span><span class="p">;</span>
-</span><span class='line'><span class="nx">heroes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spider Man&#39;</span><span class="p">,</span> <span class="s1">&#39;Captain America&#39;</span><span class="p">,</span> <span class="s1">&#39;X-men&#39;</span><span class="p">,</span> <span class="s1">&#39;Iron Man&#39;</span><span class="p">];</span>
-</span><span class='line'><span class="p">[].</span><span class="nx">splice</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">heroes</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">].</span><span class="nx">concat</span><span class="p">(</span><span class="nx">_ref</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Batman&quot;</span><span class="p">,</span> <span class="s2">&quot;ThunderCat&quot;</span><span class="p">])),</span> <span class="nx">_ref</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>物件</h3>
-
-<p>你可以用這種JSON的寫法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">eddie = </span><span class="p">{</span> <span class="nv">name: </span><span class="s">&quot;Eddie Kao&quot;</span><span class="p">,</span> <span class="nv">age: </span><span class="mi">18</span><span class="p">,</span> <span class="nv">speciality: </span><span class="s">&quot;eat&quot;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或是YAML式的寫法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">eddie =</span>
-</span><span class='line'>  <span class="nv">name: </span><span class="s">&quot;Eddie Kao&quot;</span>
-</span><span class='line'>  <span class="nv">age: </span><span class="mi">18</span>
-</span><span class='line'>  <span class="nv">speciality: </span><span class="s">&quot;eat&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">eddie</span><span class="p">;</span>
-</span><span class='line'><span class="nx">eddie</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Eddie Kao&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">age</span><span class="o">:</span> <span class="mi">18</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">speciality</span><span class="o">:</span> <span class="s2">&quot;eat&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>特別是如果你要做巢狀的物件結構，用YAML的寫法會更清楚：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">eddie =</span>
-</span><span class='line'>  <span class="nv">name: </span><span class="s">&quot;Eddie Kao&quot;</span>
-</span><span class='line'>  <span class="nv">age: </span><span class="mi">18</span>
-</span><span class='line'>  <span class="nv">speciality: </span><span class="s">&quot;eat&quot;</span>
-</span><span class='line'>  <span class="nv">lovers:</span>
-</span><span class='line'>  <span class="nv">nayumi:</span>
-</span><span class='line'>      <span class="nv">name: </span><span class="s">&quot;Nayumi Hung&quot;</span>
-</span><span class='line'>      <span class="nv">age: </span><span class="mi">18</span>
-</span><span class='line'>  <span class="nv">mary:</span>
-</span><span class='line'>      <span class="nv">name: </span><span class="s">&quot;Mary Bloody&quot;</span>
-</span><span class='line'>      <span class="nv">age: </span><span class="mi">20</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/20/">&larr; Older</a>
@@ -1428,6 +932,10 @@ not   =&gt;  !
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
       </li>
     
@@ -1463,15 +971,11 @@ not   =&gt;  !
         <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-09-10T05:20:12+08:00</updated>
+  <updated>2014-10-16T17:29:21+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,676 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby 也可這樣寫]]></title>
+    <link href="http://blog.eddie.com.tw/2014/10/16/happy-programming-ruby/"/>
+    <updated>2014-10-16T14:35:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/10/16/happy-programming-ruby</id>
+    <content type="html"><![CDATA[<p>很榮幸有機會能受邀參加 Livehouse.in 舉辦的 <a href="https://event.livehouse.in/2014/combo8/">Combo! 8 週連擊</a> 活動，本次的講題是「<a href="https://speakerdeck.com/eddie/happy-programming-ruby" target="_blank">Ruby 也可這樣寫</a>」，主要是來聊聊一些 Ruby 有趣(或奇怪)的語法，以及可以用 Ruby 做些什麼事 (without Rails)。</p>
+
+<p><a href="https://speakerdeck.com/eddie/happy-programming-ruby" target="_blank"><img src="/images/2014/slide_happy_ruby_programming.jpg" alt="image" /></a>
+投影片連結：<a href="https://speakerdeck.com/eddie/happy-programming-ruby">https://speakerdeck.com/eddie/happy-programming-ruby</a></p>
+
+<p>這並不是什麼新的主題，也不是很艱深的內容，只是發現最近在接手一些別人寫的 Ruby on Rails (以下簡稱 Rails)專案時發現，似乎不少人並不清楚 Ruby 一些特有的寫法，把 Ruby/Rails 當做 PHP 在寫，所以就想來試著介紹這個主題給大家，讓大家可以多認識一些 Ruby。</p>
+
+<p>曾經寫過 Rails 的朋友也許寫過以下的語法來取得兩天前的時間：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="mi">2</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">ago</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+很多人以為這是 Ruby 的語法，但如果你打開 irb 這樣寫卻會出現 <code>undefined method 'days' for 2:Fixnum</code> 的錯誤訊息，那是因為其實不管是 <code>days</code> 或是 <code>ago</code> 方法，都不是內建在 <code>Fixnum</code> 類別的方法，而是 Rails(更精準說的話應該是 ActiveSupport 這個 gem) 透過 Open Class 的手法在原本內建的 <code>Fixnum</code> 類別加上了這些便利的方法。</p>
+
+<p>我想大家都不否認 Ruby 的確是被 Rails 給帶紅起來的，不過一位日本的 Ruby 大前輩前田修吾在他的一份簡報「<a href="http://shugo.net/tmp/rails-syndrome.pdf" target="_blank">Rails 症候群の研究</a>」提到「Ruby が何かわかっていない」(中譯：不知道 Ruby 是什麼東西)，其實也是有點讓人擔心 XD。</p>
+
+<h2>Ruby 是什麼?</h2>
+
+<p><a href="http://ruby-lang.org">Ruby</a> 是一種電腦程式語言，而 Rails 是一種使用 Ruby 建構出來的網站開發框架 (Web Framework)，但 Rails 不是一種電腦程式語言。(當然要說 Rails 這樣的 DSL 也是一種語言也是 ok 的)</p>
+
+<p>Ruby 是一種物件導向的程式語言，在 Ruby 裡的所有東西都是物件(幾乎)，包括數字 5 也是，它是一個數字物件，所以我們在 Ruby 可以寫出像下面這樣的程式碼：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Hello, Ruby&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>聽說...</h2>
+
+<h3>聽說 Ruby 很慢!</h3>
+
+<p>這個嘛，就要看跟誰比了，跟 C 語言比的話當然是一定慢的，但 Ruby 還沒有慢到不能用的地步(而且通常網站慢的地方都不是 Ruby 本身)。慢的地方如果真的很介意，也可改用其它方式來改善(例如改寫成 Extension)</p>
+
+<p>曾經有朋友拿 Twitter 拋棄 Rails 而改用 Scala 為例說「你看看連 Twitter 都嫌 Rails 慢了!」，的確 Rails 並不是執行效率非常好的框架，但是回頭想想，貴單位的網站的用戶或流量做得到 Twitter 的 1% 嗎? 網站還沒做出來就先擔心撐不撐得住大流量可能也擔心得太早了一點 XD</p>
+
+<p>PS:事實上現在 Twitter 的前端也還是用 Rails 在開發。</p>
+
+<h3>聽說寫 Ruby 要先買 Mac?</h3>
+
+<p>不知道從什麼時候開始開始流傳著「要寫 Ruby/Rails 要先買 Mac」這樣的都市傳說，特別是在 Ruby 相關的聚會活動或研討會，大家擺在桌上的幾乎是清一色的 Mac 筆電。其實開發 Ruby/Rails 專案真正合適的應該是 Linux/Ubuntu 的環境，畢竟最後的專案是佈署在這些平台上，而不是在你的 Mac 筆電裡。</p>
+
+<p>那為什麼越來越多開發者都買了 Mac? 我想主要原因除了看起來比較潮之外，就是 Mac OS 本質上其實是 BSD 系統，它有內建的 terminal(或說是 shell) 可以用，對寫 Ruby/Rails 的開發者來說是很方便的。</p>
+
+<h2>Ruby 可以這樣寫</h2>
+
+<h3>if modifier</h3>
+
+<p>以下是個很單純的 if 判斷：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">18</span>
+</span><span class='line'><span class="k">if</span> <span class="n">age</span> <span class="o">&gt;</span> <span class="mi">18</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;OK, I can see this movie&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+在 Ruby 裡，像這樣單純的 if 判斷，我通常會把 if 放到後面，讓整個句字看起來更像一般的英文口語：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">18</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;OK, I can see this movie&quot;</span> <span class="k">if</span> <span class="n">age</span> <span class="o">&gt;</span> <span class="mi">18</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>if..else.., case..when..</h3>
+
+<p>如果您曾經寫過其它程式語言，對以下的語法應該不陌生：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">16</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;if age &gt;= 0 &amp;amp;&amp;amp; age &amp;lt; 3 then</span>
+</span><span class='line'><span class="sr">  puts &quot;Baby&quot;</span>
+</span><span class='line'><span class="sr">elsif age &gt;= 3 &amp;amp;&amp;amp; age &amp;lt; 10 then</span>
+</span><span class='line'><span class="sr">  puts &quot;Kids&quot;</span>
+</span><span class='line'><span class="sr">elsif age &gt;= 10 &amp;amp;&amp;amp; age &amp;lt; 18 then</span>
+</span><span class='line'><span class="sr">  puts &quot;Teenager&quot;</span>
+</span><span class='line'><span class="sr">else</span>
+</span><span class='line'><span class="sr">  puts &quot;Oh Yeah!&quot;</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+就是一連串的 <code>if..else..</code> 啦，這樣的寫法沒有錯，也可以正常執行，但教課書通常會教說如果看到很多的 else if 的話，可考慮用 <code>case..when</code> 來處理：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">16</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;case</span>
+</span><span class='line'><span class="sr">when age &gt;= 0 &amp;amp;&amp;amp; age &amp;lt; 3</span>
+</span><span class='line'><span class="sr">  puts &quot;Baby&quot;</span>
+</span><span class='line'><span class="sr">when age &gt;= 3 &amp;amp;&amp;amp; age &amp;lt; 10</span>
+</span><span class='line'><span class="sr">  puts &quot;Kids&quot;</span>
+</span><span class='line'><span class="sr">when age &gt;= 10 &amp;amp;&amp;amp; age &amp;lt; 18</span>
+</span><span class='line'><span class="sr">  puts &quot;Teenager&quot;</span>
+</span><span class='line'><span class="sr">else</span>
+</span><span class='line'><span class="sr">  puts &quot;Oh Yeah!&quot;</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+但中間那段大於小於的比較，我會喜歡用 Ruby 裡內建的 Range 來比對，看起來會更容易懂：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">16</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;case age</span>
+</span><span class='line'><span class="sr">when 0...3</span>
+</span><span class='line'><span class="sr">  puts &quot;Baby&quot;</span>
+</span><span class='line'><span class="sr">when 3...10</span>
+</span><span class='line'><span class="sr">  puts &quot;Kids&quot;</span>
+</span><span class='line'><span class="sr">when 10...18</span>
+</span><span class='line'><span class="sr">  puts &quot;Teenager&quot;</span>
+</span><span class='line'><span class="sr">else</span>
+</span><span class='line'><span class="sr">  puts &quot;Oh Yeah!&quot;</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>multiple assignment</h3>
+
+<p>在 Ruby 可以一口氣指定好幾個變數的值：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+只要一行就可達到三行的效果。</p>
+
+<p>在其它程式語言，如果想要交換 x 跟 y 兩個變數的值，通常會這樣做：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;交換 x, y 的值&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">tmp</span> <span class="o">=</span> <span class="n">x</span>
+</span><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="n">y</span>
+</span><span class='line'><span class="n">y</span> <span class="o">=</span> <span class="n">tmp</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+但在 Ruby 可以利用上面提到的變數多重指定的特性改寫成這樣：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;交換 x, y 的值&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+相當簡單又容易懂。</p>
+
+<h3>unnecessary return</h3>
+
+<p>以下是我在之前某個 Rails 專案裡面看到的一段程式碼：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這樣寫沒問題，只是一看就猜得出來可能是剛從別的程式語言轉過來沒多久。在 Ruby 裡的 return 並不是一定要寫的，所以上式再透過三元運算子的簡化可以變這樣：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="kp">true</span> <span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+或可再精簡一些：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+事實上，如果再熟悉 Ruby 一點的話就會發現其實數字類別本身就有帶一個判斷偶數或奇數的方法：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="mi">2</span><span class="o">.</span><span class="n">even?</span>  <span class="c1"># =&gt; true</span>
+</span><span class='line'><span class="nb">puts</span> <span class="mi">4</span><span class="o">.</span><span class="n">odd?</span>   <span class="c1"># =&gt; false</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Open Class</h3>
+
+<p>Ruby 的 Open Class 可以讓開發者任意的幫已存在的類別(甚至是內建類別)加功能，例如：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">say_hello</span>
+</span><span class='line'>    <span class="s2">&quot;Hello, </span><span class="si">#{</span><span class="nb">self</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;puts &quot;Ruby&quot;.say_hello   # =&gt; Hello, Ruby</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+事實上 Rails 也是大量的使用了這個手法來擴充 Ruby 的功能，像是 <code>2.days.ago</code> 就是個經典的例子(實作方式請見 ActiveSupport 的原始碼)</p>
+
+<p>前面一開始也提到，在 Ruby 裡什麼東西都是物件，包括數字也是，所以其實連最簡單的 1 + 1，其實它是執行了 1 這個物件的 <code>+</code> 方法：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="mi">1</span><span class="o">.</span><span class="n">+</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+所以，透過 open class 的手法，甚至也可以去惡搞一下看起來最簡單的加法：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Fixnum</span>
+</span><span class='line'>  <span class="k">alias</span> <span class="ss">:ori_add</span> <span class="ss">:+</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">+</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">ori_add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">ori_add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;puts 1 + 1   # =&gt; 3</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這樣一來就會在數學加法上偷偷的再加 1，像是 1 + 1 = 3, 2 + 2 = 5，以此類推。</p>
+
+<p>不過，Open Class 好用歸好用，風險感覺不小，好像一個不小心就容易被自己或別人改到一些不該改的東西。所以後來 Ruby 有推出了一個叫做 <a href="http://www.ruby-doc.org/core-2.1.3/doc/syntax/refinements_rdoc.html">Refinement</a> 的概念：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">module</span> <span class="nn">StringExtension</span>
+</span><span class='line'>  <span class="n">refine</span> <span class="nb">String</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">to_md5</span>
+</span><span class='line'>      <span class="nb">require</span> <span class="s2">&quot;digest/md5&quot;</span>
+</span><span class='line'>      <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;using StringExtension&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="nb">puts</span> <span class="s2">&quot;Ruby&quot;</span><span class="o">.</span><span class="n">to_md5</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Block</h3>
+
+<p>在 Ruby 裡，Block 可以用 do..end 的方式來寫，也可以用大括號來寫，雖然大部份候兩者是可以互相替換的，但有一些微妙的地方沒注意的話，可能會造成預期外的結果，詳情請見<a href="/2011/06/03/do-end-vs-braces/">Do..End v.s Braces</a>。</p>
+
+<h3>Private method</h3>
+
+<p>在 Ruby 裡只要沒有特別聲明，所有的類別方法都是 public 的。如果想要在 Ruby 裡定義 private method 可以這樣做：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Animal</span>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">secret_method</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+或是這樣也可以：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Animal</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">secret_method</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  private :secret_method</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>看到第二種 private 的寫法，你應該就會發現其實 public、protected 以及 private 在 Ruby 裡並不是關鍵字或保留字，它只是個方法而已。</p>
+
+<p>在 private 方法的定義上，Ruby 跟其它程式語言的定義有些不太一樣。在 Ruby 的 private 方法，是只要沒有明確的指出 recevier 就可以使用，所以即使是子類別也可使用父類別的 private 方法：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Animal</span>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">secret_method</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Don&#39;t tell anyone!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;class Dog &amp;lt; Animal</span>
+</span><span class='line'><span class="sr">  def hello</span>
+</span><span class='line'><span class="sr">    secret_method</span>
+</span><span class='line'><span class="sr">  end</span>
+</span><span class='line'><span class="sr">end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="no">Dog</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">hello</span>  <span class="c1"># =&gt; Don&#39;t tell anyone!</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+但其實 Ruby 的 private 方法也不是真的那麼 private：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Animal</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">secret_method</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  private :secret_method</span>
+</span><span class='line'><span class="sr">end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">a</span> <span class="o">=</span> <span class="no">Animal</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:secret_method</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>更多相關細節可參考 <a href="/2011/07/26/public-protected-and-private-method-in-ruby/">Public, Protected and Private Method in Ruby</a>。</p>
+
+<p>參考資料：<a href="http://en.wikipedia.org/wiki/Message_passing">Message Passing</a></p>
+
+<h3>Dynamic Method</h3>
+
+<p>假設我們有一段程式碼長得像這樣：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">ComputerStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get_cpu_info</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  def get_cpu_price(workstation_id)</span>
+</span><span class='line'><span class="sr">    # ...</span>
+</span><span class='line'><span class="sr">  end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">def</span> <span class="nf">get_mouse_info</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  def get_mouse_price(workstation_id)</span>
+</span><span class='line'><span class="sr">    # ...</span>
+</span><span class='line'><span class="sr">  end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">def</span> <span class="nf">get_keyboard_info</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  def get_keyboard_price(workstation_id)</span>
+</span><span class='line'><span class="sr">    # ...</span>
+</span><span class='line'><span class="sr">  end</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+有個軟體開發的原則叫做 <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a> (Don't Repeat Yourself)，簡單的說就是不要一直寫重複的程式。在開發軟體的時候，如果可以把程式碼寫得 DRY 一點，日後在維護的時候也會輕鬆得多。</p>
+
+<p>所以，如果上面這段程式碼假設每個 <code>get_xxx_info</code> 跟 <code>get_xxx_price</code> 的方法實作內容都差不多，以 DRY 原則來看的話，上面這個看起來感覺就相當的「潮」(WET)啊，潮到出水了 XD</p>
+
+<p>在這個時候就可以利用動態定義方法來整理這些看起來很重複的程式碼。在 Ruby 要動態的定義方法，可以用 <code>define_method</code>：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">define_method</span> <span class="ss">:hello</span> <span class="k">do</span> <span class="o">|</span><span class="n">param</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Hello, </span><span class="si">#{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;hello &quot;Ruby&quot;  # =&gt; Hello, Ruby</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+所以，原來上面那段看起來不太 DRY 的程式碼，可以整理成這樣：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">ComputerStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">set_component</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">define_method</span> <span class="s2">&quot;get&lt;em&gt;</span><span class="si">#{</span><span class="n">component</span><span class="si">}</span><span class="s2">&lt;/em&gt;info&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">workstation_id</span><span class="o">|</span>
+</span><span class='line'>      <span class="c1"># ...</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">define_method</span> <span class="s2">&quot;get&lt;em&gt;</span><span class="si">#{</span><span class="n">component</span><span class="si">}</span><span class="s2">&lt;/em&gt;price&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">workstation_id</span><span class="o">|</span>
+</span><span class='line'>      <span class="c1"># ...</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  set_component :cpu</span>
+</span><span class='line'><span class="sr">  set_component :mouse</span>
+</span><span class='line'><span class="sr">  set_component :keyboard</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+還可以再簡化一些：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">ComputerStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">set_components</span><span class="p">(</span><span class="o">*</span><span class="n">components</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">components</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">component</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">define_method</span> <span class="s2">&quot;get&lt;em&gt;</span><span class="si">#{</span><span class="n">component</span><span class="si">}</span><span class="s2">&lt;/em&gt;info&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">workstation_id</span><span class="o">|</span>
+</span><span class='line'>        <span class="c1"># ...</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="n">define_method</span> <span class="s2">&quot;get&lt;em&gt;</span><span class="si">#{</span><span class="n">component</span><span class="si">}</span><span class="s2">&lt;/em&gt;price&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">workstation_id</span><span class="o">|</span>
+</span><span class='line'>        <span class="c1"># ...</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  set_components :cpu, :mouse, :keyboard</span>
+</span><span class='line'><span class="sr">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這樣一來，以後如果要再加硬體，也只要在 <code>set_components</code> 後面加上去就行了，看起來應該比原來的好維護多了。</p>
+
+<h3>Method Missing</h3>
+
+<p>如果大家曾經使用過 Rails，也許多少有用過類似 <code>Book.find_by_id</code> 或 <code>Book.find_by_name</code> 的神奇語法。你可能很好奇，為什麼明明你沒有定義這些方法，也一樣可以正常執行不會出錯?</p>
+
+<p>其實，Ruby 在尋找方法的時候，會先往該物件的所屬類別找，找不到會再往它的父類別找(其實真正尋找方法的細節更複雜一些 XD)，如果一直找不到，最後就會呼叫 <code>method_missing</code> 這個方法。
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;You just called a method </span><span class="si">#{</span><span class="n">method_name</span><span class="si">}</span><span class="s2"> with </span><span class="si">#{</span><span class="n">args</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;some_method_not_exist(1, 2, 3)&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;=&gt;</span> <span class="no">You</span> <span class="n">just</span> <span class="n">called</span> <span class="n">a</span> <span class="nb">method</span> <span class="n">some_method_not_exist</span> <span class="n">with</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+所以當你在適當的地方覆寫了 <code>method_missing</code>，就可以做出類似的效果：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Book</span>
+</span><span class='line'>  <span class="k">class</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="nb">self</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">method_name</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s2">&quot;find_by&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">q</span> <span class="o">=</span> <span class="n">method_name</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;find_by_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;find something by </span><span class="si">#{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="k">super</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;Book.find_by_id    # =&gt; find something by id</span>
+</span><span class='line'><span class="sr">Book.find_by_name  # =&gt; find something by name</span>
+</span><span class='line'><span class="sr">Book.wtf           # =&gt; ERROR!</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+看到了嗎? 即使原先沒有定義 <code>Book.find_by_id</code> 或 <code>Book.find_by_name</code>，在執行時候因為 <code>find_by</code> 開頭的方法被我自己寫的 <code>method_missing</code> 給攔了下來而不會出錯，但其它以外的方法則會呼叫內建的 <code>method_missing</code> 而噴出錯誤訊息。</p>
+
+<h2>有趣(或奇怪)的 Ruby 語法</h2>
+
+<p>寫程式有時候是件很悶的工作，偶爾寫點有趣的程式碼娛樂別人或自己也不錯。像是下面這個在 <a href="https://github.com/tric/trick2013">Trick 2013</a>比賽中是「Most readable」的程式碼：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">begin</span> <span class="n">with</span> <span class="n">an</span> <span class="n">easy</span> <span class="n">program</span><span class="o">.</span>
+</span><span class='line'><span class="n">you</span> <span class="n">should</span> <span class="n">be</span> <span class="n">able</span> <span class="n">to</span> <span class="n">write</span>
+</span><span class='line'><span class="n">a</span> <span class="n">program</span> <span class="k">unless</span> <span class="k">for</span> <span class="n">you</span><span class="p">,</span>
+</span><span class='line'><span class="n">program</span> <span class="k">in</span> <span class="n">ruby</span> <span class="n">language</span> <span class="n">is</span>
+</span><span class='line'><span class="n">too</span> <span class="n">difficult</span><span class="o">.</span> <span class="no">At</span> <span class="n">the</span> <span class="k">end</span>
+</span><span class='line'><span class="n">of</span> <span class="n">your</span> <span class="n">journey</span> <span class="n">towards</span> <span class="n">the</span>
+</span><span class='line'><span class="n">ultimate</span> <span class="n">program</span><span class="p">;</span> <span class="n">you</span> <span class="n">must</span>
+</span><span class='line'><span class="n">be</span> <span class="n">a</span> <span class="n">part</span> <span class="n">of</span> <span class="n">a</span> <span class="n">programming</span>
+</span><span class='line'><span class="n">language</span><span class="o">.</span> <span class="no">You</span> <span class="n">will</span> <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'><span class="n">you</span> <span class="o">!=</span> <span class="n">program</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+寫得感覺像是一篇文章(其實內文無意義)，但其它是一段可以正常執行不會發生錯誤的 Ruby 程式碼。下面這個則是「Best way to return true」：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="vg">$ruby</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">Object</span><span class="p">){</span><span class="o">|</span><span class="n">oriented</span><span class="o">|</span> <span class="n">language</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+因為在 Ruby 的 global variable 預設值是 nil，又，在 Ruby 什麼東西都是物件，包括 nil 也是，所以 <code>$ruby.is_a?(Object)</code> 會回傳 true。至於後面傳入的 Block 因為不會被呼叫，所以傳什麼進去都無所謂了。</p>
+
+<p>阿宅寫程式也可以很浪漫的：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="no">It</span> <span class="n">can</span> <span class="n">be</span> <span class="n">wonderful</span> <span class="k">if</span> <span class="s2">&quot;the world&quot;</span><span class="o">.</span><span class="n">end_with?</span> <span class="s2">&quot;you&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+或是：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">I</span> <span class="n">will</span> <span class="n">love</span> <span class="n">you</span> <span class="k">until</span> <span class="s2">&quot;the end of the world&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這其實只是透過邏輯短路(Short-circuit)玩的把戲，因為後面的 if 或 until 在經過評估之後都不會成立，所以前面的語法就算有錯也不會被執行到。</p>
+
+<p>另外，其實 Ruby 的類別名稱也就只是個常數而已，所以這樣惡搞你的同事也是 ok 的...
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">BookList</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="p">(</span><span class="nb">rand</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span> <span class="p">?</span> <span class="nb">Array</span> <span class="p">:</span> <span class="no">Hash</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;b = BookList.new</span>
+</span><span class='line'><span class="sr">b &amp;lt;&amp;lt; &quot;Ruby&quot;   # =&gt; 將有 10% 的機會發生錯誤</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>因為 Ruby 的方法名字不一定只能用英文字母，所以可以寫出像這樣的程式碼：
+<img src="/images/2014/ruby_code_fish.png" alt="image" /><br />
+看著看著就覺得餓了...</p>
+
+<p>然後如果你知道 <code>attr_accessor</code> 其實也只是個會幫你產生一對 getter/setter 的類別方法的話，對產生的 getter/setter 不滿意或是想要再做些別的事話，也可以自己定義：
+<img src="/images/2014/ruby_code_girl.png" alt="image" /><br />
+這樣你就寫出了一個「可以永保青春的"方法"」了 XD</p>
+
+<h3>小結</h3>
+
+<p>看到這裡，你可能會覺得在 Ruby 變數不用宣告就可直接用，內建類別可以透過 Open Class 方式來惡搞，private 方法又一點都不 private，整個只像是僅供參考，這樣不會很恐怖嗎?</p>
+
+<p>我想，開發者大多知道自己在做什麼。當初 Ruby 在設計的時候是採取相信開發者的立場，給開發者很大的彈性與自由，這其實也是我最後選擇 Ruby 的原因。</p>
+
+<p>Ruby/Rails 被很多人認為是很魔術的程式語言或工具，但只要瞭解它是怎麼運作的，其實也沒真的非常神奇。技術不用學多，一、二門專精的練起來就已可不愁吃穿了。</p>
+
+<p>最後，
+引用一段最近在朋友的 Facebook 上看到的一段話：</p>
+
+<p><blockquote><p>"Difference between a master and a beginner? The master has failed more times than the beginner has even tried."<br/>"大師與新手之間的差別，就是大師失敗過的次數，比新手嘗試過的次數還多"</p></blockquote></p>
+
+<p>共勉之 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[「有心人」之 Ruby 課程]]></title>
@@ -224,89 +894,6 @@
 <h2>第 0 次兼說明會</h2>
 
 <p>如果各位看完還是不知道這個活動要幹嘛，我們在星期二(3/4)晚上七點，在 DeRoot 有個說明會兼第 0 次的導讀示範，有興趣的朋友請按<a href="http://taipeirb.kktix.cc/events/0000">這裡</a>報名。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Code Reading @ RubyKaigi 2013]]></title>
-    <link href="http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013/"/>
-    <updated>2013-06-05T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/06/05/code-reading-in-rubykaigi2013</id>
-    <content type="html"><![CDATA[<p>很高興這次能有機會到日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>，我分享的題目是："<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>"，算是個滿冷門的題目，主要是分享我自己從閱讀 Ruby 原始程式碼中學習到的一些經驗。不過當天還有不少朋友來捧場，讓場子看起來不會太冷清，真是太意外了(其實我也搞不清楚到底有多少人，我當時已經緊張到沒辦法算數了)。<br />
-<span class="translate">Really glad to go to Japan and join the <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi 2013</a>, the topic of my talk is "<a href="http://rubykaigi.org/2013/talk/S41" target="_blank">Code Reading, Learning More about Ruby by Reading Ruby Source Code</a>", which I don't think it's a popular topic, and it's about my experience while reading Ruby source code. Thanks to those friends who are willing to come to my talk.(Actually I was too nervous to count how many people already)</span></p>
-
-<p>在進入主題之前，我問大家有多少人曾經來過台灣，結果在場有十來個人舉手，就以現場人數的比例來說不算少。<br />
-<span class="translate">
-Before I jump into my topic, I asked everyone how many of you have been to Taiwan before, to my surprise, there're more than 15 people raised their hand, which is about 20% of the attendees in this hall(I think).</span></p>
-
-<p><a href="https://speakerdeck.com/eddie/code-reading" target="_blank"><img src="/images/2013/rubykaigi-code-reading.jpg" alt="image" /></a>
-<a href="https://speakerdeck.com/eddie/code-reading" target="_blank">View on Speaker Deck</a> | <a href="https://speakerd.s3.amazonaws.com/presentations/0186a390abc5013057536ee43d4d4638/Code_Reading.pdf" target="_blank">Download PDF</a></p>
-
-<p>雖然之前有一些些上台演講的經驗，但這是第一次出國演講，而且還是全程用英文演講，我知道有很多的大神甚至 Ruby Committer 就坐在台下，所以我相當緊張。我那個「上台的前一天不會睡」的魔咒果然還是依舊存在，所以演講當天凌晨四點，我拿著筆電到飯店的大廳練習對著空氣講，練到早上七點，但還是覺得不夠穩。<br />
-<span class="translate">
-Although I have a some experience about having public speech, but it's my first time to have a presentation abroad and do my speech in English, and I also know there might be lots of awesome rubyists sitting there, including some Ruby core committer, so I really feel nervous. And I have a curse that "I won't sleep if I have a public presentation on the next day", so I practiced in the lobby of the hotel from 4 A.M. to 7 A.M., but still not stable enough.
-</span></p>
-
-<p>我的演講廳是小間的，所以壓力有稍微小一點點。<br />
-<span class="translate">
-My presentation hall is the smaller one, so my pressure is also slightly smaller, too.
-</span></p>
-
-<p>為了怕現場出包，所以在 code review 展示的部份我是用預錄的，不過事後想想好像直接現場操作比較容易掌控時間<br />
-<span class="translate">
-I think I might make some mistakes while presenting, so I recorded the code review demo in advance, but I think the real live demo might be easier for me to control time.
-</span></p>
-
-<p>上午的演講結束後，下午發生的小插曲讓我抖了好大一下。我在演講內容裡有提到一些在 Ruby 的原始碼裡面有一些小地方的命名不太優，當下大家笑得很開心，雖然娛樂效果達到了，但我其實也有點擔心會不會有什麼不好的副作用。結果上午的講場結束，下午就看到<a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">這則</a>：<br />
-<span class="translate">
-After finishing my talk, there's something surprised me. In my speech, I mentioned some interesting naming in the Ruby source code just for fun. I know it might be entertaining but still a little worried about if there would be any bad consequence. Then in the afternoon, I saw this <a href="https://twitter.com/_zzak/status/340391416314331136" target="_blank">tweet</a>:
-</span></p>
-
-<p><img src="/images/2013/rubykaigi-zzak.png" alt="image" /></p>
-
-<p>哇!! 我有嚇到的感覺了，不過因為我個人覺得這樣好像有些失禮，所以當晚的 Official Party，我就親自去跟 @nobu 說聲不好意思，希望沒有造成他的困擾。其實我也是想趁這個機會認識一下只有在網路上才能看得到的傳說大神，而且他好像一點也不在意。<br />
-<span class="translate">
-Wow! That's really really surprised me!! and I don't know if this would cause any trouble for committer, so I went to @nobu and said sorry to him on the official party in the night, and hope didn't cause extra trouble for him. In fact, I went to him also want to know him by this chance, and actually he didn't mind at all.
-</span></p>
-
-<p>第三天的議程，我本來就打算要來聽 <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a> 的主題(他是 <a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a> 一書的作者 )，沒想到坐下來沒多久竟然看到自己的名字跟前一天講的東西出現在投影片上：<br />
-<span class="translate">
-In the last day, I was planning to attend <a href="https://twitter.com/saturnflyer" target="_blank">Jim Gay</a>'s talk, whihc is the author of the book "<a href="http://www.clean-ruby.com/" target="_blank">Clean Ruby</a>". After sitting in the hall, I suddenly found my name was quoted in the slide:
-</span></p>
-
-<p><img src="/images/2013/rubykaigi-jim-gay.jpg" alt="image" /></p>
-
-<p>再度有被嚇到的感覺。<br />
-<span class="translate">
-Yes, Supprised me again.
-</span></p>
-
-<p>活動結束後，RubyKaigi 2013 的頭目角谷<a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">也推了一篇</a>：<br />
-<span class="translate">
-the Organizing Director of RubyKaigi 2013 Shintaro Kakutani also <a href="https://twitter.com/kakutani/status/341202764472406017" target="_blank">tweeted this</a>:
-</span></p>
-
-<p><img src="/images/2013/rubykaigi-kakutani.png" alt="image" /></p>
-
-<p>再次看到自己的名字被提到，有些驚訝也有些不好意思，不過這個"Conference-Driven Development(CDD)" 聽起來好像不錯，而且我喜歡 "RubyKaigi made Ruby Better"，如果有朝一日我有能力，我也希望可以多貢獻一些心力。<br />
-<span class="translate">
-I feel surprised again and also little embarrassing, but the "Conference-Driven Development(CDD)" sounds workable, and I love the "RubyKaigi made Ruby Better", I hope I can do more contributions to Ruby and this community someday if possible.
-</span></p>
-
-<p>感謝高井さん(<a href="https://twitter.com/takai" target="_blank">@takai</a>)幫我拍的照片，讓我在 <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist 時計</a>上也可以有一張漂亮的照片。<br />
-<span class="translate">
-Thanks to Naoto Takai(<a href="https://twitter.com/takai" target="_blank">@takai</a>) to take a photo for me so that I can have a nice picture on the <a href="http://rubyistokei.herokuapp.com/" target="_blank">Rubyist Tokei</a>.
-</span></p>
-
-<p><img src="/images/2013/rubykaigi-rubyist-clock.jpg" alt="image" />
-photoed by <a href="https://twitter.com/takai" target="_blank">@takai</a></p>
-
-<p>這趟日本之行有學習到不少東西，收獲很多，會在接下來的幾篇文章介紹。最後，有講的不好的地方，還請多多指教。<br >
-<span class="translate">
-Anyway, I learned a lot on this trip to Japan, and I'll write them down in next blog posts. At last, if there's any bad or something wrong about my speech, please feel free to comment.
-</span></p>
-
-<p>Thank you all, RubyKaigi team, you're all AWESOME!</p>
 ]]></content>
   </entry>
   

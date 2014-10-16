@@ -21,7 +21,8 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="這是在WebDev Party #3上分享的內容，主題是雖然Rails很威很好用，但如果沒有Rails的話，還可以拿Ruby做些什麼其它的事。 投影片： View on Slideshare | Download PDF 希望對大家有幫助。如果有哪邊講錯的還請各位先進前輩不吝給予指正。 [ &hellip;">
+  <meta name="description" content="建議直接到youtube並切換至HD畫質觀看。另外也傳了一份到vimeo以及youku 影片內提到的相關連結： Vim
+我的Vimrc設定參考 shell指令 Ctrll: 清除畫面 Ctrlw: 一次刪除一個字(word) Ctrlu: 刪除一整行 Ctrlr: 搜尋history Vim &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +91,158 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/27/screencast-1-learning-vim-from-the-beginning/">爽爽快快學Vim(1)</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2012/04/27/screencast-1-learning-vim-from-the-beginning/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2012-04-27T06:46:00+08:00" pubdate>Apr 27<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="420" height="315" src="http://www.youtube.com/embed/vMqqYw7wdO0" frameborder="0" allowfullscreen></iframe>
+
+
+<p>建議直接到<a href="http://www.youtube.com/watch?v=vMqqYw7wdO0">youtube</a>並切換至HD畫質觀看。另外也傳了一份到<a href="https://vimeo.com/41121476">vimeo</a>以及<a href="http://v.youku.com/v_show/id_XMzg3Njg2MjU2.html">youku</a></p>
+
+<h2>影片內提到的相關連結：</h2>
+
+<ul>
+<li><a href="http://www.vim.org/">Vim</a></li>
+<li><a href="https://github.com/kaochenlong/eddie-vim">我的Vimrc設定參考</a></li>
+</ul>
+
+
+<h3>shell指令</h3>
+
+<p><kbd>Ctrl</kbd><kbd>l</kbd>: 清除畫面</p>
+
+<p><kbd>Ctrl</kbd><kbd>w</kbd>: 一次刪除一個字(word)</p>
+
+<p><kbd>Ctrl</kbd><kbd>u</kbd>: 刪除一整行</p>
+
+<p><kbd>Ctrl</kbd><kbd>r</kbd>: 搜尋history</p>
+
+<h2>Vim</h2>
+
+<h3>mode切換</h3>
+
+<p><kbd>i</kbd> 或 <kbd>a</kbd> 進入insert mode, i = insert, a = append</p>
+
+<p>在insert mode按下 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd>+<kbd>[</kbd> 回到normal mode</p>
+
+<p>在normal mode按下 <kbd>v</kbd> 或 <kbd>V</kbd> 進入到visual mode</p>
+
+<p>在visual mode按下 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd>+<kbd>[</kbd> 回到normal mode</p>
+
+<h3>游標移動</h3>
+
+<p><kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd> 移動游標</p>
+
+<p><kbd>w</kbd> 或 <kbd>W</kbd> 往後跳一個字(word)， <kbd>b</kbd> 或 <kbd>B</kbd> 往前跳一個字(word)。</p>
+
+<p><kbd>0</kbd> 將游標跳回行首， <kbd>$</kbd> 則是跳至行尾。</p>
+
+<p><kbd>f</kbd><kbd>"</kbd> 會找到該行的下一個雙引號，<kbd>f</kbd><kbd>x</kbd> 會找到該行下一個英文字母&#8221;x&#8221;，以此類推；大寫 <kbd>F</kbd> 則是反向。</p>
+
+<p><kbd>t</kbd><kbd>"</kbd> 會找到該行的下一個雙引號的前一個位置，<kbd>t</kbd><kbd>x</kbd> 會找到該行下一個英文字母&#8221;x&#8221;的前一個位置，以此類推；大寫 <kbd>T</kbd> 則是反向。</p>
+
+<p><kbd>{</kbd> 往上一個段落移動；<kbd>}</kbd> 往下一個段落移動</p>
+
+<p><kbd>v</kbd><kbd>i</kbd><kbd>t</kbd> 選取目前游標所在的這個標籤(tag)，例如<code>&lt;div&gt;hello&lt;/div&gt;</code>則會選取<code>hello</code>；<kbd>v</kbd><kbd>a</kbd><kbd>t</kbd> 則會連帶標籤一起選取，例如<code>&lt;div&gt;hello&lt;/div&gt;</code>則會選取<code>&lt;div&gt;hello&lt;/div&gt;</code>。</p>
+
+<p><kbd>v</kbd><kbd>i</kbd><kbd>"</kbd> 選取目前游標所在的這個雙引號內的內容，例如<code>"hello world"</code>則會選取<code>hello world</code>；<kbd>v</kbd><kbd>a</kbd><kbd>"</kbd> 則會連雙引號一起選取。其中雙引號也可以替換成單引號、小括號等符號，功能一樣是選取該符號內的文字。</p>
+
+<p><kbd>v</kbd><kbd>i</kbd><kbd>w</kbd> 選取目前游標所在的這個字(word)。</p>
+
+<p><kbd>g</kbd><kbd>g</kbd> 游標跳至整個檔案的第一行；<kbd>G</kbd> 游標跳至檔案的最後一行</p>
+
+<p><kbd>z</kbd><kbd>t</kbd> 將目前游標所在位置的內容拉至螢幕的上方；<kbd>z</kbd><kbd>b</kbd> 將目前游標所在位置的內容拉至螢幕的下方；<kbd>z</kbd><kbd>z</kbd> 將目前游標所在位置的內容拉至螢幕的正中間；</p>
+
+<p><kbd>/</kbd> 搜尋，搜尋到結果後<kbd>n</kbd>可跳至下一個；<kbd>N</kbd>可跳至上個。</p>
+
+<p><kbd>*</kbd> 直接搜尋符合游標所在的字(word)</p>
+
+<h3>編輯</h3>
+
+<p><kbd>i</kbd> 進入insert mode，<kbd>I</kbd> 游標直接跳至行首，並進入insert mode</p>
+
+<p><kbd>a</kbd> 進入insert mode，<kbd>A</kbd> 游標直接跳至行末，並進入insert mode</p>
+
+<p><kbd>D</kbd> 刪除游標所在位置之後的所有內容</p>
+
+<p><kbd>C</kbd> 同上，並直接進入insert mode</p>
+
+<p><kbd>x</kbd> 刪除一個字元</p>
+
+<p><kbd>.</kbd> 重複上一個動作</p>
+
+<p><kbd>d</kbd><kbd>d</kbd> 刪除一整行</p>
+
+<p><kbd>3</kbd><kbd>d</kbd><kbd>d</kbd> 刪除3行</p>
+
+<p><kbd>y</kbd><kbd>y</kbd> 複製游標所在位置的一整行</p>
+
+<p><kbd>3</kbd><kbd>y</kbd><kbd>y</kbd> 從游標處往下複製3行，包含游標所在的那一行</p>
+
+<p><kbd>p</kbd> 貼上內容；<kbd>4p</kbd> 從目前游標的所在處貼上內容4次</p>
+
+<p><kbd>=</kbd> 格式整理，<kbd>g</kbd><kbd>g</kbd><kbd>=</kbd><kbd>G</kbd> 整份文件格式自動整理</p>
+
+<p><kbd>d</kbd><kbd>w</kbd>、<kbd>d</kbd><kbd>i</kbd><kbd>w</kbd> 刪除游標所在的那一個字(word)</p>
+
+<p><kbd>c</kbd><kbd>w</kbd>、<kbd>c</kbd><kbd>i</kbd><kbd>w</kbd> 刪除游標所在的一個字(word)並直接進入insert mode</p>
+
+<p><kbd>></kbd> 增加縮排；<kbd>&lt;</kbd> 減少縮排</p>
+
+<h3>常用命令</h3>
+
+<p><kbd>:</kbd><kbd>w</kbd> 寫入檔案</p>
+
+<p><kbd>:</kbd><kbd>q</kbd> 離開Vim，若加上<kbd>!</kbd>則為強制離開</p>
+
+<p><kbd>:</kbd><kbd>tabe</kbd> 開新tab</p>
+
+<p><kbd>g</kbd><kbd>t</kbd> 切換至下一個tab；<kbd>g</kbd><kbd>T</kbd> 切換至上一個tab。(在我的vimrc裡有分別對應到F7跟F8鍵)</p>
+
+<p><kbd>:</kbd><kbd>new</kbd> 新增水平分割視窗；<kbd>:</kbd><kbd>vnew</kbd> 新增垂直分割視窗。</p>
+
+<h3>其它</h3>
+
+<p><kbd>Ctrl</kbd><kbd>z</kbd> 把vim放至背景工作；<code>fg</code>指令則是將vim從背景工作撿回來。</p>
+
+<p>如果沒有意外或被其它工作中斷，應該可以繼續錄下去。發音的部份感覺咬字像含顆魯蛋一樣，無意義的贅字還是很多，有待加強。內容有不對的地方，再請不吝前輩們給予指教。</p>
+
+<h3>推薦閱讀</h3>
+
+<ul>
+<li><a href="http://blog.carbonfive.com/2011/10/17/vim-text-objects-the-definitive-guide/">Vim Text Objects: The Definitive Guide</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -384,59 +537,6 @@ inoremap &lt;RIGHt&gt; &lt;NOP&gt;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/03/06/my-vimrc/">My Vimrc</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2012/03/06/my-vimrc/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2012-03-06T12:54:00+08:00" pubdate>Mar 6<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>About 3 months ago, I&#8217;ve mentioned I <a href="/2011/12/26/vim/">started to use Vim as my primary editor</a>, and now I can only open Vim and Xcode in my daily job(my primary job is coding with Ruby and Rails, and Objective-C is just for fun).</p>
-
-<p><a href="https://github.com/kaochenlong/eddie-vim">Here</a> is my current vim configuration, feel free to use it, and welcome to give me your suggestion(or criticism). I took some screenshots of my computer and laptop:</p>
-
-<p>MacVim, on iMac with Mac OS X Lion, click to enlarge
-<a href="/images/2012/vim-2012-03-27-macvim.png" target="_blank"><img src="/images/2012/vim-2012-03-27-macvim.png" alt="image" /></a></p>
-
-<p>Non-GUI Vim, on iMac with Mac OS X Lion, click to enlarge
-<a href="/images/2012/vim-2012-03-27-terminal-vim.png" target="_blank"><img src="/images/2012/vim-2012-03-27-terminal-vim.png" alt="image" /></a></p>
-
-<p>Ubuntu 11.10, click to enlarge
-<a href="/images/2012/vim-2012-03-27-gvim-ubuntu.png" target="_blank"><img src="/images/2012/vim-2012-03-27-gvim-ubuntu.png" alt="image" /></a>
-the icons and fonts of the bottom are pretty nice, right? you can check on <a href="https://github.com/scotu/ubuntu-mono-powerline">this</a>, or download from <a href="/downloads/files/2012/ubuntu-mono-powerline-fonts.zip">here</a>, and unzip them to <code>~/.font</code>.</p>
-
-<p>Windows XP, Vim on Windows? I know.. but it&#8217;s still working, right? click to enlarge
-<a href="/images/2012/vim2012-03-06-winxp.png" target="_blank"><img src="/images/2012/vim2012-03-06-winxp-thumb.png" alt="image" /></a></p>
-
-<h3>Keep polishing</h3>
-
-<p>Vim is a pretty awesome and interesting editor, hope can keep polishing it in my daily jobs :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/7/">&larr; Older</a>
@@ -488,6 +588,10 @@ the icons and fonts of the bottom are pretty nice, right? you can check on <a hr
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
       </li>
     
@@ -523,15 +627,11 @@ the icons and fonts of the bottom are pretty nice, right? you can check on <a hr
         <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

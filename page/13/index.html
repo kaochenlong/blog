@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="上一章我們學到了怎麼設定網址跟對應的action，但畫面的呈現不可能永遠只有一個Hello BookStore!這麼美好。很多時候程式設計師是需要跟美術設計師合作的，通常的流程是工程師會從設計手上拿到HTML + CSS的檔案，如果你曾經用PHP開發過網站，我猜大概你可能是把拿到的.html改成. &hellip;">
+  <meta name="description" content="Model我們會建了，資料也可以從後台或Shell來做新增/修改/刪除/更新，網址會設定了，Template也大概知道怎麼回事了，其實整個Django的MTV(Model-Template-View)架構到這裡已經介紹得差不多了，接下來我們就是要把資料給串起來。 回來看一下先來看一下我們的book &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,596 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/19/django-model-to-template/">從Model到Template</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-model-to-template/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-19T13:14:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Model我們會建了，資料也可以從後台或Shell來做新增/修改/刪除/更新，網址會設定了，Template也大概知道怎麼回事了，其實整個Django的MTV(Model-Template-View)架構到這裡已經介紹得差不多了，接下來我們就是要把資料給串起來。</p>
+
+<p>回來看一下先來看一下我們的<code>book/views.py</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/index.html&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接著，我們要來把資料給撈出來，並且把它餵給Template(我知道「撈」、「餵」這些詞有點台，不過我想大家比較聽得懂)：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">book.models</span> <span class="kn">import</span> <span class="n">Book</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">books</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/index.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;books&#39;</span> <span class="p">:</span> <span class="n">books</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Book ID = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">book_id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我們在第6行把資料庫透過<code>Book類別</code>給取出來，然後在第7行再以dictionary型式傳給<code>render_to_response</code>，這樣待會我們在Template裡就可以取用得到<code>books</code>這個變數。</p>
+
+<p>切換到Template <code>templates/book/index.html</code>：</p>
+
+<figure class='code'><figcaption><span>Book Index Template  (book_index.html)</span> <a href='/downloads/code/django/book_index.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>目前總共有{{ books.count }}本書
+</span><span class='line'>  <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  {% for book in books %}
+</span><span class='line'>    <span class="nt">&lt;li&gt;</span>書名：{{ book.title }}({{ book.page }}頁，售價：{{ book.price }})<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  {% endfor %}
+</span><span class='line'>  <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打開瀏覽器，網址輸入：<code>http://127.0.0.1:8000/</code>，應該可以看到類似的畫面：</p>
+
+<p><img src="/images/django/book_index.png" alt="image" /></p>
+
+<p>如果沒有看到列表的話，就先到佛心的Admin模組去新增個兩本書，再回來看一下結果。</p>
+
+<h2>那書的內容呢?</h2>
+
+<p>剛剛只有列表，接下來要把連結跟內容頁給做起來：</p>
+
+<p><code>templates/book/index.html</code>，在書名上加上連結：</p>
+
+<figure class='code'><figcaption><span>Book Index Template  (book_index_2.html)</span> <a href='/downloads/code/django/book_index_2.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>目前總共有{{ books.count }}本書
+</span><span class='line'>  <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  {% for book in books %}
+</span><span class='line'>    <span class="nt">&lt;li&gt;</span>書名：<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/books/{{ book.id }}&quot;</span><span class="nt">&gt;</span>{{ book.title }}<span class="nt">&lt;/a&gt;</span>({{ book.page }}頁，售價：{{ book.price }})<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  {% endfor %}
+</span><span class='line'>  <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再來做一下內容<code>templates/book/detail.html</code>：</p>
+
+<figure class='code'><figcaption><span>Book Index Template  (book_detail.html)</span> <a href='/downloads/code/django/book_detail.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>書名：{{ book.title }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>頁數：{{ book.page }}頁<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>售價：{{ book.price }}元<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>出版日期：{{ book.publish_date }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>作者：{{ book.author.name }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>聯絡資訊：
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>電話：{{ book.author.tel }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>Email：{{ book.author.email }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>地址：{{ book.author.address }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同時，<code>book/views.py</code>也要做些調整：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">book.models</span> <span class="kn">import</span> <span class="n">Book</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">books</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/index.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;books&#39;</span> <span class="p">:</span> <span class="n">books</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">book_id</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">book</span> <span class="o">=</span>  <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Book</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="n">book_id</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;book/detail.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;book&#39;</span> <span class="p">:</span> <span class="n">book</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這邊我又偷懶的用到了<code>short_cuts</code>模組的<code>get_object_or_404</code>，意思就是說如果資料庫裡面找不到這筆資料的話，就會直接丟出HTTP 404的畫面。</p>
+
+<p>如果程式運作正常，你應該可以看到像這樣的畫面：</p>
+
+<p><img src="/images/django/book_detail.png" alt="image" /></p>
+
+<p>僅為展示效果，所以頁面很陽春，我相信你拿到設計師的HTML頁面應該都比這個漂亮許多倍。</p>
+
+<h2>Filters</h2>
+
+<p>到目前為止，程式看起來已經會動了!! 但長官可能看到畫面後，可能會神來一筆的說：「那個錢的單位，可以加上千位的逗點符號嗎?」，或是「那個出版日期..可以把年份放最前面，而且用斜線分開嗎?」。</p>
+
+<p>你的第一個想法，可能會是資料撈出來之後，先每一筆都處理過之後再丟給Template。但事實上這種&#8221;資料呈現&#8221;的工作，應該只要交給Template的Filter來做就好。Template的Filter有點像在Linux系統上的<code>pipe</code>，就是可以透過<code>|</code>符號，把前面的資料丟給下一個執行，直到最後結束為止，來看一些範例：</p>
+
+<figure class='code'><figcaption><span>Template Build-in Filter (filter_demo.html)</span> <a href='/downloads/code/django/filter_demo.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{{ &quot;eddie&quot;|upper }}                         # EDDIE
+</span><span class='line'>{{ &quot;eddie kao&quot;|title }}                     # Eddie Kao
+</span><span class='line'>{{ &quot;this is a book&quot;|cut:&quot; &quot;}}               # thisisabook
+</span><span class='line'>{{ &quot;&quot;|default:&quot;未填寫&quot; }}                    # 未填寫
+</span><span class='line'>{{ &quot;<span class="nt">&lt;b&gt;</span>hello<span class="nt">&lt;/b&gt;</span>&quot;|striptags }}              # hello
+</span><span class='line'>{{ &quot;too long, don&#39;t read&quot;|truncatewords:2}} # too long, ...
+</span><span class='line'>{{ &quot;hello python&quot;|wordcount }}              # 2
+</span><span class='line'>
+</span><span class='line'>book{{ 1|pluralize }}                       # book
+</span><span class='line'>book{{ 10|pluralize }}                      # books
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要注意的是，filter在用的時候，<code>|</code>的左右不可以有空白，不然會直接出現<code>TemplateSyntaxError</code>。其它更多的Filter，請參考：<a href="https://docs.djangoproject.com/en/1.3/ref/templates/builtins/">https://docs.djangoproject.com/en/1.3/ref/templates/builtins/</a></p>
+
+<p>看完之後，認份的來完成剛剛老闆交待的修改吧!</p>
+
+<h3>出版日期的年份放前面，年、月、日各別用斜線分開</h3>
+
+<figure class='code'><figcaption><span>修改年份表示方式 (book_detail_2.html)</span> <a href='/downloads/code/django/book_detail_2.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>回列表頁<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>書名：{{ book.title }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>頁數：{{ book.page }}頁<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>售價：{{ book.price }}元<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>出版日期：{{ book.publish_date|date:&quot;Y/m/d&quot; }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>作者：{{ book.author.name }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>聯絡資訊：
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>電話：{{ book.author.tel }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>Email：{{ book.author.email }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>地址：{{ book.author.address }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>只改了一行就搞定了!</p>
+
+<h3>數字加上千位逗點符號</h3>
+
+<p>Django也有幫我們寫好這個filter，但因為這個模組預設並沒有安裝/載入，所以在使用上會稍微麻煩一些：</p>
+
+<p><code>settings.py</code>的<code>INSTALLED_APPS</code>要加上<code>django.contrib.humanize</code>模組：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c"># Uncomment the next line to enable the admin:</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;django.contrib.humanize&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c"># Uncomment the next line to enable admin documentation:</span>
+</span><span class='line'>    <span class="c"># &#39;django.contrib.admindocs&#39;,</span>
+</span><span class='line'>    <span class="s">&#39;author&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&#39;book&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在使用之前需要用<code>{％ load humanize ％}</code>載入，然後就可以用了：</p>
+
+<figure class='code'><figcaption><span>修改年份表示方式 (book_detail_3.html)</span> <a href='/downloads/code/django/book_detail_3.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>{% load humanize %}
+</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>回列表頁<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>書名：{{ book.title }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>頁數：{{ book.page }}頁<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>售價：{{ book.price|intcomma }}元<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>出版日期：{{ book.publish_date|date:&quot;Y/m/d&quot; }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>作者：{{ book.author.name }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>聯絡資訊：
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>電話：{{ book.author.tel }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>Email：{{ book.author.email }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>地址：{{ book.author.address }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>沒問題的話，應該是這個樣子：</p>
+
+<p><img src="/images/django/book_detail_fisnish.png" alt="image" /></p>
+
+<p>打完收工，下班去了!</p>
+
+<h2>寫自己的Filter</h2>
+
+<p>有時候就是沒有現成的filter可以用(其實是不常發生..)，例如老闆又說「那個日期的年份，可以改成民國年份表示嗎?」。大概猜也知道老外不太可能會幫我們寫這種filter，當然要硬改也不是不行，但就失去了我們用這個framework的原意了。我們就來寫個可以產生民國年份的filter吧(其實不過就是把年份減掉1911而已..)</p>
+
+<p>filter本身其實也就是Python的程式碼而已，所以第一個問題應該會是：「filter要寫在哪裡?」</p>
+
+<p>filter有固定的寫法跟位置，你可以把它寫在適合的App底下，它必須放在某個App的<code>templatetags</code>資料夾裡，而且因為它是一個標準的Python模組，所以在<code>templatetags</code>資料夾裡，它必須也要放一個<code>__init__.py</code>。在我們目前這個範例，我把它放在<code>book</code>這個App裡，模組的檔名我給它取做<code>chinese_date.py</code>，整個看起來的資料夾結構大概會長得像這樣：</p>
+
+<p><img src="/images/django/filter_structure.png" alt="image" /></p>
+
+<p>再來，為了讓Django認得你寫的filter，你會需要有一個叫做<code>register</code>的<code>template.Library</code>實體變數，所以它的固定寫法會是長得像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># encoding: utf-8</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">template</span>
+</span><span class='line'><span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">chinese_date</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="s">&quot;民國</span><span class="si">%i</span><span class="s">年</span><span class="si">%i</span><span class="s">月</span><span class="si">%i</span><span class="s">日&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="mi">1911</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">register</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s">&quot;chinese_date&quot;</span><span class="p">,</span> <span class="n">chinese_date</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第1行加上<code>encoding: utf-8</code>是因為我們在程式裡面有用到中文字元，如果沒加這行的話會出現<code>SyntaxError</code>。第2、3行就是Django規定filter的固定寫的filter method，最後第8行再把它註冊起來，讓Django看得到它。第8行的註冊方式，也可以用method decorator的寫法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># encoding: utf-8</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">template</span>
+</span><span class='line'><span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@register.filter</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">chinese_date</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">return</span> <span class="s">&quot;民國</span><span class="si">%i</span><span class="s">年</span><span class="si">%i</span><span class="s">月</span><span class="si">%i</span><span class="s">日&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="mi">1911</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>效果一樣，不過我個人比較偏好這種寫法。filter寫好了，最後回來原來的Template：</p>
+
+<figure class='code'><figcaption><span>Custom Filter (book_detail_4.html)</span> <a href='/downloads/code/django/book_detail_4.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">   &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Book<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>{% load humanize %}
+</span><span class='line'>{% load chinese_date %}
+</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>回列表頁<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>書名：{{ book.title }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>頁數：{{ book.page }}頁<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>售價：{{ book.price|intcomma }}元<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>出版日期：{{ book.publish_date|chinese_date }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>作者：{{ book.author.name }}<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>聯絡資訊：
+</span><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>電話：{{ book.author.tel }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>Email：{{ book.author.email }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;</span>地址：{{ book.author.address }}<span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>{％ load chinese_date ％}</code>載入剛剛寫好的模組，修改一下filter，最後得樣子應該會長這樣：</p>
+
+<p><img src="/images/django/custom_filter.png" alt="image" /></p>
+
+<p>搞定，下班啦!</p>
+
+<p>更多相關細節，請參考 <a href="https://docs.djangoproject.com/en/1.3/howto/custom-template-tags/">https://docs.djangoproject.com/en/1.3/howto/custom-template-tags/</a></p>
+
+<h2>還有嗎?</h2>
+
+<p>到這裡，其實我們已經將Django的MTV架構跟流程介紹的差不多了，接下來請趁你還有記憶的時候，把<a href="https://docs.djangoproject.com/en/1.3/">官網的文件</a>全部讀一遍吧!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -722,252 +1312,6 @@ Running migrations for author:
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/19/django-more-about-model/">更多關於Model的使用</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-more-about-model/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-19T02:11:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在上一個章節的Shell操作過程中，如果你有注意到的話，你會發現一段長得像這樣的東西：</p>
-
-<pre><code>&gt;&gt;&gt; Profile.objects.all()
-[&lt;Profile: Profile object&gt;]
-</code></pre>
-
-<p>但如果你想讓這個<code>object</code>能夠一眼就看得出來它是什麼內容的話，只要在Model的<code>Profile類別</code>裡覆寫一些method，我們再次打開<code>author/models.py</code>，原來的程式碼長這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Create your models here.</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我們來幫它加一個<code>__unicode__</code>的方法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Create your models here.</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然後我們再到shell裡操作的時候，就會發現秀出來的資料變得不一樣了：</p>
-
-<pre><code>&gt;&gt;&gt; from author.models import Profile
-&gt;&gt;&gt; eddie = Profile(name = "eddie kao", age = 30, tel = "0928123123", address = "Taipei, Taiwan", email = "eddie@digik.com.tw")
-&gt;&gt;&gt; eddie
-&lt;Profile: eddie kao&gt;
-</code></pre>
-
-<p>看到了嗎? 它由原本的<code>object</code>變成會秀出名字了。其實原理就是當你在Python用print方法把物件給印出來的時候，它會呼叫這個類別裡實作的<code>__str__</code>、<code>__repr__</code>以及<code>__unicode__</code>，其實這三個有一些些微的差異，細節可參考Python的文件說明，這裡我們直接覆寫<code>Profile類別</code>的<code>__unicode__</code>方法，讓它回傳<code>name</code>欄位的值。這樣的修改，稍候你在後台看資料的時候，也會發現它會由原本的<code>object</code>，變成秀出你設定的<code>name</code>欄位。</p>
-
-<p>事實上，你還可以定義更多的方法，把一些程式邏輯給包在Model裡，這樣一來，你在View(Controller)的地方就可以讓程式碼變得更簡潔，也更容易維護。例如我們來簡單寫個檢查該名作者是否已經成年(年齡 > 18)：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Create your models here.</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">is_adult</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>再來進到shell裡看看：</p>
-
-<pre><code>&gt; bookstore  python manage.py shell
-Python 2.6.1 (r261:67515, Jun 24 2010, 21:47:49) 
-[GCC 4.2.1 (Apple Inc. build 5646)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
-(InteractiveConsole)
-&gt;&gt;&gt; from author.models import Profile
-&gt;&gt;&gt; author = Profile.objects.get(id = 1)
-&gt;&gt;&gt; author
-&lt;Profile: eddie&gt;
-&gt;&gt;&gt; author.is_adult()
-True
-</code></pre>
-
-<p>原本你可能需要在View(Controller)層寫個<code>if .. else ..</code>來判斷，現在可以把這個判斷包在Model層裡，一來程式碼容易除錯，而且因為都集中在Model的話，萬一今天假設我們的法律把成年人條件改成滿20歲，你只要修改一下Model的邏輯判斷，其它程式碼不用修改就可以下班了，這樣感覺不是很歡樂嗎?</p>
-
-<h2>那個超佛心的管理後台呢?</h2>
-
-<p>記得我們在前面有提到Django有送我們一個很好用的後台管理系統嗎? 但那時候登入之後空空的什麼都沒有，接下來我們要來讓這個<code>Profile類別</code>在後台也可以管理。要讓Model在Admin模組可以看得到，有兩種做法，第一種是在App裡面新增一個<code>admin.py</code>，內容長得像這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">author.models</span> <span class="kn">import</span> <span class="n">Profile</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Profile</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這段程式碼的大意就是我們要把<code>Profile類別</code>給&#8221;註冊&#8221;到Admin模組裡，讓它也感覺得到它的存在。登入後台後，你應該可以看到<code>Profile類別</code>出現了：</p>
-
-<p><img src="/images/django/admin_register_model.png" alt="image" /></p>
-
-<p>你可以試著玩看看它的一些管理功能，試試從Admin模組去新增/修改/刪除/更新一些資料。除了剛剛在App裡新增<code>admin.py</code>之外，另一種做法就是把這個&#8221;註冊&#8221;的動作寫在Model裡，原來的<code>Profile類別</code>看起來會像這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Create your models here.</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">is_adult</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">ProfileAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">pass</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Profile</span><span class="p">,</span> <span class="n">ProfileAdmin</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>兩種做法都可以，我個人比較偏第二種，因為可以少寫一個檔案(懶!)，程式碼只要在Model找就行了。</p>
-
-<p>到目前為止，我們很單純的都只有一個表格，但現實生活不可能有這麼美好的事，所以我們再來新增一些資料表，並且讓這些資料表彼此有一些關連。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/14/">&larr; Older</a>
@@ -1019,6 +1363,10 @@ True
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
       </li>
     
@@ -1054,15 +1402,11 @@ True
         <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/06/29/about-hhkb-pro2/">HHKB Pro2 鍵盤使用心得</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 137.89473684210526%'>Ruby(24)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
