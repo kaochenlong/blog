@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="我每天的工作是敲打鍵盤之類的文書工作，所以幫自己找一隻順手的鍵盤也是剛剛好的藉口。 對於 HHKB 鍵盤的傳說，很早之前就有所聽聞了。最知名的應該就是 Richard Stallman 用 HHKB 鍵盤搭配百元電腦的那張照片(鍵盤本身比電腦本體還貴!)。我知道它是神器， &hellip;">
+  <meta name="description" content="今年二月份剛好有機會到朋友的公司幫忙開發 iOS app：「分心 FanXin」。顧名思義，就是一個可以讓你一邊看電視，一邊分心地跟朋友聊劇情的 app。 下載網址：https://itunes.apple.com/tw/app/fanxin-fen-xin/id545965153?mt=8 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,65 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/10/18/fanxin-app/">分心 FanXin app</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2013/10/18/fanxin-app/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2013-10-18T01:55:00+08:00" pubdate>Oct 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2013/fanxin-app.jpg" alt="image" /></p>
+
+<p>今年二月份剛好有機會到朋友的公司幫忙開發 iOS app：「分心 FanXin」。顧名思義，就是一個可以讓你一邊看電視，一邊分心地跟朋友聊劇情的 app。</p>
+
+<p>下載網址：<a href="https://itunes.apple.com/tw/app/fanxin-fen-xin/id545965153?mt=8" target="_blank">https://itunes.apple.com/tw/app/fanxin-fen-xin/id545965153?mt=8</a></p>
+
+<p>但近期因為覺得我家的那兩隻小朋友在長大的速度變好快，覺得好像再這樣忙下去就會錯過小朋友的成長過程了(像今天才看到我家三歲的小男生拿媽媽的化妝品在畫自己的臉)。所以把專案進度做個段落之後，就要回家來養小孩了(沒錯，我就是要從小開始訓練小朋友寫 code 了!)。</p>
+
+<h2>做玩具與做產品的差別</h2>
+
+<p>這回幾乎把一些常見的 iOS app 常用的東西都再磨過一輪。UI customization 當然是免不了的，另外，從 Facebook SDK 到 remote &amp; local notification，從 HTTP API 的串接到 streaming messaging protocol 的訊息處理，從 Core Data 到 NoSQL 等等，甚至也很幸運的遇到了 iOS 7 的 migration，完全體會到做玩具跟做產品的差別。</p>
+
+<p>這個 app 雖然不是全新打造的，但由於舊版的 app 架構有些不適合新改版的功能需求，所以最後幾乎是整個砍掉重練，從無到有手刻了超過三萬五千多行的程式碼(不包含3rd party library)：
+<img src="/images/2013/fanxin-cloc.png" alt="image" />
+雖然跟一些大型專案比起來還差很遠，但對我個人來說已是個里程碑，除了提昇了不少寫 code 的手感外，也更了解 Objective-C 跟 Cocoa framework 是怎麼回事。</p>
+
+<p><a href="http://fanxin.tv/">分心團隊</a>雖然是個新創團隊，但裡面的成員都不會太新手，有眼光犀利的UI、UX designer 讓整個 app 看起來很精緻，使用起來也更直覺；有優秀的工程師負責處理 API，也有專門負責行銷及想點子的同事，讓開發人員可以 專心的開發 app；除此之外，還有 Web 平台的開發人員，讓 Web 跟 Mobile 都有一樣的功能。在這短短的八個多月的時間跟大家學到不少。</p>
+
+<h2>徵人啟事</h2>
+
+<p>分心團隊目前仍持續有在徵人，有興趣的朋友歡迎來試試看囉!</p>
+
+<ul>
+<li><a href="http://www.104.com.tw/jobbank/custjob/index.php?r=cust&amp;j=5e70436b5a6c3e233c423b1d1d1d1d5f2443a363189j01">徵才頁面</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -332,501 +391,6 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/05/24/delegation-in-objective-c/">Delegation in Objective-C</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2013/05/24/delegation-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2013-05-24T01:55:00+08:00" pubdate>May 24<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在開發 iOS app 的過程中，Delegation(委任) 幾乎是避不掉的東西，例如在 ViewController 裡處理 UITableView 的時候，大家一定都寫過像這樣的程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">tableView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>坊間的書本大多會教要這樣寫，但不一定有說明為什麼要這麼寫。其實 delegation 的概念並不困難，只是要用程式碼來表達的時候，對新手來說可能就需要多一點的想像力了。</p>
-
-<p>Delegation，中文翻譯成「委任」，委任兩字講的好聽是拜託別人做事，講白一點就是自己不想做或不會做，所以外包出去叫別人做。</p>
-
-<p>但是，就算是要叫別人做也不能隨便找一個路人就可以，舉個例子，我想要把「撰寫 Ruby 程式」這件事委任給別人，要有能力處理這份工作的人至少得知道 Ruby 程式怎麼寫。</p>
-
-<p>那要判斷對方是否有「能力」來接受我的委任，就是問這個被委任的人是否有符合(Conform)我訂的條件(Protocol)，然後這個條件就跟面試新人一樣，某些技能是必須的(Required)，但其它條件是非必須的(Optional)。</p>
-
-<p>一樣以 UITableView 來舉個例子，如果我希望某個 ViewController 可以有能力接受 TableView 的委任，假設這個 UITableView 是設定成一個叫做 <code>tableView</code> 的 IBOutlet 的話，我們可以直接在 ViewDidLoad 的地方這樣寫：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">_tableView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或是直接在 Storyboard 用拉的也行：</p>
-
-<p><img src="/images/2013/drag-delegate-to-viewcontroller.png" alt="image" /></p>
-
-<p>這樣就完成了 delegation 的設定啦!</p>
-
-<p>但是，剛剛才講到，我怎麼知道這個 ViewController 有能力可以完成我想要委任的工作? 其實就是讓這個 ViewController 實作 <code>UITableViewDelegate</code> 這個 Protocol 就行了。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span><span class="p">()</span><span class="o">&lt;</span><span class="n">UITableViewDelegate</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>關於 Protocol，大家可以參考之前寫的<a href="/2010/12/11/protocol-in-objective-c/">這篇</a></p>
-
-<p>但是，<code>UITableViewDelegate</code> 這個 protocol 到底定義了哪些東西? 讓我們按著鍵盤的 Cmd 鍵加上滑鼠點擊 <code>UITableViewDelegate</code> 就可以連過去看一下它的定義(部份程式碼省略)：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@protocol</span> <span class="nc">UITableViewDelegate</span><span class="o">&lt;</span><span class="n">NSObject</span><span class="p">,</span> <span class="n">UIScrollViewDelegate</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">@</span><span class="n">optional</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// ..省略</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Variable height support</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nl">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="n">tableView</span> <span class="nl">heightForRowAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPath</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">heightForHeaderInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">heightForFooterInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Section header &amp; footer information. Views are preferred over title should you decide to provide both</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">viewForHeaderInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">viewForFooterInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// ..省略</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>UITableViewDelegate</code> 這個 protocol 定義在 UIKit 的 UITableView.h 裡面，而且全部都是 optional 的，也就是說就算不實作任何這個 protocol 裡的方法也不會怎麼樣，它還是有自己預設的行為。</p>
-
-<p>但如果你想要做一些 UI 客製化，例如想要動態的調整每個 cell 的高度，你就可以在這個 ViewController，也就是這個 tableview 所「委任」的對象，覆寫這個 method：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#pragma mark - UITableView delegate</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span> <span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">heightForRowAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="mf">100.0f</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的實作這個方法，你可以想像成以下情境：</p>
-
-<blockquote><p>tableview 問 view controller 說：「喂，我每個 cell 要設定多高啊?」</p>
-
-<p>view controller 回答：「就 100 個點(point)吧。」</p></blockquote>
-
-<p>再舉個例子，如果你想要客製化這個 tableview 的 section header 或 footer，就是覆寫這兩個方法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span> <span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">viewForFooterInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// 內容省略</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span> <span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">viewForHeaderInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// 內容省略</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以此類推。</p>
-
-<p>UITableView 所需要的一些行為或是外觀描述，都是透過 delegate 的方式，請被委任的傢伙(通常是那個 tableview 所在的 view controller)告知。</p>
-
-<h2>Delegate 怎麼寫?</h2>
-
-<p>上面大概說明了怎麼用別人寫好的 delegate，如果也想自己仿著做一個，該怎麼做呢?</p>
-
-<p>我這邊來做個簡單的範例，大概就是希望某個 UIView 在進行動畫完成之後透過 delegate 發送一個「喂，我已經搞定囉」的通知，並同時也回傳狀態。</p>
-
-<p>我開了一個新的 Xcode 專案，選了 <code>Single View Application</code>，裡面應該只有預設的 <code>ViewController.h</code> 跟 <code>ViewController.m</code>，接著我新增了一個繼承自 UIView 的類別，叫做 <code>AnimationSquareView</code>：</p>
-
-<p><img src="/images/2013/animationsquareview.jpg" alt="image" /></p>
-
-<p>並且在上面加了一個叫做 <code>run</code> 的 public method：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">//== 檔案：AnimationSquareView.h ==</span>
-</span><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">AnimationSquareView</span> : <span class="nc">UIView</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">run</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// == 檔案：AnimationSquareView.m ==</span>
-</span><span class='line'><span class="cp">#import &quot;AnimationSquareView.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">AnimationSquareView</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">run</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">3.0</span> <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="n">CGRect</span> <span class="n">newFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">150</span><span class="p">,</span>
-</span><span class='line'>                                     <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
-</span><span class='line'>                                     <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
-</span><span class='line'>                                     <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">newFrame</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span> <span class="nl">completion:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// do something later..</span>
-</span><span class='line'>    <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這個 <code>run</code> 做的事情就是在 3 秒鐘完成一個簡單的動畫(其實就是讓它自己往右邊移動 150 個點，並且透明度變 50%)。</p>
-
-<p>ViewController 的部份程式碼如下：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// == 檔案：ViewController.m ==</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#import &quot;ViewController.h&quot;</span>
-</span><span class='line'><span class="cp">#import &quot;AnimationSquareView.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">@</span><span class="n">implementation</span> <span class="n">ViewController</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">AnimationSquareView</span><span class="o">*</span> <span class="n">squareView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimationSquareView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview:</span><span class="n">squareView</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">squareView</span> <span class="n">run</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行一下，應該會看到一個黑色的方塊緩緩的往右程動，過三秒鐘之後就停下來了：</p>
-
-<p><img src="/images/2013/animation-square-run.png" alt="image" /></p>
-
-<h3>加上 delegate</h3>
-
-<p>如果，我想要讓這個 ViewController 知道這個方塊什麼時候做完它的動畫效果，該怎麼做?</p>
-
-<p>一種方法是可以在那個動畫 block 的 completion 區塊利用 <code>NSNotification Center</code> 並且在 ViewController 搭配 <code>KVO(Key-Value Observing)</code> 來實作，不過我們這邊選擇用 delegation。首先，我先定義一個叫做 <code>AnimationSquareViewDelegate</code> 的 protocol，並且在原來的 <code>AnimationSquareview</code> 類別裡加了一個名為 <code>delegate</code> 的 property：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// == 檔案：AnimationSquare.m ==</span>
-</span><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@class</span> <span class="nc">AnimationSquareView</span>;
-</span><span class='line'><span class="k">@protocol</span> <span class="nc">AnimationSquareViewDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">@</span><span class="n">optional</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nl">animationSquareView:</span><span class="p">(</span><span class="n">AnimationSquareView</span> <span class="o">*</span><span class="p">)</span> <span class="n">squareView</span> <span class="nl">didFinishAnimationWithStatus:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">status</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">AnimationSquareView</span> : <span class="nc">UIView</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="kt">id</span> <span class="o">&lt;</span><span class="n">AnimationSquareViewDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">run</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡可能有些需要解釋的：</p>
-
-<ol>
-<li><p><code>delegate</code> 這個 property 並不一定要命名為 <code>delegate</code>，只是慣例上通常會使用 <code>delegate</code> 這個名字，你硬是要把它叫 <code>abc</code> 也行，只是在待會我們要設定 delegate 的時候就要用 <code>abc</code> 了。另外，protocol 的定義也不一定要放在同一個 header 檔裡，也可以另外獨立的檔案，不過因為這個 delegate 的行為跟這個類別有關，我通常也會把它寫在同一個檔案裡面。</p></li>
-<li><p>上面第 4 行，為什麼需要那個 <code>@class AnimationSquareView;</code>? 因為在定義 protocol 的當下，這個類別還沒被定義出來，所以 <code>@class</code> 是告訴編譯器說：「我這個 <code>AnimationSquareView</code> 是一個類別，反正我待會就會寫，你先別管這麼多」。</p></li>
-<li><p>Protocol 裡的方法有分兩種，一種是規定必須實作的(required)，另一種則是不一定要實作的(optional)，在這個範例裡，我認為<code>完成動畫</code>的這個方法並不是一個一定要實作的方法，所以我把 <code>animationSquareView:didFinishAnimationWithStatus:</code> 它設定成 optional (如果沒有特別標記，就是 required 的)。</p></li>
-<li><p>Protocol 的名字 <code>AnimationSquareViewDelegate</code> 也不一定要叫這個名字，只是在後面加上個 <code>Delegate</code> 似乎也是慣例。</p></li>
-</ol>
-
-
-<p>再來，我們改寫一下剛剛那段動畫的 completion 區塊的程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// == 檔案：AnimationSquare.m ==</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">run</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">3.0</span> <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="n">CGRect</span> <span class="n">newFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">150</span><span class="p">,</span>
-</span><span class='line'>                                     <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
-</span><span class='line'>                                     <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
-</span><span class='line'>                                     <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">newFrame</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span> <span class="nl">completion:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">_delegate</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">animationSquareView:didFinishAnimationWithStatus:</span><span class="p">)])</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">currentStatus</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span><span class="s">@&quot;status&quot;</span><span class="o">:</span> <span class="s">@&quot;finished&quot;</span><span class="p">};</span>
-</span><span class='line'>            <span class="p">[</span><span class="n">_delegate</span> <span class="nl">animationSquareView:</span><span class="n">self</span> <span class="nl">didFinishAnimationWithStatus:</span><span class="n">currentStatus</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡需要解釋的就應該就只有那段 <code>respondsToSelector</code> 了。這段的意思是問自己本身的這個 <code>delegate</code> 是不是有實作 <code>animationSquareView:didFinishAnimationWithStatus:</code> 這個方法，如果有的話，就呼叫它，並且把自己(self)以及狀態(一個NSDictionary)傳入。</p>
-
-<h3>設定 delegate</h3>
-
-<p>再來，回到 ViewController 裡，準備設定我們剛剛寫好的 protocol 跟 delegate：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// == 檔案：ViewController.m ==</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#import &quot;ViewController.h&quot;</span>
-</span><span class='line'><span class="cp">#import &quot;AnimationSquareView.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span><span class="p">()</span><span class="o">&lt;</span><span class="n">AnimationSquareViewDelegate</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">@</span><span class="n">implementation</span> <span class="n">ViewController</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">AnimationSquareView</span><span class="o">*</span> <span class="n">squareView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimationSquareView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview:</span><span class="n">squareView</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">squareView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">squareView</span> <span class="n">run</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#pragma mark - AnimationSquareView Delegate</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">animationSquareView:</span><span class="p">(</span><span class="n">AnimationSquareView</span> <span class="o">*</span><span class="p">)</span><span class="n">squareView</span> <span class="nl">didFinishAnimationWithStatus:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">status</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;current status = %@&quot;</span><span class="p">,</span> <span class="n">status</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這邊多了幾行程式碼：</p>
-
-<ol>
-<li><p>第 6 行的地方，在類別後面加上了 <code>&lt;AnimationSquareViewDelegate&gt;</code>，就是告訴編譯器說：「我有遵守(conform) <code>AnimationSquareView</code> 規定的 protocol」，表示可以接受 AnimationSquareView 的委任。</p></li>
-<li><p>第 17 行的地方，設定 <code>squareView.delegate = self</code>，把 squareView 的 delegate 設定到自己身上，也就是目前這個 ViewController。</p></li>
-<li><p>第 22 行到第 25 行，就是實作 protocol 裡定義的方法。</p></li>
-</ol>
-
-
-<p>執行一下，應該可以在動畫執行結束的時候，看到輸出結果。</p>
-
-<p>那，如果第 22 行到第 25 行的程式碼沒實作出來會怎樣? 在我們這個例子，不會怎樣，因為我們並沒有在 protocol 裡設定一定要實作的方法(required)。</p>
-
-<p>透過 delegation，可以降低類別與類別之間的耦合，但仍然可方便的讓類別之間有&#8221;溝通&#8221;的效果，而且也很容易的可以把要溝通的&#8221;訊息&#8221;一併傳回。</p>
-
-<p><a href="/downloads/files/2013/DelegateDemo.zip">範例檔下載</a></p>
-
-<p>以上，希望這篇文章能讓大家對 delegation 有更進一步的了解。如果有哪邊寫錯，還請前輩先進指點。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/4/">&larr; Older</a>
@@ -878,6 +442,10 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -913,15 +481,11 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

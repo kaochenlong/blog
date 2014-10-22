@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在上一篇練習MapView的時候，發現當把MapView的showsUserLocation打開後，在模擬器上執行的結果，會出現在美國的某個地方： 拉近一看才發現，原來那個發亮的點的地址是在”Infinite Loop”，正是Apple電腦的總部所在地。然後又到google &hellip;">
+  <meta name="description" content="這回來我們來看看在Objective-C裡的物件導向程式(Object-Oriented Programming)的東西，不過有些像是”何謂物件導向”以及”物件導向的優缺點”之類的基礎觀念就不特別提了，網路上應該可以找到更多更詳細的參考資料，我假設你曾經在別的程式語言有寫過OOP，大概知道繼承、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,221 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/01/oop-in-objective-c/">OOP in Objective-C</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/01/oop-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-01T21:54:00+08:00" pubdate>Dec 1<span>st</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這回來我們來看看在Objective-C裡的物件導向程式(Object-Oriented Programming)的東西，不過有些像是”何謂物件導向”以及”物件導向的優缺點”之類的基礎觀念就不特別提了，網路上應該可以找到更多更詳細的參考資料，我假設你曾經在別的程式語言有寫過OOP，大概知道繼承、封裝是怎麼回事。</p>
+
+<p>在別的程式語言裡，會用關鍵字<code>class</code>來定義類別，在Objective-C的話則是用<code>@interface</code>這個關鍵字來定義。不要搞混這個@interface跟其它程式語言的interface，它們講的是不同的東西(其它程式語言的interface在Objective-C裡比較像是Protocol，之後會再做說明)。為了讓環境單純一點，我們直接開一個Command Line Tool的專案來練習手感：</p>
+
+<p><img src="/images/2010/objc_new_cmd_project.jpg" alt="image" /></p>
+
+<p>下一步設定專案名稱，我取名為<code>OOPTest</code>。再來我們要來新增個類別，在Source資料夾上按右鍵，新增檔案：</p>
+
+<p><img src="/images/2010/objc_add_new_file.png" alt="image" /></p>
+
+<p>選擇一個Objective-C Class，Subclass的地方選擇NSObject：</p>
+
+<p><img src="/images/2010/objc_new_class.jpg" alt="image" /></p>
+
+<p>再來因為我要來寫個Book的類別，所以我就把它取名為<code>Book.m</code>，這邊要注意的是，這裡有個”Also create Book.h”也把它勾起來，它會一起幫忙產生header檔：</p>
+
+<p><img src="/images/2010/objc_file_naming.png" alt="image" /></p>
+
+<p>要特別說明的是，在Java/AS3裡，類別名稱跟檔案的名稱(*.java、*.as)是要同名的，但在Objective-C裡卻沒這樣的強制規定，不過為了方便維護起見，我會習慣把類別跟檔名取一樣的名字。另外這邊的”.m”跟”.h”檔，.h檔是它的”h”eader定義檔(放@interface的地方)，.m則是它的i”m”plementation實作檔(放@implementation的地方)，其實你要放在同一個檔裡，甚至是全部直接寫在main裡也ok，但為了好維護，通常我們會另外把它拆成兩個檔案來寫。接著我們就要來Book.h裡放類別的定義：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實這個類別定義，用翻譯成一般話就是說「<strong>我定義了一個叫做Book的類別，在這個類別裡有一個price的整數變數，並寫了一對的getter跟setter，還有一個叫做printBookInfo的class method</strong>」。為什麼需要getter跟setter? 在 Objective-C 裡的實體變數(instance variable，可簡稱為ivar)預設是 protected 的，所以你沒辦法從外部直接存取。當然也是可以透過 @public 語法來設定成公開的屬性，但這並不是好的 OOP 實作方法。</p>
+
+<p>這裡有幾個比較陌生的字，<code>NSObject</code>是Objective-C裡最上層的類別，所有的物件都是繼承自它。要繼承的話，只要用一個冒號”:”即可，後面放的是要繼承的父類別名稱。有注意到前面的加號(+)跟減號(-)了嗎? 它也是有特別意義的，加號代表這個方法是屬於類別方法(class method)，減號則表示這個方法是實體方法(instance method)。有什麼不同? class method是針對類別本身呼叫的，不需要產生instance即可使用，像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">Book</span> <span class="n">printBookInfo</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>而instance method則需要先由類別產生物件，再由物件來呼叫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">book</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">book</span> <span class="nl">setPrice:</span> <span class="mi">20</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">book</span> <span class="n">price</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Java/AS3裡，類別的定義跟實作是寫在一起的，但在Objective-C裡則是分開寫的。到目前為止，我們只用了@interface只是”定義”了類別的骨頭，但還沒實際把肉填進去，要填肉的話，用的是<code>@implementation</code>語法，接著切換到Book.m(你可以用<code>command + option + 上鍵</code>來切換)：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;Book.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nf">price</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">price</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">price</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">printBookInfo</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello, This is a book&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>記得我們在@interface裡有定義了2個instance method跟1個class method，在@implementation就要把它實作出來。補充一下，這裡的#import跟在c/c++裡出現的#include有類似的用途，都是把東西給匯進來使用，但這兩個語法最大的差別是<strong>#import只會匯入一次</strong>，所以你可能會在c/c++的程式碼裡常看到#ifdef之類的用法來做檢查，但如果用#import就不用擔心這問題了。</p>
+
+<p>最後回來我們整個程式的進入點，在這個範例裡是OOPTest.m(如果你的專案取名字跟我的不同，這個檔名也會不同)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'><span class="cp">#import &quot;Book.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 新增一個Book實體</span>
+</span><span class='line'>  <span class="n">Book</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 設定價錢</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">b</span> <span class="nl">setPrice:</span><span class="mi">20</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 把價錢印出來</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">b</span> <span class="n">price</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 用完記得放掉</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">b</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// 這是類別方法</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">Book</span> <span class="n">printBookInfo</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>按下”Build and Run”之後的執行結果：</p>
+
+<pre><code>the price of the book is 20
+Hello, This is a book
+</code></pre>
+
+<p>如果你的程式在編譯過程有發生錯誤而沒辦法正常的執行，那可能是有程式碼打錯字，再回頭檢查看看，常見的錯誤是大小寫打錯，還有每行程式碼最後面記得要加分號。</p>
+
+<p>你也許會好奇，Book哪裡來的<code>alloc</code>跟<code>init</code>，還有<code>release</code>方法? 因為這些方法都是繼承來的，不用特別寫就有了。</p>
+
+<p>不過每次為了某個變數就要寫一對getter/setter應該覺得很煩人吧，Objective-C有提供了<code>@property</code>跟<code>@synthesize</code>語法，之後會再特別說明相關用法。另外，Objective-C是單一繼承的，可以靠<a href="/2010/12/11/protocol-in-objective-c/">Protocol</a>以及<a href="/2010/12/16/category-in-objective-c/">Category</a>來補足這部份的不足。下一篇，我們會來看看@property跟@synthesize是怎麼回事。</p>
+
+<h3>建議閱讀：</h3>
+
+<ul>
+<li><a href="http://www.stanford.edu/class/cs193p/">Stanford University CS193P課程</a></li>
+<li><a href="http://www.amazon.com/Programming-Objective-C-2-0-Stephen-Kochan/dp/0321566157">Programming in Objective-C 2.0</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1003,222 +1218,6 @@ s2 is eddie
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/11/22/memory-management-in-objective-c/">Objective-C的記憶體管理</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/11/22/memory-management-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-11-22T16:55:00+08:00" pubdate>Nov 22<span>nd</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Objective-C的記憶體管理是個重要的主題，把最近啃書的一些心得寫下來讓自己來加深自己的印象，也順便把觀念整理一下。</p>
-
-<p>之前工作上寫習慣PHP/Python/Ruby/AS3這種比較接近人類腦袋的程式語言，很少有機會去碰到pointer(指標)或是記憶體管理的東西。為什麼變數宣告就宣告，為什麼前面要加個星號(*)? 又有的又不用加? 最近在看Objective-C的書就會覺得很不習慣(不過其實看久了也會慢慢習慣就是了)。</p>
-
-<p>在Objective-C裡的記憶體管理主要有兩種，一個是比較常聽到的Garbage Collection(以下縮寫為GC)，另一個則是Reference Counting(以下縮寫為RC)。以車子來舉例的話，你可以先暫時把這兩種記憶體管理方式想像成GC是自排車，RC是手排車，一個會自動幫忙回收沒要用的記憶體，一個則是自己得手動釋放用過不要再用的記憶體。</p>
-
-<p>RC的運作機制是當某個物件生成並初始化之後，它的初始retain count會設定成1(其實不一定，也是有<a href="/2010/11/16/retaincount-of-nsnumber/">例外</a>)。執行該物件的”retain”方法會讓該物件的retain count加1，而<code>release</code>方法會讓retain count減1。當該物件的retain count降到0的時候，這個物件自動會呼叫<code>dealloc</code>方法把自己解決掉，然後把佔用的記憶體還回來。</p>
-
-<p>也許你會覺得，都什麼年代了為什麼還得程式設計師自己用手動的方式來回收記憶體? 換個角度想，程式設計師為自己寫的程式負責也是件好事，另外，也是最主要的原因就是有些環境就是根本不支援GC機制，所以只好用RC來處理。我相信想學Objective-C很多人都是為了想要開發iPhone App而來的，而iPhone正是那個不支援GC環境的其中之一。</p>
-
-<p>又或許你會覺得這樣一顆小物件是能佔多少記憶體。這種東西積沙成塔的，你借了記憶體來用卻沒還回去，久了可能就會造成”漏水”(memory leaking)的情況。為了避免App在執行的過程中莫名奇妙的地方當掉，只好乖乖的來了解一下關於記憶體管理的機制。</p>
-
-<p>Apple官方的開發手冊裡，光是記憶體管理的部份就有<a href="http://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/MemoryMgmt/MemoryMgmt.pdf">五十幾頁的PDF</a>，建議大家抓回來看一下。官方手冊裡開頭提到關於記憶體管理的大原則：</p>
-
-<blockquote><p>You only release or autorelease objects you own.</p><footer><strong>Mac OS X Developer Library</strong><cite><a href='http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmRules.html'>Memory Management Policy</a></cite></footer></blockquote>
-
-
-<p>什麼是你擁用的物件? 當你用<code>alloc</code>、<code>new</code>或是<code>copy</code>開頭的方法建立一個物件的話，程式就會向系統要一塊記憶體來放這顆物件，而這顆物件就算在你頭上。另外當你用對某個物件使用<code>retain</code>方法之後，那顆物件也算是你要負責的；一個物件可以同時有好幾個主人，而當那個物件你不要用的時候，則使用<code>release</code>或是<code>autorelease</code>方法來把這個擁有的關係給斷絕掉，準備把物件清掉並把佔用的記憶體還給系統。直接來看段範例：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span><span class="mi">100</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">retain</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>輸出結果：</p>
-
-<pre><code>the retain count is 1
-the retain count is 2
-the retain count is 1
-</code></pre>
-
-<p>除了retain/release之外，如果被collections，例如array、dictionary或set等等給拉進去的話，它的retain count也會加1；相對的，從Collection裡拿出來的話，它的retain count會減1。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span><span class="mi">100</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count of n is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">array</span> <span class="nl">addObject:</span><span class="n">n</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count of n is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count of n is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">array</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>輸出結果：</p>
-
-<pre><code>the retain count of n is 1
-the retain count of n is 2
-the retain count of n is 1
-</code></pre>
-
-<p>在這個例子裡可以看到，當使用addObject方法把n放進array之後，它的retain count會加1；當使用removeObjectAtIndex把物件從array移出來的時候，它的retain count會減1。最後，當array本身收到release的時候，它會對目前全部的內容物發送release訊息。所以在上面的例子來說，如果在[array release]之後再想存取n變數，就會出現錯誤訊息。</p>
-
-<p>記得，你retain了一個物件，確定沒要再用之後就release掉。<strong>retain跟release的次數通常是成對的</strong>，你手動retain了幾次，到時候就得手動release幾次。</p>
-
-<p>有一些常見可能會發生問題的寫法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">reset</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">zero</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInteger:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="nl">setCount:</span><span class="n">zero</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡用alloc建立物件，卻沒有對等的release，可能造成memory leak。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">reset</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">zero</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithInteger:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="nl">setCount:</span><span class="n">zero</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">zero</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在這裡numberWithIngeter產生的是一個autorelease物件，所以這並不屬於你擁有的，當你對它執行release它可能就會因為retain count變成0而被清掉，在autorelease pool裡因為會再對所有標記為autorelease的物件再送一次release訊息，這時候就會出錯了。請記憶體釋放的原則：「You only release or autorelease objects you own.」，<strong>如果物件不屬於你，就不要隨便對它執行release方法</strong>。</p>
-
-<p>關於Autorelease pool，你可能會在一些剛建立好的專案裡看到它幫寫好幾行程式碼了，autorelease pool並不是真正的GC機制，它比較像是GC的替代品。簡單的說，當你對物件執行<code>autorelease</code>方法時，就是把該物件標記成”待會再釋放”的物件，在每個run loop或是pool drain的時候就會對這些有標記的所有物件發送<code>release</code>訊息。雖說是替代品，但有些地方還是非用不可。</p>
-
-<h3>結論：</h3>
-
-<ol>
-<li>在你跟系統要了一塊記憶體來用的當下，請先養成「我什麼時候會還回去」的習慣。</li>
-<li>retain/release通常都是成對的，手動做了N次的retain，就記得要做N次的release。</li>
-<li>如果你要某個物件，就retain它；如果不用了，就release它，把記憶體還回去。</li>
-</ol>
-
-
-<p>之後會再來說明一些關於<a href="/2010/11/25/autorelease-in-objective-c/">Autorelease pool</a>細節 :)</p>
-
-<p>新手上路，若有錯誤還請不吝指教</p>
-
-<h4>建議閱讀：</h4>
-
-<ul>
-<li><a href="http://www.amazon.com/Programming-Objective-C-2-0-Stephen-Kochan/dp/0321566157">Programming in Objective-C 2.0</a> chapter.17 – Memory Managerment</li>
-<li><a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/MemoryMgmt/MemoryMgmt.html">iOS Reference Library – Memory Management Programming Guide</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/29/">&larr; Older</a>
@@ -1270,6 +1269,10 @@ the retain count of n is 1
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -1305,15 +1308,11 @@ the retain count of n is 1
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

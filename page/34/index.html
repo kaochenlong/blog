@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="看著上一篇網誌的日期，轉眼又是四個月過去了，話說這段時間除了手邊的案子一直在進行之外，就是花了些時間在Zend Framework上。不過看歸看，一直在觀望不敢拿自己手邊的案子做實驗。 前不久ZF 1.5 Release推出了，看起來還不賴，就狠下心來用它了，反正好壞也是一刀。 &hellip;">
+  <meta name="description" content="在Zend_Acl當中有兩個重要的部份：Resource(資源) 與 Role(角色)，其中「角色」存取「資源」，舉個白話的例子，在一個進出受管制的電梯大樓，小明可以進入101樓的辦公室，表示小明這個「角色」，他的 通行證可以刷卡進入101樓的電梯，進入101樓這個「資源」。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,430 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/04/30/zend-framework-zend-acl/">Zend Framework之Zend_ACL</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2008/04/30/zend-framework-zend-acl/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2008-04-30T09:38:00+08:00" pubdate>Apr 30<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在Zend_Acl當中有兩個重要的部份：Resource(資源) 與 Role(角色)，其中「角色」存取「資源」，舉個白話的例子，在一個進出受管制的電梯大樓，小明可以進入101樓的辦公室，表示小明這個「角色」，他的 通行證可以刷卡進入101樓的電梯，進入101樓這個「資源」。</p>
+
+<p>比較常見的是網站管理系統的權限實作，例如編輯部的同仁只能用網站的內容編輯系統，廣告部則可以使用廣告刊播系統以及報表系統，但沒有使用內容編輯的權限。那在ZF中，Zend_Acl如何實作這樣的概念呢?</p>
+
+<h3>一、建立資源：</h3>
+
+<p><a href="http://framework.zend.com/manual/en/zend.acl.html">Zend_Acl</a>裡有個Zend_Acl_Resource_Interface這個介面可以方便的來建立資源。</p>
+
+<p>實作自這個介面的類別，會有一個getResourceId()這個方法，代表它是一個資源。另外，Zend_Acl_Resource類別中也包含一些Zend_Acl的一些實作，讓開發者可以直接繼承來使用。</p>
+
+<p>Zend_Acl使用樹狀結構的方式來管理資源，透過這個樹狀結構，可以新增新的資源進來，並儲存在結構中。</p>
+
+<p>對樹狀結構上層的修改，亦可影響至下層，不過即使下層不想繼承上層的規則，也可以簡單的加上一些例外規則，在這結構中，Resource只能一次繼承自一個Parent，不過每個Parent都可以有各自的Parent，以此類推。</p>
+
+<h3>二、建立角色：</h3>
+
+<p>透過Zend_Acl_Role_Interface的實作，建立角色也是相當容易的。如同資源的建立，角色可透過實作的getRoleId()方法來建 立。同Zend_Acl_Resource，Zend_Acl裡也有個Zend_Acl_Role的類別可以直接繼承來使用。</p>
+
+<p>不過與資源不同的，一個角色可以一次繼承自一個或多個角色。</p>
+
+<p>以上面那個網站管理系統的例子來說，假設eddie可能只是編輯部的同事(單一角色)，而joanne是企劃部門的主管，她除了管企劃部門的案子之外，亦可能需要看一下網站的新聞是不是有錯字，則可以說她的角色同時屬於”企劃部”及”編輯部”(多重角色)。</p>
+
+<p>其 實透過角色繼承的方式，可以在設計系統時不用指定特定某個人的使用權限。例如設定”編輯部”的權限是可以用內容管理系統，然後只要讓eddie”屬於”這 個部門，eddie這個帳號也可以有使用的權限了；若同像上面joanne的例子，只要讓她同時”屬於”企劃部跟編輯部即可，在設定上相當簡潔且方便。</p>
+
+<p>我們以上面這個例子來實作一小段程式碼，設定三種角色：編輯部editor、企劃部planner以及網站系統管理員administrator。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Acl.php&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Acl/Role.php&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Acl/Resource.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//建立一個Access Control List(ACL)物件</span>
+</span><span class='line'>  <span class="nv">$acl</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Zend_Acl</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//在ACL中建立三個角色：editor、planner及administrator</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">))</span>
+</span><span class='line'>      <span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;planner&#39;</span><span class="p">))</span>
+</span><span class='line'>      <span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;administrator&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//建立joanne角色，並設定此角色同時屬於editor及planner兩個角色</span>
+</span><span class='line'>  <span class="nv">$group1</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="s1">&#39;planner&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;joanne&#39;</span><span class="p">),</span> <span class="nv">$group1</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//在ACL中建立三個資源：內容管理系統ContentManager、廣告系統ADManager及系統管理SystemAdmin</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Resource</span><span class="p">(</span><span class="s1">&#39;ContentManager&#39;</span><span class="p">))</span>
+</span><span class='line'>      <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Resource</span><span class="p">(</span><span class="s1">&#39;ADManager&#39;</span><span class="p">))</span>
+</span><span class='line'>      <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Resource</span><span class="p">(</span><span class="s1">&#39;SystemAdmin&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//設定角色與資源之關係</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="s1">&#39;ContentManager&#39;</span><span class="p">);</span>     <span class="c1">//editor角色允許使用ContentManager資源</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;planner&#39;</span><span class="p">,</span> <span class="s1">&#39;ADManager&#39;</span><span class="p">);</span>          <span class="c1">//planner角色允許使用ADManager資源</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;administrator&#39;</span><span class="p">,</span> <span class="s1">&#39;SystemAdmin&#39;</span><span class="p">);</span> <span class="c1">//administrator角色允許使用SystemAdmin資源</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//測試權限</span>
+</span><span class='line'>  <span class="c1">//joanne不屬administrator角色....</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;joanne&#39;</span><span class="p">,</span> <span class="s1">&#39;SystemAdmin&#39;</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;allowed&#39;</span><span class="o">:</span><span class="s1">&#39;denined&#39;</span><span class="p">;</span>     <span class="c1">//得到denined</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//joanne屬於editor角色...</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;joanne&#39;</span><span class="p">,</span> <span class="s1">&#39;ContentManager&#39;</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;allowed&#39;</span><span class="o">:</span><span class="s1">&#39;denined&#39;</span><span class="p">;</span>   <span class="c1">//得到allowed</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段程式碼中，因為joanne這個角色沒有SystemAdmin資源的使用權限，所以以isAllowed方法測試時會得到false。</p>
+
+<p>Zend_Acl 在判斷isAllowed的時候，除了會去看被查的那個角色本身(上例中則為joanne)對資源的存取權限，也會從該角色所屬的角色群來詢問該角色是否 有足夠權限。上例中，其實只是將joanne繼承了editor角色，並沒有直接的定義joanne與ContentManager之間的關係，但因為 editor是有權限可以使用ContentManager，所以joanne也跟著有相同的權限。</p>
+
+<p>不過要特別注意的是，上面的例子中，<code>$group1</code>的前後順序是有差別的，在某些情況下，可能會造成非預期的答案，舉例如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>  <span class="nv">$group2</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="s1">&#39;planner&#39;</span><span class="p">,</span> <span class="err">‘</span><span class="nx">administrator</span><span class="err">’</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="err">‘</span><span class="nx">eddie</span><span class="err">’</span><span class="p">),</span> <span class="nv">$group2</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="s1">&#39;ContentManager&#39;</span><span class="p">);</span>  <span class="c1">//設定editor可以使用ContentManager</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">deny</span><span class="p">(</span><span class="s1">&#39;planner&#39;</span><span class="p">,</span> <span class="s1">&#39;ContentManager&#39;</span><span class="p">);</span>   <span class="c1">//設定planner不可以使用ContentManager</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//測試結果</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="err">‘</span><span class="nx">eddie</span><span class="err">’</span><span class="p">,</span> <span class="s1">&#39;ContentManager&#39;</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;allowed&#39;</span><span class="o">:</span><span class="s1">&#39;denined&#39;</span><span class="p">;</span>  <span class="c1">//得到denined</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但如果改一下<code>$group2</code>的順序則會得到不同的結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>  <span class="nv">$group2</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;planner&#39;</span><span class="p">,</span> <span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="err">‘</span><span class="nx">administrator</span><span class="err">’</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="err">‘</span><span class="nx">eddie</span><span class="err">’</span><span class="p">,</span> <span class="s1">&#39;ContentManager&#39;</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;allowed&#39;</span><span class="o">:</span><span class="s1">&#39;denined&#39;</span><span class="p">;</span>  <span class="c1">//得到allowed</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第 一個例子中，因為eddie並沒有”直接”的被定義規則，所以Zend_Acl往它所繼承的上層角色搜尋，它會先搜尋”administrator”角 色，結果沒符合的規則，它會再往下一個”planner”搜尋，發現了”deny”的規則，搜尋結束，回傳false；而第二個例子中，先搜 尋”administrator”角色，然後再搜尋”editor”，發現”allow”的定義，搜尋結束，回傳true。
+。</p>
+
+<p><strong>Zend_Acl在搜尋角色規則時，會在搜尋到第一個有定義規則時回傳答案。</strong></p>
+
+<p>所以如果直接定義如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'><span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="err">“</span><span class="nx">eddie</span><span class="err">”</span><span class="p">,</span> <span class="err">“</span><span class="nx">ContentManager</span><span class="err">”</span><span class="p">);</span>
+</span><span class='line'><span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="err">‘</span><span class="nx">eddie</span><span class="err">’</span><span class="p">,</span> <span class="s1">&#39;ContentManager&#39;</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;allowed&#39;</span><span class="o">:</span><span class="s1">&#39;denined&#39;</span><span class="p">;</span>  <span class="c1">//得到allowed</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如同上面我們規納出來的規則，它在遇到第一個定義時(就是它本身的角色)就回傳true了。</p>
+
+<h3>存取控制清單(Access Control List – ACL)的建立</h3>
+
+<p>我們在上一段已經可以設定某個帳號有權限可以使用網站的內容管理系統了，但如果還需要更細部的設定，例如企劃部的同仁帳號只能”檢視”文章，編輯部的帳號可以”檢視”及”編輯”文章，主管則有全部的功能。</p>
+
+<p>我們假設把內容管理系統的權限再細分為三種：<code>view</code>、<code>edit</code>、<code>delete</code></p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> 角色     </th>
+<th style="text-align:right;"> 權限               </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> planner </td>
+<td style="text-align:right;"> view</td>
+</tr>
+<tr>
+<td style="text-align:left;"> editor  </td>
+<td style="text-align:right;"> view, edit</td>
+</tr>
+<tr>
+<td style="text-align:left;"> manager </td>
+<td style="text-align:right;"> view, edit, delete</td>
+</tr>
+</tbody>
+</table>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Acl.php&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Acl/Role.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//建立ACL</span>
+</span><span class='line'>  <span class="nv">$acl</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Zend_Acl</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//建立三個角色 planner、editor及manager</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;planner&#39;</span><span class="p">));</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">));</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;manager&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;planner&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;view&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span><span class="s1">&#39;edit&#39;</span><span class="p">));</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;manager&#39;</span><span class="p">,</span> <span class="k">null</span> <span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">,</span> <span class="s1">&#39;delete&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//測試：企劃部能檢視文章?</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;planner&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;view&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s2">&quot;allowed&quot;</span> <span class="o">:</span> <span class="s2">&quot;denied&quot;</span><span class="p">;</span>  <span class="c1">//allowed</span>
+</span><span class='line'>  <span class="c1">//測試：企劃部能編輯文章?</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;planner&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s2">&quot;allowed&quot;</span> <span class="o">:</span> <span class="s2">&quot;denied&quot;</span><span class="p">;</span>  <span class="c1">//denined</span>
+</span><span class='line'>  <span class="c1">//測試：編輯部能編文章?</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">)</span> <span class="o">?</span>  <span class="s2">&quot;allowed&quot;</span> <span class="o">:</span> <span class="s2">&quot;denied&quot;</span><span class="p">;</span>  <span class="c1">//allowed</span>
+</span><span class='line'>  <span class="c1">//測試：編輯部能刪除文章?</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;delete&#39;</span><span class="p">)</span> <span class="o">?</span>  <span class="s2">&quot;allowed&quot;</span> <span class="o">:</span> <span class="s2">&quot;denied&quot;</span><span class="p">;</span> <span class="c1">//denined</span>
+</span><span class='line'>  <span class="c1">//測試：主管可刪除文章?</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;manager&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;delete&#39;</span><span class="p">)</span> <span class="o">?</span>  <span class="s2">&quot;allowed&quot;</span> <span class="o">:</span> <span class="s2">&quot;denied&quot;</span><span class="p">;</span> <span class="c1">//allowed</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段程式碼分別對三個角色(planner、editor及manager)定義了使用的權限。如果仔細觀察權限列表，用角色繼承的方式可以更有彈性的完成實作。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'><span class="c1">//建立三個角色，manager繼承editor，editor繼承planner</span>
+</span><span class='line'>  <span class="nv">$rolePlanner</span> <span class="o">=</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;planner&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$roleEditor</span> <span class="o">=</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;editor&#39;</span><span class="p">),</span> <span class="nv">$rolePlanner</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$roleManager</span> <span class="o">=</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;manager&#39;</span><span class="p">),</span> <span class="nv">$roleEditor</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//對各別角色定義權限</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="nv">$rolePlanner</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;view&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="nv">$roleEditor</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="nv">$roleManager</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">&#39;delete&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如此一來，雖然editor只有定義了”edit”的權限，但因為它繼承自planner角色，所以它也有”view”的功能，同理，manager則同時擁有繼承別的角色的”view”、”edit”及自己定義的”delete”權限。</p>
+
+<h3>更複雜的權限設定</h3>
+
+<p>前面的章節說明了如何定義角色與資源之間的關係，除了指定某帳號可使用某資源外，也可以定義某帳號可以使用該資源的特定功能，如檢視、修改、刪除等。不過我 們可能會遇到更複雜的例子，例如同樣是編輯部的三個同事：eddie、lindsay及jessica，其中eddie負責的是電子報的工作，還偶爾幫忙 lindsay看一下她的電子報有沒有錯字，lindsay負責的是網站最新消息的發布，jessica則是負責網站一般文章的撰寫，所以接下來我們要來 針對內容管理系統這個資源做更細部的權限設定。</p>
+
+<p>我們將上述的角色及工作列一個簡單的表格：</p>
+
+<table>
+<thead>
+<tr>
+<th> 角色     </th>
+<th> 功能   </th>
+<th> 權限 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> eddie   </td>
+<td> epaper  </td>
+<td>   view, edit, send</td>
+</tr>
+<tr>
+<td>         </td>
+<td> news    </td>
+<td> view</td>
+</tr>
+<tr>
+<td> lindsay </td>
+<td> news    </td>
+<td> view, edit, publish</td>
+</tr>
+<tr>
+<td> jessica </td>
+<td> content </td>
+<td> view, edit, publish</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>程式碼如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Acl.php&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Acl/Role.php&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Acl/Resource.php&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$acl</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Zend_Acl</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//定義三個角色</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;eddie&#39;</span><span class="p">));</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;lindsay&#39;</span><span class="p">));</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">addRole</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Role</span><span class="p">(</span><span class="s1">&#39;jessica&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//定義三個資源</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Resource</span><span class="p">(</span><span class="s1">&#39;epaper&#39;</span><span class="p">));</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Resource</span><span class="p">(</span><span class="s1">&#39;news&#39;</span><span class="p">));</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Zend_Acl_Resource</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//定義規則</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;eddie&#39;</span><span class="p">,</span> <span class="s1">&#39;epaper&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">,</span> <span class="s1">&#39;send&#39;</span><span class="p">));</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;eddie&#39;</span><span class="p">,</span> <span class="s1">&#39;news&#39;</span><span class="p">,</span> <span class="s1">&#39;view&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;lindsay&#39;</span><span class="p">,</span> <span class="s1">&#39;news&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">,</span> <span class="s1">&#39;publish&#39;</span><span class="p">));</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">allow</span><span class="p">(</span><span class="s1">&#39;jessica&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">,</span> <span class="s1">&#39;publish&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//測試：eddie是否可編輯電子報?</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;eddie&#39;</span><span class="p">,</span> <span class="s1">&#39;epaper&#39;</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s2">&quot;allowed&quot;</span> <span class="o">:</span> <span class="s2">&quot;denied&quot;</span><span class="p">;</span> <span class="c1">// allowed</span>
+</span><span class='line'>  <span class="c1">//測試：lindsay是否可編輯網站文章?</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;lindsay&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s2">&quot;allowed&quot;</span> <span class="o">:</span> <span class="s2">&quot;denied&quot;</span><span class="p">;</span> <span class="c1">// denied</span>
+</span><span class='line'>  <span class="c1">//測試：jessica是否可發布網站文章?</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">isAllowed</span><span class="p">(</span><span class="s1">&#39;jessica&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;publish&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s2">&quot;allowed&quot;</span> <span class="o">:</span> <span class="s2">&quot;denied&quot;</span><span class="p">;</span> <span class="c1">// allowed</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段，我們是針對各別角色來做資源及權限的設定，不過只要人數一多，這樣的做法顯然不切實際，建議就改用之前提到的角色繼承的方式讓它更有彈性。</p>
+
+<h3>移除權限</h3>
+
+<p>要移除權限設定也是相當容易的，只要用<code>removeAllow()</code>或<code>removeDeny()</code>這兩個方法就行了。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
+</span><span class='line'>  <span class="c1">//..延用上一章節的程式碼..</span>
+</span><span class='line'>  <span class="c1">//移除eddie對電子報的編輯權限</span>
+</span><span class='line'>  <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">removeDeny</span><span class="p">(</span><span class="s1">&#39;eddie&#39;</span><span class="p">,</span> <span class="s1">&#39;epaper&#39;</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>進階應用</h3>
+
+<h4>一、以資料庫管理ACL</h4>
+
+<p>Zend_Acl在角色及資源的權限設定上相當容易，但如果能配合資料庫系統做管理，則可更方便管理每個角色及資源之間之關係。</p>
+
+<h4>二、進階權限設定</h4>
+
+<p>除了原本Zend_Acl裡定義的角色、資源、權限的關係外，也可以再結合其它程式功能(例如IP白名單)，或是只能在限定時間內使用該權限等等設定，使整個權限管控更加安全。</p>
+
+<p>本文主要是參照<a href="http://framework.zend.com/">Zend Framework</a>的官方文件自己試寫的，新手上路難免有誤，若有謬誤還請指教</p>
+
+<p>官方網站上也有附了一段程式碼：<a href="http://framework.zend.com/manual/en/zend.acl.advanced.html">http://framework.zend.com/manual/en/zend.acl.advanced.html</a>，有興趣的可以上去看看 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -252,42 +676,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2007/11/25/move/">搬家了</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2007/11/25/move/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2007-11-25T09:26:00+08:00" pubdate>Nov 25<span>th</span>, 2007</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>紀錄一下，原本智邦的空間到期了，換個地方住</p>
-
-<p>話說我最近需要一個辦公室，20~30坪左右，台北市，近捷運站，有合適的歡迎推薦!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/35/">&larr; Older</a>
@@ -339,6 +727,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -374,15 +766,11 @@
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

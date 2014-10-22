@@ -21,8 +21,8 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="元組 Tuple有人把它翻譯成&#8221;元組&#8221;，不過我個人還是習慣用英文來稱呼它。 List用中括號、Dictionary用大括號，Tuple則是使用小括號。Tuple長的像這樣： 1
-(&#39;a&#39;, 1, &quot;bbbccc&quot;) &hellip;">
+  <meta name="description" content="世事多變化，總是會有萬一.. 當程式出錯的時候，你可以選擇就讓它壞掉不理它，或是選擇做一些例外處理： try..except &gt;&gt;&gt; print b
+Traceback (most recent call last): File "&lt;stdin&gt;", line 1, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,108 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/13/python-exception/">例外處理</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-exception/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-13T14:05:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>世事多變化，總是會有萬一..</h2>
+
+<p>當程式出錯的時候，你可以選擇就讓它壞掉不理它，或是選擇做一些例外處理：</p>
+
+<h3>try..except</h3>
+
+<pre><code>&gt;&gt;&gt; print b
+Traceback (most recent call last):
+    File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+NameError: name 'b' is not defined
+</code></pre>
+
+<p>因為因為沒有定義b這個變數，所以它會拋出一個<code>NameError</code>的錯誤訊息，使用例外處理可以來捕捉並處理它：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">b</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;there is no b&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>finally 不管如何一定會執行</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">b</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;there is no b&quot;</span>
+</span><span class='line'><span class="k">finally</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;no matter what happened..&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>else</h3>
+
+<p>如果<code>try</code>區塊內沒有發生例外，則<code>else</code>區塊就會執行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="s">&quot;bbb&quot;</span>
+</span><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">b</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;there is no b&quot;</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;there is no error&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>raise</h3>
+
+<p>主動拋出例外</p>
+
+<pre><code>&gt;&gt;&gt; raise NameError
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -746,61 +848,6 @@ ValueError: list.remove(x): x not in list
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/13/python-boolean/">Boolean</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-boolean/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-13T13:40:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Boolean? 真的假的?</h2>
-
-<p>Boolean值很單純，只有兩種結果，就是真的(True)跟假的(False)，不是真的就是假的，沒有灰色地帶。</p>
-
-<p>哪些東西是假的?</p>
-
-<ul>
-<li>0 數字0</li>
-<li>”” 空字串</li>
-<li>[] 空的List</li>
-<li>() 空的Tuple</li>
-<li>{} 空的Dict</li>
-<li>None</li>
-<li>當然還有False本身也是假的..</li>
-</ul>
-
-
-<p>因為真的(True)太多種，沒辦法用窮舉法一項一項列出來，所以我們只要記得哪些是假的(False)，然後只要不是假的，就是真的。</p>
-
-<p>要注意的是，在Python，程式碼是有大小寫之分的，所以如果寫成<code>false</code>的話，是認不出來的。</p>
-
-<p>接下來，我們來看看很常使用的字串..</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/17/">&larr; Older</a>
@@ -852,6 +899,10 @@ ValueError: list.remove(x): x not in list
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -887,15 +938,11 @@ ValueError: list.remove(x): x not in list
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -4,7 +4,7 @@
   <title><![CDATA[高見龍]]></title>
   <link href="http://blog.eddie.com.tw/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-10-17T09:40:25+08:00</updated>
+  <updated>2014-10-22T22:47:20+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,131 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Private Setter in Ruby]]></title>
+    <link href="http://blog.eddie.com.tw/2014/10/22/private-setter-in-ruby/"/>
+    <updated>2014-10-22T14:35:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/10/22/private-setter-in-ruby</id>
+    <content type="html"><![CDATA[<p><img src="http://blog.eddie.com.tw/images/2014/private_no_entry.jpg" alt="image" />
+photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
+
+<p>之前在 <a href="http://blog.eddie.com.tw/2011/07/26/public-protected-and-private-method-in-ruby/">Public, Protected and Private Method in Ruby</a> 這篇文章提到，在 Ruby 裡使用 private 方法的時候，不能明確的指出 receiver，以下面這段範例來說：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">gossip</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">gossip</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;don&#39;t tell anyone!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">snoopy</span> <span class="o">=</span> <span class="no">Dog</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">hello</span>        <span class="c1"># =&gt; NoMethodError</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">gossip</span>       <span class="c1"># =&gt; NoMethodError</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在上面這段程式碼的第 13 行，因為它明確的指出 receiver (snoopy)，所以執行這行程式碼會出現會出現 <code>NoMethodError</code> 的錯誤；而在第 3 行，即使 receiver 是 <code>self</code> 也一樣是不行的。</p>
+
+<p>這是在 Ruby 裡面 private 方法的設計。</p>
+
+<p>不過，今天剛好有朋友拿了一段程式碼給我看，才發現原來上面這個規則原來也是有例外的，舉個例子來說：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:name</span>
+</span><span class='line'>  <span class="kp">private</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:name</span><span class="o">=</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">gossip</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">greeting1</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">greeting2</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Snoopy&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">gossip</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;don&#39;t tell anyone!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">snoopy</span> <span class="o">=</span> <span class="no">Dog</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">hello</span>         <span class="c1"># =&gt; NoMethodError</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">gossip</span>        <span class="c1"># =&gt; NoMethodError</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">greeting1</span>     <span class="c1"># =&gt; NoMethodError</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">greeting2</span>     <span class="c1"># =&gt; It Works!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在上面這段範例中用 <code>attr_accessor</code> 做了一個 <code>name</code> 的 getter 跟 setter，並且把 getter/setter 設定成 private。在第 10 行的地方呼叫了 private 的 getter，並且明確的指出 receiver 是 <code>self</code>，照規則來說會出現錯誤不意外，但第 14 行用類似的方法呼叫了 private 的 setter 卻沒有出錯!</p>
+
+<p>的確 private 方法不能指出明確的 receiver，但 setter 算是這個規則的例外。因為你不在前面加 self 的話，像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="k">def</span> <span class="nf">greeting</span>
+</span><span class='line'>    <span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Snoopy&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣這個 <code>name</code> 不就變成區域變數的賦值了嗎?</p>
+
+<p>想想看，如果在這裡呼叫 setter 不加 self 的話，那 Ruby 要怎麼分辨到底你是要呼叫 setter 還是區域變數?</p>
+
+<p>話說回來，通常我們也不會沒事把 getter/setter 設定成 private，因為即然都做了 getter/setter 就是要給別人用的不是嗎? :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby 也可這樣寫]]></title>
@@ -2791,53 +2916,6 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 
 <p>感謝主辦的 <a href="http://twitter.com/ihower" target="_blank">@ihower</a> 跟 <a href="http://twitter.com/ryudoawaru" target="_blank">@ryudoawaru</a>，
 這回的 RubyConf Taiwan 2012 除了有精彩的議程、好吃的餐點，還能跟偶像近距離接觸，這次來參加真的是賺到了 :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[哈囉，2013!]]></title>
-    <link href="http://blog.eddie.com.tw/2013/01/01/hello-2013/"/>
-    <updated>2013-01-01T09:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/01/01/hello-2013</id>
-    <content type="html"><![CDATA[<p>在 2012 年的最後一天被小朋友傳染了感冒，父子兩個人坐在床上面對面咳嗽其實還滿浪漫的。翻了一下去年的<a href="http://blog.eddie.com.tw/2011/12/30/hello-2012/">許願清單</a>，完成度似乎不到 50%。</p>
-
-<h2>今年幹了哪些事</h2>
-
-<ul>
-<li>今年也認識了更多的國內外厲害的神人/高手，而且不只程式設計圈的高手，連設計圈、創業圈也又多認識了不少厲害的人，真的是開了眼界，也知道自己目前的等級仍有待提昇。目前仍舊看不到前輩們的車尾燈，不過有個方向總是不錯。</li>
-<li>跟 <a href="http://www.plurk.com/pct">pct</a> 動手籌辦了第一屆的<a href="http://webconf.tw/">WebConf Taiwan</a>，很意外的，一張 1,300 元的門票共 400 張，在 4 分鐘內完售，50 張的學生票也在 1 分鐘內售完。</li>
-<li>今年<a href="http://blog.eddie.com.tw/presentations/">有 15 場公開的表演</a>，依舊愛現!</li>
-</ul>
-
-
-<h2>希望可以更熟悉的技能</h2>
-
-<ul>
-<li>Vim</li>
-<li>Ruby/Rails</li>
-<li>JavaScript</li>
-<li>Cocoa Framework</li>
-</ul>
-
-
-<p>其實上面這些都是去年就該點的技能，但都偷懶沒完成 orz</p>
-
-<h2>許願</h2>
-
-<ul>
-<li>希望第一屆的 WebConf Taiwan 可以順利進行。</li>
-<li>小朋友們可以平安長大。</li>
-<li>繼續把手邊的產品完成。</li>
-<li>繼續推廣 Ruby 給更多的朋友知道，包括小朋友。</li>
-<li>繼續推廣 Vim 給更多的朋友知道，包括小朋友。</li>
-<li>繼續把停了好一陣子的 Flash / AS 讀書會辦下去(畢竟 Flash / AS 還是我的最愛前三名)。</li>
-<li>繼續挑戰 2012 年挑戰失敗的日文檢定。</li>
-<li>希望體重可以再比現在再少個 5 公斤。</li>
-<li>公司生意&#8230; 一樣順利就好。</li>
-</ul>
-
-
-<p>許完願了，今年 2013 年也要繼續努力!</p>
 ]]></content>
   </entry>
   

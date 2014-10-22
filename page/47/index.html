@@ -21,10 +21,8 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="MySQL 4.1 以上版本為了提高安全性，使用了新的密碼驗證機制。
-所以，MySQL 的 Client Library 需要 4.0 版本以上。
-但目前在 Client 端所使用的 PHP 版本若為 5.0 以下(如 4.3.9)
-內建的 MySQL Library 大都為 3.23， &hellip;">
+  <meta name="description" content="在Linux系統，crontab跟at都是可以用來做排程，但這兩者的差異是： at：工作僅執行一次後就會系統中的排程中取消，工作排程會寫入到/var/spool/at目錄下。
+crontab：工作將持續例行性的執行，工作排程會寫入 /var/spool/cron。 at的使用方法： &gt; at &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,6 +91,101 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/01/19/crontab-and-at/">Crontab & At</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/01/19/crontab-and-at/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-01-19T17:38:00+08:00" pubdate>Jan 19<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在Linux系統，<code>crontab</code>跟<code>at</code>都是可以用來做排程，但這兩者的差異是：</p>
+
+<p>at：工作僅執行一次後就會系統中的排程中取消，工作排程會寫入到/var/spool/at目錄下。
+crontab：工作將持續例行性的執行，工作排程會寫入 /var/spool/cron。</p>
+
+<p><code>at</code>的使用方法：</p>
+
+<pre><code>&gt; at TIME
+</code></pre>
+
+<p>如果使用-m參數，則 at會把排程輸出的結果 mail 給下達指令的使用者。</p>
+
+<pre><code>&gt; at 5am
+warning: commands will be executed using (in order) a) $SHELL b) login shell c) /bin/sh
+
+at&gt; mail eddie -s “hi, eddie”
+</code></pre>
+
+<p>按下<code>Ctrl+D</code>就可離開at環境</p>
+
+<pre><code>job １ at 2005-01-19 05:00
+</code></pre>
+
+<p>使用atq可看目前的at排程</p>
+
+<pre><code>&gt; atq
+1　2005-01-19 05:00 a root
+</code></pre>
+
+<p>其中第一個1代表這個排程的編號</p>
+
+<p>使用<code>atm</code>指令可移除已排好的工作</p>
+
+<pre><code>&gt; atm 1
+</code></pre>
+
+<p>接下來介紹crontab的用法：</p>
+
+<pre><code>&gt; crontab [-u user] [-l | -e | -r]
+-u user ：只有 root可使用，可以編譯其他使用者的crontab內容。
+-l：列出 crontab 內容。
+-e：編輯 crontab 內容。
+-r：刪除 crontab 內容。
+</code></pre>
+
+<p>執行<code>crontab -e</code>之後，則會進入一般的文字編輯器畫面編輯。</p>
+
+<p>時間部份有5個欄位，分別是「分」、「時」、「日」、「月」、「星期幾」，最後就是要執行的工作，例如：</p>
+
+<pre><code>0 12 * * * mail eddie -s test
+</code></pre>
+
+<p>就是在每個月的每天的12點0分時，寄一封主旨為test的mail給eddie。其中，「*」代表所有數字。星期幾這欄數值由0~6，0代表星期日。再看一個例子：</p>
+
+<pre><code>*/5 * * * * mail eddie -s test
+</code></pre>
+
+<p>其中「*/5」表示每5分鐘寄一次信。</p>
+
+<p>另外要注意的是，如果只是要刪除某個 crontab 的工作項目，建議使 crontab -e 來編輯，因為使用-r參數，會將所有的工作都移除。</p>
+
+<p>如果是系統的例行性工作，不需要以某人的權限執行，則可編輯「/etc/crontab」檔案，詳細的內容在/etc/crontab檔案裡面有說明。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -199,6 +292,10 @@ mysql&gt; FLUSH PRIVILEGES;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -234,15 +331,11 @@ mysql&gt; FLUSH PRIVILEGES;
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

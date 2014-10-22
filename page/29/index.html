@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在Objective-C裡有一種記憶體管理機制叫做Reference Counting，是說當某個物件生成並初始化之後，它的retain count會設定成1。執行該物件的”retain”方法會讓該物件的retain count加1，而release方法會讓retain count減1。 &hellip;">
+  <meta name="description" content="Objective-C的記憶體管理是個重要的主題，把最近啃書的一些心得寫下來讓自己來加深自己的印象，也順便把觀念整理一下。 之前工作上寫習慣PHP/Python/Ruby/AS3這種比較接近人類腦袋的程式語言，很少有機會去碰到pointer(指標)或是記憶體管理的東西。為什麼變數宣告就宣告， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,222 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/11/22/memory-management-in-objective-c/">Objective-C的記憶體管理</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/11/22/memory-management-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-11-22T16:55:00+08:00" pubdate>Nov 22<span>nd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Objective-C的記憶體管理是個重要的主題，把最近啃書的一些心得寫下來讓自己來加深自己的印象，也順便把觀念整理一下。</p>
+
+<p>之前工作上寫習慣PHP/Python/Ruby/AS3這種比較接近人類腦袋的程式語言，很少有機會去碰到pointer(指標)或是記憶體管理的東西。為什麼變數宣告就宣告，為什麼前面要加個星號(*)? 又有的又不用加? 最近在看Objective-C的書就會覺得很不習慣(不過其實看久了也會慢慢習慣就是了)。</p>
+
+<p>在Objective-C裡的記憶體管理主要有兩種，一個是比較常聽到的Garbage Collection(以下縮寫為GC)，另一個則是Reference Counting(以下縮寫為RC)。以車子來舉例的話，你可以先暫時把這兩種記憶體管理方式想像成GC是自排車，RC是手排車，一個會自動幫忙回收沒要用的記憶體，一個則是自己得手動釋放用過不要再用的記憶體。</p>
+
+<p>RC的運作機制是當某個物件生成並初始化之後，它的初始retain count會設定成1(其實不一定，也是有<a href="/2010/11/16/retaincount-of-nsnumber/">例外</a>)。執行該物件的”retain”方法會讓該物件的retain count加1，而<code>release</code>方法會讓retain count減1。當該物件的retain count降到0的時候，這個物件自動會呼叫<code>dealloc</code>方法把自己解決掉，然後把佔用的記憶體還回來。</p>
+
+<p>也許你會覺得，都什麼年代了為什麼還得程式設計師自己用手動的方式來回收記憶體? 換個角度想，程式設計師為自己寫的程式負責也是件好事，另外，也是最主要的原因就是有些環境就是根本不支援GC機制，所以只好用RC來處理。我相信想學Objective-C很多人都是為了想要開發iPhone App而來的，而iPhone正是那個不支援GC環境的其中之一。</p>
+
+<p>又或許你會覺得這樣一顆小物件是能佔多少記憶體。這種東西積沙成塔的，你借了記憶體來用卻沒還回去，久了可能就會造成”漏水”(memory leaking)的情況。為了避免App在執行的過程中莫名奇妙的地方當掉，只好乖乖的來了解一下關於記憶體管理的機制。</p>
+
+<p>Apple官方的開發手冊裡，光是記憶體管理的部份就有<a href="http://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/MemoryMgmt/MemoryMgmt.pdf">五十幾頁的PDF</a>，建議大家抓回來看一下。官方手冊裡開頭提到關於記憶體管理的大原則：</p>
+
+<blockquote><p>You only release or autorelease objects you own.</p><footer><strong>Mac OS X Developer Library</strong><cite><a href='http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmRules.html'>Memory Management Policy</a></cite></footer></blockquote>
+
+
+<p>什麼是你擁用的物件? 當你用<code>alloc</code>、<code>new</code>或是<code>copy</code>開頭的方法建立一個物件的話，程式就會向系統要一塊記憶體來放這顆物件，而這顆物件就算在你頭上。另外當你用對某個物件使用<code>retain</code>方法之後，那顆物件也算是你要負責的；一個物件可以同時有好幾個主人，而當那個物件你不要用的時候，則使用<code>release</code>或是<code>autorelease</code>方法來把這個擁有的關係給斷絕掉，準備把物件清掉並把佔用的記憶體還給系統。直接來看段範例：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span><span class="mi">100</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">retain</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>輸出結果：</p>
+
+<pre><code>the retain count is 1
+the retain count is 2
+the retain count is 1
+</code></pre>
+
+<p>除了retain/release之外，如果被collections，例如array、dictionary或set等等給拉進去的話，它的retain count也會加1；相對的，從Collection裡拿出來的話，它的retain count會減1。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span><span class="mi">100</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count of n is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">array</span> <span class="nl">addObject:</span><span class="n">n</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count of n is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">n</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the retain count of n is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">array</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>輸出結果：</p>
+
+<pre><code>the retain count of n is 1
+the retain count of n is 2
+the retain count of n is 1
+</code></pre>
+
+<p>在這個例子裡可以看到，當使用addObject方法把n放進array之後，它的retain count會加1；當使用removeObjectAtIndex把物件從array移出來的時候，它的retain count會減1。最後，當array本身收到release的時候，它會對目前全部的內容物發送release訊息。所以在上面的例子來說，如果在[array release]之後再想存取n變數，就會出現錯誤訊息。</p>
+
+<p>記得，你retain了一個物件，確定沒要再用之後就release掉。<strong>retain跟release的次數通常是成對的</strong>，你手動retain了幾次，到時候就得手動release幾次。</p>
+
+<p>有一些常見可能會發生問題的寫法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">reset</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">zero</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInteger:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="nl">setCount:</span><span class="n">zero</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡用alloc建立物件，卻沒有對等的release，可能造成memory leak。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">reset</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSNumber</span> <span class="o">*</span><span class="n">zero</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithInteger:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="nl">setCount:</span><span class="n">zero</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">zero</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在這裡numberWithIngeter產生的是一個autorelease物件，所以這並不屬於你擁有的，當你對它執行release它可能就會因為retain count變成0而被清掉，在autorelease pool裡因為會再對所有標記為autorelease的物件再送一次release訊息，這時候就會出錯了。請記憶體釋放的原則：「You only release or autorelease objects you own.」，<strong>如果物件不屬於你，就不要隨便對它執行release方法</strong>。</p>
+
+<p>關於Autorelease pool，你可能會在一些剛建立好的專案裡看到它幫寫好幾行程式碼了，autorelease pool並不是真正的GC機制，它比較像是GC的替代品。簡單的說，當你對物件執行<code>autorelease</code>方法時，就是把該物件標記成”待會再釋放”的物件，在每個run loop或是pool drain的時候就會對這些有標記的所有物件發送<code>release</code>訊息。雖說是替代品，但有些地方還是非用不可。</p>
+
+<h3>結論：</h3>
+
+<ol>
+<li>在你跟系統要了一塊記憶體來用的當下，請先養成「我什麼時候會還回去」的習慣。</li>
+<li>retain/release通常都是成對的，手動做了N次的retain，就記得要做N次的release。</li>
+<li>如果你要某個物件，就retain它；如果不用了，就release它，把記憶體還回去。</li>
+</ol>
+
+
+<p>之後會再來說明一些關於<a href="/2010/11/25/autorelease-in-objective-c/">Autorelease pool</a>細節 :)</p>
+
+<p>新手上路，若有錯誤還請不吝指教</p>
+
+<h4>建議閱讀：</h4>
+
+<ul>
+<li><a href="http://www.amazon.com/Programming-Objective-C-2-0-Stephen-Kochan/dp/0321566157">Programming in Objective-C 2.0</a> chapter.17 – Memory Managerment</li>
+<li><a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/MemoryMgmt/MemoryMgmt.html">iOS Reference Library – Memory Management Programming Guide</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -385,199 +601,6 @@ address of n4 is 0x100108e20
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/07/16/internet-campaign-with-ruby-on-rails/">Ruby on Rails 之門外漢心得</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/07/16/internet-campaign-with-ruby-on-rails/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-07-16T15:50:00+08:00" pubdate>Jul 16<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2010/rails_logo.png" alt="image" /></p>
-
-<p>這不是討戰文，也不是一篇討論程式語言的誰優誰劣的文章，僅就我個人這半年來使用<a href="http://rubyonrails.org/">Ruby on Rails</a>(以下簡稱RoR，不是那個那個RO線上遊戲)用在工作上的一些簡單的心得跟大家分享。</p>
-
-<p>很多廠商喜歡做網路活動來促銷新商品、打知名度或是跟網友拉近距離。目前廠商們比較愛的網路活動，大概有上傳照片、影片、票選、轉寄、推薦..等，而隨著” 社會的進步”，客戶們也”得跟上時代”，都不免俗的要跟FB或plurk弄在一起，而我的工作，主要就是幫客戶處理這樣的需求。(我想這段我的同業應該知道我不是在講真心話!)</p>
-
-<p>就我而言，我個人比較熟悉的程式語言算是ActionScript 2/3，大部份的工作也都是跟紅紅的Flash為伍。但後來的網路活動越弄越複雜，單純的Flash已經不見得夠用了，很多時候得跟server端交換資料。</p>
-
-<p>從最早的ASP，後來換到PHP，其實都還不錯用，也沒什麼問題(不然PHP現在不會有這麼大的市佔率)。後來試著用PHP的<a href="http://framework.zend.com/">Zend Framework</a>，因為現在比較流行的web framework都有照著<a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a>(Model-View-Controller)的樣子來打造，寫起來程式碼跟頁面有更清楚的感覺。</p>
-
-<p>2009年試著換到<a href="http://www.python.org/">Python</a>加<a href="http://www.djangoproject.com/">Django</a>，它也是MVC的實作，感覺還不賴，有種程式寫起來可以打更少字的感覺。而且它所謂的<strong>batteries included</strong>，只要把一些設定打開，後台管理功能就直接做起來了，相當方便。</p>
-
-<p>2010年起，我試著開始把案子用RoR來做，整個有種「我終於可以把時間花在吃喝玩樂寫AS上了」的感覺了。</p>
-
-<p>以下是一些大家可能會有的疑問：</p>
-
-<h4>Q: 為什麼你要一直換?</h4>
-
-<p>A: 我是善變的人 :)</p>
-
-<h4>Q: 你是寫AS的，為什麼要自己寫server端的程式?</h4>
-
-<p>A: 情況允許的話當然我也想跟別人一起合作寫，不過網路活動很多都是急件，而且客戶通常不太會管你六日週末要不要休假。後來發現其實自己寫真的還挺快的，而要什麼資料或是要接什麼資料都可以自己加一下就搞定，免看人臉色。</p>
-
-<h4>Q: RoR是一種程式語言嗎?</h4>
-
-<p>A: 不是，它是一種web framework，它本身用的程式語言是Ruby。</p>
-
-<h4>Q: RoR要錢嗎?</h4>
-
-<p>A: 不用的，而且你有興趣的話，還可以取得完整的原始碼，印出來上廁所的時候閱讀 :)</p>
-
-<h4>Q: 為什麼用RoR來開發會快?</h4>
-
-<p>A: 以下的動作我先假設開發的工程師有一些RoR的開發經驗。</p>
-
-<p>以一個發票登錄的程式來說，假設它需要使用者姓名、電話、地址、Email及發票號碼等幾個欄位，我的動作就是先建立一個Model來對應這些欄位(這動作 大概1~2分鐘左右可完成)。再來就是建立一個Controller來準備接收使用者submit出來的動作(大概1~2分鐘左右)，而實際在 Controller裡寫的程式碼，也就是把Model給叫出來，把使用者post的資料餵進去，程式碼如下：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">invoice</span> <span class="o">=</span> <span class="no">Invoice</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:invoice</span><span class="o">]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>最後再一個<code>save</code>的動作：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">invoice</span><span class="o">.</span><span class="n">save</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>差不多就搞定了(這動作大概1分鐘左右可完成)</p>
-
-<p>剛剛這些資料庫寫入的動作，再加上一些if..else..的判斷，大概10行程式碼有找。整個發票程式部份，不包含設計的話，大概5分鐘能寫完，也許如果再加個發票重複登錄判斷的驗證，最多應該10分鐘搞定。</p>
-
-<p>那要怎麼把資料庫裡的東西撈出來? 通常只要一行：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">invoice</span> <span class="o">=</span> <span class="no">Invoice</span><span class="o">.</span><span class="n">all</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(大概3~10秒，依打字速度不同而有差異)</p>
-
-<p>那要怎麼樣把它餵給Flash? RoR的ActiveRecord有支援直接輸出成XML或JSON的方法，簡單的可以直接用invoice.to_xml 或invoice.to_json 就行了(大概10秒)，複雜一點的，也可以用xml builder來建個模板給它(看複雜程度，大概5分鐘內搞定)。</p>
-
-<p>藉由<a href="http://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a>(Object-Relational Mapping)的包裝，把原本要用SQL操作的動作，都改用物件的方式來操作。而大部份的網路活動的寫入/查詢語法都挺單純，沒意外的話應該都不用自己寫 SELECT * FROM 或是 INSERT INTO之類的東西了，不只操作簡單，也可避開<a href="http://en.wikipedia.org/wiki/SQL_injection">SQL Injection</a>的麻煩。</p>
-
-<p>另外RoR的另一大優點，就是它有相當多好用的外掛(plugin)，而且幾乎都是免費可以取得的(包括原始碼)。</p>
-
-<p>一樣以網路活動上傳照片這個來舉例，上傳照片之後，通常得自動再產生一些比較小尺寸的縮圖，可能還要裁切一下圖片。透過某個方便的外掛(<a href="http://github.com/thoughtbot/paperclip">paperclip</a>)，上面這些動作，真正要寫程式好像不到5行吧，搞定之後會有種「哇賽!怎麼就這樣就可以了?」的驚奇感。</p>
-
-<p>再例如上傳照片後，資料一多，前端呈現的頁面通常就得有分頁的功能，而這功能透過某個方便的外掛(<a href="http://github.com/mislav/will_paginate">will_paginate</a>)，大概只要多加一行程式碼就可以搞定分頁的工作。</p>
-
-<h4>Q: 可是你知道，做網路的活動，客戶很愛改來改去…RoR改起來會不會很麻煩?</h4>
-
-<p>A: 網路活動的特性，就是變動性高。除了設計部份可能會被改來改去外，一會可能要你加個中獎名單，一會說這個頁面要放到另一個頁面之後…愛改來改去這件事，我想這個是許多同業的痛!</p>
-
-<p>老實說，就以上面的例子來說，就算整個砍掉重練，也不見得花多少時間；如果是修改流程，說不定改一下route規則就可以技巧性的處理掉了，其實面對愛改來改去的狀況，RoR還是個不錯的應對工具。</p>
-
-<h4>Q: RoR效能好嗎?</h4>
-
-<p>A: 我沒比較過所有家的程式語言以及web framework，所以我沒辦法下這個結論。通常如果遇到效能差或是資料庫負載很吃重的地方，可以把它做cache或產出靜態頁面來提昇效能，而做 cache或是把cache給expire掉的動作，在RoR裡是很容易做的。</p>
-
-<h4>Q: 那，Ruby好寫嗎?</h4>
-
-<p>A: 我以AS程式碼來舉個例子：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">my_age</span> <span class="o">&gt;=</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;you&#39;re so old!&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>改用ruby寫的話：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">if</span> <span class="n">my_age</span> <span class="o">&gt;=</span> <span class="mi">30</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;you&#39;re so old!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>基本上少了小括號、大括號，也不用分號結尾，至少就可以少打好些個字，甚如果想要的話，<code>if</code>也可以放到後面：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;you&#39;re so old&quot;</span> <span class="k">if</span> <span class="n">my_age</span> <span class="o">&gt;=</span> <span class="mi">30</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如何? 看起來更像一般的英文吧!</p>
-
-<p>再例如如果我想要印出3天前的日期，有的程式語言可能要先new一個Date物件出來，再透過一些method可以取得日期。在Ruby裡，只要用<code>3.days.ago</code>就行了。3? 它不是數字嗎? 是的，你沒看錯，在Ruby裡什麼東西都是物件，包括數字也是，所以你可以對3這個物件呼叫方法，再來個例子：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="s1">&#39;hello&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>猜得出來它在幹嘛嗎? 它就是把”hello”這個字串印3遍..</p>
-
-<p>其它關於這個程式語言的細節，如果想了解更多，可參考<a href="http://www.ruby-lang.org/en/">Ruby的官網</a>，有相當多的文件可以看。</p>
-
-<h4>Q: 在Flash裡可以用AMF的格式與server端溝通，RoR能做嗎?</h4>
-
-<p>A: 可以的，請參考<a href="http://blog.eddie.com.tw/2010/03/18/rubyamf">http://blog.eddie.com.tw/2010/03/18/rubyamf</a></p>
-
-<h4>Q: 還有什麼好處?</h4>
-
-<p>A: 前面提到，由於大部份的客戶想要做的東西都差不多，例如發票登錄來說，可以的話，也可以把這些常用的功能也做成「發票plugin」，也許下次要用的時候，就把plugin裝上去，可能再做一些微調就行了。</p>
-
-<h4>Q: 那，好維護嗎?</h4>
-
-<p>A: 基本上RoR的骨架是依照MVC的架構來實做的，所以某A或某B寫的程式碼，只要寫的人不要用太奇怪的寫法，大概都可以知道XX程式或XX功能會放在哪裡(當然改不改得動是另一回事)。重點是，很多網路活動都是短期的，活動結束就會下架，老實說並沒有太多所謂的維護的問題 :)</p>
-
-<h4>Q: RoR好像被我講得很神，那它缺點是什麼?</h4>
-
-<h5>1. 它的學習曲線的高低決定於開發者的背景知識跟經驗</h5>
-
-<p>如果你之前就有用別的程式語言開發過網站，那RoR對你來說應該會比較快上手；如果你對於什麼是Form、什麼是GET/POST還不清楚的話，那這個對你 來說可能會有些吃力，很容易卡關。特別是如果沒有個導師帶入門，還真的很容易碰壁。 (PS: 其實最好還有一些*nix的操作經驗，以及熟悉一些版本控制系統如SVN或Git)</p>
-
-<h5>2. 台灣的hosting比較不好找</h5>
-
-<p>台灣目前使用的人口還是相當少，國外雖然有比較多的solution，但客戶的網路活動的TA大部份都是在台灣，可能會有連線速度不夠快的問題。這個我解決的方法就是，我自己弄一台機器放機房，自己弄環境起來 :)</p>
-
-<h3>結論</h3>
-
-<p>綜合以上各項優缺點，我真的覺得RoR挺適合拿來做網路活動，當然做長期的官網也合適，這裡就我自己工作上常遇到的狀況提供一些建議。</p>
-
-<p>以上，僅以我這半年來用RoR的一些小小心得與大家分享，我也還是個一隻腳剛踏進去的新手門外漢，內容若有誤再請前輩、神人們不吝指教 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/30/">&larr; Older</a>
@@ -629,6 +652,10 @@ address of n4 is 0x100108e20
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -664,15 +691,11 @@ address of n4 is 0x100108e20
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -21,9 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="之前用了一陣子的RC版，今天終於正式Release了，這個1.6版的ZF比1.5版多了不少有趣的東西啊(不過選在跟新聞炒很大的google chrome同一天出來，鋒頭多少被蓋去了一點點) Dojo Integration
-SOAP
-Preview of Tooling Project in &hellip;">
+  <meta name="description" content="看到Django、Rails之類的Web Framework都有可以快速的產生scaffold的工具，甚至連同樣都是PHP framework的CakePHP也有..還好我之前都是在Zend Studio裡直接new一個Zend Framework Project，它也會自動產生基本的架構出來。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,6 +90,68 @@ Preview of Tooling Project in &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/09/06/zend-tool/">Zend Framework之Zend_Tool</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2008/09/06/zend-tool/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2008-09-06T10:45:00+08:00" pubdate>Sep 6<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>看到<a href="http://www.djangoproject.com/">Django</a>、<a href="http://www.rubyonrails.org/">Rails</a>之類的Web Framework都有可以快速的產生scaffold的工具，甚至連同樣都是PHP framework的<a href="http://cakephp.org/">CakePHP</a>也有..還好我之前都是在Zend Studio裡直接new一個Zend Framework Project，它也會自動產生基本的架構出來。隨著Zend Framework 1.6版的上市，它也提供了類似的方便工具(不過從目錄名字看起來還是在實驗階段而已..)</p>
+
+<p>我的作業環境是WinXP，如果要在別的系統可參考最底下的參考資料，有提到怎麼修改路徑。</p>
+
+<p>簡單的使用方法如下：</p>
+
+<h4>Step 1.</h4>
+
+<p>到<a href="http://framework.zend.com/">ZF官網</a>下載Zend Framework 1.6，解壓縮之後裡面有個laboratory資料夾，裡面有個ZendL，把它放到你的include_path底下。</p>
+
+<h4>Step 2.</h4>
+
+<p>在laboratory/Zend_Tool/bin裡有個zf.bat跟zf.php，改一下zf.bat裡的php.exe的路徑(如果放在跟php.exe同目錄就不用改了)</p>
+
+<h4>Step 3.</h4>
+
+<p>以上設定完成之後，到cmd模式下，輸入<code>zf show version</code>，應該會出現「Zend Framework Version: 1.6.0」字樣</p>
+
+<h4>Step 4.</h4>
+
+<p>隨便找一個資料夾來試試，輸入<code>zf create project</code>，等一會，它就會幫你把資料夾跟檔案產生好了(如下圖)</p>
+
+<p><img src="/images/2008/zf_scaffold.gif" alt="image" /></p>
+
+<p>完成! 這樣就完成了基本的ZF MVC的骨架出來了，也做了簡單的bootstrap跟幾個預設的controller跟view。不過我發現這個Zend_Tool會把ZF的 library整個也複製一份到library底下，雖然是方便發布，不過我個人是習慣不把它放在web資料夾下..</p>
+
+<p>結論：不管是Zend Studio或是Zend_Tool都可以快速的產生架構出來，我還是習慣用自己的架構..</p>
+
+<p>參考資料：<a href="http://devzone.zend.com/article/3811-Using-Zend_Tool-to-start-up-your-ZF-Project">Zend Developer Zone</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -294,48 +354,6 @@ export LANG=zh_TW.UTF-8
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/07/28/starswok/">Smarty之星鍋娛樂網</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2008/07/28/starswok/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2008-07-28T10:21:00+08:00" pubdate>Jul 28<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2008/starswok.jpg" alt="image" /></p>
-
-<p>你想當大明星嗎? 嗯，我想 :)</p>
-
-<p>這案子在當初頁面設計尚未底定，且工作時間有限的情況下，我把這案子用<a href="http://www.smarty.net/">Smarty</a>，搭配<a href="http://en.wikipedia.org/wiki/Model-view-controller">MVC</a>(Model-View-Controller)的架構來製作；另外再搭配上<a href="http://subversion.tigris.org/">Subversion</a>的版本控制功能，讓設計人員可以commit他們的template，工程師可以commit他們的程式碼，讓彼此修改頁面而不小心動到程式碼的影響降到最小，在萬一真的不小心改壞了，還可以回朔之前的版本，真的很方便。</p>
-
-<p>這案子另外還有需要跟金流廠商串接的部份(線上刷卡、便利商店代收及網路ATM功能)，忍不住想抱怨一下，有的金流廠商的API很方便(例如綠界)，串接起來很輕鬆；但有的廠商的API，看了一下程式碼實在很老舊，明明就有switch的語法可以用，但還用一堆的if..else..來寫，看了實在火大，又還規定一定要用Big5編碼。(我這人有程式碼潔癖，所以看不下去最後就自己動手改寫了&#8230;)</p>
-
-<p>網址：<a href="http://www.starswok.com">http://www.starswok.com</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/33/">&larr; Older</a>
@@ -387,6 +405,10 @@ export LANG=zh_TW.UTF-8
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -422,15 +444,11 @@ export LANG=zh_TW.UTF-8
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

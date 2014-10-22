@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="CoffeeScript很有趣也很好寫，雖然它提供了許多的語法糖衣(Syntactic sugar)，讓你用短短的幾行程式碼就能換來原來你在JavaScript要做的事。但說白了它本質上還是JavaScript，JavaScript做不到的事，用CoffeeScript一樣也做不到。 &hellip;">
+  <meta name="description" content="感謝ihower的邀請，這是今天我在Ruby Tuesday上用到的投影片。雖然主題跟在PHPConf Taiwan的一樣，但因為聽眾們大多對Ruby已經很熟悉，而且CoffeeScript在新版的Rails已經是內建的功能了，沒辦法用同一招繼續騙吃騙喝(同一招不能對聖鬥士用兩次啊)， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/22/coffeescript-at-ruby-tuesday/">CoffeeScript @ 20th Ruby Tuesday</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/22/coffeescript-at-ruby-tuesday/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-22T12:56:00+08:00" pubdate>Nov 22<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>感謝<a href="http://ihower.tw/blog/">ihower</a>的邀請，這是今天我在<a href="http://registrano.com/events/ruby-tuesday-20">Ruby Tuesday</a>上用到的投影片。雖然主題跟在<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>的一樣，但因為聽眾們大多對Ruby已經很熟悉，而且CoffeeScript在新版的Rails已經是內建的功能了，沒辦法用同一招繼續騙吃騙喝(同一招不能對聖鬥士用兩次啊)，所以有再特別為Rubyist們調整了內容。
+<a href="http://speakerdeck.com/u/eddie/p/coffeescript-in-ruby-tuesday" target="_blank"><img src="/images/2011/speakerdeck-coffeescript-in-ruby-tuesday.jpg" alt="image" /></a>
+<a href="http://speakerdeck.com/u/eddie/p/coffeescript-in-ruby-tuesday" target="_blank">View on Speaker Deck</a> | <a href="http://www.slideshare.net/aquarianboy/coffeescriptrubytuesday" target="_blank">View on Slideshare</a><br />
+<a href="/downloads/files/2011/coffeescript-ruby-tuesday.pdf" target="_blank">Download PDF</a> |
+<a href="/downloads/files/2011/coffeescript-ruby-tuesday-screen.zip" target="_blank">Download Screencast</a></p>
+
+<p>因為Speaker Deck沒辦法全螢幕播放，所以另外也上傳了一份到Slideshare。不過傳到Slideshare的字型好像會跑掉，變超醜..</p>
+
+<p>部份內容是screencast影片，所以沒辦法在slideshare線上看到，有興趣看的人可以另外下載。依舊沒有太多有趣的哏，希望大家會喜歡。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -967,159 +1009,6 @@ Using /home/eddie/.rvm/gems/ruby-1.9.2-p290 with gemset rails-3.1.1
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/11/14/when-jquery-meets-coffeescript/">當jQuery遇上CoffeeScript</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/11/14/when-jquery-meets-coffeescript/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-11-14T11:57:00+08:00" pubdate>Nov 14<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>上週的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>，有幾位朋友在會後問我<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>要怎麼樣跟jQuery之類的framework整合在一起，會不會打架? 基本上是不會的，CoffeeScript寫出來的東西就是JavaScript，如果會打架，那表示你即使不用CoffeeScript來寫也一樣打架了。</p>
-
-<p>我們來看看要怎麼把jQuery跟CoffeeScript放一起。</p>
-
-<p>簡單的說，<strong>就跟你平常在用jQuery沒什麼兩樣</strong>，例如你要取得頁面上某個元素：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">$pokemon = </span><span class="nx">$</span><span class="p">(</span><span class="s">&#39;#pikachu&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>就可以取得頁面上某個id叫做<code>pikachu</code>的元素(這例子是從那本CoffeeScript的書上借來的 orz)。</p>
-
-<p>再來，你可能寫過這樣的程式：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">().</span><span class="nx">ready</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;hello, jQuery&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>就是在頁面載入完成後跟你打聲招呼的程式，在CoffeeScript裡你就這樣寫：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">$</span><span class="p">().</span><span class="nv">ready = </span><span class="o">-&gt;</span>
-</span><span class='line'>  <span class="nx">alert</span> <span class="s">&quot;hello jQuery&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果你是用這種寫法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;hello, jQuery&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>改成CoffeeScript則是：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">$</span> <span class="o">-&gt;</span>
-</span><span class='line'>  <span class="nx">alert</span> <span class="s">&quot;hello, jQuery&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其實寫法跟原來的寫法沒什麼兩樣，就一樣<code>$</code>給它用下去吧。</p>
-
-<p>你可能也寫過類似這樣的東西：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s1">&#39;I am clicked&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>意思是「點擊h1元素之後改變它的內容」，改成用CoffeeScript寫的話：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">$</span> <span class="o">-&gt;</span>
-</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s">&#39;h1&#39;</span><span class="p">).</span><span class="nx">click</span> <span class="o">-&gt;</span>
-</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="nx">@</span><span class="p">).</span><span class="nx">html</span> <span class="s">&#39;I am clicked&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>好像已經簡單到我都不好意思要寫這篇了..</p>
-
-<p>如果要寫jQuery的Plugin呢? 舉個簡單的例子，例用Regular Expression來檢查Email格式的小程式，原本可能會長得像這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-</span><span class='line'>    <span class="nx">isEmail</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">email</span><span class="p">){</span>
-</span><span class='line'>      <span class="k">return</span> <span class="sr">/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">email</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'><span class="p">})(</span><span class="nx">jQuery</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>改成用CoffeeScript寫會長這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">$ = </span><span class="nx">jQuery</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">extend</span>
-</span><span class='line'>  <span class="nv">isEmail: </span><span class="nf">(email) -&gt;</span>
-</span><span class='line'>    <span class="o">/^</span><span class="err">\</span><span class="nx">w</span><span class="o">+</span><span class="p">((</span><span class="o">-</span><span class="err">\</span><span class="nx">w</span><span class="o">+</span><span class="p">)</span><span class="o">|</span><span class="p">(</span><span class="err">\</span><span class="p">.</span><span class="err">\</span><span class="nx">w</span><span class="o">+</span><span class="p">))</span><span class="o">*</span><span class="err">\</span><span class="nx">@</span><span class="p">[</span><span class="nx">A</span><span class="o">-</span><span class="nx">Za</span><span class="o">-</span><span class="nx">z0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="p">((</span><span class="err">\</span><span class="p">.</span><span class="o">|-</span><span class="p">)[</span><span class="nx">A</span><span class="o">-</span><span class="nx">Za</span><span class="o">-</span><span class="nx">z0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="p">)</span><span class="o">*</span><span class="err">\</span><span class="p">.[</span><span class="nx">A</span><span class="o">-</span><span class="nx">Za</span><span class="o">-</span><span class="nx">z0</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="nx">$</span><span class="o">/</span><span class="p">.</span><span class="nx">test</span> <span class="nx">email</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>少了一些不必要的大括號跟小括號以及分號，看起來真的清爽多了 :)</p>
-
-<p>另外也有朋友問到，如果CoffeeScript這麼威的話，要不要乾脆把之前寫的JavaScript程式碼全部port成CoffeeScript嗎? 我想這問題的答案就由各位自己評估了。我是因為自己爾後的案子應該會用到Rails 3.x居多，所以會把自己之前寫的一些東西也慢慢的轉過來(但其實也沒多少程式碼)，順便當做練功。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/11/">&larr; Older</a>
@@ -1171,6 +1060,10 @@ Using /home/eddie/.rvm/gems/ruby-1.9.2-p290 with gemset rails-3.1.1
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -1206,15 +1099,11 @@ Using /home/eddie/.rvm/gems/ruby-1.9.2-p290 with gemset rails-3.1.1
         <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/10/18/fanxin-app/">分心 FanXin app</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 139.4736842105263%'>Ruby(25)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
