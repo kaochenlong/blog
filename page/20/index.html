@@ -21,8 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="邏輯判斷 其實就是if..else那類的事，沒什麼特別的。不過在CoffeeScript裡有幾個比較有趣的點： 不需要特別寫then：除非是寫成一行，不然不需要特別加上”then”
-有unless可以用：unless就是not if，if就是not unless，也許你會覺得有if &hellip;">
+  <meta name="description" content="即然CoffeeScript寫出來的東西就是一般的JavaScript，之前就在猜想是不是也可以把CoffeeScript用在Titanium Studio裡，果然，有善心人士用Python寫了給Titanium Studio的外掛。 安裝 首先， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +90,420 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/03/using-coffeescript-in-titanium-studio/">在Titanium Studio使用CoffeeScript來寫app</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/using-coffeescript-in-titanium-studio/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T18:13:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>即然<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>寫出來的東西就是一般的JavaScript，之前就在猜想是不是也可以把CoffeeScript用在<a href="http://www.appcelerator.com/">Titanium Studio</a>裡，果然，有善心人士用Python寫了給Titanium Studio的外掛。</p>
+
+<h2>安裝</h2>
+
+<p>首先，你需要在你電腦裡安裝好CoffeeScript的相關工具，詳情可參考<a href="/2011/08/03/install-coffeescript/">這篇</a>。</p>
+
+<p>相關的工具安裝完成之後，接著請到 <a href="https://github.com/billdawson/ti_coffee_plugin">https://github.com/billdawson/ti_coffee_plugin</a> 下載壓縮檔，解壓縮之後把plugin.py這個檔案放到Titanium Studio的plugin資料夾。以我的電腦來看是放在這個資料夾：</p>
+
+<pre><code>/Library/Application Support/Titanium/plugins/ti_coffee_plugin/1.0/plugin.py
+</code></pre>
+
+<p>如果資料夾不存在的話，就自己手動建吧，檔案放進去之後就算安裝完成了。</p>
+
+<h2>使用</h2>
+
+<p>在每個Titanium Studio的project底下，應該都可以找到一個”tiapp.xml“的檔案：</p>
+
+<p><img src="/images/2011/titanium_plugin_1.png" alt="image" /></p>
+
+<p>找到它之後，請在最下面加上這段：</p>
+
+<pre><code>&lt;plugins&gt;
+    &lt;plugin version="1.0"&gt;ti_coffee_plugin&lt;/plugin&gt;
+&lt;/plugins&gt;
+</code></pre>
+
+<p><img src="/images/2011/titanium_plugin_2.png" alt="image" /></p>
+
+<p>接下來，因為我們要建一個<code>app.coffee</code>來產生<code>app.js</code>，所以原來的app.js就可以先丟掉，然後在Resources資料夾裡建一個叫app.coffee的檔案：</p>
+
+<p><img src="/images/2011/titanium_plugin_3.png" alt="image" /></p>
+
+<p>接著就是打開app.coffee來寫code啦，如果大家懶得寫，可以直接剪貼這段直接貼上：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">Titanium.UI.backgroundColor = </span><span class="s">&#39;white&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">win1 = </span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createWindow</span><span class="p">(</span>
+</span><span class='line'>  <span class="nv">backgroundColor: </span><span class="s">&#39;white&#39;</span>
+</span><span class='line'>  <span class="nv">title: </span><span class="s">&#39;CoffeeScript Demo&#39;</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">label1 = </span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createLabel</span><span class="p">(</span>
+</span><span class='line'>  <span class="nv">color: </span><span class="s">&#39;#999&#39;</span>
+</span><span class='line'>  <span class="nv">text: </span><span class="s">&#39;Hello CoffeeScript&#39;</span>
+</span><span class='line'>  <span class="nv">font:</span>
+</span><span class='line'>      <span class="nx">fontSize</span><span class="o">:</span><span class="mi">30</span>
+</span><span class='line'>      <span class="nv">fontFamily: </span><span class="s">&#39;Helvetica Neue&#39;</span>
+</span><span class='line'>  <span class="nv">textAlign: </span><span class="s">&#39;center&#39;</span>
+</span><span class='line'>  <span class="nx">width</span><span class="o">:</span><span class="s">&#39;auto&#39;</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">win1</span><span class="p">.</span><span class="nx">add</span> <span class="nx">label1</span>
+</span><span class='line'><span class="nx">win1</span><span class="p">.</span><span class="nx">open</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打完收工，按下build按鈕，耐心等一下畫面..</p>
+
+<p><img src="/images/2011/titanium_plugin_5.png" alt="image" /></p>
+
+<p>同時你應該也會發現在<code>Resources資料夾</code>裡自動長出了app.js，這個就是神奇的plugin幫我們在build的時候，自動幫我們完成從編譯js檔的工作。</p>
+
+<h2>為什麼好好的JavaScript要改用CoffeeScript來寫?</h2>
+
+<p>大家先看看程式碼的畫面：</p>
+
+<p><img src="/images/2011/titanium_plugin_4.png" alt="image" /></p>
+
+<p>主要是CoffeeScript的語法簡單、清楚很多，例如像是物件可以用YAML的方式來寫。所以像label1裡的參數本來是一層包一層，可以改用更清楚的YAML式的寫法(不過這個多少有個人觀感，說不定有的人覺得原來用大括號的比較清楚)。</p>
+
+<p>好寫是好寫，但也不是完全沒缺點，大家自己看畫面應該會發現到，例如原本Titanium Studio有syntax highlight改用CoffeeScript就沒了，當然code hint就別想了(不知道會不會有善心人士也把這個功能補完)，不然就是先到有支援CoffeeScript的編輯器裡先寫好，再回來Titanium Studion裡進行編譯也是一招。</p>
+
+<p>所以各位客倌就自己取捨囉，供大家參考。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/03/oop-in-coffeescript/">CoffeeScript OOP篇</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/oop-in-coffeescript/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T16:47:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在JavaScript裡寫OOP有好幾種方式，例如你可以使用prototype的方式，也可以使用function或物件的方式來寫，不過其實不管哪一種，類別的程式碼寫起來、看起來都不夠直覺(當然也部份是因為我對JavaScript沒這麼熟)。還好在<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>寫類別是相當容易，而且程式碼是很清楚、容易閱讀的，來看個例子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(name, age) -&gt;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">name = </span><span class="nx">name</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">age = </span><span class="nx">age</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">animal = </span><span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">animal</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Animal</span><span class="p">,</span> <span class="nx">animal</span><span class="p">;</span>
+</span><span class='line'><span class="nx">Animal</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">Animal</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">Animal</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">animal</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">animal</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到了嗎? 用CoffeeScript來定義類別真的簡單多了。特別注意一下constructor(建構子)的部份，這邊的：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">this</span><span class="p">.</span><span class="nv">name = </span><span class="nx">name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為在CoffeeScript裡<code>@</code>符號代表<code>this</code>，所以可以簡寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="vi">@name = </span><span class="nx">name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>整個很有Ruby味道。又，因為建構子用的this.name = name這樣指定動作太常見，所以：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(name, age) -&gt;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">name = </span><span class="nx">name</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">age = </span><span class="nx">age</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以更簡化成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(@name, @age) -&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>方法</h3>
+
+<p>那如果要加其它的function到類別裡要怎麼做?</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(@name, @age) -&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">say_hello: </span><span class="nf">(something) -&gt;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">something</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">animal = </span><span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+</span><span class='line'><span class="nx">animal</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">(</span><span class="s">&quot;CoffeeScript&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Animal</span><span class="p">,</span> <span class="nx">animal</span><span class="p">;</span>
+</span><span class='line'><span class="nx">Animal</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">Animal</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nx">Animal</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">something</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">Animal</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">animal</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
+</span><span class='line'><span class="nx">animal</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;CoffeeScript&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯出來的程式碼已經有點開始長了..</p>
+
+<h3>繼承</h3>
+
+<p>在CoffeeScript裡，繼承使用<code>extends</code>這個關鍵字：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(@name, @age) -&gt;</span>
+</span><span class='line'>  <span class="nv">say_hello: </span><span class="nf">(something) -&gt;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">something</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nx">Human</span> <span class="k">extends</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">walk: </span><span class="o">-&gt;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;I can walk with my foots!&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">eddie = </span><span class="k">new</span> <span class="nx">Human</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">say_hello</span> <span class="s">&quot;CoffeeScript&quot;</span>
+</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">walk</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Animal</span><span class="p">,</span> <span class="nx">Human</span><span class="p">,</span> <span class="nx">eddie</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">__hasProp</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">,</span> <span class="nx">__extends</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">child</span><span class="p">,</span> <span class="nx">parent</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">parent</span><span class="p">)</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="nx">__hasProp</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">parent</span><span class="p">,</span> <span class="nx">key</span><span class="p">))</span> <span class="nx">child</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span> <span class="p">}</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">ctor</span><span class="p">()</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">child</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="nx">ctor</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">child</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ctor</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">child</span><span class="p">.</span><span class="nx">__super__</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">child</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">Animal</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">Animal</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nx">Animal</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">something</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">Animal</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Human</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">__extends</span><span class="p">(</span><span class="nx">Human</span><span class="p">,</span> <span class="nx">Animal</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">Human</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">Human</span><span class="p">.</span><span class="nx">__super__</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nx">Human</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">walk</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I can walk with my foots!&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">Human</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">eddie</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Human</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
+</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;CoffeeScript&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">walk</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到編譯出來的JavaScript程式碼了嗎? 跟CoffeeScript的程式碼行數以及複雜度比起來，我想誰比較容易寫應該一目了然了。</p>
+
+<p>在OOP的繼承體系裡，子類別會自動繼承自父類別的方法，如果兒子覺得老爸的方法不好用，兒子也可以自己定義一個來用，以上面的例子來說：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Human</span> <span class="k">extends</span> <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nv">say_hello: </span><span class="nf">(something) -&gt;</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hi, I am </span><span class="si">#{</span><span class="nx">@name</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'>      <span class="k">super</span> <span class="nx">something</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你可以在子類別定義同名的function，以來取代或補充父類別的方法，如果在override的方法裡要存取父類，則是使用關鍵字<code>super</code>。</p>
+
+<p>有興趣的話，大家可以自己試著編譯看看這時候的程式碼是不是已經有點看不太懂了，但CoffeeScript的部份應該看起來還算滿清楚的。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1004,238 +1417,6 @@ coffee&gt; name = "eddie"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/08/03/install-coffeescript/">CoffeeScript 安裝篇</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/08/03/install-coffeescript/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-08-03T16:02:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>要安裝CoffeeScript的話，會需要先安裝<a href="http://nodejs.org/">Node.js</a>以及Node.js的套件管理工具 – <a href="http://npmjs.org/">npm</a> (Node Package Manager)</p>
-
-<h4>說明：</h4>
-
-<p>以下將會以Mac及Ubuntu為主要的平台，Windows就對不起了，我沒有機器可以測試..在安裝過程中如果出現權限不足的錯誤訊息，請使用sudo暫時取得安裝的權限。</p>
-
-<h3>安裝Node.js</h3>
-
-<p>官網：<a href="http://nodejs.org/">http://nodejs.org/</a></p>
-
-<pre><code>&gt; git clone git://github.com/joyent/node.git
-&gt; cd node
-&gt; ./configure
-&gt; make
-&gt; sudo make install
-</code></pre>
-
-<p>更多細節請參考：<a href="https://github.com/joyent/node/wiki/Installation">https://github.com/joyent/node/wiki/Installation</a></p>
-
-<h3>安裝npm</h3>
-
-<p>官網：<a href="http://npmjs.org/">http://npmjs.org/</a></p>
-
-<pre><code>&gt; curl http://npmjs.org/install.sh | sh
-</code></pre>
-
-<p>一行搞定!(如果你沒有curl的話請另外安裝)</p>
-
-<h3>安裝CoffeeScript</h3>
-
-<p>如果你的Node.js以及npm都順利安裝完成的話，接下來，在安裝之前先更新一下npm的套件資訊(不一定更新，只是確保npm會幫你裝最新的套件版本)：</p>
-
-<pre><code>&gt; npm update
-npm info it worked if it ends with ok
-npm info using npm@0.3.18
-npm info using node@v0.4.10
-npm WARN Invalid range in engines.node.  Please see `npm help json` ~v0.4.9
-npm WARN Invalid range in engines.node.  Please see `npm help json` v0.4.8~v0.4.9
-npm info outdated Everything up-to-date.
-npm info update Nothing to update
-npm ok
-</code></pre>
-
-<p>再來安裝CoffeeScript：</p>
-
-<pre><code>&gt; npm install coffee-script
-npm info it worked if it ends with ok
-npm info using npm@0.3.18
-npm info using node@v0.4.10
-npm info preinstall coffee-script@1.1.1
-npm info install coffee-script@1.1.1
-npm info postinstall coffee-script@1.1.1
-npm info preactivate coffee-script@1.1.1
-npm info activate coffee-script@1.1.1
-npm info postactivate coffee-script@1.1.1
-npm info build Success: coffee-script@1.1.1
-npm ok
-</code></pre>
-
-<p>其實如果你是Mac的使用者的話，上面這些動作可以直接用<a href="http://mxcl.github.com/homebrew/">homebrew</a>一行搞定，超幸福的：</p>
-
-<pre><code>&gt; brew install coffee-script
-</code></pre>
-
-<p>homebrew會幫你把需要的東西一起處理好(誠心推薦，不要再用ports了)。如果你發現用homebrew安裝的CoffeeScript不是最新版本的話，請先用<code>brew update</code>指令，更新一下homebrew的fomula再重新安裝即可。</p>
-
-<p>看看有沒裝好：</p>
-
-<pre><code>&gt; coffee -v
-CoffeeScript version 1.1.1
-</code></pre>
-
-<p>就這樣，可以準備開工了!</p>
-
-<h4>補充：</h4>
-
-<p>在 Windows 上可以用這個 <a href="https://github.com/alisey/CoffeeScript-Compiler-for-Windows">https://github.com/alisey/CoffeeScript-Compiler-for-Windows</a></p>
-
-<p>在 NetBeans 上可以用這個 <a href="https://github.com/dstepanov/coffeescript-netbeans">https://github.com/dstepanov/coffeescript-netbeans</a> (注意， Windows 7 要用 0.9.1 版才不會有問題)</p>
-
-<p>感謝jace補充 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/08/03/coffeescript-introduction/">CoffeeScript 簡介</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/08/03/coffeescript-introduction/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-08-03T15:54:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>什麼是CoffeeScript?</h3>
-
-<p>簡單的說，<strong>它就是JavaScript啦</strong>，只是用不同的程式語言來寫而已。</p>
-
-<h3>為什麼選擇CoffeeScript?</h3>
-
-<p>不少JavaScript社群，包括JavaScript的老爸<a href="http://en.wikipedia.org/wiki/Brendan_Eich">Brendan Eich</a>，也對它讚譽有加，有社群及大神的背書，加上Rails 3.1之後會把CoffeeScript變成預設支援，是我選擇它的原因之一。不過對我個人來說，CoffeeScript的語法感覺像是<a href="http://python.org/">Python</a>跟<a href="http://www.ruby-lang.org/">Ruby</a>的混合體，從這些語言身上借了一些我個人很愛的元素，加上對我個人來說學習的負擔不算太大，這才是我選擇它最主要的原因(聽說CoffeeScript還有向Haskell取經，不過我跟它不熟)。</p>
-
-<h3>從Python借來的：</h3>
-
-<ul>
-<li>使用縮排(identation)來取代大括號，這一直是我的菜，我有程式碼潔癖!</li>
-<li>簡單好用的List Comprehension語法，在CoffeeScript也可以用(雖然用起來有那麼一點點不太一樣)。</li>
-</ul>
-
-
-<h3>從Ruby借來的：</h3>
-
-<ul>
-<li>有if modifier可以用，可以把if寫在句子後面，也有unless可以用。</li>
-<li>在呼叫方法以及邏輯判斷的時候，可以視情況省略小括號。</li>
-<li>每行行尾不用分號(其實Python也是)。</li>
-<li>不用特別寫return，最後的執行結果就是回傳值。</li>
-<li>有類似irb的console介面模式可以用。</li>
-</ul>
-
-
-<h3>優缺點</h3>
-
-<h4>好處?</h4>
-
-<ul>
-<li>程式碼會變短，變得容易閱讀，也更容易抓出問題來，即使是以OOP的方式來寫js，語法看起來也是相當清楚。</li>
-<li>經過CoffeeScript編譯出來的JavaScript，因為它在編譯的時候有做最佳化，而且這些最佳化可能是我們這種小兵不知道的技巧，某些情況下的編譯出來的效能可能比我們一般手寫的要來得好。</li>
-<li>不會有因為變數scope而混淆程式語意或造成或memory leak的問題。</li>
-<li>編出來的js檔丟給<a href="http://www.jslint.com/">JSLint</a>檢查不會跳出一堆抱怨。</li>
-</ul>
-
-
-<h4>缺點?</h4>
-
-<ul>
-<li>你可能得再花時間再熟悉一門程式語言，不過如果你本來就熟悉Python或Ruby的話，其實負擔並不大，而且老實說Python/Ruby也沒很難學。</li>
-</ul>
-
-
-<h3>FAQ</h3>
-
-<h4>Q: 學CoffeeScript就可以取代一般的JavaScript嗎?</h4>
-
-<p>A: 也許可以取代，但這不代表你就不用學JavaScript，如果你並不熟悉JavaScript是怎麼一回事，你應該也不知道你要拿CoffeeScript來取代什麼東西。最一開始也提到，CoffeeScript就只是JavaScript而已，所以原本該花時間在學習JavaScript的，不會因為CoffeeScript而省下來的。</p>
-
-<h4>Q: CoffeeScript聽說要編譯成*.js檔才能用?</h4>
-
-<p>A: 是的。但如果你不想編譯，透過在瀏覽器裡直接引入compiler也可以讓瀏覽器看得懂*.coffee，只是通常實務上還是會把編成*.js檔。BTW, CoffeeScript的compiler本身也是用CoffeeScript寫的，自己寫自己，這點光是聽起來就很酷。</p>
-
-<h4>Q: 改用CoffeeScript的話，是不是之前寫的JavaScript都得整個打掉重寫?</h4>
-
-<p>A: 也不用啦，<strong>CoffeeScript的目的並不是取代原來的JavaScript，而是用更簡單、清楚的語法來寫JavaScript</strong>，所以原來寫好的就留著吧，除非你也覺得寫得不好，加上手癢想練功。而且如果你想在CoffeeScript裡直接使用一般JavaScript的語法也是ok的，CoffeeScript可以讓你把一般的JavaScript語法embed在CoffeeScript裡。</p>
-
-<h4>Q: CoffeeScript可以把.coffee檔編譯成.js檔，那也有工具可以把js檔轉成coffee檔的嗎?</h4>
-
-<p>A: 有的，有個工具叫做<a href="http://ricostacruz.com/js2coffee/">js2coffee</a>，你可以在線上玩看看，也可以透過npm安裝到你的電腦裡。</p>
-
-<h4>Q: 有開發工具嗎?</h4>
-
-<p>A: CoffeeScript的官網有列了<a href="https://github.com/jashkenas/coffee-script/wiki/Text-editor-plugins">一些工具</a>供參考。不過寫CoffeeScript只要一般的文字編輯器就行了，如果你沒有特別偏好的文字編輯器，我推薦你使用vim，它是個免費又功能強大的文字編輯器，投資時間學一下它保證不會後悔的。vim有一堆很威的plugin可以用，我從pct那邊fork了他的vim設定，也把CoffeeScript的外掛加上去了
-<a href="https://github.com/kaochenlong/pct.vim">https://github.com/kaochenlong/pct.vim</a> (PS: 其實<a href="https://github.com/pct/pct.vim">pct的版本</a>就有加上這功能了..)</p>
-
-<p>如果你是用Textmate，恭喜你CoffeeScript的作者有放出了個方便的<a href="https://github.com/jashkenas/coffee-script-tmbundle">bundle</a>可以用。除了一些方便的snippet以及程式碼顏色亮度之外，還可以讓你很簡單的執行/檢視你的coffee檔到時候編譯成js檔的樣子。</p>
-
-<p>Microsoft的Visual Studio 2010最近也有一個<a href="http://www.mindscapehq.com/products/web-workbench">免費的web workbench套件</a>可以用，讓VS也開始支援<a href="http://sass-lang.com/">Sass</a>、<a href="http://lesscss.org/">Less</a>以及<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>。</p>
-
-<h4>Q: 有書可以參考嗎?</h4>
-
-<p>A: 在這個當下，剛好有一本”<a href="http://pragprog.com/book/tbcoffee/coffeescript">CoffeeScript: Accelerated JavaScript Development</a>“，不過我想官網的資料相當完整，看完你就差不多知道怎麼用了。</p>
-
-<p>另外還有一些不錯的學習資源：</p>
-
-<ul>
-<li>Smooth CoffeeScript <a href="http://autotelicum.github.com/Smooth-CoffeeScript/">http://autotelicum.github.com/Smooth-CoffeeScript/</a></li>
-<li>CoffeeScript Cookbook <a href="http://coffeescriptcookbook.com/">http://coffeescriptcookbook.com/</a></li>
-<li>The Little Book on CoffeeScript <a href="http://arcturo.github.com/library/coffeescript/index.html">http://arcturo.github.com/library/coffeescript/index.html</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/21/">&larr; Older</a>
@@ -1287,7 +1468,15 @@ CoffeeScript version 1.1.1
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/10/22/local-variable-in-ruby/">Ruby 裡的區域變數</a>
       </li>
     
       <li class="post">
@@ -1318,19 +1507,11 @@ CoffeeScript version 1.1.1
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.21052631578948%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
@@ -1390,7 +1571,7 @@ CoffeeScript version 1.1.1
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - 高見龍 -
+  Copyright &copy; 2015 - 高見龍 -
   <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
 </p>
 

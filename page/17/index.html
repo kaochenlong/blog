@@ -21,13 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="Boolean? 真的假的? Boolean值很單純，只有兩種結果，就是真的(True)跟假的(False)，不是真的就是假的，沒有灰色地帶。 哪些東西是假的? 0 數字0
-”” 空字串
-[] 空的List
-() 空的Tuple
-{} 空的Dict
-None
-當然還有False本身也是假的.. &hellip;">
+  <meta name="description" content="陣列? 你也許會好奇在Python裡有沒有像其它語言一樣叫做陣列(Array)的東西。在Python並沒有名叫&#8221;Array&#8221;的東西，但有個叫做&#8221;List&#8221;(串列)的資料結構，用起來跟在其它語言的陣列是差不多， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,6 +90,370 @@ None
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/13/python-list/">List</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-list/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-13T13:50:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>陣列?</h2>
+
+<p>你也許會好奇在Python裡有沒有像其它語言一樣叫做陣列(Array)的東西。在Python並沒有名叫&#8221;Array&#8221;的東西，但有個叫做&#8221;List&#8221;(串列)的資料結構，用起來跟在其它語言的陣列是差不多，不過它的功能比一般其它語言的陣列要來得更便利。</p>
+
+<h2>是有順序的!</h2>
+
+<p>List的定義是使用中括號，裡面不限定只能放數字或文字，你要放物件也可以。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s">&quot;aa&quot;</span><span class="p">,</span> <span class="s">&quot;bb&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>List是有順序的，所以如果你要取用List裡的第1項東西的話：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">print</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>操作</h2>
+
+<p>接下來我們來看看在List有哪些常用的操作。</p>
+
+<h3>又是切割!</h3>
+
+<pre><code>&gt;&gt;&gt; my_list[1:3]
+[2, 3]
+
+&gt;&gt;&gt; my_list[:-1]
+[1, 2, 3, 4, 5, 'aa']
+
+&gt;&gt;&gt; my_list[:]
+[1, 2, 3, 4, 5, 'aa', 'bb']
+</code></pre>
+
+<h3>新增元素</h3>
+
+<ol>
+<li>append 在最後面加入元素，不用產生新物件，速度會比用<code>+</code>快一點</li>
+<li>insert 在指定的位置插入新的元素</li>
+<li>extend 在最後面加入元素</li>
+<li><code>+</code> 把兩個List給加在一起</li>
+</ol>
+
+
+<p>你可能會好奇<code>append</code>跟<code>extend</code>有什麼不一樣，我們來看看實際操作：</p>
+
+<pre><code>&gt;&gt;&gt; my_list = [1, 2, 3, 4, 5, "aa", "bb"]
+&gt;&gt;&gt; my_list.append(123)
+&gt;&gt;&gt; my_list
+[1, 2, 3, 4, 5, 'aa', 'bb', 123]
+&gt;&gt;&gt; my_list.insert(1, "x")
+&gt;&gt;&gt; my_list
+[1, 'x', 2, 3, 4, 5, 'aa', 'bb', 123]
+&gt;&gt;&gt; my_list.extend(['a', 'b', 'c'])
+&gt;&gt;&gt; my_list
+[1, 'x', 2, 3, 4, 5, 'aa', 'bb', 123, 'a', 'b', 'c']
+</code></pre>
+
+<p>可以看到<code>extend</code>會把塞進去的元素先展開再貼到最後面，而<code>append</code>只是把給它的元素直接放到最後面而已。</p>
+
+<h3>搜尋</h3>
+
+<p>直接看程式碼比較容易理解：</p>
+
+<pre><code>&gt;&gt;&gt; my_list = [1, 2, 3, 4, 5, "aa", "bb"]
+&gt;&gt;&gt; my_list.index("aa")
+5
+&gt;&gt;&gt; "bb" in my_list
+True
+&gt;&gt;&gt; "eddie" in my_list
+False
+</code></pre>
+
+<h3>刪除</h3>
+
+<pre><code>&gt;&gt;&gt; my_list = [1, 2, 3, 4, 5, "aa", "bb"]
+&gt;&gt;&gt; my_list.pop()
+'bb'
+&gt;&gt;&gt; my_list
+[1, 2, 3, 4, 5, 'aa']
+&gt;&gt;&gt; my_list.remove("aa")
+&gt;&gt;&gt; my_list
+[1, 2, 3, 4, 5]
+&gt;&gt;&gt; my_list.remove("bb")
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ValueError: list.remove(x): x not in list
+</code></pre>
+
+<h3>Range</h3>
+
+<pre><code>&gt;&gt;&gt; range(10)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</code></pre>
+
+<h3>組合與拆解</h3>
+
+<pre><code>&gt;&gt;&gt; my_str_list = ["hello", "python", "good morning"]
+&gt;&gt;&gt; "-".join(my_str_list)
+'hello-python-good morning'
+&gt;&gt;&gt; my_str = 'hello-python-good morning'
+&gt;&gt;&gt; my_str.split('-')
+['hello', 'python', 'good morning']
+</code></pre>
+
+<h3>排序、反轉</h3>
+
+<pre><code>&gt;&gt;&gt; my_list = [1, 2, 5, 8, 3, 0]
+&gt;&gt;&gt; my_list.sort()
+&gt;&gt;&gt; my_list
+[0, 1, 2, 3, 5, 8]
+&gt;&gt;&gt; my_list.reverse()
+&gt;&gt;&gt; my_list
+[8, 5, 3, 2, 1, 0]
+</code></pre>
+
+<h2>List Comprehension</h2>
+
+<p>這個是Python的List的一個很棒的功能，可以讓你的程式碼變得更精簡，直接來看範例：</p>
+
+<pre><code>&gt;&gt;&gt; print [i for i in range(10)]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+&gt;&gt;&gt; print [i for i in range(20) if i%2 == 0]
+[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+</code></pre>
+
+<p>更多精彩內容，請見官網文件<a href="http://docs.python.org/tutorial/datastructures.html">http://docs.python.org/tutorial/datastructures.html</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/13/python-string/">字串</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-string/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-13T13:45:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>最常用的資料型態</h2>
+
+<p>不管在哪種程式語言，字串大概都是使用量最大的資料型態。</p>
+
+<h2>單引號跟雙引號的差別?</h2>
+
+<p>其實沒什麼差別。</p>
+
+<h2>操作</h2>
+
+<p>接下來我們看一些常見的字串操作</p>
+
+<h3>字串替換</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="s">&quot;kao&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="s">&#39;eddie = kao&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;my name is </span><span class="si">%(name)s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;name&#39;</span> <span class="p">:</span> <span class="s">&#39;eddie&#39;</span><span class="p">}</span>
+</span><span class='line'><span class="s">&#39;my name is eddie&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>字串格式化</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;my name is </span><span class="si">%10s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="s">&quot;eddie&quot;</span>
+</span><span class='line'><span class="s">&#39;my name is      eddie&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;my name is </span><span class="si">%-10%</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">eddie</span><span class="s">&quot;</span>
+</span><span class='line'><span class="s">&#39;my name is eddie     &#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;the PI is </span><span class="si">%.3f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="mf">3.1415926</span>
+</span><span class='line'><span class="s">&#39;the PI is 3.142&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>len() 字串長度</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">greeting</span> <span class="o">=</span> <span class="s">&quot;hello, eddie&quot;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+</span><span class='line'><span class="mi">12</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>算字串的長度，其實就是算有幾個字元..</p>
+
+<h3>字串的&#8221;運算&#8221;?</h3>
+
+<p>字串也可以用加號<code>+</code>跟乘號<code>*</code>，不過並不是真的像數字一樣的四則運算：</p>
+
+<p>&#8221;+&#8221;(加號)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="s">&quot;eddie&quot;</span> <span class="o">+</span> <span class="s">&quot;kao&quot;</span>
+</span><span class='line'><span class="n">eddiekao</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&#8221;*&#8221;(乘號)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="s">&quot;eddie&quot;</span><span class="o">*</span><span class="mi">3</span>
+</span><span class='line'><span class="n">eddieeddieeddie</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>有人在嗎?</h3>
+
+<p>使用<code>in</code>語法，可以檢查該字串是否包含某個字元：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;a&quot;</span> <span class="ow">in</span> <span class="s">&quot;abcdefg&quot;</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;x&quot;</span> <span class="ow">in</span> <span class="s">&quot;abcdefg&quot;</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>切割</h3>
+
+<p>split</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_str</span> <span class="o">=</span> <span class="s">&quot;xxx yyy zzz&quot;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span><span class='line'><span class="p">[</span><span class="s">&#39;xxx&#39;</span><span class="p">,</span> <span class="s">&#39;yyy&#39;</span><span class="p">,</span> <span class="s">&#39;zzz&#39;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>slice</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_str</span> <span class="o">=</span> <span class="s">&quot;abcdefg&quot;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'><span class="n">a</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="n">g</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="n">bcd</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">my_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="n">abcdef</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>中文字元怎麼切? 怎麼算?</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># encoding: utf-8</span>
+</span><span class='line'><span class="n">my_name</span> <span class="o">=</span> <span class="s">&quot;高見龍&quot;</span>
+</span><span class='line'><span class="n">my_name_unicode</span> <span class="o">=</span> <span class="s">u&quot;高見龍&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_name</span><span class="p">)</span>           <span class="c"># 9</span>
+</span><span class='line'><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_name_unicode</span><span class="p">)</span>   <span class="c"># 3</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">my_name_unicode</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">word</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意到前面那個小寫的<code>u</code>嗎? 加上<code>u</code>表示這個字串是unicode的，這樣一來在算字數時候，每個中文字就會被當做一個字元來計算了。</p>
+
+<p>Python的字串還有很多可以介紹的，不過因為我們主要的目的是Django，所以不會打算把所有的字串方法都一一介紹一次，更多細節，請見官網文件：<a href="http://docs.python.org/library/string.html">http://docs.python.org/library/string.html</a> (這是個重要的章節，為了你的將來，請一定要看!)</p>
+
+<p>再來，我們來看看在Python的串列(List)..</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -433,325 +791,6 @@ Decimal('0.0')
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/12/python-flow-control/">邏輯及流程控制</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/12/python-flow-control/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-12T17:01:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>變數</h2>
-
-<p>在開始講流程控制之前，要先來看一下在Python的變數。</p>
-
-<p>Pytho的變數有幾項特點以及有趣的使用：</p>
-
-<ul>
-<li>不用宣告，可以直接用 x = &#8220;abc&#8221;</li>
-<li>變數名稱沒有型態</li>
-<li>x, y, z = 1, 2, 3 可一口氣指定多個變數</li>
-<li>x, y = y, x 把x跟y的值對調</li>
-<li>x, y, z = &#8220;abc&#8221; 會得到x = &#8220;a&#8221;, y = &#8220;b&#8221;, z = &#8220;c&#8221;</li>
-<li>x = y = z = &#8220;abc&#8221; x、y、z都是&#8221;abc&#8221;</li>
-</ul>
-
-
-<h3>命名規範</h3>
-
-<ol>
-<li>最好取有意義且相關的</li>
-<li>開頭只能以底線或英文字母</li>
-<li>小心保留字</li>
-</ol>
-
-
-<p>保留字：</p>
-
-<table>
-<thead>
-<tr>
-<th> and </th>
-<th> as   </th>
-<th> assert </th>
-<th> break  </th>
-<th> class </th>
-<th> continue </th>
-<th> def </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> del </td>
-<td> elif </td>
-<td> else   </td>
-<td> except </td>
-<td> exec  </td>
-<td> finally  </td>
-<td> for</td>
-</tr>
-<tr>
-<td> from </td>
-<td> global </td>
-<td> if </td>
-<td> import </td>
-<td> in </td>
-<td> is </td>
-<td> lambda</td>
-</tr>
-<tr>
-<td> not </td>
-<td> or </td>
-<td> pass </td>
-<td> print </td>
-<td> raise </td>
-<td> return </td>
-<td> try</td>
-</tr>
-<tr>
-<td> while </td>
-<td> with </td>
-<td> yield</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
-
-<h2>如果這樣，那就這樣，不然就那樣.. 的if-else</h2>
-
-<p>所謂的邏輯控制，說穿了大概就是「如果下雨，就去吃麥當勞，不然就去吃肯德雞」之類的敘述罷了。如果我們把這段語法改寫成程式碼的話：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">weather</span> <span class="o">=</span> <span class="s">&quot;sunny&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="n">weather</span> <span class="o">==</span> <span class="s">&#39;rainy&#39;</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;go to M&quot;</span>
-</span><span class='line'><span class="k">else</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;go to KFC&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果你曾經學過別的程式語言，例如C/C++/PHP，你可能一下子看到這樣的程式碼會不太習慣。Python的code block不需要大括號，只要用整齊的縮排就可以了。至於你是要縮排2格空白、4格空白都可以，只要排整齊就好了。另外，每行的行末也不需要分號做為結束。</p>
-
-<p>Python的變數不需要特別宣告，在做邏輯判斷的時候，如果不會影響語意的話，也是不需要小括號的。假設我們原來這段程式碼改用C-like的程式碼來改寫的話，可能會長得像這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="k">var</span> <span class="nx">weather</span><span class="o">:</span><span class="nb">String</span> <span class="o">=</span> <span class="s2">&quot;sunny&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">weather</span> <span class="o">==</span> <span class="s2">&quot;rainy&quot;</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">print</span><span class="p">(</span><span class="s2">&quot;go to M&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>  <span class="nx">print</span><span class="p">(</span><span class="s2">&quot;go to KFC&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面這段程式碼只是舉例，不一定完全正確。不過要表達一樣的意思，用Python就是可以讓你的程式碼變得簡單很多，至少你可以少敲好幾下鍵盤，也因為Python的程式碼強制一定要縮排排整齊，所以你也不用擔心程式碼風格會差很多的問題(當然有的人就是喜歡用奇技淫巧..硬是要寫得跟別人不同的也大有人在)。</p>
-
-<p>有<code>if..else..</code>，那當然也要來一下<code>elseif</code>之類的語法，不過Python的elseif是用<code>elif</code>：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">weather</span> <span class="o">=</span> <span class="s">&quot;sunny&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="n">weather</span> <span class="o">==</span> <span class="s">&#39;rainy&#39;</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;M&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">elif</span> <span class="n">weather</span> <span class="o">==</span> <span class="s">&#39;not good&#39;</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Stay at home&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">else</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;KFC&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>switch?</h2>
-
-<p>你知道當程式的判斷開始越來越多的時候，學校老師或是教課書上就會教我們用<code>switch</code>之類的語法來處理，不過，你可能會很訝異，Python沒有swtich之類的語法的，它就是用一大串的<code>if..elif..else..</code>來處理。</p>
-
-<p>不優美嗎? 我覺得還好。反正Python程式碼的縮排很清楚，看起來也不會多混亂 :)</p>
-
-<h2>註解</h2>
-
-<p>Python的註解有兩種，單行註解跟多行註解。單行的這樣用：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># this is comment in python</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>多行的這樣用</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="sd">&quot;&quot;&quot;</span>
-</span><span class='line'><span class="sd">this is comment</span>
-</span><span class='line'><span class="sd">this is comment, too!</span>
-</span><span class='line'><span class="sd">many comment..</span>
-</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>中文字..會出現錯誤!!</h2>
-
-<p>如果你的檔案裡有用到非英文字元的話，請在檔案最前面加上一行：</p>
-
-<pre><code># encoding: utf-8
-</code></pre>
-
-<p>這樣你的程式執行起來才不會跳出<code>SyntaxError</code>，誰叫電腦跟程式語言不是中國人發明的..</p>
-
-<h2>輸入/輸出</h2>
-
-<p>這個我們在寫一些console的應用程式的時候常會用到，前面我們已經用過<code>print</code>了，不過接下來我們來試著做個可以跟使用者互動的簡單小程式：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">print</span> <span class="s">&quot;Hello, how old are you?&quot;</span>
-</span><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">()</span>
-</span><span class='line'><span class="k">if</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;You&#39;re an Adult already!&quot;</span>
-</span><span class='line'><span class="k">else</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;kid, go back to school!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這其實也是個沒什麼實戰用途的程式碼範例，也沒有很嚴格的檢查輸入值的範圍，不過可以從這邊看到在Python的輸入/輸出大概是怎麼處理的。另外一樣在處理輸入的，還有兩個稍微要提的，分別是<code>raw_input</code>跟<code>get_pass模組</code>。也許你會好奇<code>input</code>跟<code>raw_input</code>的差別? 比較明顯的差別是在於數字的處理，如果你輸入<code>20+3</code>，你會得到23，但如果用的是<code>raw_input</code>的話，則是得到<code>20+3</code>這個字串。</p>
-
-<p>不管是<code>input</code>或是<code>raw_input</code>，我們在輸入的過程中都會被旁邊的人看光光，如果你不想你在輸入密碼的時候全部都秀在畫面上，你可以使用<code>get_pass</code>這個內建的模組。我們直接在shell裡試試看：</p>
-
-<pre><code>&gt;&gt;&gt; import getpass
-&gt;&gt;&gt; getpass.getuser()
-&gt;&gt;&gt; your_pw = getpass.getpass("please input your password: ")
-please input your password:
-</code></pre>
-
-<p>這樣你打的字就應該不會被看到了。</p>
-
-<p>接下來，我們要來把這些程式碼包成method(方法)..</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/12/install-cygwin-on-windows/">如果你是使用Windows作業系統的話..</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/12/install-cygwin-on-windows/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-12T16:16:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>在Windows安裝Python很難嗎?</h2>
-
-<p>就安裝的話，一點都不難，因為Python已經有幫Windows做好安裝檔了，檔案<a href="http://python.org/download/">下載</a>回來之後點一點、下一步的按鈕按一按差不多就搞定了。</p>
-
-<p>其實在Windows上寫Python，Python本身沒什麼問題，倒是環境比較痛苦。特別是之後的Django，它的懶人安裝包(Instant Django)專案也已經消失了，在Windows上練習寫Django的麻煩度就又增加了..</p>
-
-<h2>有比較完美的解決方法嗎?</h2>
-
-<p>最完美的解決方法就是 - <strong>不要用Windows</strong>，不過我想那對正在用Windows的人來還滿困難的。</p>
-
-<p>如果你因為工作或是其它因素不得不用它，那也許可以考慮安裝雙系統，或是像<a href="https://www.virtualbox.org/">VirtualBox</a>在Windows上模擬Linux的作業環境。我之前試過VirtualBox的這個解決方案，其實還滿完美的，之前在中研院<a href="http://www.openfoundry.org/">OpenFoundry</a>的工作坊講課的時候就是用它搭配Ubuntu，還滿ok的，但可惜就是速度會慢了點，遇到硬體設備比較差的電腦跑起來會有點辛苦。</p>
-
-<p>如果你不想重灌或安裝VirtualBox，我自己試了一下，大概安裝<a href="http://www.cygwin.com/">Cygwin</a>是比較簡單的解決方法了。</p>
-
-<p>Cygwin的<a href="http://www.cygwin.com/">官網</a>一進去就看到&#8221;Get that Linux feeling - on Windows!&#8221;，雖然離真正的Linux還是有點距離，但光是這個feeling，大概就可以讓我們在上面練習Python跟Django了。</p>
-
-<p>在安裝Cygwin的過程中，請順便勾選<code>Python</code>跟<code>wget</code>這兩個工具選項，在安裝Cygwin的過程中也會一併把這些工具一起裝進Cygwin的系統裡。</p>
-
-<p>它所有的軟體都會安裝在Cygwin自己的資料夾裡，所以如果你不要用的話，整個資料夾砍掉就行了。</p>
-
-<p>安裝完Cygwin之後，因為我們可能從Windows貼一些指令到Cygwin，如果你發現你的Cygwin沒辦法接受滑鼠右鍵貼上的話，請改一下視窗的設定：</p>
-
-<p>在視窗的上面按一下滑鼠右鍵，選擇「內容」：</p>
-
-<p><img src="/images/cygwin/window_settings.png" alt="image" /></p>
-
-<p>把「快速編輯模式」打勾：</p>
-
-<p><img src="/images/cygwin/quick_edit_mode.png" alt="image" /></p>
-
-<p>這樣就搞定了!</p>
-
-<h2>編輯器呢?</h2>
-
-<p>雖然說Python程式碼用記事本就可以寫了沒錯，但因為記事本功能太陽春，通常那是最不得已才會開它起來改程式。我想現在文字編輯器的牌子不少，每款軟體用起來的手感也不太一樣，大家可以多比較看看哪些編輯器。如果你懶得比較，那就直接抓<a href="http://notepad-plus-plus.org/">Notepad++</a>來用吧，至少它該有的程式碼顏色功能都有了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/18/">&larr; Older</a>
@@ -803,7 +842,15 @@ please input your password:
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/10/22/local-variable-in-ruby/">Ruby 裡的區域變數</a>
       </li>
     
       <li class="post">
@@ -834,19 +881,11 @@ please input your password:
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.21052631578948%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
@@ -906,7 +945,7 @@ please input your password:
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - 高見龍 -
+  Copyright &copy; 2015 - 高見龍 -
   <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
 </p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2014-11-19T20:33:45+08:00</updated>
+  <updated>2015-01-11T15:40:40+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 之 Ruby 語法放大鏡系列]]></title>
+    <link href="http://blog.eddie.com.tw/2014/12/28/ruby-for-rails/"/>
+    <updated>2014-12-28T14:35:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/12/28/ruby-for-rails</id>
+    <content type="html"><![CDATA[<p>大家在學習 Ruby 或 Ruby on Rails(以下簡稱 Rails)的時候，難免會有一些看不懂或是有一些不知道怎麼來的神奇語法，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby/Rails 是怎麼回事。</p>
+
+<p>預計會有以下的文章(持續更新中)：</p>
+
+<h2>Ruby 相關：</h2>
+
+<ol>
+<li>想要學 Ruby 該看哪些書?</li>
+<li>有的變數前面有<code>@</code>符號(例如 <code>@users</code> )，這是什麼意思?</li>
+<li>有的變數變前面有一個冒號(例如 <code>:name</code>)，是什麼意思?</li>
+<li><code>attr_accessor</code> 是幹嘛的?</li>
+<li>為什麼 Hash 好像有不同的寫法?</li>
+<li>你知道 <code>require</code> 這個語法幫你做了什麼事嗎?</li>
+<li>有時候會看到有兩個冒號寫法(例如 <code>ActiveRecord::Base</code>)它是什麼意思?</li>
+<li><code>gem install</code> 之後，那些 gem 安裝到哪裡去了?</li>
+</ol>
+
+
+<h2>Rails 相關</h2>
+
+<ol>
+<li>想要學 Rails 該看哪些書?</li>
+<li>為什麼 form_tag 的參數怎麼那麼難記?</li>
+<li>有一個 Gemfile 了，為什麼還有個 Gemfile.lock? 這個檔案是幹嘛的?</li>
+<li>在 Rails 專案中，有個檔案叫 <code>schema.rb</code>，它是做什麼的?</li>
+<li>常有時候會需要在指令面前加上 <code>bundle exec</code>，這有加沒加有什麼分別?</li>
+<li>為什麼 <code>2.days.ago</code> 在內建的 irb 會找不到這個方法? 這不是 Ruby 語法嗎?</li>
+<li>常在終端機裡下 <code>rake db:migrate</code> 指令，這個 <code>rake</code> 是什麼，後面那個 <code>db:migrate</code> 又是怎麼回事?</li>
+<li>Strong Parameters 是什麼用途?</li>
+<li>自己寫了一些的 view helper，有辦法也在 controller 裡使用嗎?</li>
+<li>常在 controller 裡使用 <code>before_action</code>，它是一個方法嗎? 跟一般我們用 def 定義的有何不同?</li>
+<li>在 application controller 裡看到的 <code>protect_from_forgery</code> 是什麼?</li>
+<li>為什麼 model class 看起來空空的，但怎麼有那麼多好用的方法?</li>
+<li>在 Gemfile 裡看到 <code>gem 'sass-rails', '~&gt; 4.0.3'</code> 或是 <code>gem 'uglifier', '&gt;= 1.3.0'</code> 這樣的寫法，那個 <code>~&gt;</code> 跟 <code>&gt;=</code> 各是代表什麼意思?</li>
+</ol>
+
+
+<p>以上，有的是關於 Ruby 的，有的是關於 Rails 的(嚴格說來其實都是 Ruby 的問題)
+如果想到還有其它的會再繼續補充，或是大家有什麼想要知道也可以直接來信討論或是在本篇底下留言 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Private Setter in Ruby]]></title>
@@ -128,6 +175,97 @@ photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
 <p>想想看，如果在這裡呼叫 setter 不加 self 的話，那 Ruby 要怎麼分辨到底你是要呼叫 setter 還是區域變數?</p>
 
 <p>話說回來，通常我們也不會沒事把 getter/setter 設定成 private，因為即然都做了 getter/setter 就是要給別人用的不是嗎? :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby 裡的區域變數]]></title>
+    <link href="http://blog.eddie.com.tw/2014/10/22/local-variable-in-ruby/"/>
+    <updated>2014-10-22T14:35:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2014/10/22/local-variable-in-ruby</id>
+    <content type="html"><![CDATA[<p>區域變數(Local Variable)，是個再簡單不過的東西了，但其實因為 Ruby 這個程式語言的特殊設計，讓原本應該很單純的區域變數變得有點微妙了。</p>
+
+<p>先來看看下面這段程式碼：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">greeting</span>
+</span><span class='line'>  <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;hello, ruby&quot;</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;greeting()</span>
+</span><span class='line'><span class="sr">puts message</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在上面這段程式碼中，我們在 <code>greeting</code> 方法裡定義了一個區域 <code>message</code>，即使呼叫了 <code>greeting</code> 方法，在最後一行的 <code>message</code> 變數仍是未定義。因為 <code>message</code> 是個區域變數，它的可見範圍就是只有在 <code>greeting</code> 這個方法裡面而已，這也是它被稱為「區域」的原因。</p>
+
+<p>Ruby 官方手冊對於 <code>def</code> 的說明如下：</p>
+
+<p>Paired with a terminating end, constitutes a method definition. Starts a new local scope; local variables in existence when the def block is entered are not in scope in the block, and local variables created in the block do not survive beyond the block.</p>
+
+<p>http://ruby-doc.org/docs/keywords/1.9/Object.html#method-i-def</p>
+
+<p>簡單的說，<code>def</code> 這個關鍵字會產生一個新的 scope，如果在這個 scope 裡定義了區域變數，這些區域變數的只會活在這個 scope 裡，離開了這個 scope 之後就看不見了，所以上面段程式碼，會產生 <code>undefined local variable or method</code> 的錯誤。</p>
+
+<p>其實 <code>class</code> 關鍵字在定義類別的時候也會產生類似的效果：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Hello</span>
+</span><span class='line'>  <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;hello, ruby&quot;</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;puts message  #=&gt; NameError</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>我們再看一個範例：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">if</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;hello, ruby&quot;</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;p message</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>你可能會想，即然那個 <code>if</code> 判斷不成立，<code>message</code> 就是一個不存在的變數，所以應該跟第一個範例一樣，得到 <code>undefined local variable or method</code> 的錯誤訊息。</p>
+
+<p>但如果各位試一下，在印出 <code>message</code> 這個變數時會得到 <code>nil</code>。</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">message</span> <span class="o">=</span> <span class="mi">123</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;def message</span>
+</span><span class='line'><span class="sr">  &quot;hello, ruby&quot;</span>
+</span><span class='line'><span class="sr">end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="nb">p</span> <span class="n">message</span>    <span class="c1"># =&gt; ?</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+這裡我們先定義了一個區域變數 x，也定義了一個方法 x，但因為在 Ruby 裡，呼叫方法可以省略小括號</p>
+
+<p>再來看一段比較有趣的：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">x</span>    <span class="c1"># =&gt; ?</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>偶爾翻翻 Ruby 的 API，會有意外的收獲</p>
 ]]></content>
   </entry>
   
@@ -825,138 +963,6 @@ photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
 
 
 <p>歡迎大家都可以開開心心的來認識、學習這個有趣的程式語言 :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[五倍祝福，五倍的紅寶石]]></title>
-    <link href="http://blog.eddie.com.tw/2014/05/29/5xruby/"/>
-    <updated>2014-05-29T03:00:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2014/05/29/5xruby</id>
-    <content type="html"><![CDATA[<p><img src="/images/2014/5xruby.jpg" alt="image" /></p>
-
-<p>這回，您不需要自己斷開鎖鏈或斷開魂結，也不用燒毀什麼東西了 :)</p>
-
-<p>「五倍紅寶石」是我與幾位台灣 Ruby 社群的朋友共同成立的一家公司，希望可以透過藉由教育訓練、企業培訓等課程，將 Ruby 推廣給更多的企業、開發者。</p>
-
-<p>網站：<a href="http://5xruby.tw" target="_blank">http://5xruby.tw</a></p>
-
-<h3>緣起</h3>
-
-<p>我們是一群在台灣的 Ruby 程式語言的愛好者，每天的工作都是跟 Ruby / Rails 相關。</p>
-
-<p>近一、二年來，Ruby / Rails 的人才需求增加，年薪超過百萬的高薪職缺紛紛出現，吸引越來越多人想要進入 Ruby / Rails 的領域。除自行學習以外，也很積極參加社群舉辦的聚會與分享、交流。</p>
-
-<p>我們這幾年來持續的在台灣大專院校（成大、輔大、台北商專..等校) 開授 Ruby 以及 Rails 課程，觀察學生們的學習狀況，大多覺得 Ruby / Rails 其實並不難學，自己看書或是照著官網文件練習就能練到一定的程度。但要進階至可滿足實戰需求，不容易藉由自學可以短期達成，而是需要更多的實戰經驗，或是導師的帶領。也因此，在台灣，較資深或有經驗的 Ruby / Rails 開發者相當難找。</p>
-
-<p>我們也走訪了一些企業的 IT 部門，請教他們為什麼不採用 Ruby / Rails 的原因，大多也是因為資深的 Ruby / Rails 的工程師難找，或是背後沒有商業公司的技術支援，遇到問題的時候不知道該找誰求救。</p>
-
-<p>於是，我們這幾位愛好 Ruby 的朋友便開始討論「也許我們應該來成立一間專門提供 Ruby/Rails 相關的技術諮詢或是教育訓練的公司」。</p>
-
-<p>我們最終的目的，是希望在台灣可以有越來越多的企業能了解或採用 Ruby 這個優雅、有趣，並且極具生產力的程式語言做為主要開發工具，更快速的實現您的想法。</p>
-
-<p>感謝多位業界前輩、先進的支持與鼓勵：</p>
-
-<p><blockquote><p>Programmer 最有價值的是經驗值，「五倍紅寶石」的導師都是社群內數一數二的資深 Rubyist，由他們來帶領學員一探 Ruby 世界的神奇之處，實在是最佳選擇。</p><footer><strong>Victor Lam</strong><cite>EZTABLE 香港總經理</cite></footer></blockquote></p>
-
-<p><blockquote><p>Eddie and his team are of the most dedicated Ruby evangelists I have ever come across. With their passion and professionalism, Ruby learners will leapfrog in their progress.</p><footer><strong>Jason Hsu</strong><cite>Founder of the Big Questions &amp; TEDxTaipei</cite></footer></blockquote></p>
-
-<p><blockquote><p>還在尋找專業的 Ruby/Rails 師資嗎？別懷疑了，台灣最頂尖的 Rubyist 盡在「五倍紅寶石」！</p><footer><strong>Felix Lin</strong><cite>「搭配」網站創辦人</cite></footer></blockquote></p>
-
-<p><blockquote><p>慕凡和龍哥是業界數一數二的 Ruby 大師，他們不光是底子深厚，也很懂得引導、訓練學習路上遇到挫折的 Ruby/Rails 學子。很慶幸有他們的協助讓我進入紅寶石的美妙世界。</p><footer><strong>花水木 Hana Chang</strong><cite>Co-Founder and CEO of BountyHunter</cite></footer></blockquote></p>
-
-<p><blockquote><p>選擇程式語言很重要，但選擇優秀的導師更重要！能跟擁有多年 Ruby/Rails 實戰經驗、活躍於社群的頂尖 Rubyist 學習，將一窺程式開發殿堂之藝術！我堅信：專業事讓專業的來，而專業的「五倍紅寶石」是寶藏，就等大家來挖掘。</p><footer><strong>謝耀輝 John Sie</strong><cite>Accuvally Inc.共同創辦人暨營運長</cite></footer></blockquote></p>
-
-<p><blockquote><p>「五倍紅寶石」的導師們都是業界經驗豐富的實戰高手，提供的課程及咨詢絕對能讓你大幅省去自行摸索的時間。</p><footer><strong>Ben Lin</strong><cite>CEO@POP</cite></footer></blockquote></p>
-
-<p><blockquote><p>曾有幸與徐曦與見龍一起工作，徐曦自我要求與向上進取的態度令人稱佩，見龍對危機處理與當責的責任感也值得稱許。「五倍紅寶石」的其他夥伴也是一時之選，相信這是一個很棒的組合。</p><footer><strong>呂元鐘 Max Lu</strong><cite>Buyble 國際精品購物 創辦人</cite></footer></blockquote></p>
-
-<h3>公司名字的由來</h3>
-
-<p>為什麼公司會取這個看起來有點好笑的名字? 話說某天下午，我們幾個人在討論公司要取什麼名字...</p>
-
-<p>「紅寶石股份有限公司? 聽起來好普通，而且會不會大家以為我們是珠寶商啊」。</p>
-
-<p>就在大家一直想不到個有代表性又好記的名字的時候，突然來了一個「五倍紅寶石」，大家都笑了，但就在一陣狂笑之中，大家一致鼓掌通過決定要用這個聽起來有點 kuso 的名字了 XD</p>
-
-<h3>怎麼決定負責人是誰的?</h3>
-
-<p>即然是一家 Ruby 公司，Ruby 公司的事當然就是要交給 Ruby 解決。所以我們打開了 <code>irb</code>，輸入一段簡單的程式碼：</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="o">].</span><span class="n">sample</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>嗯，我們的負責人這樣選出來了 XD</p>
-
-<h3>說明會</h3>
-
-<p>如果您對我們的課程有興趣，或是不知道「五倍紅寶石」到底是在賣什麼藥，歡迎您 6/5（星期四）晚上 19:30 前來參加我們舉辦的說明會，我們在現場將準備一些簡單的點心及飲料。</p>
-
-<p>當然，只是要來閒聊或是找好陣子不見的朋友聚一聚也很歡迎。</p>
-
-<ul>
-<li>時間：2014/6/5 星期四 19:30</li>
-<li>地點：TED x Taipei Space</li>
-<li>地址：台北市金山南路一段 9 號 4 樓</li>
-</ul>
-
-
-<p>請按<a href="http://www.accupass.com/go/5xruby" target="_blank">這裡</a>前往報名網站</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails Girls in Taipei]]></title>
-    <link href="http://blog.eddie.com.tw/2014/04/30/rails-girls-in-taipei/"/>
-    <updated>2014-04-30T21:00:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2014/04/30/rails-girls-in-taipei</id>
-    <content type="html"><![CDATA[<p><a href="http://www.slideshare.net/aquarianboy/rails-girls-in-taipei" target="_blank"><img src="/images/2014/rails_girls_logo.png" alt="image" /></a></p>
-
-<p>This is my lightning talk slide on RubyConf Taiwan 2014:<br />
-<a href="http://www.slideshare.net/aquarianboy/rails-girls-in-taipei">http://www.slideshare.net/aquarianboy/rails-girls-in-taipei</a></p>
-
-<p>Hi, I’m Eddie, one of the organizers of <a href="http://railsgirls.com/taipei">Rails Girls Taipei</a>. Last year, I went to <a href="http://rubykaigi.org/2013">RubyKaigi</a> in Japan, and visited the Rails Girls event in Ruby Hiroba(広場). I found that the attendees were divided into “beginner” level and the other level which might be a little familiar with programming, and every coach take care 2 or 3 attendees, so they can coaching them one by one.</p>
-
-<p>We thought it might be interesting if we can also have this event in Taiwan. So, <a href="https://twitter.com/taiansu">Taian</a>, <a href="https://twitter.com/ryudoawaru">Ryudo</a>, and <a href="https://twitter.com/eddiekao">me</a>, we three decided to host a Rails Girls event in Taiwan, just give it a try.</p>
-
-<p>Our first event is on last September. We recruited about 10 to 15 coaches and discuss the detail, but we totally have no experience about this event.</p>
-
-<p>We thought there won’t be any girl willing to join this kind of nerdy event. But surprisingly, there’re more than 300 girls signed up just in one day.</p>
-
-<p>We eventually didn’t pick neither CS students or web developers, instead, we prefer those who are totally new to programming, we wanna see what will happen if we try to bring Ruby and Rails to them.</p>
-
-<p>Looks like they all have a good time :)</p>
-
-<p><img src="/images/2014/rails_girls_taipei_4.jpg" alt="image" />
-<img src="/images/2014/rails_girls_taipei_2.jpg" alt="image" /></p>
-
-<p>And our second event is on last November. Still, more than 300 girls signed up again, and this time we recruited about 25 coaches and 75 attendees. You might have also noticed that, several coaches are also the speakers in conference this year.</p>
-
-<p><img src="/images/2014/rails_girls_taipei_1.jpg" alt="image" />
-<img src="/images/2014/rails_girls_taipei_3.jpg" alt="image" /></p>
-
-<p>you can visit <a href="https://www.facebook.com/railsgirlstw/photos_albums">here</a> to see more photos. It’s awesome for me to see them open a terminal window and run some commands on they computer, it’s really cool.</p>
-
-<p>Last month, we had the third event. Until now, we have more than 150 rails girls already.</p>
-
-<p>Durning RubyConf Taiwan 2014, there are about 20 female volunteers in check-in counter or at the booths are from Rails Girls, they did help a lot in this conference.</p>
-
-<p>Of course, you know, it’s not quite possible to learn Ruby on Rails just in a 2-day workshop, so some girls asked:”is there any other course to learn more?” Well, then we decided to have a weekly event for them, named “<a href="http://ltrt.kktix.cc/">Let’s Try Rails Tuesday</a>”, a.k.a “LTRT”.  Which is mainly hosted by <a href="https://twitter.com/ManicLF">manic</a>, also the speaker in this conference.</p>
-
-<p>Currently, we’ve already had 16 LTRT events, and about 20 attendees per week, even in the rainy days.</p>
-
-<p><img src="/images/2014/rails_girls_taipei_5.jpg" alt="image" /></p>
-
-<p>Beside that, we also tried to do some promotions in high school or university, hope more people can understand what we were doing :)</p>
-
-<p>Anyway, I have to thank all our coaches, it won’t work without your help.</p>
-
-<p>We will have more Rails Girls event in the future if possible, so we'll need more coaches, please let me know if you’re interested in being a coach.</p>
-
-<p>Of course, we need more sponsorship :)</p>
-
-<p>At last, this is our <a href="https://www.facebook.com/railsgirlstw">fan page</a> on Facebook, feel free to join us for more information. Please don't be hesitate to contact me if you have any question, any comment will be appreciated.</p>
 ]]></content>
   </entry>
   

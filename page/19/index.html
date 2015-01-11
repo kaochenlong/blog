@@ -21,8 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="前言 我一直都沒有忘記我是個閃客(Flasher)的身份，不過近年來因為貪圖紅寶石(Ruby)的漂亮，所以同時也把它一併收到工具箱裡，當做自己謀生的工具之一。 也許你會好奇，Flash/AS寫得好好的，幹嘛學人家用什麼HTML5+JavaScript?
-問的好! 簡單的答案是：因為我高興； &hellip;">
+  <meta name="description" content="這是昨晚在第7回AS讀書會上講的主題：&#8221;Play Canvas with EaselJS&#8220;所用到的投影片，內容主要是簡單介紹EaselJS的用途，並以幾個簡單的幾個範例來做操作示範。這回是第一次使用的是deck.js來製作投影片，很多地方還不太熟悉，希望下回可以改進! &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +90,248 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/09/21/play-canvas-with-easeljs/">Play Canvas with EaselJS</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/09/21/play-canvas-with-easeljs/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-09-21T01:00:00+08:00" pubdate>Sep 21<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>這是昨晚在第7回AS讀書會上講的主題：&#8221;<a href="http://blog.eddie.com.tw/slides/easeljs">Play Canvas with EaselJS</a>&#8220;所用到的投影片，內容主要是簡單介紹<a href="http://easeljs.com/">EaselJS</a>的用途，並以幾個簡單的幾個範例來做操作示範。這回是第一次使用的是<a href="http://imakewebthings.github.com/deck.js/">deck.js</a>來製作投影片，很多地方還不太熟悉，希望下回可以改進!</p>
+
+<p>投影片連結：<a href="http://blog.eddie.com.tw/slides/easeljs">http://blog.eddie.com.tw/slides/easeljs</a></p>
+
+<p>感謝Maso哥借我的”廖先生”小圖。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/09/11/zoe/">Zoë – 從SWF匯出SpriteSheet的方便工具</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/09/11/zoe/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-09-11T00:49:00+08:00" pubdate>Sep 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="/2011/09/10/introduction-to-easeljs/">前一篇</a>簡單的介紹了一下<a href="http://easeljs.com/">EaselJS</a>，其中有個類別叫做<a href="http://easeljs.com/docs/SpriteSheet.html">SpriteSheet</a>，其實它就是把一些連續動作的圖片排排站的集合拼成一張圖，把檔案及相關的frame data包成SpriteSheet之後，再讓這些連續圖檔連續播放，感覺就會像動畫了。在之後的文章應該還會有更多關於SpriteSheet的說明，如果你還是沒辦法想像Spritesheet是怎麼回事，你可以回想一下設計師在Flash做動畫的時候，會在時間軸上安插一堆的關鍵影格(Key Frame)，然後讓每個關鍵影格的動作都稍微有些變化，大概就是這樣的概念，只是HTML5並沒有時間軸可以用。</p>
+
+<p>一個跑步的角色的SpriteSheet圖片可能會長這樣：</p>
+
+<p><img src="/images/2011/easeljs-hero-spritesheet.png" alt="image" /></p>
+
+<p>感謝<a href="http://masolin.blogspot.com/">Maso哥</a>提供!</p>
+
+<p>若你之前曾經用Flash做過些小遊戲，有些動態效果你已經做成MovieClip了，你當然可以打開繪圖軟體來一塊一塊的拼貼成SpriteSheet圖檔，然後還得自己寫frame data，這樣實在有些辛苦。有鑑於此，<a href="http://gskinner.com/blog">Grant Skinner</a>大神用Adobe AIR寫了個叫做<a href="http://easeljs.com/zoe.html">Zoë</a>小工具，可以讓你很容易的把SWF裡的東西轉成SpriteSheet圖檔，而且還順便幫你產生一個給EaselJS用的frame data。(GS大神請受我一拜!)</p>
+
+<h2>安裝</h2>
+
+<p>請到<a href="http://easeljs.com/zoe.html">Zoë</a>的下載頁面下載相關檔案，再來解壓縮、安裝，應該沒什麼太大的難度。(Zoë是用Adobe AIR寫的，所以你的電腦也需要安裝AIR的runtime)</p>
+
+<h2>使用</h2>
+
+<p>打開安裝好的Zoë，然後把SWF拖進去，它會自動開始幫你算邊界(bound)，或是你也可以自己切到Bounds功能按下Calculate按鈕：</p>
+
+<p><img src="/images/2011/easeljs-zoe-bounds.png" alt="image" /></p>
+
+<p>再切到Export功能，勾選EaselJS，按下Export按鈕：</p>
+
+<p><img src="/images/2011/easeljs-zoe-export.png" alt="image" /></p>
+
+<p>然後，你會得到一張拼好的png圖檔像這樣：</p>
+
+<p><img src="/images/2011/easeljs-hero-spritesheet.png" alt="image" /></p>
+
+<p>同時你還會得到一個同名的js檔，內容如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">frameData</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">run</span><span class="o">:</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">()</span>
+</span><span class='line'><span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;hero.png&quot;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">spriteSheet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SpriteSheet</span><span class="p">(</span><span class="nx">img</span><span class="p">,</span><span class="mi">48</span><span class="p">,</span><span class="mi">68</span><span class="p">,</span><span class="nx">frameData</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你發現你的frameData裡面是空的，可能是因為你少了label關係，這是我在Flash IDE裡的樣子：</p>
+
+<p><img src="/images/2011/easeljs-flash-label.png" alt="image" /></p>
+
+<p>老實說這軟體沒什麼好介紹的，就是執行、匯出..就這樣。</p>
+
+<p>用這樣轉檔有什麼好處? 首先，如果你之前有做好的動態，至少不用再手工拼貼連續圖。就算是從頭開始做，對設計師來說，在Flash使用關鍵影格來做動態也是很方便的(這是Flash的強項啊)。</p>
+
+<h2>動手寫code了</h2>
+
+<p>接下來，來試著讓這個SpriteSheet動起來!</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>SpriteSheet Demo<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;easel.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">media=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nf">#my_canvas</span><span class="p">{</span>
+</span><span class='line'>      <span class="k">background-color</span><span class="o">:</span> <span class="nb">gray</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="nt">&lt;/style&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">stage</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;my_canvas&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">stage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Stage</span><span class="p">(</span><span class="nx">canvas</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">frameData</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">run</span><span class="o">:</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">()</span>
+</span><span class='line'>      <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;hero.png&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">spriteSheet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SpriteSheet</span><span class="p">(</span><span class="nx">img</span><span class="p">,</span><span class="mi">48</span><span class="p">,</span><span class="mi">68</span><span class="p">,</span><span class="nx">frameData</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">hero</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BitmapSequence</span><span class="p">(</span><span class="nx">spriteSheet</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">hero</span><span class="p">.</span><span class="nx">gotoAndPlay</span><span class="p">(</span><span class="s2">&quot;run&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">stage</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">hero</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">stage</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">Ticker</span><span class="p">.</span><span class="nx">setFPS</span><span class="p">(</span><span class="mi">24</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">Ticker</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">function</span> <span class="nx">tick</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="nx">stage</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;javascript:init();&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;canvas</span> <span class="na">width=</span><span class="s">&quot;200&quot;</span> <span class="na">height=</span><span class="s">&quot;80&quot;</span> <span class="na">id=</span><span class="s">&quot;my_canvas&quot;</span><span class="nt">&gt;&lt;/canvas&gt;</span>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>效果如下：</p>
+
+<iframe src="http://www.eddie.com.tw/labs/easeljs/002.html" width="225" height="100" frameborder="0"></iframe>
+
+
+<p>或按<a href="http://www.eddie.com.tw/labs/easeljs/002.html">這裡</a>檢視。</p>
+
+<p>程式碼跟上一個範例沒有太大的差別，中間那段SpriteSheet的內容是從剛剛產出的同名js剪過來的。但SpriteSheet本身並不是DisplayObject的一種，所以需要來個<a href="http://easeljs.com/docs/BitmapSequence.html">BitmapSequence</a>來把它包起來，然後執行閃客們都很熟悉的gotoAndPlay()：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">hero</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BitmapSequence</span><span class="p">(</span><span class="nx">spriteSheet</span><span class="p">);</span>
+</span><span class='line'><span class="nx">hero</span><span class="p">.</span><span class="nx">gotoAndPlay</span><span class="p">(</span><span class="s2">&quot;run&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看吧，不用幾行程式碼就能讓帥氣的廖添丁動起來了!!</p>
+
+<p>最後，要再感謝一下Maso哥提供的原始檔。至於會不會在不久的將來就會看到HTML5版的廖添丁呢.. 也許大家可以期待一下囉。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -518,420 +759,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/08/03/using-coffeescript-in-titanium-studio/">在Titanium Studio使用CoffeeScript來寫app</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/08/03/using-coffeescript-in-titanium-studio/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-08-03T18:13:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>即然<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>寫出來的東西就是一般的JavaScript，之前就在猜想是不是也可以把CoffeeScript用在<a href="http://www.appcelerator.com/">Titanium Studio</a>裡，果然，有善心人士用Python寫了給Titanium Studio的外掛。</p>
-
-<h2>安裝</h2>
-
-<p>首先，你需要在你電腦裡安裝好CoffeeScript的相關工具，詳情可參考<a href="/2011/08/03/install-coffeescript/">這篇</a>。</p>
-
-<p>相關的工具安裝完成之後，接著請到 <a href="https://github.com/billdawson/ti_coffee_plugin">https://github.com/billdawson/ti_coffee_plugin</a> 下載壓縮檔，解壓縮之後把plugin.py這個檔案放到Titanium Studio的plugin資料夾。以我的電腦來看是放在這個資料夾：</p>
-
-<pre><code>/Library/Application Support/Titanium/plugins/ti_coffee_plugin/1.0/plugin.py
-</code></pre>
-
-<p>如果資料夾不存在的話，就自己手動建吧，檔案放進去之後就算安裝完成了。</p>
-
-<h2>使用</h2>
-
-<p>在每個Titanium Studio的project底下，應該都可以找到一個”tiapp.xml“的檔案：</p>
-
-<p><img src="/images/2011/titanium_plugin_1.png" alt="image" /></p>
-
-<p>找到它之後，請在最下面加上這段：</p>
-
-<pre><code>&lt;plugins&gt;
-    &lt;plugin version="1.0"&gt;ti_coffee_plugin&lt;/plugin&gt;
-&lt;/plugins&gt;
-</code></pre>
-
-<p><img src="/images/2011/titanium_plugin_2.png" alt="image" /></p>
-
-<p>接下來，因為我們要建一個<code>app.coffee</code>來產生<code>app.js</code>，所以原來的app.js就可以先丟掉，然後在Resources資料夾裡建一個叫app.coffee的檔案：</p>
-
-<p><img src="/images/2011/titanium_plugin_3.png" alt="image" /></p>
-
-<p>接著就是打開app.coffee來寫code啦，如果大家懶得寫，可以直接剪貼這段直接貼上：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">Titanium.UI.backgroundColor = </span><span class="s">&#39;white&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">win1 = </span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createWindow</span><span class="p">(</span>
-</span><span class='line'>  <span class="nv">backgroundColor: </span><span class="s">&#39;white&#39;</span>
-</span><span class='line'>  <span class="nv">title: </span><span class="s">&#39;CoffeeScript Demo&#39;</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">label1 = </span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createLabel</span><span class="p">(</span>
-</span><span class='line'>  <span class="nv">color: </span><span class="s">&#39;#999&#39;</span>
-</span><span class='line'>  <span class="nv">text: </span><span class="s">&#39;Hello CoffeeScript&#39;</span>
-</span><span class='line'>  <span class="nv">font:</span>
-</span><span class='line'>      <span class="nx">fontSize</span><span class="o">:</span><span class="mi">30</span>
-</span><span class='line'>      <span class="nv">fontFamily: </span><span class="s">&#39;Helvetica Neue&#39;</span>
-</span><span class='line'>  <span class="nv">textAlign: </span><span class="s">&#39;center&#39;</span>
-</span><span class='line'>  <span class="nx">width</span><span class="o">:</span><span class="s">&#39;auto&#39;</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">win1</span><span class="p">.</span><span class="nx">add</span> <span class="nx">label1</span>
-</span><span class='line'><span class="nx">win1</span><span class="p">.</span><span class="nx">open</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>打完收工，按下build按鈕，耐心等一下畫面..</p>
-
-<p><img src="/images/2011/titanium_plugin_5.png" alt="image" /></p>
-
-<p>同時你應該也會發現在<code>Resources資料夾</code>裡自動長出了app.js，這個就是神奇的plugin幫我們在build的時候，自動幫我們完成從編譯js檔的工作。</p>
-
-<h2>為什麼好好的JavaScript要改用CoffeeScript來寫?</h2>
-
-<p>大家先看看程式碼的畫面：</p>
-
-<p><img src="/images/2011/titanium_plugin_4.png" alt="image" /></p>
-
-<p>主要是CoffeeScript的語法簡單、清楚很多，例如像是物件可以用YAML的方式來寫。所以像label1裡的參數本來是一層包一層，可以改用更清楚的YAML式的寫法(不過這個多少有個人觀感，說不定有的人覺得原來用大括號的比較清楚)。</p>
-
-<p>好寫是好寫，但也不是完全沒缺點，大家自己看畫面應該會發現到，例如原本Titanium Studio有syntax highlight改用CoffeeScript就沒了，當然code hint就別想了(不知道會不會有善心人士也把這個功能補完)，不然就是先到有支援CoffeeScript的編輯器裡先寫好，再回來Titanium Studion裡進行編譯也是一招。</p>
-
-<p>所以各位客倌就自己取捨囉，供大家參考。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/08/03/oop-in-coffeescript/">CoffeeScript OOP篇</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/08/03/oop-in-coffeescript/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-08-03T16:47:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在JavaScript裡寫OOP有好幾種方式，例如你可以使用prototype的方式，也可以使用function或物件的方式來寫，不過其實不管哪一種，類別的程式碼寫起來、看起來都不夠直覺(當然也部份是因為我對JavaScript沒這麼熟)。還好在<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>寫類別是相當容易，而且程式碼是很清楚、容易閱讀的，來看個例子：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
-</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(name, age) -&gt;</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">name = </span><span class="nx">name</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">age = </span><span class="nx">age</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">animal = </span><span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">animal</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Animal</span><span class="p">,</span> <span class="nx">animal</span><span class="p">;</span>
-</span><span class='line'><span class="nx">Animal</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">function</span> <span class="nx">Animal</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">Animal</span><span class="p">;</span>
-</span><span class='line'><span class="p">})();</span>
-</span><span class='line'><span class="nx">animal</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">animal</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>看到了嗎? 用CoffeeScript來定義類別真的簡單多了。特別注意一下constructor(建構子)的部份，這邊的：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">this</span><span class="p">.</span><span class="nv">name = </span><span class="nx">name</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>因為在CoffeeScript裡<code>@</code>符號代表<code>this</code>，所以可以簡寫成：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="vi">@name = </span><span class="nx">name</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>整個很有Ruby味道。又，因為建構子用的this.name = name這樣指定動作太常見，所以：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
-</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(name, age) -&gt;</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">name = </span><span class="nx">name</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nv">age = </span><span class="nx">age</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以更簡化成：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
-</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(@name, @age) -&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>方法</h3>
-
-<p>那如果要加其它的function到類別裡要怎麼做?</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
-</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(@name, @age) -&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nv">say_hello: </span><span class="nf">(something) -&gt;</span>
-</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">something</span><span class="si">}</span><span class="s">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">animal = </span><span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
-</span><span class='line'><span class="nx">animal</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">(</span><span class="s">&quot;CoffeeScript&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Animal</span><span class="p">,</span> <span class="nx">animal</span><span class="p">;</span>
-</span><span class='line'><span class="nx">Animal</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">function</span> <span class="nx">Animal</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nx">Animal</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">something</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">};</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">Animal</span><span class="p">;</span>
-</span><span class='line'><span class="p">})();</span>
-</span><span class='line'><span class="nx">animal</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Animal</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
-</span><span class='line'><span class="nx">animal</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;CoffeeScript&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯出來的程式碼已經有點開始長了..</p>
-
-<h3>繼承</h3>
-
-<p>在CoffeeScript裡，繼承使用<code>extends</code>這個關鍵字：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Animal</span>
-</span><span class='line'>  <span class="nv">constructor: </span><span class="nf">(@name, @age) -&gt;</span>
-</span><span class='line'>  <span class="nv">say_hello: </span><span class="nf">(something) -&gt;</span>
-</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hello, </span><span class="si">#{</span><span class="nx">something</span><span class="si">}</span><span class="s">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nx">Human</span> <span class="k">extends</span> <span class="nx">Animal</span>
-</span><span class='line'>  <span class="nv">walk: </span><span class="o">-&gt;</span>
-</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;I can walk with my foots!&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">eddie = </span><span class="k">new</span> <span class="nx">Human</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
-</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">say_hello</span> <span class="s">&quot;CoffeeScript&quot;</span>
-</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">walk</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯結果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Animal</span><span class="p">,</span> <span class="nx">Human</span><span class="p">,</span> <span class="nx">eddie</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">__hasProp</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">,</span> <span class="nx">__extends</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">child</span><span class="p">,</span> <span class="nx">parent</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">parent</span><span class="p">)</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="nx">__hasProp</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">parent</span><span class="p">,</span> <span class="nx">key</span><span class="p">))</span> <span class="nx">child</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span> <span class="p">}</span>
-</span><span class='line'>  <span class="kd">function</span> <span class="nx">ctor</span><span class="p">()</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">child</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>  <span class="nx">ctor</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">child</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ctor</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">child</span><span class="p">.</span><span class="nx">__super__</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">child</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nx">Animal</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">function</span> <span class="nx">Animal</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nx">Animal</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say_hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="nx">something</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">};</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">Animal</span><span class="p">;</span>
-</span><span class='line'><span class="p">})();</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">Human</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">__extends</span><span class="p">(</span><span class="nx">Human</span><span class="p">,</span> <span class="nx">Animal</span><span class="p">);</span>
-</span><span class='line'>  <span class="kd">function</span> <span class="nx">Human</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">Human</span><span class="p">.</span><span class="nx">__super__</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nx">Human</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">walk</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I can walk with my foots!&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">};</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">Human</span><span class="p">;</span>
-</span><span class='line'><span class="p">})();</span>
-</span><span class='line'><span class="nx">eddie</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Human</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
-</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">(</span><span class="s2">&quot;CoffeeScript&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">eddie</span><span class="p">.</span><span class="nx">walk</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>看到編譯出來的JavaScript程式碼了嗎? 跟CoffeeScript的程式碼行數以及複雜度比起來，我想誰比較容易寫應該一目了然了。</p>
-
-<p>在OOP的繼承體系裡，子類別會自動繼承自父類別的方法，如果兒子覺得老爸的方法不好用，兒子也可以自己定義一個來用，以上面的例子來說：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="k">class</span> <span class="nx">Human</span> <span class="k">extends</span> <span class="nx">Animal</span>
-</span><span class='line'>  <span class="nv">say_hello: </span><span class="nf">(something) -&gt;</span>
-</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hi, I am </span><span class="si">#{</span><span class="nx">@name</span><span class="si">}</span><span class="s">&quot;</span>
-</span><span class='line'>      <span class="k">super</span> <span class="nx">something</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>你可以在子類別定義同名的function，以來取代或補充父類別的方法，如果在override的方法裡要存取父類，則是使用關鍵字<code>super</code>。</p>
-
-<p>有興趣的話，大家可以自己試著編譯看看這時候的程式碼是不是已經有點看不太懂了，但CoffeeScript的部份應該看起來還算滿清楚的。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/20/">&larr; Older</a>
@@ -983,7 +810,15 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/10/22/local-variable-in-ruby/">Ruby 裡的區域變數</a>
       </li>
     
       <li class="post">
@@ -1014,19 +849,11 @@
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.21052631578948%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
@@ -1086,7 +913,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - 高見龍 -
+  Copyright &copy; 2015 - 高見龍 -
   <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
 </p>
 

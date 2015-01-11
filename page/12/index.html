@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="我常會笑我老爸老媽每天晚上守著劇情扯到不能再扯的八點檔，然後討論誰的小孩是誰誰誰的私生子，然後誰又是誰的小三。但我自己也好不到哪裡去，即使再忙，也是幾乎每天在看影集。 忘記是從什麼時候開始，我的影集大盤商介紹一些好看的美國影集之後，我就陷入了這個影集無窮迴圈。剛好最近跟朋友們吃飯聊到， &hellip;">
+  <meta name="description" content="自從把Blog從Wordpress搬到Octopress之後，對我這種愛敲鍵盤的人來說，寫東西真的順手不少。不過最近我發現在要把網址貼到Facebook的時候發現這個情況： 原本以為會自動抓該網頁的摘要，但卻出現了301 Moved Permanently的字樣，但只要把最尾巴的斜線拿掉就正常了。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,130 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/08/canonical-url-problem-in-octopress/">Octopress的Canonical URL問題</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/08/canonical-url-problem-in-octopress/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-08T01:12:00+08:00" pubdate>Nov 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自從把Blog從<a href="http://wordpress.com/">Wordpress</a>搬到<a href="http://octopress.org/">Octopress</a>之後，對我這種愛敲鍵盤的人來說，寫東西真的順手不少。不過最近我發現在要把網址貼到Facebook的時候發現這個情況：</p>
+
+<p><img src="/images/2011/facebook-301-moved-permanently.png" alt="image" /></p>
+
+<p>原本以為會自動抓該網頁的摘要，但卻出現了<code>301 Moved Permanently</code>的字樣，但只要把最尾巴的斜線拿掉就正常了。不過一樣的網址貼到Google+是ok的，於是我把網址丟到Facebook的<a href="https://developers.facebook.com/tools/debug">Debug工具</a>看看是哪邊出了問題：</p>
+
+<p><img src="/images/2011/facebook-circular-redirect.png" alt="image" /></p>
+
+<p>出現了<code>Circular redirect path detected</code>的錯誤訊息，畫面往下捲看看是什麼狀況：</p>
+
+<p><img src="/images/2011/facebook-redirect-path.png" alt="image" /></p>
+
+<p>大概猜到是怎麼回事了，但很好奇到底是哪邊造成的，看了一下我的<code>_config.yml</code>的<code>permalink</code>設定：</p>
+
+<pre><code>permalink: /:year/:month/:day/:title/
+</code></pre>
+
+<p>看起來尾巴有斜線的。接著再翻了一下其它的source才發現，原來在<code>source/_includes/head.html</code>裡有這行：</p>
+
+<figure class='code'><figcaption><span> (source_includes_head.html)</span> <a href='/downloads/code/octopress/source_includes_head.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{% capture canonical %}{{ site.url }}{% if site.permalink contains &#39;.html&#39; %}{{ page.url }}{% else %}{{ page.url | remove:&#39;index.html&#39; | strip_slash }}{% endif %}{% endcapture %}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最後面加了個<code>strip_slash</code>的filter，看起來就是會把slash給脫掉的，我把這個filter拿掉之後，原本的canonical url就會留下<code>/</code>了，整個重新發佈一次之後，再貼到Facebook就沒301的問題了。</p>
+
+<p>似乎不只這樣，原來<a href="http://disqus.com/">Disqus</a>的identifier也是用canonical url(請見<code>source/_includes/disqus.html</code>)。之前一直很好奇為什明明我在Wordpress的留言已經匯入Disqus，從Disqus的dashboard也都看得到，但就是無法顯示在blog文章裡，原來就是這個canonical url差了一個斜線，造成<code>disqus_identifier</code>不同而讀不到.. orz。</p>
+
+<p>剛把它修正之後重新發佈之後，之前在Wordpress的留言就可以正常顯示了。但因為換過來之後沒注意到這點，所以從我換到Octopress之後有來留言的大大們真的很不好意思，您的留言其實還在Disqus裡，只是因為identifier不同而暫時只能留在dashboard裡了。</p>
+
+<p>其實我也不知道為什麼這邊要<code>strip_slash</code>這個filter的存在，也許有它的用意吧，不過我拿掉之後就可以解決我的問題了。</p>
+
+<p>以上，若有哪邊有錯再請跟我說 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/07/robotlegs-introduction-in-8th-as-study-party/">第八回AS讀書會之Hello Robotlegs</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/07/robotlegs-introduction-in-8th-as-study-party/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-07T01:16:00+08:00" pubdate>Nov 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>時間很快，已經到第八回了，雖然這回是在週末舉辦，依舊還是相當多的朋友來捧場，相當感動 :)</p>
+
+<p><img src="/images/2011/8th-as-party-1.jpg" alt="image" /></p>
+
+<p>這回我的主題是<a href="http://www.robotlegs.org/">Robotlegs</a>的入門介紹，投影片可以在這邊找得到 <a href="http://www.eddie.com.tw/slides">http://www.eddie.com.tw/slides</a></p>
+
+<p>除了原定我跟另一位講者(<a href="http://blog.roodo.com/sayaku">阿邪哥</a>)之外，這回還有另一位佳賓，是<a href="http://www.packtpub.com/papervision3d-essentials/book">Papervision3D Essentials</a>一書的作者<a href="http://jeffwinder.blogspot.com/">Jeff Winder</a>剛好最近來台灣玩，也一起加入我們一起同樂。(聽說他來台灣騎腳踏車環島，真厲害)</p>
+
+<p><img src="/images/2011/8th-as-party-2.jpg" alt="image" />
+Jeff幫忙補充了一些Robotlegs的東西，也分享他最近做的一些東西。</p>
+
+<p><img src="/images/2011/8th-as-party-3.jpg" alt="image" />
+果然，穿M號的衣服還是太勉強，減肥之路還得繼續努力! 更多照片請見 <a href="https://picasaweb.google.com/108852467279874647445/LetSParty8thASStudyGroup">Picasa相本</a></p>
+
+<p>如同Jeff跟我說的：</p>
+
+<blockquote><p>&#8220;It is always so nice to meet people who share the same passion.&#8221;</p></blockquote>
+
+
+<p>嗯，我覺得那就是當初辦這個聚會的目的了。</p>
+
+<p>最後要再感謝一下來參加的各位朋友，以及臨時被我拉來當攝影師的<a href="http://www.jaceju.net/">鐵哥</a>，咱們下回見 :)</p>
+
+<p>PS: 話說我發現其實開口講英文雖然還是不太習慣，但比我想像中的簡單，似乎常看影集果然多少還是有些幫助(幫自己愛看影集找藉口)。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -332,133 +456,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/21/learn-python-and-django-from-the-beginning/">Learn Python and Django from the Beginning</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/21/learn-python-and-django-from-the-beginning/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-21T01:07:00+08:00" pubdate>Oct 21<span>st</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Python</h3>
-
-<ol>
-<li><a href="/2011/10/12/python-introduction/">Python簡介</a></li>
-<li><a href="/2011/10/12/python-install/">安裝Python</a></li>
-<li><a href="/2011/10/12/install-cygwin-on-windows/">如果你是使用Windows作業系統的話..</a></li>
-<li><a href="/2011/10/12/python-flow-control/">邏輯及流程控制</a></li>
-<li><a href="/2011/10/12/python-method/">Method</a></li>
-<li><a href="/2011/10/13/python-number/">數字</a></li>
-<li><a href="/2011/10/13/python-boolean/">Boolean</a></li>
-<li><a href="/2011/10/13/python-string/">字串</a></li>
-<li><a href="/2011/10/13/python-list/">List</a></li>
-<li><a href="/2011/10/13/python-dictionary/">Dictionary</a></li>
-<li><a href="/2011/10/13/python-tuple/">Tuple</a></li>
-<li><a href="/2011/10/13/python-exception/">例外處理</a></li>
-<li><a href="/2011/10/13/python-module/">模組</a></li>
-<li><a href="/2011/10/13/python-oop/">物件導向程式設計</a></li>
-</ol>
-
-
-<h3>Django</h3>
-
-<ol>
-<li><a href="/2011/10/14/django-introduction/">Django簡介</a></li>
-<li><a href="/2011/10/14/django-install/">安裝Django</a></li>
-<li><a href="/2011/10/18/django-your-first-django-project/">開始你的第一個專案</a></li>
-<li><a href="/2011/10/18/django-create-app/">建立App</a></li>
-<li><a href="/2011/10/19/django-shell/">Django Shell</a></li>
-<li><a href="/2011/10/19/django-more-about-model/">更多關於Model的使用</a></li>
-<li><a href="/2011/10/19/django-db-migration-with-south/">在Django裡做Database Migration</a></li>
-<li><a href="/2011/10/19/django-model-relationship/">資料表的關連</a></li>
-<li><a href="/2011/10/19/django-url/">網址設定</a></li>
-<li><a href="/2011/10/19/django-template/">Template</a></li>
-<li><a href="/2011/10/19/django-model-to-template/">從Model到Template</a></li>
-<li><a href="/2011/10/19/django-flatpage/">Flatpage</a></li>
-<li><a href="/2011/10/19/django-conclusion/">小結</a></li>
-</ol>
-
-
-<p>我另外在<a href="http://python-and-django.heroku.com/">http://python-and-django.heroku.com/</a>也放了一份。</p>
-
-<p>這次是用<a href="http://octopress.org/">Octopress</a> + <a href="http://daringfireball.net/projects/markdown/">Markdown</a>寫的，感覺相當順手，不知不覺就會一直打字下去。內容還沒很完整，我會再找時間把它繼續完成，希望內容對大家有幫助。</p>
-
-<p>如果有寫錯的地方再請不吝告知，感謝!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/19/django-conclusion/">小結</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-conclusion/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-19T15:32:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>官網的文件一定要讀!!</h2>
-
-<p>如果你之後會把Django當做你主力的開發工具的話，目前坊間的書因為版本幾乎都沒跟上，所以大概可以先放旁邊，不過至少要把官網的資料讀過一遍。那如果文件看完怎麼辦? 閱讀原始碼啊!!</p>
-
-<p>Django本身是open source的，而且是用純Python寫的，所以閱讀Django的原始碼，保證可以讓你的Python增加不少，而且當遇到一些文件上沒提到的問題的時候，通常也只有原始碼可以救你了。</p>
-
-<p>養成閱讀文件及原始碼的習慣，可以讓你在這條路上走的更順利!</p>
-
-<h2>還有哪些主題沒講到的?</h2>
-
-<p>其實還滿多的，例如怎麼<a href="https://docs.djangoproject.com/en/1.3/topics/email/">寄Email</a>、<a href="https://docs.djangoproject.com/en/1.3/topics/forms/">表單的處理</a>、<a href="https://docs.djangoproject.com/en/1.3/ref/validators/">資料驗證</a>、<a href="https://docs.djangoproject.com/en/1.3/ref/contrib/admin/">Admin模組的客製化</a>等等，都是很常用而且很重要的主題。</p>
-
-<h2>這還沒有結束!!</h2>
-
-<p>如果時間許可，我會繼續把這個系列寫完的。</p>
-
-<p>如果內容有哪邊寫錯了，還請歡迎來信跟我說 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/13/">&larr; Older</a>
@@ -510,7 +507,15 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/10/22/local-variable-in-ruby/">Ruby 裡的區域變數</a>
       </li>
     
       <li class="post">
@@ -541,19 +546,11 @@
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/12/05/object-class-and-meta-class-in-objective-c/">Object, Class and Meta Class in Objective-C</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.05263157894737%'>Ruby(26)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.21052631578948%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
@@ -613,7 +610,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - 高見龍 -
+  Copyright &copy; 2015 - 高見龍 -
   <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
 </p>
 
