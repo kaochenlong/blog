@@ -21,7 +21,21 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="第五回的AS讀書會，輪到小的來給大家分享自己在過去工作上關於寫程式的一些入門心得。這次有機會可以跟新德老師一起同台，真的是太榮幸了。 API Design View more presentations from Eddie Kao 以下是影片： 第一段： 第二段： 第三段： 心得 &hellip;">
+  <meta name="description" content="Ruby裡的方法呼叫雖然還滿直覺的，不過偶爾可能會因為位置、角色的不同而會有不同的結果。 雙胞胎? 直接來一段程式碼： 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+class ObjA def func puts &quot;this is method func&quot &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,75 +104,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/06/22/api-design/">第五回AS讀書會之「嗯! 設計API我也會」</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/06/22/api-design/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-06-22T15:09:00+08:00" pubdate>Jun 22<span>nd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2011/5th-as-study-group.jpg" alt="image" /></p>
-
-<p><a href="http://www.facebook.com/event.php?eid=168070323253534">第五回的AS讀書會</a>，輪到小的來給大家分享自己在過去工作上關於寫程式的一些入門心得。這次有機會可以跟<a href="http://qops.blogspot.com/">新德老師</a>一起同台，真的是太榮幸了。</p>
-
-<div style="width:425px" id="__ss_8376601"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/api-design-8376601" title="API Design" target="_blank">API Design</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/8376601" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
-
-
-<p>以下是影片：</p>
-
-<p>第一段：</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/Xw99itSeuyg" frameborder="0" allowfullscreen></iframe>
-
-
-<p>第二段：</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/c1I10g-friY" frameborder="0" allowfullscreen></iframe>
-
-
-<p>第三段：</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/jbuMnBtKCVc" frameborder="0" allowfullscreen></iframe>
-
-
-<h3>心得</h3>
-
-<ol>
-<li>下次我也要來live demo!!</li>
-<li>還得在修一下講話時候過多的贅字還有講話太快的毛病</li>
-<li>是真的該減肥了.. orz</li>
-</ol>
-
-
-<p>感謝來參加的大家，也感謝超高效率的攝影師<a href="http://www.facebook.com/Meso.Chen">健雄哥</a>的熱情贊助，一個晚上就把影片處理好了! 投影片內容如果有哪邊觀念上是有錯的，還請前輩先進們不吝指教。</p>
-
-<p>咱們下回見!</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -864,6 +809,654 @@ this is mod_method in ModB
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/05/24/backup-your-website/">用Backup來備份你的網站</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/05/24/backup-your-website/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-05-24T14:30:00+08:00" pubdate>May 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2011/backup-plan.jpg" alt="image" /></p>
+
+<p>一直以來備份這種事就是多做沒事，少做就會出事情。有一套很棒的 gem 叫做<a href="https://github.com/meskyanichi/backup">Backup</a>，可以來完成一些本來也許要用 shell script 才能做的事情(我對 shell script 相當苦手!)，而且語法還很好寫、很漂亮。</p>
+
+<p>也許大家看到 gem 就覺得這是 Ruby 吧，其實這跟你寫不寫 Ruby 或 Rails 沒太大關係，這真的是個很方便的工具，推薦大家玩看看!</p>
+
+<p>其實 Backup 這個 gem 不只能備份資料庫，不過我比較需要的是就是資料庫的備份，所以特別把它筆記下來，至於其它的用法可參考官方的使用說明。</p>
+
+<h3>安裝</h3>
+
+<p>安裝Backup：</p>
+
+<pre><code>&gt; gem install backup
+</code></pre>
+
+<p>安裝完成後，執行 backup：</p>
+
+<pre><code>&gt; backup generate
+Generated configuration file in '/Users/eddie/Backup/config.rb'
+</code></pre>
+
+<p>它會在你帳號的根目錄底下建立一個<code>Backup</code>資料夾，並產生一個空的<code>config.rb</code>。另外你還可以給它一些參數，例如：</p>
+
+<pre><code>&gt; backup generate --databases='mysql' --storages='s3' --compressors='gzip'
+Generated configuration file in '/Users/eddie/Backup/config.rb'
+</code></pre>
+
+<p>它會幫忙產生好一些空的 block 讓你可以改來用：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#檔案：config.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Model</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:eddie_blog</span><span class="p">,</span> <span class="s1">&#39;Eddie Blog DB&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">database</span> <span class="no">MySQL</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">name</span>               <span class="o">=</span> <span class="s2">&quot;eddie_blog&quot;</span> <span class="c1"># 你要備份的資料庫</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">username</span>           <span class="o">=</span> <span class="s2">&quot;eddie_blog_user&quot;</span> <span class="c1"># 資料庫登入帳號</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">password</span>           <span class="o">=</span> <span class="s2">&quot;eddie_blog_password&quot;</span> <span class="c1"># 資料庫登入密碼</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">host</span>               <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">port</span>               <span class="o">=</span> <span class="mi">3306</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">socket</span>             <span class="o">=</span> <span class="s2">&quot;/tmp/mysql.sock&quot;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">skip_tables</span>        <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;skip&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span><span class="p">,</span> <span class="s1">&#39;tables&#39;</span><span class="o">]</span> <span class="c1"># 哪些table不要備份的</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">only_tables</span>        <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;only&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span> <span class="s1">&#39;tables&#39;</span><span class="o">]</span>  <span class="c1">#只要備份指定的table</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">utility_path</span>       <span class="o">=</span> <span class="s2">&quot;/opt/local/lib/mysql5/bin/mysqldump&quot;</span> <span class="c1"># 如果你的電腦找不到mysqldump的話，才需要另外設定utility_path</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">additional_options</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;--quick&#39;</span><span class="p">,</span> <span class="s1">&#39;--single-transaction&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">S3</span> <span class="k">do</span> <span class="o">|</span><span class="n">s3</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">access_key_id</span>      <span class="o">=</span> <span class="s1">&#39;my_access_key_id&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">secret_access_key</span>  <span class="o">=</span> <span class="s1">&#39;my_secret_access_key&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">region</span>             <span class="o">=</span> <span class="s1">&#39;ap-northeast-1&#39;</span>  <span class="c1"># 因為我的S3 bucket是開在Tokyo，所以改這樣</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">bucket</span>             <span class="o">=</span> <span class="s1">&#39;backup-eddie&#39;</span> <span class="c1"># 我在S3上開了一個專門放備份的bucket</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">path</span>               <span class="o">=</span> <span class="s1">&#39;/databases/blog.eddie.com.tw&#39;</span> <span class="c1"># 備份存放的路徑</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">keep</span>               <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># 要保留多少個檔案，超過的話舊的就會被清掉</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">compress_with</span> <span class="no">Gzip</span> <span class="k">do</span> <span class="o">|</span><span class="n">compression</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">compression</span><span class="o">.</span><span class="n">best</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">compression</span><span class="o">.</span><span class="n">fast</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上設定請依你的環境進行修改，語法應該相當簡單易懂，接著開始來進行備份：</p>
+
+<pre><code>&gt; backup perform -t eddie_blog
+[2011/05/24 05:24:27][message] Performing backup for Eddie Blog!
+[2011/05/24 05:24:27][message] Backup::Database::MySQL started dumping and archiving "eddie_blog".
+[2011/05/24 05:24:27][message] Backup started packaging everything to a single archive file.
+[2011/05/24 05:24:27][message] Backup::Compressor::Gzip started compressing the archive.
+[2011/05/24 05:24:37][message] Backup::Storage::S3 started transferring "2011.05.24.05.24.26.eddie_blog.tar.gz".
+[2011/05/24 05:24:43][message] Backup started cleaning up the temporary files.
+</code></pre>
+
+<p>要注意的是，你在執行這段的時候可能會出現錯誤訊息，告訴你缺裝了什麼gem，它會很貼心的自動幫你安裝需要的gem，如果你權限不足，那就加個<code>sudo</code>吧。</p>
+
+<p>這樣就完成了!</p>
+
+<h3>備份通知</h3>
+
+<p>除了備份到S3之外，還有別的像是FTP、SCP、RSync等方案，而且Backup這套gem還可以設定notifier，例如可以在備份完成後發Email通知或是自動丟到Twitter通知 (可參考 <a href="https://github.com/meskyanichi/backup/wiki/Notifiers">Notifiers</a>的說明)。不過我個人不喜歡收一堆的信件通知，也不想讓備份這種雜事去洗 twitter，剛好在 Storage 裡有個 Dropbox 可以用，備份完成我同時也會收到 dropbox 的通知，我要備份的檔案都不大，所以 dropbox 對我來說是個不錯的方案。</p>
+
+<p>改寫如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#檔案：config.rb</span>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Model</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:eddie_blog</span><span class="p">,</span> <span class="s1">&#39;Eddie Blog DB&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">database</span> <span class="no">MySQL</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">name</span>               <span class="o">=</span> <span class="s2">&quot;eddie_blog&quot;</span> <span class="c1"># 你要備份的資料庫</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">username</span>           <span class="o">=</span> <span class="s2">&quot;eddie_blog_user&quot;</span> <span class="c1"># 資料庫登入帳號</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">password</span>           <span class="o">=</span> <span class="s2">&quot;eddie_blog_password&quot;</span> <span class="c1"># 資料庫登入密碼</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">host</span>               <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">port</span>               <span class="o">=</span> <span class="mi">3306</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">socket</span>             <span class="o">=</span> <span class="s2">&quot;/tmp/mysql.sock&quot;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">skip_tables</span>        <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;skip&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span><span class="p">,</span> <span class="s1">&#39;tables&#39;</span><span class="o">]</span> <span class="c1"># 哪些table不要備份的</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">only_tables</span>        <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;only&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span> <span class="s1">&#39;tables&#39;</span><span class="o">]</span>  <span class="c1">#只要備份指定的table</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">utility_path</span>       <span class="o">=</span> <span class="s2">&quot;/opt/local/lib/mysql5/bin/mysqldump&quot;</span> <span class="c1"># 如果你的電腦找不到mysqldump的話，才需要另外設定utility_path</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">additional_options</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;--quick&#39;</span><span class="p">,</span> <span class="s1">&#39;--single-transaction&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">S3</span> <span class="k">do</span> <span class="o">|</span><span class="n">s3</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">access_key_id</span>      <span class="o">=</span> <span class="s1">&#39;my_access_key_id&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">secret_access_key</span>  <span class="o">=</span> <span class="s1">&#39;my_secret_access_key&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">region</span>             <span class="o">=</span> <span class="s1">&#39;ap-northeast-1&#39;</span>  <span class="c1"># 因為我的S3 bucket是開在Tokyo，所以改這樣</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">bucket</span>             <span class="o">=</span> <span class="s1">&#39;backup-eddie&#39;</span> <span class="c1"># 我在S3上開了一個專門放備份的bucket</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">path</span>               <span class="o">=</span> <span class="s1">&#39;/databases/blog.eddie.com.tw&#39;</span> <span class="c1"># 備份存放的路徑</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">keep</span>               <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># 要保留多少個檔案，超過的話舊的就會被清掉</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">Dropbox</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">email</span>      <span class="o">=</span> <span class="s1">&#39;my@email.com&#39;</span> <span class="c1"># dropbox登入帳號</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">password</span>   <span class="o">=</span> <span class="s1">&#39;my_dropbox_password&#39;</span>  <span class="c1"># dropbox登入密碼</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">api_key</span>    <span class="o">=</span> <span class="s1">&#39;my_api_key&#39;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">api_secret</span> <span class="o">=</span> <span class="s1">&#39;my_api_secret&#39;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">timeout</span>    <span class="o">=</span> <span class="mi">300</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">path</span>       <span class="o">=</span> <span class="s1">&#39;/Backups/Databases&#39;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">keep</span>       <span class="o">=</span> <span class="mi">20</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">compress_with</span> <span class="no">Gzip</span> <span class="k">do</span> <span class="o">|</span><span class="n">compression</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">compression</span><span class="o">.</span><span class="n">best</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">compression</span><span class="o">.</span><span class="n">fast</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡用到的api跟secret可到dropbox的<a href="https://www.dropbox.com/developers/">開發者網站</a>免費申請來用。寫好之後再執行一次備份，這次就除了備份到S3之外，也會另外備一份到Dropbox：</p>
+
+<pre><code>&gt; backup perform -t eddie_blog
+[2011/05/24 05:35:19][message] Performing backup for Eddie Blog!
+[2011/05/24 05:35:19][message] Backup::Database::MySQL started dumping and archiving "eddie_blog".
+[2011/05/24 05:35:19][message] Backup started packaging everything to a single archive file.
+[2011/05/24 05:35:19][message] Backup::Compressor::Gzip started compressing the archive.
+[2011/05/24 05:35:20][message] Backup::Storage::Dropbox started transferring "2011.05.24.05.35.18.eddie_blog.tar.gz".
+[2011/05/24 05:35:30][message] Backup::Storage::S3 started transferring "2011.05.24.05.35.18.eddie_blog.tar.gz".
+[2011/05/24 05:35:36][message] Backup started cleaning up the temporary files.
+</code></pre>
+
+<p>備份成功，而且還有個漂亮的提示視窗!</p>
+
+<p><img src="/images/2011/dropbox-notify.png" alt="image" /></p>
+
+<h3>加入其它備份工作</h3>
+
+<p>那如果要再加其它的備份進來怎麼做? 就照著第一段的寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#檔案：config.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 原來的</span>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Model</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:eddie_blog</span><span class="p">,</span> <span class="s1">&#39;Eddie Blog DB&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">database</span> <span class="no">MySQL</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">name</span>               <span class="o">=</span> <span class="s2">&quot;eddie_blog&quot;</span> <span class="c1"># 你要備份的資料庫</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">username</span>           <span class="o">=</span> <span class="s2">&quot;eddie_blog_user&quot;</span> <span class="c1"># 資料庫登入帳號</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">password</span>           <span class="o">=</span> <span class="s2">&quot;eddie_blog_password&quot;</span> <span class="c1"># 資料庫登入密碼</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">host</span>               <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">port</span>               <span class="o">=</span> <span class="mi">3306</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">socket</span>             <span class="o">=</span> <span class="s2">&quot;/tmp/mysql.sock&quot;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">skip_tables</span>        <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;skip&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span><span class="p">,</span> <span class="s1">&#39;tables&#39;</span><span class="o">]</span> <span class="c1"># 哪些table不要備份的</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">only_tables</span>        <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;only&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span> <span class="s1">&#39;tables&#39;</span><span class="o">]</span>  <span class="c1">#只要備份指定的table</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">utility_path</span>       <span class="o">=</span> <span class="s2">&quot;/opt/local/lib/mysql5/bin/mysqldump&quot;</span> <span class="c1"># 如果你的電腦找不到mysqldump的話，才需要另外設定utility_path</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">additional_options</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;--quick&#39;</span><span class="p">,</span> <span class="s1">&#39;--single-transaction&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">S3</span> <span class="k">do</span> <span class="o">|</span><span class="n">s3</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">access_key_id</span>      <span class="o">=</span> <span class="s1">&#39;my_access_key_id&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">secret_access_key</span>  <span class="o">=</span> <span class="s1">&#39;my_secret_access_key&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">region</span>             <span class="o">=</span> <span class="s1">&#39;ap-northeast-1&#39;</span>  <span class="c1"># 因為我的S3 bucket是開在Tokyo，所以改這樣</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">bucket</span>             <span class="o">=</span> <span class="s1">&#39;backup-eddie&#39;</span> <span class="c1"># 我在S3上開了一個專門放備份的bucket</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">path</span>               <span class="o">=</span> <span class="s1">&#39;/databases/blog.eddie.com.tw&#39;</span> <span class="c1"># 備份存放的路徑</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">keep</span>               <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># 要保留多少個檔案，超過的話舊的就會被清掉</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">Dropbox</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">email</span>      <span class="o">=</span> <span class="s1">&#39;my@email.com&#39;</span> <span class="c1"># dropbox登入帳號</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">password</span>   <span class="o">=</span> <span class="s1">&#39;my_password&#39;</span>  <span class="c1"># dropbox登入密碼</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">api_key</span>    <span class="o">=</span> <span class="s1">&#39;my_api_key&#39;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">api_secret</span> <span class="o">=</span> <span class="s1">&#39;my_api_secret&#39;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">timeout</span>    <span class="o">=</span> <span class="mi">300</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">path</span>       <span class="o">=</span> <span class="s1">&#39;/Backups/Databases&#39;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">keep</span>       <span class="o">=</span> <span class="mi">20</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">compress_with</span> <span class="no">Gzip</span> <span class="k">do</span> <span class="o">|</span><span class="n">compression</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">compression</span><span class="o">.</span><span class="n">best</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">compression</span><span class="o">.</span><span class="n">fast</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 另一個</span>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Model</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:my_superdb</span><span class="p">,</span> <span class="s1">&#39;Another Super DB&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">database</span> <span class="no">MySQL</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">name</span>               <span class="o">=</span> <span class="s2">&quot;my_superdb&quot;</span> <span class="c1"># 你要備份的資料庫</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">username</span>           <span class="o">=</span> <span class="s2">&quot;my_superdb_user&quot;</span> <span class="c1"># 資料庫登入帳號</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">password</span>           <span class="o">=</span> <span class="s2">&quot;my_superdb_password&quot;</span> <span class="c1"># 資料庫登入密碼</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">host</span>               <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">port</span>               <span class="o">=</span> <span class="mi">3306</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">socket</span>             <span class="o">=</span> <span class="s2">&quot;/tmp/mysql.sock&quot;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">skip_tables</span>        <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;skip&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span><span class="p">,</span> <span class="s1">&#39;tables&#39;</span><span class="o">]</span> <span class="c1"># 哪些table不要備份的</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">only_tables</span>        <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;only&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span> <span class="s1">&#39;tables&#39;</span><span class="o">]</span>  <span class="c1">#只要備份指定的table</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">utility_path</span>       <span class="o">=</span> <span class="s2">&quot;/opt/local/lib/mysql5/bin/mysqldump&quot;</span> <span class="c1"># 如果你的電腦找不到mysqldump的話，才需要另外設定utility_path</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">additional_options</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;--quick&#39;</span><span class="p">,</span> <span class="s1">&#39;--single-transaction&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">S3</span> <span class="k">do</span> <span class="o">|</span><span class="n">s3</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">access_key_id</span>      <span class="o">=</span> <span class="s1">&#39;my_access_key_id&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">secret_access_key</span>  <span class="o">=</span> <span class="s1">&#39;my_secret_access_key&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">region</span>             <span class="o">=</span> <span class="s1">&#39;ap-northeast-1&#39;</span>  <span class="c1"># 因為我的S3 bucket是開在Tokyo，所以改這樣</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">bucket</span>             <span class="o">=</span> <span class="s1">&#39;backup-eddie&#39;</span> <span class="c1"># 我在S3上開了一個專門放備份的bucket</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">path</span>               <span class="o">=</span> <span class="s1">&#39;/databases/blog.eddie.com.tw&#39;</span> <span class="c1"># 備份存放的路徑</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">keep</span>               <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># 要保留多少個檔案，超過的話舊的就會被清掉</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">Dropbox</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">email</span>      <span class="o">=</span> <span class="s1">&#39;my@email.com&#39;</span> <span class="c1"># dropbox登入帳號</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">password</span>   <span class="o">=</span> <span class="s1">&#39;my_password&#39;</span>  <span class="c1"># dropbox登入密碼</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">api_key</span>    <span class="o">=</span> <span class="s1">&#39;my_api_key&#39;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">api_secret</span> <span class="o">=</span> <span class="s1">&#39;my_api_secret&#39;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">timeout</span>    <span class="o">=</span> <span class="mi">300</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">path</span>       <span class="o">=</span> <span class="s1">&#39;/Backups/Databases&#39;</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">keep</span>       <span class="o">=</span> <span class="mi">20</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">compress_with</span> <span class="no">Gzip</span> <span class="k">do</span> <span class="o">|</span><span class="n">compression</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">compression</span><span class="o">.</span><span class="n">best</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">compression</span><span class="o">.</span><span class="n">fast</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到這裡我就覺得有點痛苦了，太多重複的東西，沒把它抽出來另外寫就整個很濕很難受(not <a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>)。所以我把一些相關的設定抽出來寫在另外的檔案：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#檔案：backup-defaults.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Configuration</span><span class="o">::</span><span class="no">Storage</span><span class="o">::</span><span class="no">S3</span><span class="o">.</span><span class="n">defaults</span> <span class="k">do</span> <span class="o">|</span><span class="n">s3</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">access_key_id</span>      <span class="o">=</span> <span class="s1">&#39;my_access_key_id&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">secret_access_key</span>  <span class="o">=</span> <span class="s1">&#39;my_secret_access_key&#39;</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">region</span>             <span class="o">=</span> <span class="s1">&#39;ap-northeast-1&#39;</span>  <span class="c1"># 因為我的S3 bucket是開在Tokyo，所以改這樣</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">bucket</span>             <span class="o">=</span> <span class="s1">&#39;backup-eddie&#39;</span> <span class="c1"># 我在S3上開了一個專門放備份的bucket</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">path</span>               <span class="o">=</span> <span class="s1">&#39;/databases/blog.eddie.com.tw&#39;</span> <span class="c1"># 備份存放的路徑</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">keep</span>               <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># 要保留多少個檔案，超過的話舊的就會被清掉</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Configuration</span><span class="o">::</span><span class="no">Storage</span><span class="o">::</span><span class="no">Dropbox</span><span class="o">.</span><span class="n">defaults</span> <span class="k">do</span> <span class="o">|</span><span class="n">dropbox</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">dropbox</span><span class="o">.</span><span class="n">email</span>      <span class="o">=</span> <span class="s1">&#39;my@email.com&#39;</span> <span class="c1"># dropbox登入帳號</span>
+</span><span class='line'>    <span class="n">dropbox</span><span class="o">.</span><span class="n">password</span>   <span class="o">=</span> <span class="s1">&#39;my_password&#39;</span>  <span class="c1"># dropbox登入密碼</span>
+</span><span class='line'>    <span class="n">dropbox</span><span class="o">.</span><span class="n">api_key</span>    <span class="o">=</span> <span class="s1">&#39;my_api_key&#39;</span>
+</span><span class='line'>    <span class="n">dropbox</span><span class="o">.</span><span class="n">api_secret</span> <span class="o">=</span> <span class="s1">&#39;my_api_secret&#39;</span>
+</span><span class='line'>    <span class="n">dropbox</span><span class="o">.</span><span class="n">timeout</span>    <span class="o">=</span> <span class="mi">300</span>
+</span><span class='line'>    <span class="n">dropbox</span><span class="o">.</span><span class="n">path</span>       <span class="o">=</span> <span class="s1">&#39;/Backups/Databases&#39;</span>
+</span><span class='line'>    <span class="n">dropbox</span><span class="o">.</span><span class="n">keep</span>       <span class="o">=</span> <span class="mi">20</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Configuration</span><span class="o">::</span><span class="no">Database</span><span class="o">::</span><span class="no">MySQL</span><span class="o">.</span><span class="n">defaults</span> <span class="k">do</span> <span class="o">|</span><span class="n">mysql</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">mysql</span><span class="o">.</span><span class="n">host</span>               <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+</span><span class='line'>    <span class="n">mysql</span><span class="o">.</span><span class="n">port</span>               <span class="o">=</span> <span class="mi">3306</span>
+</span><span class='line'>    <span class="n">mysql</span><span class="o">.</span><span class="n">utility_path</span>       <span class="o">=</span> <span class="s2">&quot;/opt/local/lib/mysql5/bin/mysqldump&quot;</span> <span class="c1"># 如果你的電腦找不到mysqldump的話，才需要另外設定utility_path</span>
+</span><span class='line'>    <span class="n">mysql</span><span class="o">.</span><span class="n">additional_options</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;--quick&#39;</span><span class="p">,</span> <span class="s1">&#39;--single-transaction&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Configuration</span><span class="o">::</span><span class="no">Compressor</span><span class="o">::</span><span class="no">Gzip</span><span class="o">.</span><span class="n">defaults</span> <span class="k">do</span> <span class="o">|</span><span class="n">compressor</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">compressor</span><span class="o">.</span><span class="n">best</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">compressor</span><span class="o">.</span><span class="n">fast</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所以原來的設定檔就可以變成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># 檔案：config.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;backup-defaults&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Model</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:eddie_blog</span><span class="p">,</span> <span class="s1">&#39;Eddie Blog&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">compress_with</span> <span class="no">Gzip</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">Dropbox</span>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">S3</span> <span class="k">do</span> <span class="o">|</span><span class="n">s3</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/databases/blog.eddie.com.tw&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">database</span> <span class="no">MySQL</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">name</span>               <span class="o">=</span> <span class="s2">&quot;my_superdb&quot;</span> <span class="c1"># 你要備份的資料庫</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">username</span>           <span class="o">=</span> <span class="s2">&quot;my_superdb_user&quot;</span> <span class="c1"># 資料庫登入帳號</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">password</span>           <span class="o">=</span> <span class="s2">&quot;my_superdb_password&quot;</span> <span class="c1"># 資料庫登入密碼</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Backup</span><span class="o">::</span><span class="no">Model</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:my_superdb</span><span class="p">,</span> <span class="s1">&#39;Another Super DB&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">compress_with</span> <span class="no">Gzip</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">Dropbox</span>
+</span><span class='line'>  <span class="n">store_with</span> <span class="no">S3</span> <span class="k">do</span> <span class="o">|</span><span class="n">s3</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">s3</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/databases/blog.eddie.com.tw&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">database</span> <span class="no">MySQL</span> <span class="k">do</span> <span class="o">|</span><span class="n">db</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">name</span>               <span class="o">=</span> <span class="s2">&quot;my_superdb&quot;</span> <span class="c1"># 你要備份的資料庫</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">username</span>           <span class="o">=</span> <span class="s2">&quot;my_superdb_user&quot;</span> <span class="c1"># 資料庫登入帳號</span>
+</span><span class='line'>    <span class="n">db</span><span class="o">.</span><span class="n">password</span>           <span class="o">=</span> <span class="s2">&quot;my_superdb_password&quot;</span> <span class="c1"># 資料庫登入密碼</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>乾淨多了!</p>
+
+<p>如果你不介意S3的存放路徑的話，也可以把s3.path寫回defaults值裡，程式碼可以更短。</p>
+
+<h3>自動備份</h3>
+
+<p>確定整個備份沒問題之後，再來要怎麼把它設定為自動備份? 如果你知道怎麼寫cronjob的話那就直接開起來寫。官網有建議另一套gem叫做<a href="https://github.com/javan/whenever">whenever</a>，這是一套很棒的gem，能做滿多事情的，不過這裡我們只用它來簡單的執行一個指令而已。</p>
+
+<p>安裝請參考whenever的github project。建一個<code>config</code>資料夾準備放設定檔(其實自己手動建也行，反正它幫你產生的也是空白的)：</p>
+
+<pre><code>&gt; wheneverize .
+[add] writing `./config/schedule.rb'
+[done] wheneverized!
+</code></pre>
+
+<p>編輯設定檔：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#檔案 config/schedule.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">every</span> <span class="mi">12</span><span class="o">.</span><span class="n">hours</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">command</span> <span class="s2">&quot;backup perform -t eddie_blog&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更新到cronjob裡：</p>
+
+<pre><code>&gt; whenever --update-crontab
+[write] crontab file updated
+</code></pre>
+
+<p>看一下cronjob：</p>
+
+<pre><code>&gt; crontab -e
+# Begin Whenever generated tasks for: /home/eddie/Backup/config/schedule.rb
+0 0,12 * * * /bin/bash -l -c 'backup perform -t eddie_blog'
+</code></pre>
+
+<p>它設定在每天的0點及12點的時候會進行備份的工作。</p>
+
+<p>打完，收工!</p>
+
+<h3>結論</h3>
+
+<p>有人會懷疑像這種S3或Dropbox的備份安全性如何? 會不會被其它人或是雲端主機自己內部的員工看到你的檔案?</p>
+
+<p>對我來說，我要備份的檔案都不會太機密，我要的只是萬一出問題，可以找得到檔案來快速還原，有真正重要的我會另外找方案處理。我想這些雲端主機的安全性應該是不會太差，但如果你信不過它，而且要備份的東西是非常極機密，萬一外流就有人會死的那種，那你也許可以試著把Storage的地方改成SCP或SFTP之類的，把檔案備到你的機器上囉。</p>
+
+<p>最後，感謝神人們寫出這麼方便的gem，讓我睡覺可以睡得更安穩一些了!</p>
+
+<h4>參考資料：</h4>
+
+<ul>
+<li><a href="https://github.com/meskyanichi/backup/wiki/Getting-Started">Getting Started with Backup</a></li>
+<li><a href="https://github.com/meskyanichi/backup/wiki/Automatic-Backups">Automatic Backups</a></li>
+<li><a href="http://rdoc.info/gems/backup">Backup Doc</a></li>
+</ul>
+
+
+<h4>補充：</h4>
+
+<p>2011.5.27 我用whenever的時候發現cronjob沒辦法正常執行，在/var/log/syslog裡會出現”failed with exit status 127″的錯誤訊息(OS: Ubuntu)，似乎是找不到執行的執令的關係，不知道是哪邊環境沒設定好，不過我後來手動把crontab修改成：</p>
+
+<pre><code>0 0,12 * * * /bin/bash -l -c '/usr/local/bin/backup perform -t eddie_blog'
+</code></pre>
+
+<p>把backup改成完整路徑就ok了!</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/page/23/">&larr; Older</a>
@@ -923,10 +1516,6 @@ this is mod_method in ModB
       </li>
     
       <li class="post">
-        <a href="/2014/10/22/local-variable-in-ruby/">Ruby 裡的區域變數</a>
-      </li>
-    
-      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -954,11 +1543,15 @@ this is mod_method in ModB
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
+      <li class="post">
+        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
+      </li>
+    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.21052631578948%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 142.6315789473684%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

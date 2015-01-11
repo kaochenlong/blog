@@ -318,131 +318,6 @@ photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/2014/10/22/local-variable-in-ruby/">Ruby 裡的區域變數</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2014/10/22/local-variable-in-ruby/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2014-10-22T14:35:00+08:00" pubdate>Oct 22<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>區域變數(Local Variable)，是個再簡單不過的東西了，但其實因為 Ruby 這個程式語言的特殊設計，讓原本應該很單純的區域變數變得有點微妙了。</p>
-
-<p>先來看看下面這段程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">greeting</span>
-</span><span class='line'>  <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;hello, ruby&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">greeting</span><span class="p">()</span>
-</span><span class='line'><span class="nb">puts</span> <span class="n">message</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在上面這段程式碼中，我們在 <code>greeting</code> 方法裡定義了一個區域 <code>message</code>，即使呼叫了 <code>greeting</code> 方法，在最後一行的 <code>message</code> 變數仍是未定義。因為 <code>message</code> 是個區域變數，它的可見範圍就是只有在 <code>greeting</code> 這個方法裡面而已，這也是它被稱為「區域」的原因。</p>
-
-<p>Ruby 官方手冊對於 <code>def</code> 的說明如下：</p>
-
-<p>Paired with a terminating end, constitutes a method definition. Starts a new local scope; local variables in existence when the def block is entered are not in scope in the block, and local variables created in the block do not survive beyond the block.</p>
-
-<p>http://ruby-doc.org/docs/keywords/1.9/Object.html#method-i-def</p>
-
-<p>簡單的說，<code>def</code> 這個關鍵字會產生一個新的 scope，如果在這個 scope 裡定義了區域變數，這些區域變數的只會活在這個 scope 裡，離開了這個 scope 之後就看不見了，所以上面段程式碼，會產生 <code>undefined local variable or method</code> 的錯誤。</p>
-
-<p>其實 <code>class</code> 關鍵字在定義類別的時候也會產生類似的效果：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Hello</span>
-</span><span class='line'>  <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;hello, ruby&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">puts</span> <span class="n">message</span>  <span class="c1">#=&gt; NameError</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我們再看一個範例：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">if</span> <span class="kp">false</span>
-</span><span class='line'>  <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;hello, ruby&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">p</span> <span class="n">message</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>你可能會想，即然那個 <code>if</code> 判斷不成立，<code>message</code> 就是一個不存在的變數，所以應該跟第一個範例一樣，得到 <code>undefined local variable or method</code> 的錯誤訊息。</p>
-
-<p>但如果各位試一下，在印出 <code>message</code> 這個變數時會得到 <code>nil</code>。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">message</span> <span class="o">=</span> <span class="mi">123</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">message</span>
-</span><span class='line'>  <span class="s2">&quot;hello, ruby&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">p</span> <span class="n">message</span>    <span class="c1"># =&gt; ?</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡我們先定義了一個區域變數 x，也定義了一個方法 x，但因為在 Ruby 裡，呼叫方法可以省略小括號</p>
-
-<p>再來看一段比較有趣的：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
-</span><span class='line'><span class="nb">p</span> <span class="n">x</span>    <span class="c1"># =&gt; ?</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>偶爾翻翻 Ruby 的 API，會有意外的收獲</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a></h1>
       
         <fb:like href="http://blog.eddie.com.tw/2014/10/16/happy-programming-ruby/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
@@ -1266,6 +1141,138 @@ photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2014/08/07/code-swift-with-vim/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2014-08-07T07:35:00+08:00" pubdate>Aug 7<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Swift 是今年 Apple 發表的程式語言，在發表的隔月就衝上了 <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE 排行榜</a>的前 20 名。不過因為目前還在 Beta 中，所以除了改規格之外，開發工具的穩定性也還有待加強。</p>
+
+<p>因為我已習慣用終端機 + Vim 工作，所以用 Vim 來練習寫 Swift 也是很正常的(誤)。不過其實真正的原因是之前 beta 版的 Xcode 太容易因為語法錯誤而當掉了。</p>
+
+<h2>Vim plugin</h2>
+
+<p>Vim 什麼沒有，plugin 最多了。不過因為 Swift 剛出來沒多久，外掛還不太多。我目前只有使用 <a href="https://github.com/toyamarinyon/vim-swift">vim-swift</a> 這個 plugin，有支援語法 highlight。</p>
+
+<h2>Swift REPL</h2>
+
+<p>寫 Ruby/Rails 時已很習慣有 <code>irb</code> 之類的 REPL(Read–Eval–Print Loop) 可以用，Swift 這回也有提供 REPL。</p>
+
+<p>因為在我電腦裡同時有安裝 Xcode 5 以及 Xcode 6 beta 5，所以在使用前得需先修改一下設定，開啟終端機後輸入：</p>
+
+<pre><code>$ sudo xcode-select -switch /Applications/Xcode6-Beta5.app
+</code></pre>
+
+<p>上面這個指令路徑設定可能會隨著 Xcode 6 的版本不同而需要做些調整。設定完之後，輸入：</p>
+
+<pre><code>$ xcrun swift
+</code></pre>
+
+<p>或</p>
+
+<pre><code>$ lldb --repl
+</code></pre>
+
+<p>即可進入 Swift 的 REPL 環境。</p>
+
+<p><img src="/images/2014/swift_repl.png" width="600" alt="image" /></p>
+
+<h2>編譯</h2>
+
+<p>如果只是要寫個沒有畫面的小工具的程式，其實是不需要開 Xcode 的，只要一個簡單的 .swift 檔就可以了。</p>
+
+<pre><code>// 檔案 hello.swift
+println("Hello, Swift!")
+</code></pre>
+
+<p>然後執行：</p>
+
+<pre><code>$ xcrun swift hello.swift
+</code></pre>
+
+<p>應該會在畫面上印出 <code>Hello, Swift!</code> 字樣。如果想要進行編譯，可執行：</p>
+
+<pre><code>$ xcrun swiftc hello.swift
+</code></pre>
+
+<p>這會在該目錄產生一個同名的 <code>hello</code> 執行檔(注意，是 <code>swiftc</code> 而不是 <code>swift</code>)。</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/h6n4RlHk12I" frameborder="0" allowfullscreen></iframe>
+
+
+<p>註：以上是以 Xcode 6 Beta 5 為示範，在之前的版本的指令稍有不同。</p>
+
+<h2>自動執行</h2>
+
+<p>如果每次寫完存檔就要再執行一次 <code>xcrun swift</code> 也太辛苦了，工程師都是很懶的。有個不錯用的 gem 叫做 <a href="https://github.com/guard/guard">Guard</a>可以幫你監視檔案的狀態，一但檔案有異動就跟著執行某些指令。</p>
+
+<p>安裝 gem 是件輕鬆愉快的事，只要一行：</p>
+
+<pre><code>$ gem install guard-shell
+</code></pre>
+
+<p>如果安裝順利，下一步是請 guard 幫我們產生一個 Guardfile：</p>
+
+<pre><code>$ guard init shell
+</code></pre>
+
+<p>你應該可以在該目錄看到 Guardfile 檔案。我稍微做了些小修改如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">guard</span> <span class="ss">:shell</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">/(.*).swift/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">20</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="sb">`xcrun swift </span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="si">}</span><span class="sb">`</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個設定檔沒有很特別的東西，大概就是每次執行前先印出個分隔線，然後再印出 <code>xcrun swift</code> 的執行結果。接著只要在該目錄執行 <code>guard</code> 即可進入監看模式。</p>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/yhPu86RvilI" frameborder="0" allowfullscreen></iframe>
+
+
+<h2>小結</h2>
+
+<p>因為 Vim 指法已習慣成肌肉記憶(muscle memory)，所以我的 Xcode 也通常會安裝 <a href="https://github.com/JugglerShu/XVim">XVim</a> 讓 Xcode 可支援部份的 Vim 指令，不然完全沒辦法工作了。</p>
+
+<p>是說像這樣用 Vim 寫 Swift，練練語法還 ok，但要靠 Vim 純手工刻出 iOS app 真的不是一般人能做到的事，所以其實我真正開發的時候，還是需要依賴 IDE 幫忙的，不然 method name 那麼長、參數那麼多，不靠 IDE 的自動完成，怎麼可能記得住。</p>
+
+<p>即使如此，我個人還是覺得，可以用 Vim 寫程式，就是莫名的有種阿宅的浪漫啊 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/page/2/">&larr; Older</a>
@@ -1323,10 +1330,6 @@ photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
       </li>
     
       <li class="post">
-        <a href="/2014/10/22/local-variable-in-ruby/">Ruby 裡的區域變數</a>
-      </li>
-    
-      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -1354,11 +1357,15 @@ photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
+      <li class="post">
+        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
+      </li>
+    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.21052631578948%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 142.6315789473684%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="蘋果的App Store上有許多的軟體，有的重量級的大作是直接掛個價錢就上架，有的是先提供免費的試玩版，滿意再買正式版，其中有些則是不收費，但會放一些廣告在裡面。這些軟體的開發者有的是真的佛心，有的是純練功，不過置入廣告來賺取一些生活費並沒什麼對錯的問題，畢竟大家也都是要過日子。 &hellip;">
+  <meta name="description" content="前面幾篇有提到一些@category跟@progocol，還有一些記憶體管理的東西，我自己也看得頭很花，不過看一堆的理論還不如直接實作來得快。所以，接下來我們就來把前面那個陽春的地圖功能，加上一些註解或大頭針的功能，讓整個畫面看起來豐富、實用一些。 首先，我想要做的效果是在地圖上加個大頭針跟註解 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,70 +90,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/20/add-iad-in-your-app/">在你的app裡加入廣告</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/12/20/add-iad-in-your-app/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-12-20T00:15:00+08:00" pubdate>Dec 20<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2010/iad_logo.jpg" alt="image" /></p>
-
-<p>蘋果的App Store上有許多的軟體，有的重量級的大作是直接掛個價錢就上架，有的是先提供免費的試玩版，滿意再買正式版，其中有些則是不收費，但會放一些廣告在裡面。這些軟體的開發者有的是真的佛心，有的是純練功，不過置入廣告來賺取一些生活費並沒什麼對錯的問題，畢竟大家也都是要過日子。放個廣告上來只要不影響整個app的使用也沒應該沒什麼大礙，畢竟這些開發者也還是需要一些”動力”才能繼續幫大家開發更好用的軟體。</p>
-
-<p>你也許會好奇放這個廣告是能賺什麼錢，在不久前有個故事，就是有個人做了一個手電筒的app，裡面放了廣告，結果這個開發者在第一天就賺了將近1,400美元的收入，CTR將近12%。我不知道這個故事的真實性，也許這個故事只是為了吸引更多的開發者上勾，也或許這只是個特例，不過iAd的拆帳比例是六四分，開發者六，蘋果四。跟一般我們買網站banner的利潤比起來，六成的拆帳不算低。也許是大家覺得新奇，又或是不小心點到(畢竟iPhone那麼小一隻)，跟一般網站banner的CTR比起來，手機上的廣告CTR都還滿高的。</p>
-
-<p>其實要在app上置入廣告還滿容易，不需要寫到程式碼，一樣以前面那個地圖app做範例，首先點擊我要放廣告的那個xib檔，跳出interface builder，在元件庫裡可以找到一個iAd的元件：</p>
-
-<p><img src="/images/2010/iad_component.jpg" alt="image" /></p>
-
-<p>把它拉到場景上，調整一下位置跟尺寸：</p>
-
-<p><img src="/images/2010/iad_added_to_view.png" alt="image" /></p>
-
-<p>最後，因為project預設並沒有把iAd framework放進來，所以需要手動自己加，在Frameworks上按右鍵，選擇”Add” -> “Existing frameworks”：</p>
-
-<p><img src="/images/2010/iad_framework.png" alt="image" /></p>
-
-<p>測試看看，你應該可以看到一個測試的banner：</p>
-
-<p><img src="/images/2010/iad_result.jpg" alt="image" /></p>
-
-<p>點擊之後的效果：</p>
-
-<p><img src="/images/2010/iad_clicked.jpg" alt="image" /></p>
-
-<p>大概這樣就完成了，記得廣告不要放太大塊而影響整個app的運作囉(放大太塊到時候送審的時候也不一定會過)。</p>
-
-<h3>建議閱讀：</h3>
-
-<p><a href="http://developer.apple.com/iad/">Apple Developer – iAd</a></p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -930,6 +866,111 @@ Hello everybody!
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/08/class-directive-in-objective-c/">@class directive in Objective-C</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/08/class-directive-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-08T22:22:00+08:00" pubdate>Dec 8<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前面幾篇有提到了在Objective-C裡的OOP要怎麼寫，也知道要怎麼在@interface裡設定instance variable(以下簡稱ivar)，雖然範例程式碼裡只是用了int這個簡單型態，但實際上更常看到的是在A類別裡有放一個B類別的物件的情況(Composition)。通常你如果要用到一個A類別的時候，你會用：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;A.h&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>的方法把header檔給import裡來，但是來假想一下下面這個情境：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// A類別裡有放了一顆B ivar</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">A</span> : <span class="nc">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">B</span> <span class="o">*</span><span class="n">b</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">implementation</span> <span class="n">A</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// B類別裡有放了一顆A ivar</span>
+</span><span class='line'><span class="err">@</span><span class="n">interface</span> <span class="n">B</span> <span class="o">:</span> <span class="n">NSObject</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">A</span> <span class="o">*</span><span class="n">a</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">implementation</span> <span class="n">B</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>當然舉這個例子是比較極端啦，這樣的情況應該很少發生。如果你跑一下以上的的程式碼，會得到錯誤訊息”expected specifier-qualifier-list before ‘B’”，意思就是說這個B類別並不存在。A跟B兩個類別互相有需要，但B還沒出生，變成是雞生蛋蛋生雞的問題，這時候就可以用上<code>@class</code>這個語法了。只要在@interface A前面加一行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@class</span> <span class="nc">B</span>;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這行就是告訴編譯器說「<strong>這個B是一個類別，至於這個B類別的內容你不用管，反正遲早會告訴你，你先用就是了</strong>」，這樣一來就可以順利通過編譯了。不過寫了@class不代表就可以不用實作那個類別的內容，如果到時候沒有import B的header進來或是沒有實作B類別，硬是要用的話在編譯過程就會跳出一個訊息”warning: receiver ‘B’ is a forward class and corresponding @interface may not exist”。</p>
+
+<h3>優點：</h3>
+
+<ol>
+<li>跟#import語法比起來，用@class的編譯速度比較快。</li>
+<li>可解決互相參照的問題。</li>
+</ol>
+
+
+<h3>缺點：</h3>
+
+<p>其實我也不知道這樣會有什麼缺點</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/page/28/">&larr; Older</a>
@@ -989,10 +1030,6 @@ Hello everybody!
       </li>
     
       <li class="post">
-        <a href="/2014/10/22/local-variable-in-ruby/">Ruby 裡的區域變數</a>
-      </li>
-    
-      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -1020,11 +1057,15 @@ Hello everybody!
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
+      <li class="post">
+        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
+      </li>
+    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.21052631578948%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 142.6315789473684%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

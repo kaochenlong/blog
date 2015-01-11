@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="不知道各位在用CoffeeScript的 -&gt; (dash rocket)在寫function的時候，有沒有發現有另一個長得跟它有點像，但比較胖一點的 =&gt; (fat arrow)，在CoffeeScript的source code裡有一段這樣的簡短說明： CoffeeScript &hellip;">
+  <meta name="description" content="本篇文章已刊載於 OpenFoundry 電子報技術專欄，刊登之內容由專業的 OpenFoundry 團隊潤稿，此篇為原文。 前言 我相信很多人學習Ruby是因為Ruby on Rails的緣故，但Rails在改版的速度很快，而且有時候改版的幅度不小，例如從以前的2.x版本跳到3.x版本， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,289 +90,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/11/18/dash-rocket-vs-fat-arrow-in-coffeescript/">CoffeeScript -> 與 => 的差別</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/11/18/dash-rocket-vs-fat-arrow-in-coffeescript/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-11-18T00:48:00+08:00" pubdate>Nov 18<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>不知道各位在用CoffeeScript的 <code>-&gt;</code> (dash rocket)在寫function的時候，有沒有發現有另一個長得跟它有點像，但比較胖一點的 <code>=&gt;</code> (fat arrow)，在CoffeeScript的<a href="http://jashkenas.github.com/coffee-script/documentation/docs/grammar.html">source code</a>裡有一段這樣的簡短說明：</p>
-
-<blockquote><p>CoffeeScript has two different symbols for functions. -> is for ordinary functions, and => is for functions bound to the current value of this.</p></blockquote>
-
-
-<p>在CoffeeScript裡，用 <code>-&gt;</code> 會產生一個Anonymous function，例如：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">skinny = </span><span class="nf">(name) -&gt;</span>
-</span><span class='line'>  <span class="s">&quot;hello, I&#39;m skinny </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">skinny</span> <span class="s">&quot;eddie&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編譯出來的結果是：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">skinny</span><span class="p">;</span>
-</span><span class='line'><span class="nx">skinny</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="s2">&quot;hello, I&#39;m skinny &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">skinny</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">));</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行結果是：</p>
-
-<pre><code>hello, I'm skinny eddie
-</code></pre>
-
-<p>而 <code>=&gt;</code> 也是會產生Anonymous function：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">fatty = </span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="o">=&gt;</span>
-</span><span class='line'>  <span class="s">&quot;hello, I&#39;m fatty </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fatty</span> <span class="s">&quot;eddie&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行結果是：</p>
-
-<pre><code>hello, I'm fatty eddie
-</code></pre>
-
-<p>就以程式的執行結果來看，用 <code>-&gt;</code> 跟用 <code>=&gt;</code> 似乎沒什麼兩樣，但看一下用 <code>=&gt;</code> 編譯出來的Javascript程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fatty</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">__bind</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">me</span><span class="p">){</span> <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span> <span class="k">return</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">me</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span> <span class="p">};</span> <span class="p">};</span>
-</span><span class='line'><span class="nx">fatty</span> <span class="o">=</span> <span class="nx">__bind</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="s2">&quot;hello, I&#39;m fatty &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'><span class="p">},</span> <span class="k">this</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>編出了看起來有點複雜的東東西，這串程式碼裡面看起來比較複雜的大概就是那個<code>fn.apply()</code>，我們先來看看那是做什麼的。</p>
-
-<h2>function.call() v.s function.apply()</h2>
-
-<p>直接來看段程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">who</span> <span class="o">=</span> <span class="s2">&quot;Eddie&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">doctor</span><span class="p">(){</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="nx">who</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">doctor</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這光用我們的人腦執行就猜得到結果是<code>Eddie</code>，如果我們再改一下：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">who</span> <span class="o">=</span> <span class="s2">&quot;Eddie&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">doctor</span><span class="p">(){</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">who</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">doctor</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>多了個<code>this</code>，但執行的結果還是一樣。這裡的<code>this.who</code>其實指的就是整個global的那個<code>who</code>，所以印出來結果也一樣。再來加一點變化：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">who</span> <span class="o">=</span> <span class="s2">&quot;Eddie&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">time_lord</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">who</span><span class="o">:</span> <span class="s2">&quot;the real doctor&quot;</span> <span class="p">}</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">doctor</span><span class="p">(){</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">who</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">doctor</span><span class="p">();</span>
-</span><span class='line'><span class="nx">doctor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">time_lord</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其實<code>this</code>指的對像會隨著不同的情境而有所變化。例如我們平常可能會說：「媽! 我在這裡」，如果你是在公司說這句話，「這裡」表示的是公司；如果你是在家裡說這句話，「這裡」表示的是家裡。</p>
-
-<p>再回來看程式碼，在上面程式碼的第8行的呼叫指的this是整個global，在這邊就是<code>window</code>，而第9行指的<code>this</code>則是透過<code>call()</code>方法傳進去的那個物件，程式碼所在的情境變了，所以當第5行要印出<code>this.who</code>的時候，會印出<code>the real doctor</code>。</p>
-
-<p>其實通常沒特別指定的變數或function呼叫，前面的<code>this</code>是可以省略的，所以上面的第8行的<code>doctor()</code>也可以改寫成：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">doctor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行結果是一樣的。再來繼續再加點變化，<code>call()</code>還可以傳更多的參數進去：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">who</span> <span class="o">=</span> <span class="s2">&quot;Eddie&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">time_lord</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">who</span><span class="o">:</span> <span class="s2">&quot;the real doctor&quot;</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">doctor</span><span class="p">(</span><span class="nx">real_name</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">who</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;His real name is : &quot;</span> <span class="o">+</span> <span class="nx">real_name</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">doctor</span><span class="p">(</span><span class="s2">&quot;Aquarianboy&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">doctor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">time_lord</span><span class="p">,</span> <span class="s2">&quot;No one knows!&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外，在JavaScript裡，還有一個跟<code>call()</code>有點像的function叫做<code>apply()</code>，這兩個的功能差不多，最大的差別是<code>apply()</code>傳的第二個參數是陣列，而<code>call()</code>的參數則是一個一個傳進去，並用逗號分開：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">who</span> <span class="o">=</span> <span class="s2">&quot;Eddie&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">time_lord</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">who</span><span class="o">:</span> <span class="s2">&quot;the real doctor&quot;</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">doctor</span><span class="p">(</span><span class="nx">real_name</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">who</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;His real name is : &quot;</span> <span class="o">+</span> <span class="nx">real_name</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">doctor</span><span class="p">(</span><span class="s2">&quot;Aquarianboy&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">doctor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">time_lord</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;No one knows!&quot;</span><span class="p">]);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>大概知道在JavaScript裡<code>call()</code>跟<code>apply()</code>的意思之後，再回來看我們剛剛那段CoffeeScript編譯出來的程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fatty</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">__bind</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">me</span><span class="p">){</span> <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span> <span class="k">return</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">me</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span> <span class="p">};</span> <span class="p">};</span>
-</span><span class='line'><span class="nx">fatty</span> <span class="o">=</span> <span class="nx">__bind</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="s2">&quot;hello, I&#39;m fatty &quot;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'><span class="p">},</span> <span class="k">this</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>function一層包一層，return再return，不過大意就是把<code>this</code>當做參數傳進<code>fatty</code>這個function裡的意思。</p>
-
-<h2>什麼時候會用到</h2>
-
-<p>有點離題了..再回來看看CoffeeScript，原來，<code>=&gt;</code>在定義function的同時，還會把<code>this</code>也同時給綁到這個function，雖然<code>this</code>會隨著所在的情境而有所改變，但<code>=&gt;</code>把<code>this</code>給綁進來之後，可以確保在指向<code>this</code>的時候不會指錯人。</p>
-
-<p>為什麼要這樣做? 什麼時候會用到它? 大多是被拿來當做event callback的時候會用得上，來看個範例：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kr">class</span> <span class="nx">Student</span>
-</span><span class='line'>  <span class="nx">constructor</span><span class="o">:</span> <span class="p">(</span><span class="err">@</span><span class="nx">username</span><span class="p">)</span> <span class="o">-&gt;</span>
-</span><span class='line'>  <span class="nx">say_hello</span><span class="o">:</span> <span class="o">=&gt;</span>
-</span><span class='line'>    <span class="nx">alert</span> <span class="s2">&quot;Hello, my name is #{@username}&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">$</span> <span class="o">-&gt;</span>
-</span><span class='line'>  <span class="nx">eddie</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Student</span><span class="p">(</span><span class="s2">&quot;Eddie&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#student_1&quot;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="nx">eddie</span><span class="p">.</span><span class="nx">say_hello</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我把<code>eddie.say_hello</code>傳給<code>click</code>做為callback，意思就是當頁面上某個id叫做<code>student_1</code>的元素被點擊之後，就會去執行它，而執行結果是：</p>
-
-<pre><code>Hello, my name is Eddie
-</code></pre>
-
-<p>但是如果你把第3行程式碼的<code>=&gt;</code>換成<code>-&gt;</code>的話，執行結果會變成：</p>
-
-<pre><code>Hello, my name is undefined
-</code></pre>
-
-<p>為什麼結果是<code>undefined</code>? 前面提到，<code>this</code>會隨著出現在不同的地方而會有不同的意思，如果你是用<code>-&gt;</code>的話，它的<code>this</code>是指向你剛剛點擊的那顆按鈕，而當然那顆按鈕上面不會有<code>username</code>這個屬性，所以印出<code>undefined</code>；如果是用<code>=&gt;</code>的話，它會透過<code>fn.apply()</code>把<code>this</code>給包進來，所以<code>say_hello</code>裡的<code>this</code>，指的就是它自己這個物件，也就是<code>Student</code>類別產生出來的instance，印出來的結果就是你要的了。</p>
-
-<p>細節可以再看看它編譯出來的JavaScript code，大概就可以知道<code>-&gt;</code>跟<code>=&gt;</code>各別做什麼不同的事。</p>
-
-<p>以上，供大家參考，如果有哪邊寫錯再請跟我說 :)</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -1149,6 +866,73 @@ photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiw
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/08/canonical-url-problem-in-octopress/">Octopress的Canonical URL問題</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/08/canonical-url-problem-in-octopress/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-08T01:12:00+08:00" pubdate>Nov 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自從把Blog從<a href="http://wordpress.com/">Wordpress</a>搬到<a href="http://octopress.org/">Octopress</a>之後，對我這種愛敲鍵盤的人來說，寫東西真的順手不少。不過最近我發現在要把網址貼到Facebook的時候發現這個情況：</p>
+
+<p><img src="/images/2011/facebook-301-moved-permanently.png" alt="image" /></p>
+
+<p>原本以為會自動抓該網頁的摘要，但卻出現了<code>301 Moved Permanently</code>的字樣，但只要把最尾巴的斜線拿掉就正常了。不過一樣的網址貼到Google+是ok的，於是我把網址丟到Facebook的<a href="https://developers.facebook.com/tools/debug">Debug工具</a>看看是哪邊出了問題：</p>
+
+<p><img src="/images/2011/facebook-circular-redirect.png" alt="image" /></p>
+
+<p>出現了<code>Circular redirect path detected</code>的錯誤訊息，畫面往下捲看看是什麼狀況：</p>
+
+<p><img src="/images/2011/facebook-redirect-path.png" alt="image" /></p>
+
+<p>大概猜到是怎麼回事了，但很好奇到底是哪邊造成的，看了一下我的<code>_config.yml</code>的<code>permalink</code>設定：</p>
+
+<pre><code>permalink: /:year/:month/:day/:title/
+</code></pre>
+
+<p>看起來尾巴有斜線的。接著再翻了一下其它的source才發現，原來在<code>source/_includes/head.html</code>裡有這行：</p>
+
+<figure class='code'><figcaption><span> (source_includes_head.html)</span> <a href='/downloads/code/octopress/source_includes_head.html'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{% capture canonical %}{{ site.url }}{% if site.permalink contains &#39;.html&#39; %}{{ page.url }}{% else %}{{ page.url | remove:&#39;index.html&#39; | strip_slash }}{% endif %}{% endcapture %}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最後面加了個<code>strip_slash</code>的filter，看起來就是會把slash給脫掉的，我把這個filter拿掉之後，原本的canonical url就會留下<code>/</code>了，整個重新發佈一次之後，再貼到Facebook就沒301的問題了。</p>
+
+<p>似乎不只這樣，原來<a href="http://disqus.com/">Disqus</a>的identifier也是用canonical url(請見<code>source/_includes/disqus.html</code>)。之前一直很好奇為什明明我在Wordpress的留言已經匯入Disqus，從Disqus的dashboard也都看得到，但就是無法顯示在blog文章裡，原來就是這個canonical url差了一個斜線，造成<code>disqus_identifier</code>不同而讀不到.. orz。</p>
+
+<p>剛把它修正之後重新發佈之後，之前在Wordpress的留言就可以正常顯示了。但因為換過來之後沒注意到這點，所以從我換到Octopress之後有來留言的大大們真的很不好意思，您的留言其實還在Disqus裡，只是因為identifier不同而暫時只能留在dashboard裡了。</p>
+
+<p>其實我也不知道為什麼這邊要<code>strip_slash</code>這個filter的存在，也許有它的用意吧，不過我拿掉之後就可以解決我的問題了。</p>
+
+<p>以上，若有哪邊有錯再請跟我說 :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/page/12/">&larr; Older</a>
@@ -1208,10 +992,6 @@ photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiw
       </li>
     
       <li class="post">
-        <a href="/2014/10/22/local-variable-in-ruby/">Ruby 裡的區域變數</a>
-      </li>
-    
-      <li class="post">
         <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
       </li>
     
@@ -1239,11 +1019,15 @@ photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiw
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
+      <li class="post">
+        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
+      </li>
+    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.21052631578948%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 142.6315789473684%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
