@@ -21,7 +21,8 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="原文：http://tw.knowledge.yahoo.com/question/?qid=1206111000187 Q: 每次在FLASH作簡單的圖片播放 需要一張張在一層層Layer作影格與淡入淡出，這樣似乎太麻煩了，請問有沒有簡單的快速製作？ A: 我做了個簡單的範例， &hellip;">
+  <meta name="description" content="大部份產生Captcha的方式，都是透過Server端的繪圖library(例如GD)，動態產生圖檔做為認證用途。不過用Flash因為本身就可以做繪圖，在實作上比其它程式語法簡單得多 :) 上面這個範例是從Rick Smith的Blog參考來的
+http://www.philosophyme. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +91,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2006/12/04/captcha-in-flash/">Captcha in Flash</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2006/12/04/captcha-in-flash/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2006-12-04T00:46:00+08:00" pubdate>Dec 4<span>th</span>, 2006</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>大部份產生<a href="http://en.wikipedia.org/wiki/CAPTCHA">Captcha</a>的方式，都是透過Server端的繪圖library(例如GD)，動態產生圖檔做為認證用途。不過用Flash因為本身就可以做繪圖，在實作上比其它程式語法簡單得多 :)</p>
+
+<p>上面這個範例是從Rick Smith的Blog參考來的
+<a href="http://www.philosophyme.com/index.cfm?blog=40">http://www.philosophyme.com/index.cfm?blog=40</a></p>
+
+<p>原作者後端用的是ColdFusion我不熟，我小改了一下用PHP丟隨機字串出來，應該也是可以玩玩看，但在安全性上應該還要再加強。如果只是實作在一般網路活動，用來防堵大量或自動化表單填寫應該勉強可以用的 :)</p>
+
+<h4>References</h4>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/CAPTCHA">Captcha</a></li>
+<li><a href="http://www.philosophyme.com/">Rick Smith’s Blog</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -291,71 +339,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2006/11/18/build-a-button-with-as3/">AS3-建立按鈕</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2006/11/18/build-a-button-with-as3/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2006-11-18T00:25:00+08:00" pubdate>Nov 18<span>th</span>, 2006</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2006/flash.gif" alt="image" /></p>
-
-<p>ActionScript3.0裡已經可以完全不用Authoring Tools就能在場景上直接做出按鈕來玩，可以透過「new」的方式來純手工打造，不過老實說是有點麻煩。而且因為我沒很喜歡Flex，又剛好Flash9 Alpha也不能裝，所以只好用<a href="http://www.adobe.com/products/flex/sdk/">flex sdk</a>試玩的，玩起來就又更麻煩一些些了 :)</p>
-
-<p>有幾個比較跟AS2不同的部份：</p>
-
-<h4>1. addChild：</h4>
-
-<p>在AS3裡，物件可以透過addChild指令放到場景上，或是指定的物件中。</p>
-
-<h4>2. 物件的InstanceName可以用動態指定了，AS2還不行，例如：</h4>
-
-<pre><code>button.name = "mybutton1";
-</code></pre>
-
-<h4>3. button.mouseChildren = false;</h4>
-
-<p>這是AS3裡新增的屬性，預設值是<code>true</code>，設定為false是為了確保button是MouseEvent的target objects。</p>
-
-<p><a href="http://livedocs.macromedia.com/flex/2/langref/flash/display/DisplayObjectContainer.html#mouseChildren">mouseChildren的說明</a></p>
-
-<h4>4. button.buttonMode = true;</h4>
-
-<p>這個如果設定為false，一樣是可以按，但就少了「手指頭」的游標。</p>
-
-<p><a href="http://livedocs.macromedia.com/flex/2/langref/flash/display/Sprite.html#buttonMode">buttonMode的說明</a></p>
-
-<p><img src="/images/2006/fla.png" alt="image" /> <a href="http://nayumi.myweb.hinet.net/FlashExamples/AS3/button/Button.rar">原始檔下載</a></p>
-
-<h3>參考閱讀：</h3>
-
-<p><a href="http://www.kirupa.com/forum/showthread.php?p=1948039">ActionScript 3 Tip of the Day</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/40/">&larr; Older</a>
@@ -407,6 +390,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
       </li>
     
@@ -442,15 +429,11 @@
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 142.6315789473684%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

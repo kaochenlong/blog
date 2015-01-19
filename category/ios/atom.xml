@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iOS | 高見龍]]></title>
+  <link href="http://blog.eddie.com.tw/category/ios/atom.xml" rel="self"/>
+  <link href="http://blog.eddie.com.tw/"/>
+  <updated>2015-01-19T15:02:24+08:00</updated>
+  <id>http://blog.eddie.com.tw/</id>
+  <author>
+    <name><![CDATA[高見龍]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[新年新希望之誠徵 iOS app 開發學徒]]></title>
+    <link href="http://blog.eddie.com.tw/2015/01/19/ios-apprentice-wanted/"/>
+    <updated>2015-01-19T14:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2015/01/19/ios-apprentice-wanted</id>
+    <content type="html"><![CDATA[<p><img src="/images/2015/apprentice.jpg" alt="image" />
+photo by <a href="https://www.flickr.com/photos/joceykinghorn/" target="_blank">Jocelyn Kinghorn</a></p>
+
+<p>大概兩年前舉辦了一次「<a href="/2013/02/08/new-rubyist-wanted/">徵求 Ruby/Rails 有心人</a>」活動，感謝大家不嫌棄，不過因為人數太多，最後變成了<a href="/2013/04/22/1st-ruby-and-rails-training-course/">社群活動</a>了 XD</p>
+
+<p>最近再度因為手邊的 iOS 案件在持續增加中(同時也有 Rails 的專案同時在進行)，與其要直接找現成的即戰力，不如趁這個機會自己從頭開始帶，雖然會比較辛苦、花時間，但一些開發的習慣可以從一開始就先養成好像也不錯，剛好順便練一下之前準備的 iOS/Swift 教材。</p>
+
+<p>所以我又厚臉皮的想要來徵看看有沒有人願意來給我當學徒。</p>
+
+<h2>你可能會學到什麼</h2>
+
+<ul>
+<li>iOS app 開發</li>
+<li>Objective-C / Swift</li>
+<li>Git</li>
+<li><del>還有最重要的，可以一起組隊打 D3.. XD</del></li>
+</ul>
+
+
+<h2>權利義務</h2>
+
+<p>基本上不會有什麼特別的權利義務，也不會有什麼學費或薪水。 其實我個人的私心，是希望學成之後可以有能力幫我消化或維護我手邊的專案。<del>這樣我這樣才有更多時間打 D3</del>。或是最後就直接加入<a href="http://5xruby.tw/">我們的團隊</a>接手客戶的專案，當然，如果開始接手專案的話就是一份正式的工作了，自然就會開始有薪水了，至於待遇會不會超過 22K? 我想應該不會太難 :)</p>
+
+<h2>基本條件</h2>
+
+<ul>
+<li>男女不拘，但基於我已經有兩個小朋友了，所以還是男性佳。<del>女性佳我回家就要跪主機板了</del> (男性需役畢或免役)</li>
+<li>最好是從學校畢業畢業不久或是已工作一、二年。</li>
+<li>對寫程式有熱忱，不需要非常熟悉某種程式語言，但至少需要知道這個世界上不是只有 IE 這種瀏覽器。</li>
+<li>需要自備 Mac 電腦(iPhone 或 iPad 可能也會需要)。</li>
+<li>最好人是在北部。</li>
+</ul>
+
+
+<h2>人數限制</h2>
+
+<p>最多三位，再多我可能就沒辦法顧到品質了。</p>
+
+<h2>地點</h2>
+
+<p><a href="http://5xruby.tw">五倍紅寶石</a> (台北車站附近)</p>
+
+<h2>時間</h2>
+
+<p>預計從三月份開始，每週找兩個晚上或週末的時間來練功(暫定)。</p>
+
+<p>我不敢說自己是什麼大咖，但至少教大家如何寫 iOS app 來混口飯吃沒太大問題。 如果您有興趣，也覺得自己不會來個兩次就不來的，歡迎來信至 eddie@5xruby.tw，並請簡單的介紹一下你自己。(預計會在農曆年前回覆錄取人選)</p>
+
+<p>感謝大家，先預祝大家新年都很快樂!</p>
+
+<h2>工商服務</h2>
+
+<p>順便偷渡幫忙宣傳一下我們自己最近開的課程資訊：</p>
+
+<ul>
+<li><a href="http://5xruby.tw/talks/rails-from-scratch" target="_blank">Ruby on Rails 從零開始</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

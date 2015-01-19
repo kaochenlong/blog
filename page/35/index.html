@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="Zend Framework在11/30發表了1.0.3版本，解決了一些已知的問題並增加了一些功能，特別在Zend_Gdata類別增加一些功能，讓開發者可以與google service(如youtube及picasa)有更簡單而便利的結合 :) http://devzone.zend.com/ &hellip;">
+  <meta name="description" content="在SWF裡面如果有用到UI Component裡的ComboBox，又剛好被別的SWF給loadMovie進去，這時候被load的SWF裡的ComboBox會失效，連下拉都拉不動。雖然已經是很久的已知問題，但之前有幾個案子遇到但因為時間趕，只好用別的比較蠢的方案代替。 This is caused &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,45 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2007/12/02/flash-loaded-combobox/">Flash的ComboBox被loadMovie後會失效</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2007/12/02/flash-loaded-combobox/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2007-12-02T09:30:00+08:00" pubdate>Dec 2<span>nd</span>, 2007</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在SWF裡面如果有用到UI Component裡的ComboBox，又剛好被別的SWF給loadMovie進去，這時候被load的SWF裡的ComboBox會失效，連下拉都拉不動。雖然已經是很久的已知問題，但之前有幾個案子遇到但因為時間趕，只好用別的比較蠢的方案代替。</p>
+
+<blockquote><p>This is caused by the v2 component architecture. This issue usually occurs when using v2 components inside a child SWF that is loaded by a parent SWF.</p><footer><strong>Adobe Knowledge Base</strong><cite><a href='http://www.macromedia.com/support/flash/ts/documents/loaded_combobox.htm'>www.macromedia.com/support/ts/&hellip;</a></cite></footer></blockquote>
+
+
+<p>解決方法是只要在上層的SWF中，也拉一個Combobox到Library中就行了。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -291,223 +330,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2007/08/14/zend-framework-install/">Zend Framework安裝</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2007/08/14/zend-framework-install/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2007-08-14T03:34:00+08:00" pubdate>Aug 14<span>th</span>, 2007</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>環境：</h2>
-
-<ul>
-<li>Windows XP Professional(SP2)</li>
-<li>Appserv(Apache 2.2.4, PHP/5.2.3, MySQL 5.0.45)</li>
-<li>Zend Framework 1.0.1(2007-07-30)</li>
-</ul>
-
-
-<h2>基本設定</h2>
-
-<h3>1. 設定mod_rewrite：</h3>
-
-<p>編輯<code>httpd.conf</code>：</p>
-
-<pre><code>#LoadModule rewrite_module modules/mod_rewrite.so
-</code></pre>
-
-<p>如果前面的”#”字在的話，就把它拿掉吧(mod_rewrite的詳細資料，可參考apache網站)。</p>
-
-<h3>2. 設定include_path：</h3>
-
-<p>設定include path之目的，是為了方便在include類別時，省去輸入長長一串位置的時間</p>
-
-<ul>
-<li>可直接修改php.ini之設定。</li>
-<li>或是於程式中動態加入<code>set_include_path</code>。</li>
-</ul>
-
-
-<p>參考網址：<a href="http://tw2.php.net/set_include_path">http://tw2.php.net/set_include_path</a></p>
-
-<h3>3. 設定httpd.conf之document root：</h3>
-
-<p>請參考下一段之目錄架構，將document root指向<code>/html</code>。</p>
-
-<p>以上設定完之後，請重新啟動Apache，並建議檢視一下error log，看是否有錯誤的地方</p>
-
-<h2>Zend Framework設定</h2>
-
-<h3>1.基本目錄架構</h3>
-
-<pre><code> |-/application
--|-/controllers (MVC之C)
--|-/models (MVC之M)
--|-/views (MVC之V)
-–|-/filters
-–|-/helpers
-–|-/scripts
- |-/html
--|-/images (存放影像檔案)
--|-/scripts (存放script檔)
--|-/styles (存放CSS檔)
--|-.htaccess (配合url rewrite之檔案)
--|-index.php (bootstrap file)
- |-/library
--|-/Zend (這個是ZF的library，可從ZF網站下載)
-</code></pre>
-
-<h3>2. 檔案設定</h3>
-
-<p><code>index.php</code>(bootstrap file)，可視各別情況修改：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>  <span class="c1">//Basic Config</span>
-</span><span class='line'>  <span class="nb">error_reporting</span><span class="p">(</span><span class="k">E_ALL</span> <span class="o">|</span> <span class="nx">E_STRICT</span><span class="p">);</span>  <span class="c1">//設定Error Report的等級</span>
-</span><span class='line'>  <span class="nb">date_default_timezone_set</span><span class="p">(</span><span class="s1">&#39;Asia/Taipei&#39;</span><span class="p">);</span>  <span class="c1">//設定時區為台北</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">//Include path</span>
-</span><span class='line'>  <span class="nb">define</span> <span class="p">(</span><span class="s1">&#39;P_S&#39;</span><span class="p">,</span> <span class="nx">PATH_SEPARATOR</span><span class="p">);</span>
-</span><span class='line'>  <span class="nb">set_include_path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">.</span><span class="nx">P_S</span> <span class="o">.</span><span class="s1">&#39;../library&#39;</span> <span class="o">.</span><span class="nx">P_S</span> <span class="o">.</span><span class="s1">&#39;../application/models/&#39;</span> <span class="o">.</span><span class="nx">P_S</span> <span class="o">.</span><span class="nb">get_include_path</span><span class="p">());</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Loader.php&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">Zend_Loader</span><span class="o">::</span><span class="na">registerAutoload</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">//Controller</span>
-</span><span class='line'>  <span class="nv">$frontController</span> <span class="o">=</span> <span class="nx">Zend_Controller_Front</span><span class="o">::</span><span class="na">getInstance</span><span class="p">();</span>
-</span><span class='line'>  <span class="nv">$frontController</span><span class="o">-&gt;</span><span class="na">setControllerDirectory</span><span class="p">(</span><span class="s1">&#39;../application/controllers&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nv">$frontController</span><span class="o">-&gt;</span><span class="na">dispatch</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>.htaccess</code>設定：</p>
-
-<pre><code>RewriteEngine on
-RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
-</code></pre>
-
-<p>基本上這樣設定完，就差不多把環境建置好了。接下來，就是開始設定各別Controller的工作了</p>
-
-<h3>其它</h3>
-
-<p>在windows系統下要做出.htaccess，可以直接用記事本來做。存檔的時候，選擇「存檔類型(T)」為「所有檔案」，即可直接輸入檔名.htaccess而不會發生錯誤。</p>
-
-<p>其它目錄也可加個.htaccess檔來保護目錄裡的資料，內容為：</p>
-
-<pre><code>deny from all
-</code></pre>
-
-<h2>Controller設定</h2>
-
-<p>先設定一個最基本的<code>IndexController</code>，架構請參考上一段：</p>
-
-<pre><code> |-/application
--|-/controllers (MVC之C)
-–|-IndexController.php (Index的Controller) &lt;-新增這個
--|-/models (MVC之M)
--|-/views (MVC之V)
---|-/filters
---|-/helpers
---|-/scripts
---|-/index &lt;--新增這個目錄
-----|-index.phtml &lt;--新增這個檔案
-----|-happy.phtml &lt;--新增這個檔案
-</code></pre>
-
-<h4>IndexController.php</h4>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>  <span class="k">require_once</span> <span class="s1">&#39;Zend/Controller/Action.php&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">IndexController</span> <span class="k">extends</span> <span class="nx">Zend_Controller_Action</span><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(){</span>
-</span><span class='line'>      <span class="c1">//可以在寫index的Action</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">happyAction</span><span class="p">(){</span>
-</span><span class='line'>      <span class="c1">//可以在這裡寫happy的Action</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>index.phtml &amp; happy.phtml</h4>
-
-<p>這個是indexAction的view，當執行indexAction時，預設會找同名名檔案，並render出頁面內容。Controller的設定大概這樣就完成了(細節可再參觀ZF的Document或是其它高手們的Tutorial)。接下來，打開browser，輸入網址：</p>
-
-<pre><code>http://127.0.0.1/
-</code></pre>
-
-<p>或是</p>
-
-<pre><code>http://127.0.0.1/index
-</code></pre>
-
-<p>這兩個網址，它都會找IndexController裡index這個action，然後會找index.phtml來render頁面內容。</p>
-
-<pre><code>http://127.0.0.1/index/happy
-</code></pre>
-
-<p>它則是會找IndexController裡happy這個action，然後會找happy.phtml來render頁面內容。</p>
-
-<p>基本上到這裡，就把這個小小的MVC架構做出來了。</p>
-
-<p>下一回，再來寫個自己做的簡單的通訊錄的CRUD(Create, Read, Update, Delete)
-初試PHP的Framework，難免有些地方寫得不好，還請多指教 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/36/">&larr; Older</a>
@@ -559,6 +381,10 @@ RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
       </li>
     
@@ -594,15 +420,11 @@ RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 142.6315789473684%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

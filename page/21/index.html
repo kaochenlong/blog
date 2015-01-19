@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="什麼是CoffeeScript? 簡單的說，它就是JavaScript啦，只是用不同的程式語言來寫而已。 為什麼選擇CoffeeScript? 不少JavaScript社群，包括JavaScript的老爸Brendan Eich，也對它讚譽有加，有社群及大神的背書，加上Rails 3. &hellip;">
+  <meta name="description" content="要安裝CoffeeScript的話，會需要先安裝Node.js以及Node.js的套件管理工具 – npm (Node Package Manager) 說明： 以下將會以Mac及Ubuntu為主要的平台，Windows就對不起了，我沒有機器可以測試..在安裝過程中如果出現權限不足的錯誤訊息， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,120 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/03/install-coffeescript/">CoffeeScript 安裝篇</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/install-coffeescript/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T16:02:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>要安裝CoffeeScript的話，會需要先安裝<a href="http://nodejs.org/">Node.js</a>以及Node.js的套件管理工具 – <a href="http://npmjs.org/">npm</a> (Node Package Manager)</p>
+
+<h4>說明：</h4>
+
+<p>以下將會以Mac及Ubuntu為主要的平台，Windows就對不起了，我沒有機器可以測試..在安裝過程中如果出現權限不足的錯誤訊息，請使用sudo暫時取得安裝的權限。</p>
+
+<h3>安裝Node.js</h3>
+
+<p>官網：<a href="http://nodejs.org/">http://nodejs.org/</a></p>
+
+<pre><code>&gt; git clone git://github.com/joyent/node.git
+&gt; cd node
+&gt; ./configure
+&gt; make
+&gt; sudo make install
+</code></pre>
+
+<p>更多細節請參考：<a href="https://github.com/joyent/node/wiki/Installation">https://github.com/joyent/node/wiki/Installation</a></p>
+
+<h3>安裝npm</h3>
+
+<p>官網：<a href="http://npmjs.org/">http://npmjs.org/</a></p>
+
+<pre><code>&gt; curl http://npmjs.org/install.sh | sh
+</code></pre>
+
+<p>一行搞定!(如果你沒有curl的話請另外安裝)</p>
+
+<h3>安裝CoffeeScript</h3>
+
+<p>如果你的Node.js以及npm都順利安裝完成的話，接下來，在安裝之前先更新一下npm的套件資訊(不一定更新，只是確保npm會幫你裝最新的套件版本)：</p>
+
+<pre><code>&gt; npm update
+npm info it worked if it ends with ok
+npm info using npm@0.3.18
+npm info using node@v0.4.10
+npm WARN Invalid range in engines.node.  Please see `npm help json` ~v0.4.9
+npm WARN Invalid range in engines.node.  Please see `npm help json` v0.4.8~v0.4.9
+npm info outdated Everything up-to-date.
+npm info update Nothing to update
+npm ok
+</code></pre>
+
+<p>再來安裝CoffeeScript：</p>
+
+<pre><code>&gt; npm install coffee-script
+npm info it worked if it ends with ok
+npm info using npm@0.3.18
+npm info using node@v0.4.10
+npm info preinstall coffee-script@1.1.1
+npm info install coffee-script@1.1.1
+npm info postinstall coffee-script@1.1.1
+npm info preactivate coffee-script@1.1.1
+npm info activate coffee-script@1.1.1
+npm info postactivate coffee-script@1.1.1
+npm info build Success: coffee-script@1.1.1
+npm ok
+</code></pre>
+
+<p>其實如果你是Mac的使用者的話，上面這些動作可以直接用<a href="http://mxcl.github.com/homebrew/">homebrew</a>一行搞定，超幸福的：</p>
+
+<pre><code>&gt; brew install coffee-script
+</code></pre>
+
+<p>homebrew會幫你把需要的東西一起處理好(誠心推薦，不要再用ports了)。如果你發現用homebrew安裝的CoffeeScript不是最新版本的話，請先用<code>brew update</code>指令，更新一下homebrew的fomula再重新安裝即可。</p>
+
+<p>看看有沒裝好：</p>
+
+<pre><code>&gt; coffee -v
+CoffeeScript version 1.1.1
+</code></pre>
+
+<p>就這樣，可以準備開工了!</p>
+
+<h4>補充：</h4>
+
+<p>在 Windows 上可以用這個 <a href="https://github.com/alisey/CoffeeScript-Compiler-for-Windows">https://github.com/alisey/CoffeeScript-Compiler-for-Windows</a></p>
+
+<p>在 NetBeans 上可以用這個 <a href="https://github.com/dstepanov/coffeescript-netbeans">https://github.com/dstepanov/coffeescript-netbeans</a> (注意， Windows 7 要用 0.9.1 版才不會有問題)</p>
+
+<p>感謝jace補充 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -705,75 +819,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/06/22/api-design/">第五回AS讀書會之「嗯! 設計API我也會」</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/06/22/api-design/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-06-22T15:09:00+08:00" pubdate>Jun 22<span>nd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2011/5th-as-study-group.jpg" alt="image" /></p>
-
-<p><a href="http://www.facebook.com/event.php?eid=168070323253534">第五回的AS讀書會</a>，輪到小的來給大家分享自己在過去工作上關於寫程式的一些入門心得。這次有機會可以跟<a href="http://qops.blogspot.com/">新德老師</a>一起同台，真的是太榮幸了。</p>
-
-<div style="width:425px" id="__ss_8376601"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/api-design-8376601" title="API Design" target="_blank">API Design</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/8376601" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
-
-
-<p>以下是影片：</p>
-
-<p>第一段：</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/Xw99itSeuyg" frameborder="0" allowfullscreen></iframe>
-
-
-<p>第二段：</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/c1I10g-friY" frameborder="0" allowfullscreen></iframe>
-
-
-<p>第三段：</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/jbuMnBtKCVc" frameborder="0" allowfullscreen></iframe>
-
-
-<h3>心得</h3>
-
-<ol>
-<li>下次我也要來live demo!!</li>
-<li>還得在修一下講話時候過多的贅字還有講話太快的毛病</li>
-<li>是真的該減肥了.. orz</li>
-</ol>
-
-
-<p>感謝來參加的大家，也感謝超高效率的攝影師<a href="http://www.facebook.com/Meso.Chen">健雄哥</a>的熱情贊助，一個晚上就把影片處理好了! 投影片內容如果有哪邊觀念上是有錯的，還請前輩先進們不吝指教。</p>
-
-<p>咱們下回見!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/22/">&larr; Older</a>
@@ -825,6 +870,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
       </li>
     
@@ -860,15 +909,11 @@
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 142.6315789473684%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

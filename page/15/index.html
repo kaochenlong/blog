@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="Start Your Engine! Django安裝好之後，接下來就是要開始你的第一個專案啦。使用方法： &gt; django-admin.py startproject bookstore 請注意，在某些系統安裝Django，並不一定會有django-admin.py，而是只有django- &hellip;">
+  <meta name="description" content="在上一章節我們介紹如何建立一個Django的專案，以及快速的建立起後台管理系統。但事實上它還是什麼都沒有，接下來我們要開始來幫這個空的專案加功能上去了。 建立App 這裡這個App跟現在我們常聽到手機的App是不一樣的東西，一個Django專案裡，可以有好幾個App，每個App通常代表的是一個功能 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,193 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/18/django-create-app/">建立App</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/18/django-create-app/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-18T15:37:00+08:00" pubdate>Oct 18<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在上一章節我們介紹如何建立一個Django的專案，以及快速的建立起後台管理系統。但事實上它還是什麼都沒有，接下來我們要開始來幫這個空的專案加功能上去了。</p>
+
+<h2>建立App</h2>
+
+<p>這裡這個App跟現在我們常聽到手機的App是不一樣的東西，一個Django專案裡，可以有好幾個App，每個App通常代表的是一個功能。建立App的方法跟之前建立專案的方式有點像，只是關鍵字有些不同，例如我想加一個跟作者(author)有關的功能：</p>
+
+<pre><code>&gt; python manage.py startapp author
+</code></pre>
+
+<p>這個指令會幫你在你的專案裡建立一個叫做<code>author</code>的資料夾，跟專案很像，裡面的有4個檔案，不過稍微有些些的不同：</p>
+
+<pre><code>&gt; ls -l author
+total 24
+-rw-r--r--  1 eddie  wheel    0 10 18 16:05 __init__.py
+-rw-r--r--  1 eddie  wheel   57 10 18 16:05 models.py
+-rw-r--r--  1 eddie  wheel  383 10 18 16:05 tests.py
+-rw-r--r--  1 eddie  wheel   26 10 18 16:05 views.py
+</code></pre>
+
+<p><code>__init__.py</code>的目的跟之前專案一樣，是要告訴Python這裡是一個module，其它的看名字大概猜得出來，<code>models.py</code>是給Model用的，<code>views.py</code>則是給View用的，<code>tests.py</code>則是寫測試用的。</p>
+
+<p>接著我們打開<code>models.py</code>，準備來寫一點程式碼了。</p>
+
+<h2>Model</h2>
+
+<p>在Django的Model是負責處理跟資料庫相關的事情，透過Python的類別、屬性跟方法，可以讓你像在操作物件一樣的操作資料表，而且可以避開一些可能的危險，例如<a href="http://en.wikipedia.org/wiki/SQL_injection">SQL Injection</a>。接下來我們來看看在Django的Model要怎麼寫。例如我們要來建一個作者的基本資料，假設一個作者的基本資料可能會有<code>姓名</code>、<code>電話</code>、<code>地址</code>、<code>Email</code> 等欄位，我們在Model裡就這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Create your models here.</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡的<code>CharField</code>、<code>IntegerField</code>以及<code>EmailField</code>方法到時候會依照不同的資料庫，各別被轉換成適當的型態。這樣的好處就是，即使原本你的專案用的資料庫是SQLite，今天突然接到老闆或主管的命令說要換成MySQL，因為SQLite跟MySQL在某些欄位的定義可能不太一樣，在以前你可能需要重新調整資料庫存取的程式碼，但現在透過Django的Model來幫我們做這個型態的對應，程式碼不用幾乎不用修改就可以無痛的把資料庫整個換掉了。</p>
+
+<p>接下來，我們要把這個App給安裝到<code>INSTALLED_APPS</code>裡，所以打開專案的<code>settings.py</code>，加上我們剛剛建立的App：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>  <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="c"># Uncomment the next line to enable the admin:</span>
+</span><span class='line'>  <span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="c"># Uncomment the next line to enable admin documentation:</span>
+</span><span class='line'>  <span class="c"># &#39;django.contrib.admindocs&#39;,</span>
+</span><span class='line'>  <span class="s">&#39;author&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣Django專案就知道我們有這個App了，然後執行<code>python manage.py sql author</code>，可以看到剛剛我們寫的那個<code>Profile</code>類別轉換成成SQL語法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">BEGIN</span><span class="p">;</span>
+</span><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="ss">&quot;author_profile&quot;</span> <span class="p">(</span>
+</span><span class='line'>    <span class="ss">&quot;id&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">&quot;name&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">&quot;age&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">&quot;tel&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">&quot;address&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">&quot;email&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">75</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span>
+</span><span class='line'><span class="p">);</span>
+</span><span class='line'><span class="k">COMMIT</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原來的<code>CharField</code>會轉換成<code>varchar</code>，參數<code>max_length = 50</code>則被轉換成它的欄位長度，<code>IntegerField</code>轉換成<code>integer</code>，而且即使沒有特別註明，Django也預設在整個表格裡自動的加上了一個<code>id</code>的primary key(如果在MySQL就是autoincrement的欄位)。那<code>EmailField</code>是什麼? 因為Email欄位在開發網站的時候太常用到了，所以Django的Model就直接內建了一個叫做EmailField的方法，它會轉成換<code>varchar(75)</code>，並同時還送了一些欄位驗證的方法，這個我們之後在表單處理的單元會再詳細討論。</p>
+
+<p>當然這個Model不是只有讓你轉換成SQL這麼單純，它還有許多好用的方法讓你在開發網站可以少寫不少程式碼。</p>
+
+<p>到這裡，我們其實還沒真正的把<code>Profile類別</code>轉換成資料庫的表格，你需要執行<code>python manage.py syncdb</code>，如果你寫的程式碼沒問題的話，應該會看到這個結果：</p>
+
+<pre><code>&gt; bookstore  python manage.py syncdb
+Creating tables ...
+Creating table author_profile
+Installing custom SQL ...
+Installing indexes ...
+No fixtures found.
+</code></pre>
+
+<p>執行<code>syncdb</code>之後，Django幫你建立了一個叫做<code>author_profile</code>的表格。Django的Model在建table的時候，預設會依照<code>App名稱 + 類別名稱</code>來建立，如果你想要改掉這個預設的設定，只要在<code>Profile類別</code>裡加上一個meta class，原來的程式碼就會變成這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Create your models here.</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要注意這個meta class是在原來的class再放一個class。這樣一來，轉出來的表格名稱就會是<code>profile</code>了。在Django的Model裡，Meta Class還有許多可以設定的屬性，更多細節請參考 <a href="https://docs.djangoproject.com/en/1.3/ref/models/options/">https://docs.djangoproject.com/en/1.3/ref/models/options/</a></p>
+
+<p>其實這個表格的名稱對Django的Model來說並不是那麼重要，因為我們在存取資料表的時候，還多透過了Django的ORM幫我們做表格及欄位對照的工作，所以即使使用預設有點囉嗦的表格名稱，或是用你自己設定的名稱，對Django的Model來說都是一樣的。</p>
+
+<p>Django也有提供一個跟Python很像的shell，可以讓你直接透過指令來操作物件，不用寫SQL語法，一樣可以做到資料的新增/修改/查詢/刪除功能，接下來我們先停一下，來看看shell怎麼操作。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -422,190 +609,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/13/python-oop/">物件導向程式設計</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/13/python-oop/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-13T14:15:00+08:00" pubdate>Oct 13<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>建立類別(Class)</h2>
-
-<p>類別命名建議：首字大寫</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">ClassA</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;Hello Python!&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;Goodbye Python!&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;This is Class A&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;Hello,&quot;</span><span class="p">,</span> <span class="n">words</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">do_nothing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">pass</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="n">ClassA</span><span class="p">()</span>
-</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">say_hello</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">print</span> <span class="n">a</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># 執行結果</span>
-</span><span class='line'><span class="n">Hello</span> <span class="n">Python</span><span class="err">!</span>
-</span><span class='line'><span class="n">Hello</span><span class="p">,</span> <span class="n">eddie</span>
-</span><span class='line'><span class="n">This</span> <span class="ow">is</span> <span class="n">Class</span> <span class="n">A</span>
-</span><span class='line'><span class="n">Goodbye</span> <span class="n">Python</span><span class="err">!</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中，<code>__init__</code>就是會在物件被建立出來的時候被呼叫的程式碼，而<code>__del__</code>則是物件用完被回收時候執行的程式碼。</p>
-
-<h3>private method</h3>
-
-<p>Python的類別裡，所有的方法預設都是<code>public</code>的，但有些時候，有些method你就是不想讓隨便就被拿到，在別的程式語言會有<code>public</code>、<code>protected</code>、<code>private</code>之類的method修飾詞來設定，不過Python沒有這樣的東西，而是使用<code>2個底線</code>：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">ClassB</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">__private_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;this is for personal only&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">get_private_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">__private_method</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="n">ClassB</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">b</span><span class="o">.</span><span class="n">__private_method</span><span class="p">()</span>
-</span><span class='line'><span class="c"># 執行結果</span>
-</span><span class='line'><span class="c"># AttributeError: &#39;ClassB&#39; object has no attribute &#39;__private_method&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">b</span><span class="o">.</span><span class="n">get_private_method</span><span class="p">()</span>
-</span><span class='line'><span class="c"># 執行結果</span>
-</span><span class='line'><span class="c"># this is for personal only</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>繼承</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">FatherClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;Hello,&quot;</span><span class="p">,</span> <span class="n">words</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">SonClass</span><span class="p">(</span><span class="n">FatherClass</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">pass</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">son</span> <span class="o">=</span> <span class="n">SonClass</span><span class="p">()</span>
-</span><span class='line'><span class="n">son</span><span class="o">.</span><span class="n">say_hello</span><span class="p">(</span><span class="s">&quot;Python&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可多重繼承，但若父類別同時有同名之method，需注意多重繼承之順序</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">FatherClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
-</span><span class='line'>      <span class="k">print</span> <span class="s">&quot;Hello,&quot;</span><span class="p">,</span> <span class="n">words</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">MotherClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">pass</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">SonClass</span><span class="p">(</span><span class="n">FatherClass</span><span class="p">,</span> <span class="n">MotherClass</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">pass</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">son</span> <span class="o">=</span> <span class="n">SonClass</span><span class="p">()</span>
-</span><span class='line'><span class="n">son</span><span class="o">.</span><span class="n">say_hello</span><span class="p">(</span><span class="s">&quot;Python&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>更多精彩內容，請見官網文件：<a href="http://docs.python.org/tutorial/classes.html">http://docs.python.org/tutorial/classes.html</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/16/">&larr; Older</a>
@@ -657,6 +660,10 @@ Type "help", "copyright", "credits" or "license" for more information.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
       </li>
     
@@ -692,15 +699,11 @@ Type "help", "copyright", "credits" or "license" for more information.
         <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/16/id-and-instancetype/">id 與 instancetype</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.57894736842105%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 137.89473684210526%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.15789473684211%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.57894736842105%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.57894736842105%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.15789473684211%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.57894736842105%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 125.26315789473685%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.57894736842105%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(38)</a>  <a href='/category/django' style='font-size: 122.10526315789474%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.57894736842105%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.73684210526315%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 160.0%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.3157894736842%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.15789473684211%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.73684210526315%'>HTML5(3)</a>  <a href='/category/ios-app-development' style='font-size: 136.31578947368422%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.57894736842105%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 139.4736842105263%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.57894736842105%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.15789473684211%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.6842105263158%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.57894736842105%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.84210526315789%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.3157894736842%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 128.42105263157896%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.57894736842105%'>party(1)</a>  <a href='/category/php' style='font-size: 134.73684210526315%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.15789473684211%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.15789473684211%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 117.36842105263158%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.73684210526315%'>Programming(3)</a>  <a href='/category/python' style='font-size: 147.3684210526316%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.57894736842105%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.57894736842105%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.15789473684211%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 142.6315789473684%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.89473684210526%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.15789473684211%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.3157894736842%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.57894736842105%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.57894736842105%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.57894736842105%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.57894736842105%'>Test(1)</a>  <a href='/category/tools' style='font-size: 144.21052631578948%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.78947368421052%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.57894736842105%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.73684210526315%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 114.21052631578948%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
