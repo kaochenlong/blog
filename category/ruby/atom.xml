@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-03-21T17:05:35+08:00</updated>
+  <updated>2015-03-21T18:14:10+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -183,7 +183,7 @@
 </span><span class='line'><span class="sr">puts mary.age    #=&gt; 18</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>其中，<code>attr_reader</code> 只會幫你產生 getter，<code>attr_writer</code> 只會幫你產生，而 <code>attr_accessor</code> 則會幫你產生 getter 及 setter。如果不相信，可以執行下面這行看一下：</p>
+<p>其中，<code>attr_reader</code> 只會幫你產生 getter，<code>attr_writer</code> 只會幫你產生 setter，而 <code>attr_accessor</code> 則會幫你產生 getter 及 setter。如果不相信，可以執行下面這行看一下：</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="no">Girl</span><span class="o">.</span><span class="n">instance_methods</span><span class="p">(</span><span class="kp">false</span><span class="p">)</span>
@@ -248,7 +248,7 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 
 <ol>
 <li><a href="/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
-<li>有的變數前面有<code>@</code>符號(例如 <code>@users</code> )，這是什麼意思?</li>
+<li>有的變數前面有 @ 符號(例如  @users )，這是什麼意思?</li>
 <li>有時候會看到有兩個冒號寫法(例如 <code>ActiveRecord::Base</code>)它是什麼意思?</li>
 <li>有的變數變前面有一個冒號(例如 <code>:name</code>)，是什麼意思?</li>
 <li>module 跟 class 有什麼不一樣?</li>

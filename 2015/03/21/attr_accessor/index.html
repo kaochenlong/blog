@@ -295,7 +295,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>其中，<code>attr_reader</code> 只會幫你產生 getter，<code>attr_writer</code> 只會幫你產生，而 <code>attr_accessor</code> 則會幫你產生 getter 及 setter。如果不相信，可以執行下面這行看一下：</p>
+<p>其中，<code>attr_reader</code> 只會幫你產生 getter，<code>attr_writer</code> 只會幫你產生 setter，而 <code>attr_accessor</code> 則會幫你產生 getter 及 setter。如果不相信，可以執行下面這行看一下：</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="no">Girl</span><span class="o">.</span><span class="n">instance_methods</span><span class="p">(</span><span class="kp">false</span><span class="p">)</span>
