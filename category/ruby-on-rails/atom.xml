@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby on Rails | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby-on-rails/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-03-21T18:14:10+08:00</updated>
+  <updated>2015-03-22T06:54:58+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,75 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby 語法放大鏡之「Ruby 的參數」]]></title>
+    <link href="http://blog.eddie.com.tw/2015/03/22/parameters/"/>
+    <updated>2015-03-22T12:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2015/03/22/parameters</id>
+    <content type="html"><![CDATA[<p class="info">
+「<a href="http://blog.eddie.com.tw/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。</p>
+
+
+<p>大家在寫 Rails 專案的時候，一定都有用過 <code>link_to</code> 這個 view helper。問大家一個簡單的問題：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span> <span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>請問，上面這段範例中，<code>link_to</code> 方法共有幾個參數?</p>
+
+<p>如果你的答案是 5 個，那你就需要繼續往下看了 :)</p>
+
+<p>在<a href="/2015/03/21/attr_accessor/">這篇文章</a>中提到，Ruby 很愛省略東西，像是方法的小括號，所以原來上面的 <code>link_to</code> 語法：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span> <span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+原本應該長這樣：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span><span class="p">(</span><span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>最後一個參數如果是 Hash，大括號可省略</h3>
+
+<p>在 Ruby 省略小括號大家都知道，不過逗點分開的參數不是 5 個嗎?</p>
+
+<p>事實上，在 Ruby 中如果最後一個參數是 Hash 的話，它的大括號是可以省略的。舉個例子來說：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">say_hello_to</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>  <span class="c1"># do something</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+如果要使用這個方法，可以這樣寫：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">say_hello_to</span> <span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="p">{</span><span class="ss">age</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="ss">favorite</span><span class="p">:</span> <span class="s1">&#39;ruby&#39;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+又，因為最後一個參數是 Hash，所以 Hash 的大括號也可省略：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">say_hello_to</span> <span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="ss">age</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="ss">favorite</span><span class="p">:</span> <span class="s1">&#39;ruby&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>如果你了解有什麼東西被省略的話，一開始的那段 link_to 的範例：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span> <span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+還原之後會變成：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span><span class="p">(</span><span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="p">{</span><span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>所以，其實參數個數只有 3 個，最後一個參數是一個 Hash。</p>
+
+<h3>小結</h3>
+
+<p>Ruby 的語法可以適時的省略小括號、大括號或 return，程式碼寫起來的確會更像文章，對新手來說可能會容易混淆，不過看久了應該也會慢慢習慣了。</p>
+
+<p>以上，希望對大家有幫助 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」]]></title>
@@ -248,12 +317,12 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 
 <ol>
 <li><a href="/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
+<li>為什麼 Hash 好像有不同的寫法?</li>
 <li>有的變數前面有 @ 符號(例如  @users )，這是什麼意思?</li>
 <li>有時候會看到有兩個冒號寫法(例如 <code>ActiveRecord::Base</code>)它是什麼意思?</li>
 <li>有的變數變前面有一個冒號(例如 <code>:name</code>)，是什麼意思?</li>
 <li>module 跟 class 有什麼不一樣?</li>
 <li>你知道 <code>require</code> 這個語法幫你做了什麼事嗎?</li>
-<li>為什麼 Hash 好像有不同的寫法?</li>
 <li><code>gem install</code> 之後，那些 gem 安裝到哪裡去了?</li>
 <li>想要學 Ruby 該看哪些書?</li>
 </ol>
@@ -262,7 +331,7 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 <h2>Rails 相關</h2>
 
 <ol>
-<li>為什麼 link_to 這個 view helper 的參數個數可長可短?</li>
+<li><a href="/2015/03/22/parameters/">為什麼 link_to 這個 view helper 的參數個數可長可短?</a></li>
 <li>在 Rails 專案中，有個檔案叫 <code>schema.rb</code>，它是做什麼的?</li>
 <li>有一個 Gemfile 了，為什麼還有個 Gemfile.lock? 這個檔案是幹嘛的?</li>
 <li>常有時候會需要在指令面前加上 <code>bundle exec</code>，這有加沒加有什麼分別?</li>
@@ -583,154 +652,6 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
 
 
 <p>若內容有誤還請不吝指教</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby on Rails 之門外漢心得]]></title>
-    <link href="http://blog.eddie.com.tw/2010/07/16/internet-campaign-with-ruby-on-rails/"/>
-    <updated>2010-07-16T15:50:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2010/07/16/internet-campaign-with-ruby-on-rails</id>
-    <content type="html"><![CDATA[<p><img src="/images/2010/rails_logo.png" alt="image" /></p>
-
-<p>這不是討戰文，也不是一篇討論程式語言的誰優誰劣的文章，僅就我個人這半年來使用<a href="http://rubyonrails.org/">Ruby on Rails</a>(以下簡稱RoR，不是那個那個RO線上遊戲)用在工作上的一些簡單的心得跟大家分享。</p>
-
-<p>很多廠商喜歡做網路活動來促銷新商品、打知名度或是跟網友拉近距離。目前廠商們比較愛的網路活動，大概有上傳照片、影片、票選、轉寄、推薦..等，而隨著” 社會的進步”，客戶們也”得跟上時代”，都不免俗的要跟FB或plurk弄在一起，而我的工作，主要就是幫客戶處理這樣的需求。(我想這段我的同業應該知道我不是在講真心話!)</p>
-
-<p>就我而言，我個人比較熟悉的程式語言算是ActionScript 2/3，大部份的工作也都是跟紅紅的Flash為伍。但後來的網路活動越弄越複雜，單純的Flash已經不見得夠用了，很多時候得跟server端交換資料。</p>
-
-<p>從最早的ASP，後來換到PHP，其實都還不錯用，也沒什麼問題(不然PHP現在不會有這麼大的市佔率)。後來試著用PHP的<a href="http://framework.zend.com/">Zend Framework</a>，因為現在比較流行的web framework都有照著<a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a>(Model-View-Controller)的樣子來打造，寫起來程式碼跟頁面有更清楚的感覺。</p>
-
-<p>2009年試著換到<a href="http://www.python.org/">Python</a>加<a href="http://www.djangoproject.com/">Django</a>，它也是MVC的實作，感覺還不賴，有種程式寫起來可以打更少字的感覺。而且它所謂的<strong>batteries included</strong>，只要把一些設定打開，後台管理功能就直接做起來了，相當方便。</p>
-
-<p>2010年起，我試著開始把案子用RoR來做，整個有種「我終於可以把時間花在吃喝玩樂寫AS上了」的感覺了。</p>
-
-<p>以下是一些大家可能會有的疑問：</p>
-
-<h4>Q: 為什麼你要一直換?</h4>
-
-<p>A: 我是善變的人 :)</p>
-
-<h4>Q: 你是寫AS的，為什麼要自己寫server端的程式?</h4>
-
-<p>A: 情況允許的話當然我也想跟別人一起合作寫，不過網路活動很多都是急件，而且客戶通常不太會管你六日週末要不要休假。後來發現其實自己寫真的還挺快的，而要什麼資料或是要接什麼資料都可以自己加一下就搞定，免看人臉色。</p>
-
-<h4>Q: RoR是一種程式語言嗎?</h4>
-
-<p>A: 不是，它是一種web framework，它本身用的程式語言是Ruby。</p>
-
-<h4>Q: RoR要錢嗎?</h4>
-
-<p>A: 不用的，而且你有興趣的話，還可以取得完整的原始碼，印出來上廁所的時候閱讀 :)</p>
-
-<h4>Q: 為什麼用RoR來開發會快?</h4>
-
-<p>A: 以下的動作我先假設開發的工程師有一些RoR的開發經驗。</p>
-
-<p>以一個發票登錄的程式來說，假設它需要使用者姓名、電話、地址、Email及發票號碼等幾個欄位，我的動作就是先建立一個Model來對應這些欄位(這動作 大概1~2分鐘左右可完成)。再來就是建立一個Controller來準備接收使用者submit出來的動作(大概1~2分鐘左右)，而實際在 Controller裡寫的程式碼，也就是把Model給叫出來，把使用者post的資料餵進去，程式碼如下：</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">invoice</span> <span class="o">=</span> <span class="no">Invoice</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:invoice</span><span class="o">]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-最後再一個<code>save</code>的動作：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">invoice</span><span class="o">.</span><span class="n">save</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-差不多就搞定了(這動作大概1分鐘左右可完成)</p>
-
-<p>剛剛這些資料庫寫入的動作，再加上一些if..else..的判斷，大概10行程式碼有找。整個發票程式部份，不包含設計的話，大概5分鐘能寫完，也許如果再加個發票重複登錄判斷的驗證，最多應該10分鐘搞定。</p>
-
-<p>那要怎麼把資料庫裡的東西撈出來? 通常只要一行：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">invoice</span> <span class="o">=</span> <span class="no">Invoice</span><span class="o">.</span><span class="n">all</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-(大概3~10秒，依打字速度不同而有差異)</p>
-
-<p>那要怎麼樣把它餵給Flash? RoR的ActiveRecord有支援直接輸出成XML或JSON的方法，簡單的可以直接用invoice.to_xml 或invoice.to_json 就行了(大概10秒)，複雜一點的，也可以用xml builder來建個模板給它(看複雜程度，大概5分鐘內搞定)。</p>
-
-<p>藉由<a href="http://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a>(Object-Relational Mapping)的包裝，把原本要用SQL操作的動作，都改用物件的方式來操作。而大部份的網路活動的寫入/查詢語法都挺單純，沒意外的話應該都不用自己寫 SELECT * FROM 或是 INSERT INTO之類的東西了，不只操作簡單，也可避開<a href="http://en.wikipedia.org/wiki/SQL_injection">SQL Injection</a>的麻煩。</p>
-
-<p>另外RoR的另一大優點，就是它有相當多好用的外掛(plugin)，而且幾乎都是免費可以取得的(包括原始碼)。</p>
-
-<p>一樣以網路活動上傳照片這個來舉例，上傳照片之後，通常得自動再產生一些比較小尺寸的縮圖，可能還要裁切一下圖片。透過某個方便的外掛(<a href="http://github.com/thoughtbot/paperclip">paperclip</a>)，上面這些動作，真正要寫程式好像不到5行吧，搞定之後會有種「哇賽!怎麼就這樣就可以了?」的驚奇感。</p>
-
-<p>再例如上傳照片後，資料一多，前端呈現的頁面通常就得有分頁的功能，而這功能透過某個方便的外掛(<a href="http://github.com/mislav/will_paginate">will_paginate</a>)，大概只要多加一行程式碼就可以搞定分頁的工作。</p>
-
-<h4>Q: 可是你知道，做網路的活動，客戶很愛改來改去…RoR改起來會不會很麻煩?</h4>
-
-<p>A: 網路活動的特性，就是變動性高。除了設計部份可能會被改來改去外，一會可能要你加個中獎名單，一會說這個頁面要放到另一個頁面之後…愛改來改去這件事，我想這個是許多同業的痛!</p>
-
-<p>老實說，就以上面的例子來說，就算整個砍掉重練，也不見得花多少時間；如果是修改流程，說不定改一下route規則就可以技巧性的處理掉了，其實面對愛改來改去的狀況，RoR還是個不錯的應對工具。</p>
-
-<h4>Q: RoR效能好嗎?</h4>
-
-<p>A: 我沒比較過所有家的程式語言以及web framework，所以我沒辦法下這個結論。通常如果遇到效能差或是資料庫負載很吃重的地方，可以把它做cache或產出靜態頁面來提昇效能，而做 cache或是把cache給expire掉的動作，在RoR裡是很容易做的。</p>
-
-<h4>Q: 那，Ruby好寫嗎?</h4>
-
-<p>A: 我以AS程式碼來舉個例子：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">my_age</span> <span class="o">&gt;=</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;you&#39;re so old!&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-改用ruby寫的話：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">if</span> <span class="n">my_age</span> <span class="o">&gt;=</span> <span class="mi">30</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;you&#39;re so old!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-基本上少了小括號、大括號，也不用分號結尾，至少就可以少打好些個字，甚如果想要的話，<code>if</code>也可以放到後面：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;you&#39;re so old&quot;</span> <span class="k">if</span> <span class="n">my_age</span> <span class="o">&gt;=</span> <span class="mi">30</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-如何? 看起來更像一般的英文吧!</p>
-
-<p>再例如如果我想要印出3天前的日期，有的程式語言可能要先new一個Date物件出來，再透過一些method可以取得日期。在Ruby裡，只要用<code>3.days.ago</code>就行了。3? 它不是數字嗎? 是的，你沒看錯，在Ruby裡什麼東西都是物件，包括數字也是，所以你可以對3這個物件呼叫方法，再來個例子：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="s1">&#39;hello&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-猜得出來它在幹嘛嗎? 它就是把”hello”這個字串印3遍..</p>
-
-<p>其它關於這個程式語言的細節，如果想了解更多，可參考<a href="http://www.ruby-lang.org/en/">Ruby的官網</a>，有相當多的文件可以看。</p>
-
-<h4>Q: 在Flash裡可以用AMF的格式與server端溝通，RoR能做嗎?</h4>
-
-<p>A: 可以的，請參考<a href="http://blog.eddie.com.tw/2010/03/18/rubyamf">http://blog.eddie.com.tw/2010/03/18/rubyamf</a></p>
-
-<h4>Q: 還有什麼好處?</h4>
-
-<p>A: 前面提到，由於大部份的客戶想要做的東西都差不多，例如發票登錄來說，可以的話，也可以把這些常用的功能也做成「發票plugin」，也許下次要用的時候，就把plugin裝上去，可能再做一些微調就行了。</p>
-
-<h4>Q: 那，好維護嗎?</h4>
-
-<p>A: 基本上RoR的骨架是依照MVC的架構來實做的，所以某A或某B寫的程式碼，只要寫的人不要用太奇怪的寫法，大概都可以知道XX程式或XX功能會放在哪裡(當然改不改得動是另一回事)。重點是，很多網路活動都是短期的，活動結束就會下架，老實說並沒有太多所謂的維護的問題 :)</p>
-
-<h4>Q: RoR好像被我講得很神，那它缺點是什麼?</h4>
-
-<h5>1. 它的學習曲線的高低決定於開發者的背景知識跟經驗</h5>
-
-<p>如果你之前就有用別的程式語言開發過網站，那RoR對你來說應該會比較快上手；如果你對於什麼是Form、什麼是GET/POST還不清楚的話，那這個對你 來說可能會有些吃力，很容易卡關。特別是如果沒有個導師帶入門，還真的很容易碰壁。 (PS: 其實最好還有一些*nix的操作經驗，以及熟悉一些版本控制系統如SVN或Git)</p>
-
-<h5>2. 台灣的hosting比較不好找</h5>
-
-<p>台灣目前使用的人口還是相當少，國外雖然有比較多的solution，但客戶的網路活動的TA大部份都是在台灣，可能會有連線速度不夠快的問題。這個我解決的方法就是，我自己弄一台機器放機房，自己弄環境起來 :)</p>
-
-<h3>結論</h3>
-
-<p>綜合以上各項優缺點，我真的覺得RoR挺適合拿來做網路活動，當然做長期的官網也合適，這裡就我自己工作上常遇到的狀況提供一些建議。</p>
-
-<p>以上，僅以我這半年來用RoR的一些小小心得與大家分享，我也還是個一隻腳剛踏進去的新手門外漢，內容若有誤再請前輩、神人們不吝指教 :)</p>
 ]]></content>
   </entry>
   

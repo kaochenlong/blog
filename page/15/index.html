@@ -21,7 +21,8 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="有互動才是王道!! 學過Python的朋友應該都知道，Python有個很方便的互動shell，可以讓你在互動的指令模式底下，試驗一下程式碼是不是可以正確執行，是個相當方便的工具。在Django也提供了類似的工具，只要輸入python manage.py shell，就會進入shell模式， &hellip;">
+  <meta name="description" content="在上一個章節的Shell操作過程中，如果你有注意到的話，你會發現一段長得像這樣的東西： &gt;&gt;&gt; Profile.objects.all()
+[&lt;Profile: Profile object&gt;] 但如果你想讓這個object能夠一眼就看得出來它是什麼內容的話， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +91,252 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/19/django-more-about-model/">更多關於Model的使用</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-more-about-model/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-19T02:11:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在上一個章節的Shell操作過程中，如果你有注意到的話，你會發現一段長得像這樣的東西：</p>
+
+<pre><code>&gt;&gt;&gt; Profile.objects.all()
+[&lt;Profile: Profile object&gt;]
+</code></pre>
+
+<p>但如果你想讓這個<code>object</code>能夠一眼就看得出來它是什麼內容的話，只要在Model的<code>Profile類別</code>裡覆寫一些method，我們再次打開<code>author/models.py</code>，原來的程式碼長這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Create your models here.</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我們來幫它加一個<code>__unicode__</code>的方法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Create your models here.</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後我們再到shell裡操作的時候，就會發現秀出來的資料變得不一樣了：</p>
+
+<pre><code>&gt;&gt;&gt; from author.models import Profile
+&gt;&gt;&gt; eddie = Profile(name = "eddie kao", age = 30, tel = "0928123123", address = "Taipei, Taiwan", email = "eddie@digik.com.tw")
+&gt;&gt;&gt; eddie
+&lt;Profile: eddie kao&gt;
+</code></pre>
+
+<p>看到了嗎? 它由原本的<code>object</code>變成會秀出名字了。其實原理就是當你在Python用print方法把物件給印出來的時候，它會呼叫這個類別裡實作的<code>__str__</code>、<code>__repr__</code>以及<code>__unicode__</code>，其實這三個有一些些微的差異，細節可參考Python的文件說明，這裡我們直接覆寫<code>Profile類別</code>的<code>__unicode__</code>方法，讓它回傳<code>name</code>欄位的值。這樣的修改，稍候你在後台看資料的時候，也會發現它會由原本的<code>object</code>，變成秀出你設定的<code>name</code>欄位。</p>
+
+<p>事實上，你還可以定義更多的方法，把一些程式邏輯給包在Model裡，這樣一來，你在View(Controller)的地方就可以讓程式碼變得更簡潔，也更容易維護。例如我們來簡單寫個檢查該名作者是否已經成年(年齡 > 18)：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Create your models here.</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">is_adult</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再來進到shell裡看看：</p>
+
+<pre><code>&gt; bookstore  python manage.py shell
+Python 2.6.1 (r261:67515, Jun 24 2010, 21:47:49) 
+[GCC 4.2.1 (Apple Inc. build 5646)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+&gt;&gt;&gt; from author.models import Profile
+&gt;&gt;&gt; author = Profile.objects.get(id = 1)
+&gt;&gt;&gt; author
+&lt;Profile: eddie&gt;
+&gt;&gt;&gt; author.is_adult()
+True
+</code></pre>
+
+<p>原本你可能需要在View(Controller)層寫個<code>if .. else ..</code>來判斷，現在可以把這個判斷包在Model層裡，一來程式碼容易除錯，而且因為都集中在Model的話，萬一今天假設我們的法律把成年人條件改成滿20歲，你只要修改一下Model的邏輯判斷，其它程式碼不用修改就可以下班了，這樣感覺不是很歡樂嗎?</p>
+
+<h2>那個超佛心的管理後台呢?</h2>
+
+<p>記得我們在前面有提到Django有送我們一個很好用的後台管理系統嗎? 但那時候登入之後空空的什麼都沒有，接下來我們要來讓這個<code>Profile類別</code>在後台也可以管理。要讓Model在Admin模組可以看得到，有兩種做法，第一種是在App裡面新增一個<code>admin.py</code>，內容長得像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">author.models</span> <span class="kn">import</span> <span class="n">Profile</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Profile</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這段程式碼的大意就是我們要把<code>Profile類別</code>給&#8221;註冊&#8221;到Admin模組裡，讓它也感覺得到它的存在。登入後台後，你應該可以看到<code>Profile類別</code>出現了：</p>
+
+<p><img src="/images/django/admin_register_model.png" alt="image" /></p>
+
+<p>你可以試著玩看看它的一些管理功能，試試從Admin模組去新增/修改/刪除/更新一些資料。除了剛剛在App裡新增<code>admin.py</code>之外，另一種做法就是把這個&#8221;註冊&#8221;的動作寫在Model裡，原來的<code>Profile類別</code>看起來會像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Create your models here.</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">name</span>     <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">age</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">tel</span>      <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">address</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">email</span>    <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">is_adult</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;profile&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ProfileAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">pass</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Profile</span><span class="p">,</span> <span class="n">ProfileAdmin</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>兩種做法都可以，我個人比較偏第二種，因為可以少寫一個檔案(懶!)，程式碼只要在Model找就行了。</p>
+
+<p>到目前為止，我們很單純的都只有一個表格，但現實生活不可能有這麼美好的事，所以我們再來新增一些資料表，並且讓這些資料表彼此有一些關連。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -598,74 +845,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/14/django-introduction/">Django簡介</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/14/django-introduction/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-14T10:46:00+08:00" pubdate>Oct 14<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Django? 低尖勾?</h2>
-
-<p>Django這個名字是取名自某個吉它手<a href="http://en.wikipedia.org/wiki/Django_Reinhardt">Django Reinhardt</a>。當初Django是因為開發某個新聞網站而產生的，開發的人覺得這個framework似乎很不錯用，後來就把它open source出來給大家用。</p>
-
-<p>Django這個看起來不太好讀的單字，有的人會有邊讀邊，沒邊讀中間，其實Django的D是不發音的，不過不管是台灣人或是外國人，我都有聽到人唸做&#8221;低尖勾&#8221;的讀音。不管如何，反正你知道它是什麼就行了。</p>
-
-<p>如果你對它的正確讀音有興趣，可以點<a href="http://red-bean.com/~adrian/django_pronunciation.mp3">這裡</a>聽聽看怎麼唸。</p>
-
-<h2>軟體授權</h2>
-
-<p>Django是採用BSD License的，也就是說，你幾乎可以拿它來做任何事，包括商業行為，所以你可以放心的把它用在你的個人或公司的專案上。</p>
-
-<h2>這東西穩不穩啊?</h2>
-
-<p>我覺得還不錯，我自己個人用了三、四個專案，其中也包括一些短期、高流量的活動案，都還滿耐得住操的。你也可以從<a href="http://www.djangosites.org/">這個網站</a>看看目前世界上還有哪些網站是在用Django的。</p>
-
-<h2>支援的Python版本?</h2>
-
-<p>以現行的Django 1.3.1來說，Python 2.4到2.7都是支援的。那Python 3呢? 目前還不行!</p>
-
-<h2>Hosting的問題</h2>
-
-<p>在台灣，其實不是很多主機空間都有支援Python/Django，所以Hosting可能會是個麻煩。通常主機我會選擇自己架設，彈性比較大，要裝什麼軟體、元件比較不會受限制。通常有的是會在企業內部自己架設，有的是去機房租機櫃，而我目前則採用<a href="http://aws.amazon.com/">AWS</a>的solution。</p>
-
-<p>國外的話就比較多方案了，可參考 <a href="https://code.djangoproject.com/wiki/DjangoFriendlyWebHosts">https://code.djangoproject.com/wiki/DjangoFriendlyWebHosts</a></p>
-
-<h2>參考資料</h2>
-
-<p>在之前還有一些坊間的參考書籍可以參考，不過隨著Django版本的更新，目前比較有跟上最新版本進度(目前是1.3.1)的資料，大概只剩<a href="https://docs.djangoproject.com/en/1.3/">官網的文件</a>了，所以其它的資料可以不看，官網的文件一定得全部看過一回。在翻官網文件的時候也要注意，確定讀的文件版本是正確的。</p>
-
-<h2>Django會很難學嗎?</h2>
-
-<p>Django會需要一些技術基礎，你至少會需要先學會Python的基本操作，知道Python的程式怎麼執行、module怎麼寫；如果你曾經有用其它語言(例如PHP)開發過網站的話，也許在上手會輕鬆一點點。如果你知道Design Pattern是做什麼的，也是有幫助的。</p>
-
-<p>基本上，我覺得並不會非常難學，但只要不開始，就永遠學不會 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/16/">&larr; Older</a>
@@ -717,6 +896,10 @@ Type "help", "copyright", "credits" or "license" for more information.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
       </li>
     
@@ -752,15 +935,11 @@ Type "help", "copyright", "credits" or "license" for more information.
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 110.76923076923077%'>Ruby on Rails(7)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

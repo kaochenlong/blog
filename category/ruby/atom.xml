@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-03-21T18:14:10+08:00</updated>
+  <updated>2015-03-22T06:54:58+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,75 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby 語法放大鏡之「Ruby 的參數」]]></title>
+    <link href="http://blog.eddie.com.tw/2015/03/22/parameters/"/>
+    <updated>2015-03-22T12:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2015/03/22/parameters</id>
+    <content type="html"><![CDATA[<p class="info">
+「<a href="http://blog.eddie.com.tw/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。</p>
+
+
+<p>大家在寫 Rails 專案的時候，一定都有用過 <code>link_to</code> 這個 view helper。問大家一個簡單的問題：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span> <span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>請問，上面這段範例中，<code>link_to</code> 方法共有幾個參數?</p>
+
+<p>如果你的答案是 5 個，那你就需要繼續往下看了 :)</p>
+
+<p>在<a href="/2015/03/21/attr_accessor/">這篇文章</a>中提到，Ruby 很愛省略東西，像是方法的小括號，所以原來上面的 <code>link_to</code> 語法：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span> <span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+原本應該長這樣：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span><span class="p">(</span><span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>最後一個參數如果是 Hash，大括號可省略</h3>
+
+<p>在 Ruby 省略小括號大家都知道，不過逗點分開的參數不是 5 個嗎?</p>
+
+<p>事實上，在 Ruby 中如果最後一個參數是 Hash 的話，它的大括號是可以省略的。舉個例子來說：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">say_hello_to</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>  <span class="c1"># do something</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+如果要使用這個方法，可以這樣寫：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">say_hello_to</span> <span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="p">{</span><span class="ss">age</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="ss">favorite</span><span class="p">:</span> <span class="s1">&#39;ruby&#39;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+又，因為最後一個參數是 Hash，所以 Hash 的大括號也可省略：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">say_hello_to</span> <span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="ss">age</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="ss">favorite</span><span class="p">:</span> <span class="s1">&#39;ruby&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>如果你了解有什麼東西被省略的話，一開始的那段 link_to 的範例：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span> <span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+還原之後會變成：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">link_to</span><span class="p">(</span><span class="s1">&#39;刪除&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="p">{</span><span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s1">&#39;sure?&#39;</span> <span class="p">},</span> <span class="ss">class</span><span class="p">:</span><span class="s1">&#39;btn&#39;</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>所以，其實參數個數只有 3 個，最後一個參數是一個 Hash。</p>
+
+<h3>小結</h3>
+
+<p>Ruby 的語法可以適時的省略小括號、大括號或 return，程式碼寫起來的確會更像文章，對新手來說可能會容易混淆，不過看久了應該也會慢慢習慣了。</p>
+
+<p>以上，希望對大家有幫助 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」]]></title>
@@ -248,12 +317,12 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 
 <ol>
 <li><a href="/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
+<li>為什麼 Hash 好像有不同的寫法?</li>
 <li>有的變數前面有 @ 符號(例如  @users )，這是什麼意思?</li>
 <li>有時候會看到有兩個冒號寫法(例如 <code>ActiveRecord::Base</code>)它是什麼意思?</li>
 <li>有的變數變前面有一個冒號(例如 <code>:name</code>)，是什麼意思?</li>
 <li>module 跟 class 有什麼不一樣?</li>
 <li>你知道 <code>require</code> 這個語法幫你做了什麼事嗎?</li>
-<li>為什麼 Hash 好像有不同的寫法?</li>
 <li><code>gem install</code> 之後，那些 gem 安裝到哪裡去了?</li>
 <li>想要學 Ruby 該看哪些書?</li>
 </ol>
@@ -262,7 +331,7 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 <h2>Rails 相關</h2>
 
 <ol>
-<li>為什麼 link_to 這個 view helper 的參數個數可長可短?</li>
+<li><a href="/2015/03/22/parameters/">為什麼 link_to 這個 view helper 的參數個數可長可短?</a></li>
 <li>在 Rails 專案中，有個檔案叫 <code>schema.rb</code>，它是做什麼的?</li>
 <li>有一個 Gemfile 了，為什麼還有個 Gemfile.lock? 這個檔案是幹嘛的?</li>
 <li>常有時候會需要在指令面前加上 <code>bundle exec</code>，這有加沒加有什麼分別?</li>
@@ -1068,33 +1137,6 @@ photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
 <p><blockquote><p>"Difference between a master and a beginner? The master has failed more times than the beginner has even tried."<br/>"大師與新手之間的差別，就是大師失敗過的次數，比新手嘗試過的次數還多"</p></blockquote></p>
 
 <p>共勉之 :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[「有心人」之 Ruby 課程]]></title>
-    <link href="http://blog.eddie.com.tw/2014/08/22/lets-learn-ruby/"/>
-    <updated>2014-08-22T07:35:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2014/08/22/lets-learn-ruby</id>
-    <content type="html"><![CDATA[<p><img src="/images/2014/ruby_word.jpg" alt="image" /></p>
-
-<p>記得在去年年初的時候，因為自己想找幾個一起打拼的伙伴而發起了一個「<a href="http://blog.eddie.com.tw/2013/04/22/1st-ruby-and-rails-training-course/">有心人</a>」的活動，感謝大家的捧場以及社群朋友們的支持，活動順利結束。</p>
-
-<p>然後，一直掛在嘴邊說要辦的「第二梯次」，總因為手邊的雜務而擱置。雖然後來斷斷續續的也有在中研院的自由軟體工作坊開一些 Ruby 的入門課或是在社群活動的分享，但就似乎變成有空才能開。</p>
-
-<p>現在，我們成立了一家叫做<a href="http://5xruby.tw">五倍紅寶石</a>的公司，在更多朋友的幫忙下，我們有更多的時間及資源可以來做推廣 Ruby 這件事了，畢竟推廣 Ruby 本來也是當初成立這家公司的最主要目的。</p>
-
-<p>所以，在與夥伴們討論後，我們決定要來持續的無料推廣 Ruby，每個月固定至少會有個一天是 Ruby 推廣課程，希望可以讓更多人可以認識這個有趣可愛的程式語言。</p>
-
-<p>詳情請見：<a href="http://5xruby.tw/courses/lets-learn-ruby-1">http://5xruby.tw/courses/lets-learn-ruby-1</a></p>
-
-<ul>
-<li>上課地點：台北車站附近</li>
-<li>費用：0 元，惟上課學員需自備筆電，作業系統不限。</li>
-</ul>
-
-
-<p>歡迎大家都可以開開心心的來認識、學習這個有趣的程式語言 :)</p>
 ]]></content>
   </entry>
   

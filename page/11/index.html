@@ -21,10 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在CoffeeScript裡，即使是一個空的.coffee檔，它也會被編譯成這樣： 1
-2
-3
-(function() { }).call(this); 你在.coffee寫的任何變數或function，都是被宣告為區域變數包在裡面，只會在裡面有作用而已。這其實是好事，因為這樣一來與外界隔離， &hellip;">
+  <meta name="description" content="CoffeeScript很有趣也很好寫，雖然它提供了許多的語法糖衣(Syntactic sugar)，讓你用短短的幾行程式碼就能換來原來你在JavaScript要做的事。但說白了它本質上還是JavaScript，JavaScript做不到的事，用CoffeeScript一樣也做不到。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,6 +90,127 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/19/extend-functionality-for-your-class/">幫你的類別增加功能</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/11/19/extend-functionality-for-your-class/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-11-19T01:29:00+08:00" pubdate>Nov 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>CoffeeScript很有趣也很好寫，雖然它提供了許多的語法糖衣(Syntactic sugar)，讓你用短短的幾行程式碼就能換來原來你在JavaScript要做的事。但說白了它本質上還是JavaScript，JavaScript做不到的事，用CoffeeScript一樣也做不到。</p>
+
+<p>不過有些很常做的工作，例字串變換大小寫，雖然JavaScript的字串本身已經有<code>toUpperCase()</code>以及<code>toLowerCase()</code>的功能，但我已經寫習慣Ruby的<code>upcase</code>跟<code>downcase</code>，要記那麼多個名字實在很辛苦，每次都得去google一才下知道要怎麼寫；又如果我想把某個字串重複10次，在Ruby有<code>*</code>可以用，但在JavaScript似乎沒有原生的function可以用.. 有沒有辦法也自己做一些讓自己順手的小工具，讓自己寫程式的時候順利一些呢?</p>
+
+<p>如果你曾經寫過Python或Ruby，就會知道其實它們的類別裡的方法是可以很簡單的被打開再新增或覆寫(open class)，在JavaScript/CoffeeScript也有類似的做法，在CoffeeScript就是使用<code>::</code>來幫原來已經定義好的類別再增加功能：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">repeat = </span><span class="nf">(n) -&gt;</span>
+</span><span class='line'>  <span class="nb">Array</span><span class="p">(</span><span class="nx">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">).</span><span class="nx">join</span> <span class="nx">@</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">downcase = </span><span class="o">-&gt;</span>
+</span><span class='line'>  <span class="nx">@toLowerCase</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">upcase = </span><span class="o">-&gt;</span>
+</span><span class='line'>  <span class="nx">@toUpperCase</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">find = </span><span class="nf">(str) -&gt;</span>
+</span><span class='line'>  <span class="nx">@indexOf</span> <span class="nx">str</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">String</span><span class="o">::</span><span class="nv">has = </span><span class="nf">(str) -&gt;</span>
+</span><span class='line'>  <span class="p">(</span><span class="nx">@indexOf</span> <span class="nx">str</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>編譯出來的JavaScript長這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">repeat</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">downcase</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">upcase</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">find</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">str</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">has</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">str</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實那個<code>::</code>，用的就是<code>prototype</code>啦，這樣一來，你就可以寫出這樣的程式：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;a&quot;</span><span class="p">.</span><span class="nx">repeat</span> <span class="mi">10</span>                     <span class="c1"># aaaaaaaaaa</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;this is a book&quot;</span><span class="p">.</span><span class="nx">upper</span><span class="p">()</span>          <span class="c1"># THIS IS A BOOK</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;this is a book&quot;</span><span class="p">.</span><span class="nx">find</span> <span class="s">&quot;book&quot;</span>      <span class="c1"># 10</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;this is a book&quot;</span><span class="p">.</span><span class="nx">has</span> <span class="s">&quot;book&quot;</span>       <span class="c1"># true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>程式看起來乾淨多了，也習慣多了，心情也會比較好一些。</p>
+
+<p>PS: 不知道會不會有善心人士會把Python或Ruby一些好用的功能也port一份過來? 還是早就已經有了.. :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1002,186 +1120,6 @@ Using /home/eddie/.rvm/gems/ruby-1.9.2-p290 with gemset rails-3.1.1
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/11/14/how-do-i-make-my-slide-and-presentation/">閒聊投影片製作與上台表演</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/11/14/how-do-i-make-my-slide-and-presentation/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-11-14T01:42:00+08:00" pubdate>Nov 14<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><span class="warning">請注意，本文有許多個人自以為是的內容，不一定適合每個人，所以請謹慎服用。</span></p>
-
-<p>我之前工作的某個老闆跟我說過「<strong>每次的上台簡報就是一場表演</strong>」，這句話我一直記在心裡。即然是表演，表演內容固然很重要，但&#8221;說故事&#8221;的方法也很重要，不然內容也許真的很棒，但台下卻睡成一團。</p>
-
-<p>不久前看了我的偶像之一<a href="http://www.xxcoder.net/">Lindsay Fallow(a.k.a Stray)</a>的一份簡報<a href="http://www.slideshare.net/stray_and_ruby/robotlegs-2-and-your-brain">Robotlegs 2 and your brain</a>，真的感覺會做投影片的人就是不一樣，即使人不在現場聽演講，簡報裡也沒有太多的文字說明，光看簡報就能大概知道作者想要表達的意思，這很酷!</p>
-
-<p>所以這回在第一屆的<a href="http://phpconf.tw/2011">PHPConf Taiwan</a>上用的投影片，我也想來試一下不同的簡報風格。</p>
-
-<h2>投影片準備</h2>
-
-<h3>設定方向</h3>
-
-<p>因為我的場次只有20分鐘，要講很詳細是不可能的，而且我猜聽眾們對這個主題應該有些陌生，所以我把投影片設定在入門簡介等級的，目的是讓大家知道或認識這個主題就好。</p>
-
-<h3>軟體選擇</h3>
-
-<p>其實軟體不是重點，沒有什麼&#8221;用XX軟體來做簡報才是王道&#8221;這回事，只要選擇自己順手的工具來做就行了。前面幾場我選擇用HTML5 + <a href="http://imakewebthings.github.com/deck.js/">Deck.js</a>來做，我覺得效果滿ok的。基於自以為自己是個閃客，本來想用Flash來做，但時間有點趕，而且我想做的內容可能會需要更精準的控制元素的位置，所以最後我選擇了Keynote。</p>
-
-<h3>製作概念</h3>
-
-<p>用圖片來取代我想講的話，讓聽眾看到圖片之後能自行腦補我想表達的意思，這是我這回想要試驗的目標。</p>
-
-<p>例如我想表達CoffeeScript因為是最近才出來的，會不會被大家認為&#8221;嫩&#8221;、&#8221;年輕&#8221;、&#8221;不成熟&#8221;的感覺，本來想找嗷嗷待哺的幼鳥，但因為幼鳥的皮膚顏色並不好看，所以最後找了小鴨：</p>
-
-<p><img src="/images/2011/coffeescript-slide-076.jpg" alt="image" /></p>
-
-<p>再來例如我想表達的是「<strong>JavaScript看起來很容易學、很容易寫，但要寫到夠好卻很不容易</strong>」。閃過腦袋的「簡單」是「a piece of cake」：</p>
-
-<p><img src="/images/2011/coffeescript-slide-009.jpg" alt="image" /></p>
-
-<p>但即使是一片蛋糕，也是有人可以吃的很難看，滿嘴都是：</p>
-
-<p><img src="/images/2011/coffeescript-slide-010.jpg" alt="image" /></p>
-
-<p>圖片真的有達到我想表達的意思嗎? 不確定，如果沒有，表示我還有很大的努力空間。</p>
-
-<p>整體而言，我準備投影片的內容大概只佔了<strong>30%</strong>的時間，<strong>60%</strong>的時間在找圖，剩下的<strong>10%</strong>在順投影片。值得嗎? 我覺得這是不同的嘗試，並沒有值不值得的問題。</p>
-
-<h3>自我介紹</h3>
-
-<p>上台表演是個讓大家認識你的好機會，所以在投影片裡放個自我介紹是很重要的。這是我本來的自我介紹頁：</p>
-
-<p><img src="/images/2011/coffeescript-slide-intro-original.png" alt="image" /></p>
-
-<p>整個都是字，密密麻麻的感覺好像感覺很強大、有幾百年功力的樣子。但我其實並不想在個人頁停留太久，而且寫了一堆，別人也不見得想看，還可能被覺得是在吹噓當年有多勇。真正厲害的角色只要一句：</p>
-
-<blockquote><p>I&#8217;m CEO, Bitch</p></blockquote>
-
-
-<p>輕描淡寫的一句話，大家就知道他的趴數了。</p>
-
-<p>為了讓自己更快讓別人知道我的比較熟悉的技能，所以我做了這張，跟大家說我是寫Flash的：</p>
-
-<p><img src="/images/2011/coffeescript-slide-005.jpg" alt="image" /></p>
-
-<p>然後把前面那個都是字的內容縮減成這樣：</p>
-
-<p><img src="/images/2011/coffeescript-slide-006.jpg" alt="image" /></p>
-
-<p>其實字還是滿多的，所以我不會全部照著唸，在這頁我大概只會停留10秒鐘以內就會離開。至於網站或是聯絡資訊，反正也不會有人想看，所以我在放在最後一張。我把它放在最後一張並不表示不讓它登場。我大概計算過，在我跟大家說謝謝準備下台之後，從我原本站的位置走到我的電腦、關掉投影片，大概有5秒左右的時間，這個時間我預計大家都在拍手，然後我會在這個時候從倒數第二張的QA畫面，切換到最後一張投影片：</p>
-
-<p><img src="/images/2011/coffeescript-slide-081.jpg" alt="image" /></p>
-
-<h3>字型</h3>
-
-<p>全英文投影片? 英文是很厲害是嗎?</p>
-
-<p>當然不是! 不得不說，中文字型的筆畫多，如果想走精緻路線很吃虧，所以除了我的名字是中文的之外，其它的我選用英文來寫。</p>
-
-<p>為了不讓字型搶了圖片的風采，所以我想找細一點的字型，但如果太細到時候播放出來又擔心看不清楚，所以字型的樣式跟粗細在用的時候是要很注意的。系統裡的字型沒有我看喜歡的，所以我上網找找看有沒有漂亮的字型，後來找到<a href="http://www.fontspace.com/glukfonty/rawengulk">Rawengulk</a>這套字型，樣子看起來像這樣：</p>
-
-<p><img src="/images/2011/rawengulk-fonts.png" alt="image" /></p>
-
-<p>免費而且可商業使用。雖然它不是等寬字，不過這套字型從最細到最粗看起來都滿舒服的，在視覺上跟圖片應該會滿搭的(個人感覺)。</p>
-
-<p>順便也<a href="/downloads/files/2011/glukfonty_rawengulk.zip">備份</a>了一下。</p>
-
-<h3>圖片來源</h3>
-
-<p>一開始我是使用Google的圖片搜尋功能，但圖片的尺寸、品質好壞很難控制，而且授權也不見得都有標示清楚。後來才發現<a href="http://www.flickr.com/">Flickr</a>是個很棒的圖片來源，照片多，而且有很多CC(Creative Commons)授權的圖片，只要搜尋的時候加勾選就行了。</p>
-
-<p><img src="/images/2011/flickr-cc.png" alt="image" /></p>
-
-<p>CC授權的作品大多只要在使用的時候標記作者姓名、出處，而且不做為商業用途的話，幾乎可以無限制的使用，感謝這些人無私的奉獻。</p>
-
-<p>然後因為我還沒辦法做到完全只靠圖片就說故事給大家聽，還是需要一些簡單的字比較容易說明，所以在選擇照片的時候我會特別選擇有適當的留白區塊可以讓我填字的照片。</p>
-
-<h2>上台表演</h2>
-
-<h3>上台前準備</h3>
-
-<p>我大概花了10%的時間在練習講自己的投影片，我儘量要求自己記得所有投影片的順序，這樣我才能不用回頭看一下投影片就可以繼續講下去，腦袋裡本來預計要講的故事不會因為這樣中斷，在講的過程中因為自己知道下一頁要講什麼，也比較不會緊張。</p>
-
-<h3>站的位置</h3>
-
-<p>我不喜歡選擇站在講桌後面講話，除非是要操作電腦。</p>
-
-<p>雖然不是第一次來中研院的這個會議廳，但以前都是當聽眾，不知道前面的舞台有多長多寬、視野如何，所以我一早到會場，試了一下投影機沒問題之後就先去試一下舞台，看看哪個位置是我可以看得到我目前簡報播到哪一頁，還可以看到全部的聽眾，也可以讓大家都看得到我。</p>
-
-<p><img src="/images/2011/phpconf-standing-point.jpg" alt="image" />
-photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiwan 2011</p>
-
-<h3>簡報器</h3>
-
-<p>Wii手把真的是個很不錯的簡報器。</p>
-
-<p>Apple雖然有出一隻長得像ipod的遙控器，但它是紅外線的，缺點就是距離短，而且有指向性，只要站太遠或指的角度不對，就沒辦法用。而Wii是使用藍芽跟電腦連結的，不僅距離長，而且不用太刻意指向電腦就可以操作簡報。</p>
-
-<p>有些手機的App可以做到類似的事，但因為手機是平的，不像Wii手把的十字鍵是凸起來的，所以我如果我對這個App不熟的話，可能得先低頭看一下手機的畫面才能操作，而且可能還得一手拿著、另一手來操作，但Wii手把的話則是只要一隻大姆指就可以輕鬆操作了。</p>
-
-<p>除此之外，Wii手把在&#8221;視覺上&#8221;還有某種程度的娛樂效果 :)</p>
-
-<p><img src="/images/2011/phpconf-wii-remote.jpg" alt="image" /><br />
-photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiwan 2011</p>
-
-<h3>麥克風</h3>
-
-<p>因為拿一般的無線麥克風的話，會讓我兩隻手都被佔用，沒辦法有其它手勢，所以我最後跟會場借了小蜜蜂來用。</p>
-
-<p>其實我本來想去找像豬哥亮那種可以把麥克風吊在脖子上的東西，然後把自己搞得像夜市叫賣的，我很愛這種不協調的感覺，只是不知道要去哪邊買就是了。</p>
-
-<h3>與台下聽眾互動</h3>
-
-<p>有些人喜歡在演講過程透過問台下聽眾問題來增加與聽眾的互動，但就我觀察，台灣的聽眾普遍都比較害羞，很容易在問問題的時候會遇到沒人要鳥你的情況。所以問問題就要有用一點小技巧，例如「請問台下有沒有人平常的工作是寫JavaScript呢?」這個問題，我用了反面的問法：「請問台下有沒有人平常的工作是&#8221;不用&#8221;寫JavaScript呢?」，即使大家不捧場，也滿容易再接下去講，場面比較不會僵掉或是中斷原本的流程。</p>
-
-<h3>眼睛看哪裡?</h3>
-
-<p>當然要看正妹啊!!(誤)</p>
-
-<p>上台表演難免會抖，而我自己消除緊張的方法，是在講的過程中，快速掃瞄台下對我講的內容有反應的聽眾，反應包括微笑、點頭等表示聽得懂或認同的，然後把比較多的視線停留在這些人身上來增加自己的一些自信，當自信增加到一定程度之後就比較不會抖了。</p>
-
-<h2>結論</h2>
-
-<p>記得要預先盤算你要做的每個動作的目的以及台下聽眾可能會有的反應(也許是笑、也許是問問題，或是丟雞蛋)。每次的表演結束後，如果有錄影的話，請再花點時間看看自己的表演，看看哪邊是有問題的。不要覺得不好意思，別人眼中的你才是真正的你，鏡子裡的那個自己並不是。看看自己的動作、語調，然後利用每次的演講就改掉一些缺點，才會越來越進步。</p>
-
-<p>我一直相信，只要用心的準備每次的表演，台下的聽眾也會用心的回應你的，即使不是當面跟你說，也會在社群網路上看到正面的回應。</p>
-
-<p>一些個人的想法，與大家分享。</p>
-
-<p>自己要檢討的地方：</p>
-
-<ul>
-<li>講話依舊有些抖</li>
-<li>無謂的手勢太多</li>
-<li>時間的掌控不足</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/12/">&larr; Older</a>
@@ -1233,6 +1171,10 @@ photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiw
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
       </li>
     
@@ -1268,15 +1210,11 @@ photo by <a href="http://www.flickr.com/photos/othree/">othree</a> @PHPConf Taiw
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 110.76923076923077%'>Ruby on Rails(7)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

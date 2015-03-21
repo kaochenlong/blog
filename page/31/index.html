@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="前言 常聽很多朋友會問：「flash要怎麼樣跟資料庫串接?」。 答案其實很簡單：「不行!目前flash沒辦法直接與資料庫串接」。 那到底別人是怎麼做的? 為什麼他們的Flash可以由後台管理而且更新資料? 其實運作流程是這樣： Flash(*.swf) &lt;–> Server端程式(ASP, &hellip;">
+  <meta name="description" content="方便的工具，寫起來給自己做個備忘，免得到時候忘記 :) 在做資料庫存取的時候，常會把抓到的model object印出來看看到底內容正確與否。假設我有個名叫Book的model，我從裡面隨便抓一筆資料出來大概會長這樣： 除此之外，也可以透過y方法把內容以YAML格式輸出： 其實這樣也不會多難看， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,93 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/04/09/hirb-the-convenient-gem-for-console-and-irb/">Rails Console / irb 裡的方便工具-Hirb</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/04/09/hirb-the-convenient-gem-for-console-and-irb/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-04-09T15:33:00+08:00" pubdate>Apr 9<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>方便的工具，寫起來給自己做個備忘，免得到時候忘記 :)</p>
+
+<p>在做資料庫存取的時候，常會把抓到的model object印出來看看到底內容正確與否。假設我有個名叫Book的model，我從裡面隨便抓一筆資料出來大概會長這樣：</p>
+
+<p><img src="/images/2010/output_default.png" alt="image" /></p>
+
+<p>除此之外，也可以透過y方法把內容以YAML格式輸出：</p>
+
+<p><img src="/images/2010/output_yaml.png" alt="image" /></p>
+
+<p>其實這樣也不會多難看，反正看久就習慣了。剛好最近在看<a href="http://railscasts.com/">Railscasts</a>的時候才發現原來有更方便的gem可以用，它叫做<a href="http://github.com/cldwalker/hirb">Hirb</a>，可以讓在console模式下輸出的內容更清楚了。</p>
+
+<p><a href="http://github.com/cldwalker/hirb">官網</a>的安裝說明其實就很清楚了，簡單的說，就是用gem一個動作就搞定了：</p>
+
+<pre><code>&gt; sudo gem install hirb
+</code></pre>
+
+<p>進入rails project裡的console模式後：</p>
+
+<pre><code>&gt;&gt; require 'hirb'
+&gt;&gt; Hirb.enable
+</code></pre>
+
+<p>接下來，剛剛那個object會變成：</p>
+
+<p><img src="/images/2010/output_hirb.png" alt="image" /></p>
+
+<p>如果再加一下logger的設定，還可以讓輸出的同時把查詢的log也秀出來：</p>
+
+<p><img src="/images/2010/output_hirb_with_log.png" alt="image" /></p>
+
+<p>當你不想用的時候，只要用：</p>
+
+<pre><code>&gt;&gt; Hirb.disable
+</code></pre>
+
+<p>就可以把它關掉了。</p>
+
+<p>如果覺得hirb很方便但又不想每次進console都打這些指令的話，也可以把上面這些動作放到<code>.irbrc</code>裡(檔名: ~/.irbrc)</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;hirb&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
+</span><span class='line'><span class="no">Hirb</span><span class="o">.</span><span class="n">enable</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>當然，hirb不只有這樣而已，不過光是這樣我就覺得很棒了。更細節的說明請洽<a href="http://github.com/cldwalker/hirb">網站</a> :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -627,347 +714,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/12/23/doctrine-the-php-orm-framework/">Doctrine, the PHP ORM Framework</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2008/12/23/doctrine-the-php-orm-framework/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2008-12-23T14:14:00+08:00" pubdate>Dec 23<span>rd</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2008/doctrine-logo.png" alt="image" /></p>
-
-<p><a href="http://www.doctrine-project.org/">Doctrine</a>是一個在PHP上的資料庫ORM(Object Relational Mapper)，最近手邊的幾個小案子透過Doctrine來實作。ORM的確是讓開發者少寫不少的SQL查詢，但相對的效能一定是比簡單的SQL要來得 差，我想魚跟熊掌要兼得並不容易，便利跟效能之間總有個天平讓開發者來自已調整，所以ORM好不好用就見人見志囉。</p>
-
-<h2>一、前置作業：</h2>
-
-<h3>1. 系統需求</h3>
-
-<p>依官網上面提到的，Doctrine需要PHP 5.2.3以上的版本，除此之外就不用再另外安裝其它的套件或函式庫即可運作，不過如果要使用PDO(<a href="http://tw2.php.net/manual/en/intro.pdo.php">PHP Data Object</a>)的話，則可能會需要另外安裝PDO驅動程式。</p>
-
-<h3>2. 檢查PDO驅動程式</h3>
-
-<p>如果你要用PDO的話，想要知道你的主機上是不是有安裝你所需要的PDO驅動程式，只要一行簡單的PHP程式放到主機上執行：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span> <span class="nb">phpinfo</span><span class="p">();</span> <span class="cp">?&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果你有看到一段PDO的資訊，那差不多應該就是有安裝了，再確認一下是不是有你要的版本，以及是否啟用即可。</p>
-
-<h2>二、取得原始檔</h2>
-
-<p>有幾種取得Doctrine的方法：</p>
-
-<ul>
-<li>SVN(Subversion)</li>
-<li>Pear</li>
-<li>Zip-package</li>
-</ul>
-
-
-<p>如果你熟悉SVN的操作的話，這應該是最簡單使用的了。如果你只是想試玩一下Doctrine的功能的話，你可以下載官網上打包好的<a href="http://www.doctrine-project.org/download/1_0_5/sandbox/1/format/tgz">Sandbox套件</a>來玩。我個人比較喜歡官方打包好的壓縮檔 :)</p>
-
-<h3>什麼是Sandbox套件?</h3>
-
-<p>Doctrine網站的<a href="http://www.doctrine-project.org/download">下載區</a>有貼心的打包了免設定的方便套件，直接下載、解壓縮後，就可以拿來試玩了。這裡面包括了一些範例schema檔案以及可以匯入的資料檔，讓你可以很快的就可以開始體驗Doctrine的優點。</p>
-
-<h2>三、開始第一個專案</h2>
-
-<p>在Doctrine裡，Doctrine_Record是最基本的元件。資料庫裡的每個資料表都會有一個對應的Doctrine_Record類別。這個類別是以<a href="http://en.wikipedia.org/wiki/Active_record_pattern">Active Record</a>這個設計模式實作的，所以在其它語言像是在ROR(Ruby on Rails)上才看得到方便功能，在Doctrine裡也可以使用到了，即使是複雜的資料庫操作，透過這個類別也可以簡單的完成。</p>
-
-<p>在使用Doctrine_Record來建立資料表時，如果沒有特別指定Primary Key的話，Doctrine會自動幫你加一個叫做<code>id</code>的主索引欄位(自動編號)。接下來你需要做的事情，就是建立一個繼承自 Doctrine_Record類別的子類別，然後透過<code>setTableDefinition()</code>以及<code>hasColumn()</code>就可以來建立你的資料表。</p>
-
-<p>為了單純一些，我們這裡只先用一個表格做範例(多個表格之間的關聯性操作，例如一對一、一對多、多對多等關係，再另外開幾篇再寫)。假設我們現在要建立一個 叫做<code>member</code>的會員資料表，這個資料表裡會有id、username、password以及建立日期這幾個欄位，我們可以這樣做：</p>
-
-<p>檔案：models/Member.php</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>     <span class="k">class</span> <span class="nc">Member</span> <span class="k">extends</span> <span class="nx">Doctrine_Record</span>
-</span><span class='line'>     <span class="p">{</span>
-</span><span class='line'>         <span class="k">public</span> <span class="k">function</span> <span class="nf">setTableDefinition</span><span class="p">()</span>
-</span><span class='line'>         <span class="p">{</span>
-</span><span class='line'>             <span class="c1">// 預設將會使用跟&quot;user&quot;做為資料表的名稱(同名)</span>
-</span><span class='line'>             <span class="c1">// 並且會自動加一個欄位id的主索引鍵</span>
-</span><span class='line'>             <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hasColumn</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
-</span><span class='line'>             <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">hasColumn</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
-</span><span class='line'>         <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>         <span class="k">public</span> <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span>
-</span><span class='line'>         <span class="p">{</span>
-</span><span class='line'>             <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">actAs</span><span class="p">(</span><span class="s1">&#39;Timestampable&#39;</span><span class="p">);</span>
-</span><span class='line'>         <span class="p">}</span>
-</span><span class='line'>     <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>除了手工打造模型類別外，你也可以使用YAML格式的檔案來建立資料表的schema檔案，底下這個範例的設定跟上面這個類別是一樣的意思，而且也可以透過Doctrine的一些指令來互相轉換。</p>
-
-<p>檔案：schemas/schema.yml</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">Member</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">columns</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
-</span><span class='line'>    <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string(30)</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">actAs</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">Timestampable</span><span class="p-Indicator">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡要注意的是，<strong>YAML的縮排是有意義的</strong>，所以要特別注意縮排的層級。你可以用一行簡單的語法就可以把YAML檔案(.yml)轉換成模型類別(.php)：</p>
-
-<p>檔案：createMode.php</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>     <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
-</span><span class='line'>     <span class="nx">Doctrine</span><span class="o">::</span><span class="na">generateModelsFromYaml</span><span class="p">(</span><span class="s1">&#39;schemas/schema.yml&#39;</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行之後看一下models資料夾有一個自動產生的generated資料夾(如下圖)，你會看到有一個<code>Member.php</code>以 及<code>BaseMember.php</code>。其中，<code>Member.php</code>是可以讓你自己定義一些功能用的，而<code>BaseMember.php</code>裡的內容則是 依據YAML的內容幫你寫好的。(要特別注意BaseMember類別會在每次執行轉換的時候重新產生一次，而Member類別只會產生一次)。</p>
-
-<p><img src="/images/2008/doctrine-5.png" alt="image" /></p>
-
-<p>我們現在有一個透過YAML建立的Doctrine_Record類別，接下來就可以把它匯入資料庫來建立資料表了。</p>
-
-<p>檔案：modelToDatabase.php</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>     <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
-</span><span class='line'>     <span class="c1">// 建立資料表</span>
-</span><span class='line'>     <span class="nx">Doctrine</span><span class="o">::</span><span class="na">createTablesFromArray</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;Member&#39;</span><span class="p">));</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣就搞定了!看一下資料表的樣子：</p>
-
-<p><img src="/images/2008/doctrine-1.png" alt="image" /></p>
-
-<p>如前面說的，它會自動加上<code>id</code>這個欄位，而<code>Timestampable</code>則會自動幫忙加上<code>created_at</code>及<code>updated_at</code>這兩個欄位。</p>
-
-<p>現在我們有一個資料表以及一個對應的模型類別可以讓我們來練習資料的基本操作了(新增、修改、刪除及查詢)。</p>
-
-<h3>新增：</h3>
-
-<p>檔案：testInsert.php</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>    <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">username</span> <span class="o">=</span> <span class="s1">&#39;eddie&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;mypassword&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>資料表欄位的指定，除了上面這種物件式的存取方式外，也可以使用陣列的方式：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>  <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
-</span><span class='line'>  <span class="nv">$myTable</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;eddie&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nv">$myTable</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mypassword&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>不用寫什麼insert..into..，只要一個<code>save()</code>就完成了! 回頭看一下資料表就會發現，有一些神奇的事情它幫忙做了。上面這段程式碼執行後，member資料表會長得像這樣：</p>
-
-<p><img src="/images/2008/doctrine-2.png" alt="image" /></p>
-
-<h3>修改：</h3>
-
-<p>假設剛剛寫入的那筆資料的id編號是1號，更新方法是先找到它，然後一樣用<code>save()</code>來更新：</p>
-
-<p>檔案：testUpdate.php</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>    <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$record</span> <span class="o">=</span> <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">getTable</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>    <span class="nv">$record</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;mynewpassword&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$record</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>結果如下：</p>
-
-<p><img src="/images/2008/doctrine-3.png" alt="image" /></p>
-
-<p>你會發現，password欄位變成”mynewpassword”之外，它的更新時間(updated_at)也跟著更新了。</p>
-
-<h3>刪除：</h3>
-
-<p>跟更新差不多，也是先找到那筆資料後，再給它一個<code>delete()</code>：</p>
-
-<p>檔案：testDelete.php</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>    <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">getTable</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>查詢：</h3>
-
-<p>假設我要找出id編號是1號的資料，可以這樣做：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>  <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
-</span><span class='line'>  <span class="nv">$result</span> <span class="o">=</span><span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">getTable</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>除了透過<code>find</code>方法外，Doctrine還有它自已一套叫做<code>DQL</code>的語法，使用方法大致如下：</p>
-
-<p>檔案：testDQL.php</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>    <span class="k">require_once</span> <span class="s1">&#39;config/doctrine_config.php&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">$myTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Member</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$record</span> <span class="o">=</span> <span class="nv">$myTable</span><span class="o">-&gt;</span><span class="na">getTable</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>    <span class="nv">$record</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;mynewpassword&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$record</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
-</span><span class='line'>    <span class="nv">$result</span> <span class="o">=</span> <span class="nx">Doctrine_Query</span><span class="o">::</span><span class="na">CREATE</span><span class="p">()</span>
-</span><span class='line'>                <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
-</span><span class='line'>                <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">&#39;Member&#39;</span><span class="p">)</span>
-</span><span class='line'>                <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;id = ?&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>                <span class="o">-&gt;</span><span class="na">fetchArray</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>印出來的結果如下：</p>
-
-<p><img src="/images/2008/doctrine-4.png" alt="image" /></p>
-
-<p>上面的DQL相當於底下的SQL：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">member</span> <span class="k">where</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其實DQL的細節也可以另外來寫一篇 :)</p>
-
-<h2>結論</h2>
-
-<p>老實說，如果只是簡單的查詢，Doctrine寫起來不見得比原本的SQL快，而且效能又比較差一些，但如果是比較複雜的查詢，透過Doctrine包裝好 的一些方法，可以不用去想那些單引號、雙引號的問題外，也可以安全的避開可能的危機(例如SQL Injection) ，就如同最前面說的，便利跟效能，我會比較偏向便利的這一方。</p>
-
-<p>更多的細節，可參考<a href="http://www.doctrine-project.org/documentation">Doctrine官網手冊</a>，寫得滿詳細的。</p>
-
-<p>上面的程式碼我也有打包了一份供大家參考囉 :)</p>
-
-<p><a href="http://blog.eddie.com.tw/gallery/1/doctrine-lession1.rar">檔案下載</a></p>
-
-<p>使用前請先看一下config/doctrine_config.php裡面的資料庫相關設定。</p>
-
-<h2>相關連結</h2>
-
-<ul>
-<li><a href="http://www.doctrine-project.org/">Doctrine官方網站</a></li>
-<li><a href="http://groups.google.com/group/doctrine-user">Doctrine User Group</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/32/">&larr; Older</a>
@@ -1019,6 +765,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
       </li>
     
@@ -1054,15 +804,11 @@
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 110.76923076923077%'>Ruby on Rails(7)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

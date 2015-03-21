@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="記得在去年年初的時候，因為自己想找幾個一起打拼的伙伴而發起了一個「有心人」的活動，感謝大家的捧場以及社群朋友們的支持，活動順利結束。 然後，一直掛在嘴邊說要辦的「第二梯次」，總因為手邊的雜務而擱置。雖然後來斷斷續續的也有在中研院的自由軟體工作坊開一些 Ruby 的入門課或是在社群活動的分享， &hellip;">
+  <meta name="description" content="很榮幸有機會能受邀參加 Livehouse.in 舉辦的 Combo! 8 週連擊 活動，本次的講題是「Ruby 也可這樣寫」，主要是來聊聊一些 Ruby 有趣(或奇怪)的語法，以及可以用 Ruby 做些什麼事 (without Rails)。 投影片連結：https://speakerdeck. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,782 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2014/10/16/happy-programming-ruby/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2014-10-16T14:35:00+08:00" pubdate>Oct 16<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>很榮幸有機會能受邀參加 Livehouse.in 舉辦的 <a href="https://event.livehouse.in/2014/combo8/">Combo! 8 週連擊</a> 活動，本次的講題是「<a href="https://speakerdeck.com/eddie/happy-programming-ruby" target="_blank">Ruby 也可這樣寫</a>」，主要是來聊聊一些 Ruby 有趣(或奇怪)的語法，以及可以用 Ruby 做些什麼事 (without Rails)。</p>
+
+<p><a href="https://speakerdeck.com/eddie/happy-programming-ruby" target="_blank"><img src="/images/2014/slide_happy_ruby_programming.jpg" alt="image" /></a>
+投影片連結：<a href="https://speakerdeck.com/eddie/happy-programming-ruby">https://speakerdeck.com/eddie/happy-programming-ruby</a></p>
+
+<p>這並不是什麼新的主題，也不是很艱深的內容，只是發現最近在接手一些別人寫的 Ruby on Rails (以下簡稱 Rails)專案時發現，似乎不少人並不清楚 Ruby 一些特有的寫法，把 Ruby/Rails 當做 PHP 在寫，所以就想來試著介紹這個主題給大家，讓大家可以多認識一些 Ruby。</p>
+
+<p>曾經寫過 Rails 的朋友也許寫過以下的語法來取得兩天前的時間：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="mi">2</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">ago</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>很多人以為這是 Ruby 的語法，但如果你打開 irb 這樣寫卻會出現 <code>undefined method 'days' for 2:Fixnum</code> 的錯誤訊息，那是因為其實不管是 <code>days</code> 或是 <code>ago</code> 方法，都不是內建在 <code>Fixnum</code> 類別的方法，而是 Rails(更精準說的話應該是 ActiveSupport 這個 gem) 透過 Open Class 的手法在原本內建的 <code>Fixnum</code> 類別加上了這些便利的方法。</p>
+
+<p>我想大家都不否認 Ruby 的確是被 Rails 給帶紅起來的，不過一位日本的 Ruby 大前輩前田修吾在他的一份簡報「<a href="http://shugo.net/tmp/rails-syndrome.pdf" target="_blank">Rails 症候群の研究</a>」提到「Ruby が何かわかっていない」(中譯：不知道 Ruby 是什麼東西)，其實也是有點讓人擔心 XD。</p>
+
+<h2>Ruby 是什麼?</h2>
+
+<p><a href="http://ruby-lang.org">Ruby</a> 是一種電腦程式語言，而 Rails 是一種使用 Ruby 建構出來的網站開發框架 (Web Framework)，但 Rails 不是一種電腦程式語言。(當然要說 Rails 這樣的 DSL 也是一種語言也是 ok 的)</p>
+
+<p>Ruby 是一種物件導向的程式語言，在 Ruby 裡的所有東西都是物件(幾乎)，包括數字 5 也是，它是一個數字物件，所以我們在 Ruby 可以寫出像下面這樣的程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Hello, Ruby&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>聽說&#8230;</h2>
+
+<h3>聽說 Ruby 很慢!</h3>
+
+<p>這個嘛，就要看跟誰比了，跟 C 語言比的話當然是一定慢的，但 Ruby 還沒有慢到不能用的地步(而且通常網站慢的地方都不是 Ruby 本身)。慢的地方如果真的很介意，也可改用其它方式來改善(例如改寫成 Extension)</p>
+
+<p>曾經有朋友拿 Twitter 拋棄 Rails 而改用 Scala 為例說「你看看連 Twitter 都嫌 Rails 慢了!」，的確 Rails 並不是執行效率非常好的框架，但是回頭想想，貴單位的網站的用戶或流量做得到 Twitter 的 1% 嗎? 網站還沒做出來就先擔心撐不撐得住大流量可能也擔心得太早了一點 XD</p>
+
+<p>PS:事實上現在 Twitter 的前端也還是用 Rails 在開發。</p>
+
+<h3>聽說寫 Ruby 要先買 Mac?</h3>
+
+<p>不知道從什麼時候開始開始流傳著「要寫 Ruby/Rails 要先買 Mac」這樣的都市傳說，特別是在 Ruby 相關的聚會活動或研討會，大家擺在桌上的幾乎是清一色的 Mac 筆電。其實開發 Ruby/Rails 專案真正合適的應該是 Linux/Ubuntu 的環境，畢竟最後的專案是佈署在這些平台上，而不是在你的 Mac 筆電裡。</p>
+
+<p>那為什麼越來越多開發者都買了 Mac? 我想主要原因除了看起來比較潮之外，就是 Mac OS 本質上其實是 BSD 系統，它有內建的 terminal(或說是 shell) 可以用，對寫 Ruby/Rails 的開發者來說是很方便的。</p>
+
+<h2>Ruby 可以這樣寫</h2>
+
+<h3>if modifier</h3>
+
+<p>以下是個很單純的 if 判斷：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">18</span>
+</span><span class='line'><span class="k">if</span> <span class="n">age</span> <span class="o">&gt;</span> <span class="mi">18</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;OK, I can see this movie&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 Ruby 裡，像這樣單純的 if 判斷，我通常會把 if 放到後面，讓整個句字看起來更像一般的英文口語：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">18</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;OK, I can see this movie&quot;</span> <span class="k">if</span> <span class="n">age</span> <span class="o">&gt;</span> <span class="mi">18</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>if..else.., case..when..</h3>
+
+<p>如果您曾經寫過其它程式語言，對以下的語法應該不陌生：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">16</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="k">then</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Baby&quot;</span>
+</span><span class='line'><span class="k">elsif</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="k">then</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Kids&quot;</span>
+</span><span class='line'><span class="k">elsif</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">10</span> <span class="o">&amp;&amp;</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">18</span> <span class="k">then</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Teenager&quot;</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Oh Yeah!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就是一連串的 <code>if..else..</code> 啦，這樣的寫法沒有錯，也可以正常執行，但教課書通常會教說如果看到很多的 else if 的話，可考慮用 <code>case..when</code> 來處理：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">16</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">case</span>
+</span><span class='line'><span class="k">when</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">3</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Baby&quot;</span>
+</span><span class='line'><span class="k">when</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">10</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Kids&quot;</span>
+</span><span class='line'><span class="k">when</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">10</span> <span class="o">&amp;&amp;</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">18</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Teenager&quot;</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Oh Yeah!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但中間那段大於小於的比較，我會喜歡用 Ruby 裡內建的 Range 來比對，看起來會更容易懂：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">age</span> <span class="o">=</span> <span class="mi">16</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">case</span> <span class="n">age</span>
+</span><span class='line'><span class="k">when</span> <span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">3</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Baby&quot;</span>
+</span><span class='line'><span class="k">when</span> <span class="mi">3</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">10</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Kids&quot;</span>
+</span><span class='line'><span class="k">when</span> <span class="mi">10</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">18</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Teenager&quot;</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Oh Yeah!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>multiple assignment</h3>
+
+<p>在 Ruby 可以一口氣指定好幾個變數的值：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>只要一行就可達到三行的效果。</p>
+
+<p>在其它程式語言，如果想要交換 x 跟 y 兩個變數的值，通常會這樣做：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 交換 x, y 的值</span>
+</span><span class='line'><span class="n">tmp</span> <span class="o">=</span> <span class="n">x</span>
+</span><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="n">y</span>
+</span><span class='line'><span class="n">y</span> <span class="o">=</span> <span class="n">tmp</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但在 Ruby 可以利用上面提到的變數多重指定的特性改寫成這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 交換 x, y 的值</span>
+</span><span class='line'><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>相當簡單又容易懂。</p>
+
+<h3>unnecessary return</h3>
+
+<p>以下是我在之前某個 Rails 專案裡面看到的一段程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣寫沒問題，只是一看就猜得出來可能是剛從別的程式語言轉過來沒多久。在 Ruby 裡的 return 並不是一定要寫的，所以上式再透過三元運算子的簡化可以變這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="kp">true</span> <span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或可再精簡一些：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>事實上，如果再熟悉 Ruby 一點的話就會發現其實數字類別本身就有帶一個判斷偶數或奇數的方法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="mi">2</span><span class="o">.</span><span class="n">even?</span>  <span class="c1"># =&gt; true</span>
+</span><span class='line'><span class="nb">puts</span> <span class="mi">4</span><span class="o">.</span><span class="n">odd?</span>   <span class="c1"># =&gt; false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Open Class</h3>
+
+<p>Ruby 的 Open Class 可以讓開發者任意的幫已存在的類別(甚至是內建類別)加功能，例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">say_hello</span>
+</span><span class='line'>    <span class="s2">&quot;Hello, </span><span class="si">#{</span><span class="nb">self</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Ruby&quot;</span><span class="o">.</span><span class="n">say_hello</span>   <span class="c1"># =&gt; Hello, Ruby</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>事實上 Rails 也是大量的使用了這個手法來擴充 Ruby 的功能，像是 <code>2.days.ago</code> 就是個經典的例子(實作方式請見 ActiveSupport 的原始碼)</p>
+
+<p>前面一開始也提到，在 Ruby 裡什麼東西都是物件，包括數字也是，所以其實連最簡單的 1 + 1，其實它是執行了 1 這個物件的 <code>+</code> 方法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="mi">1</span><span class="o">.</span><span class="n">+</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所以，透過 open class 的手法，甚至也可以去惡搞一下看起來最簡單的加法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Fixnum</span>
+</span><span class='line'>  <span class="k">alias</span> <span class="ss">:ori_add</span> <span class="ss">:+</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">+</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">ori_add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">ori_add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>   <span class="c1"># =&gt; 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣一來就會在數學加法上偷偷的再加 1，像是 1 + 1 = 3, 2 + 2 = 5，以此類推。</p>
+
+<p>不過，Open Class 好用歸好用，風險感覺不小，好像一個不小心就容易被自己或別人改到一些不該改的東西。所以後來 Ruby 有推出了一個叫做 <a href="http://www.ruby-doc.org/core-2.1.3/doc/syntax/refinements_rdoc.html">Refinement</a> 的概念：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">module</span> <span class="nn">StringExtension</span>
+</span><span class='line'>  <span class="n">refine</span> <span class="nb">String</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">to_md5</span>
+</span><span class='line'>      <span class="nb">require</span> <span class="s2">&quot;digest/md5&quot;</span>
+</span><span class='line'>      <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">using</span> <span class="no">StringExtension</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Ruby&quot;</span><span class="o">.</span><span class="n">to_md5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Block</h3>
+
+<p>在 Ruby 裡，Block 可以用 do..end 的方式來寫，也可以用大括號來寫，雖然大部份候兩者是可以互相替換的，但有一些微妙的地方沒注意的話，可能會造成預期外的結果，詳情請見<a href="/2011/06/03/do-end-vs-braces/">Do..End v.s Braces</a>。</p>
+
+<h3>Private method</h3>
+
+<p>在 Ruby 裡只要沒有特別聲明，所有的類別方法都是 public 的。如果想要在 Ruby 裡定義 private method 可以這樣做：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Animal</span>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">secret_method</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是這樣也可以：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Animal</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">secret_method</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span> <span class="ss">:secret_method</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到第二種 private 的寫法，你應該就會發現其實 public、protected 以及 private 在 Ruby 裡並不是關鍵字或保留字，它只是個方法而已。</p>
+
+<p>在 private 方法的定義上，Ruby 跟其它程式語言的定義有些不太一樣。在 Ruby 的 private 方法，是只要沒有明確的指出 recevier 就可以使用，所以即使是子類別也可使用父類別的 private 方法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Animal</span>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">secret_method</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Don&#39;t tell anyone!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Dog</span> <span class="o">&lt;</span> <span class="no">Animal</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="n">secret_method</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Dog</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">hello</span>  <span class="c1"># =&gt; Don&#39;t tell anyone!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但其實 Ruby 的 private 方法也不是真的那麼 private：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Animal</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">secret_method</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span> <span class="ss">:secret_method</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">Animal</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:secret_method</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更多相關細節可參考 <a href="/2011/07/26/public-protected-and-private-method-in-ruby/">Public, Protected and Private Method in Ruby</a>。</p>
+
+<p>參考資料：<a href="http://en.wikipedia.org/wiki/Message_passing">Message Passing</a></p>
+
+<h3>Dynamic Method</h3>
+
+<p>假設我們有一段程式碼長得像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">ComputerStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get_cpu_info</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get_cpu_price</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get_mouse_info</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get_mouse_price</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get_keyboard_info</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get_keyboard_price</span><span class="p">(</span><span class="n">workstation_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有個軟體開發的原則叫做 <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a> (Don&#8217;t Repeat Yourself)，簡單的說就是不要一直寫重複的程式。在開發軟體的時候，如果可以把程式碼寫得 DRY 一點，日後在維護的時候也會輕鬆得多。</p>
+
+<p>所以，如果上面這段程式碼假設每個 <code>get_xxx_info</code> 跟 <code>get_xxx_price</code> 的方法實作內容都差不多，以 DRY 原則來看的話，上面這個看起來感覺就相當的「潮」(WET)啊，潮到出水了 XD</p>
+
+<p>在這個時候就可以利用動態定義方法來整理這些看起來很重複的程式碼。在 Ruby 要動態的定義方法，可以用 <code>define_method</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">define_method</span> <span class="ss">:hello</span> <span class="k">do</span> <span class="o">|</span><span class="n">param</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Hello, </span><span class="si">#{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">hello</span> <span class="s2">&quot;Ruby&quot;</span>  <span class="c1"># =&gt; Hello, Ruby</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所以，原來上面那段看起來不太 DRY 的程式碼，可以整理成這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">ComputerStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">set_component</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">define_method</span> <span class="s2">&quot;get_</span><span class="si">#{</span><span class="n">component</span><span class="si">}</span><span class="s2">_info&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">workstation_id</span><span class="o">|</span>
+</span><span class='line'>      <span class="c1"># ...</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">define_method</span> <span class="s2">&quot;get_</span><span class="si">#{</span><span class="n">component</span><span class="si">}</span><span class="s2">_price&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">workstation_id</span><span class="o">|</span>
+</span><span class='line'>      <span class="c1"># ...</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">set_component</span> <span class="ss">:cpu</span>
+</span><span class='line'>  <span class="n">set_component</span> <span class="ss">:mouse</span>
+</span><span class='line'>  <span class="n">set_component</span> <span class="ss">:keyboard</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>還可以再簡化一些：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">ComputerStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">set_components</span><span class="p">(</span><span class="o">*</span><span class="n">components</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">components</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">component</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">define_method</span> <span class="s2">&quot;get_</span><span class="si">#{</span><span class="n">component</span><span class="si">}</span><span class="s2">_info&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">workstation_id</span><span class="o">|</span>
+</span><span class='line'>        <span class="c1"># ...</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="n">define_method</span> <span class="s2">&quot;get_</span><span class="si">#{</span><span class="n">component</span><span class="si">}</span><span class="s2">_price&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">workstation_id</span><span class="o">|</span>
+</span><span class='line'>        <span class="c1"># ...</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">set_components</span> <span class="ss">:cpu</span><span class="p">,</span> <span class="ss">:mouse</span><span class="p">,</span> <span class="ss">:keyboard</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣一來，以後如果要再加硬體，也只要在 <code>set_components</code> 後面加上去就行了，看起來應該比原來的好維護多了。</p>
+
+<h3>Method Missing</h3>
+
+<p>如果大家曾經使用過 Rails，也許多少有用過類似 <code>Book.find_by_id</code> 或 <code>Book.find_by_name</code> 的神奇語法。你可能很好奇，為什麼明明你沒有定義這些方法，也一樣可以正常執行不會出錯?</p>
+
+<p>其實，Ruby 在尋找方法的時候，會先往該物件的所屬類別找，找不到會再往它的父類別找(其實真正尋找方法的細節更複雜一些 XD)，如果一直找不到，最後就會呼叫 <code>method_missing</code> 這個方法。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;You just called a method </span><span class="si">#{</span><span class="n">method_name</span><span class="si">}</span><span class="s2"> with </span><span class="si">#{</span><span class="n">args</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">some_method_not_exist</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># =&gt; You just called a method some_method_not_exist with [1, 2, 3]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所以當你在適當的地方覆寫了 <code>method_missing</code>，就可以做出類似的效果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Book</span>
+</span><span class='line'>  <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">method_name</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s2">&quot;find_by&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">q</span> <span class="o">=</span> <span class="n">method_name</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;find_by_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;find something by </span><span class="si">#{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="k">super</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">find_by_id</span>    <span class="c1"># =&gt; find something by id</span>
+</span><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">find_by_name</span>  <span class="c1"># =&gt; find something by name</span>
+</span><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">wtf</span>           <span class="c1"># =&gt; ERROR!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到了嗎? 即使原先沒有定義 <code>Book.find_by_id</code> 或 <code>Book.find_by_name</code>，在執行時候因為 <code>find_by</code> 開頭的方法被我自己寫的 <code>method_missing</code> 給攔了下來而不會出錯，但其它以外的方法則會呼叫內建的 <code>method_missing</code> 而噴出錯誤訊息。</p>
+
+<h2>有趣(或奇怪)的 Ruby 語法</h2>
+
+<p>寫程式有時候是件很悶的工作，偶爾寫點有趣的程式碼娛樂別人或自己也不錯。像是下面這個在 <a href="https://github.com/tric/trick2013">Trick 2013</a>比賽中是「Most readable」的程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">begin</span> <span class="n">with</span> <span class="n">an</span> <span class="n">easy</span> <span class="n">program</span><span class="o">.</span>
+</span><span class='line'><span class="n">you</span> <span class="n">should</span> <span class="n">be</span> <span class="n">able</span> <span class="n">to</span> <span class="n">write</span>
+</span><span class='line'><span class="n">a</span> <span class="n">program</span> <span class="k">unless</span> <span class="k">for</span> <span class="n">you</span><span class="p">,</span>
+</span><span class='line'><span class="n">program</span> <span class="k">in</span> <span class="n">ruby</span> <span class="n">language</span> <span class="n">is</span>
+</span><span class='line'><span class="n">too</span> <span class="n">difficult</span><span class="o">.</span> <span class="no">At</span> <span class="n">the</span> <span class="k">end</span>
+</span><span class='line'><span class="n">of</span> <span class="n">your</span> <span class="n">journey</span> <span class="n">towards</span> <span class="n">the</span>
+</span><span class='line'><span class="n">ultimate</span> <span class="n">program</span><span class="p">;</span> <span class="n">you</span> <span class="n">must</span>
+</span><span class='line'><span class="n">be</span> <span class="n">a</span> <span class="n">part</span> <span class="n">of</span> <span class="n">a</span> <span class="n">programming</span>
+</span><span class='line'><span class="n">language</span><span class="o">.</span> <span class="no">You</span> <span class="n">will</span> <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'><span class="n">you</span> <span class="o">!=</span> <span class="n">program</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>寫得感覺像是一篇文章(其實內文無意義)，但其它是一段可以正常執行不會發生錯誤的 Ruby 程式碼。下面這個則是「Best way to return true」：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="vg">$ruby</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">Object</span><span class="p">){</span><span class="o">|</span><span class="n">oriented</span><span class="o">|</span> <span class="n">language</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為在 Ruby 的 global variable 預設值是 nil，又，在 Ruby 什麼東西都是物件，包括 nil 也是，所以 <code>$ruby.is_a?(Object)</code> 會回傳 true。至於後面傳入的 Block 因為不會被呼叫，所以傳什麼進去都無所謂了。</p>
+
+<p>阿宅寫程式也可以很浪漫的：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="no">It</span> <span class="n">can</span> <span class="n">be</span> <span class="n">wonderful</span> <span class="k">if</span> <span class="s2">&quot;the world&quot;</span><span class="o">.</span><span class="n">end_with?</span> <span class="s2">&quot;you&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">I</span> <span class="n">will</span> <span class="n">love</span> <span class="n">you</span> <span class="k">until</span> <span class="s2">&quot;the end of the world&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這其實只是透過邏輯短路(Short-circuit)玩的把戲，因為後面的 if 或 until 在經過評估之後都不會成立，所以前面的語法就算有錯也不會被執行到。</p>
+
+<p>另外，其實 Ruby 的類別名稱也就只是個常數而已，所以這樣惡搞你的同事也是 ok 的&#8230;</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">BookList</span> <span class="o">&lt;</span> <span class="p">(</span><span class="nb">rand</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span> <span class="p">?</span> <span class="nb">Array</span> <span class="p">:</span> <span class="no">Hash</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="no">BookList</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;Ruby&quot;</span>   <span class="c1"># =&gt; 將有 10% 的機會發生錯誤</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為 Ruby 的方法名字不一定只能用英文字母，所以可以寫出像這樣的程式碼：
+<img src="/images/2014/ruby_code_fish.png" alt="image" /><br />
+看著看著就覺得餓了&#8230;</p>
+
+<p>然後如果你知道 <code>attr_accessor</code> 其實也只是個會幫你產生一對 getter/setter 的類別方法的話，對產生的 getter/setter 不滿意或是想要再做些別的事話，也可以自己定義：
+<img src="/images/2014/ruby_code_girl.png" alt="image" /><br />
+這樣你就寫出了一個「可以永保青春的&#8221;方法&#8221;」了 XD</p>
+
+<h3>小結</h3>
+
+<p>看到這裡，你可能會覺得在 Ruby 變數不用宣告就可直接用，內建類別可以透過 Open Class 方式來惡搞，private 方法又一點都不 private，整個只像是僅供參考，這樣不會很恐怖嗎?</p>
+
+<p>我想，開發者大多知道自己在做什麼。當初 Ruby 在設計的時候是採取相信開發者的立場，給開發者很大的彈性與自由，這其實也是我最後選擇 Ruby 的原因。</p>
+
+<p>Ruby/Rails 被很多人認為是很魔術的程式語言或工具，但只要瞭解它是怎麼運作的，其實也沒真的非常神奇。技術不用學多，一、二門專精的練起來就已可不愁吃穿了。</p>
+
+<p>最後，
+引用一段最近在朋友的 Facebook 上看到的一段話：</p>
+
+<blockquote><p>&#8220;Difference between a master and a beginner? The master has failed more times than the beginner has even tried.&#8221;<br/>&#8220;大師與新手之間的差別，就是大師失敗過的次數，比新手嘗試過的次數還多&#8221;</p></blockquote>
+
+
+<p>共勉之 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -477,86 +1253,6 @@ println("Hello, Swift!")
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2014/03/03/taipei-ruby-group/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2014-03-03T04:50:00+08:00" pubdate>Mar 3<span>rd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2014/ruby_word.jpg" alt="image" /></p>
-
-<p>台北的 Ruby 社群跟相關活動其實不算少，除了一些個人或學校社團的活動外，人數較多的活動有例如每一、二個月舉辦一次的 Ruby Tuesday，會邀請特定的來賓來分享他們在工作上或個人研究上的專業主題；有年度大型活動 <a href="http://rubyconf.tw/">RubyConf Taiwan</a>，會邀請國內外對 Ruby/Rails 有研究的高手來分享他們的心得，甚至連 Ruby 的老爸 Matz 也會來。除此之外，還有女性朋友專屬的 <a href="http://railsgirls.tw/">Rails Girls</a> 以及每週進行的 <a href="http://ltrt.kktix.cc/">Rails Girls 活動</a> (每週約二十人左右參加)。</p>
-
-<h2>又一個 Ruby 聚會?</h2>
-
-<p>不過，上述這些活動不是主題不適合新手，或是主題不容易引起共鳴，不然就是有性別限制，像我這種好像會寫一點點程式的高級新手想要找到同好一起學習反而變得不太容易。</p>
-
-<h2>目的/方向</h2>
-
-<p>所以，為了能讓更多對 Ruby/Rails 有興趣的朋友可以有個可以固定而且定期的交流管道，幾位 Ruby 圈的朋友(<a href="https://www.facebook.com/eddiekao">我</a>、<a href="https://www.facebook.com/ryudoawaru">慕凡</a>、<a href="https://www.facebook.com/manic.chuang">Manic</a> 以及 <a href="https://www.facebook.com/tonytonyjan">大兜</a>)就打算來籌備這樣的一個活動。我們想了好幾個名字，最後大家鼓掌通過的名字是「Taipei.rb」</p>
-
-<p>活動的方向很簡單，就是「讀書」 + 「閒聊」。</p>
-
-<p>不像 Ruby Tuesday 之類的主題式分享，Taipei.rb 初期設定的方向是「讀書會」，會先挑幾本書來跟大家一起讀、一起討論，每次活動開始會有一到二位與會者上台進行導讀，並從參與者中挑選下回活動上台的人。</p>
-
-<p>新手/老鳥不拘，願意讀書就行，來找人閒聊或是來求職、求才也都歡迎。當然，性別不拘 :)</p>
-
-<h2>目前暫定書目：</h2>
-
-<h3>Ruby 相關</h3>
-
-<ul>
-<li><a href="http://eloquentruby.com/">Eloquent Ruby</a></li>
-<li><a href="http://www.amazon.com/Metaprogramming-Ruby-Program-Like-Pros/dp/1934356476">Metaprogramming Ruby</a></li>
-</ul>
-
-
-<h3>Rails 相關：</h3>
-
-<ul>
-<li><a href="https://leanpub.com/tr4w">Rails 4 Way</a></li>
-<li><a href="http://ruby.railstutorial.org/">Rails Tutorial</a></li>
-</ul>
-
-
-<h2>週期</h2>
-
-<p>預計每二星期舉辦一次。</p>
-
-<h2>費用</h2>
-
-<p>每人僅需負擔場地費用(約 NT 200 元)即可，不另外收取費用。</p>
-
-<h2>第 0 次兼說明會</h2>
-
-<p>如果各位看完還是不知道這個活動要幹嘛，我們在星期二(3/4)晚上七點，在 DeRoot 有個說明會兼第 0 次的導讀示範，有興趣的朋友請按<a href="http://taipeirb.kktix.cc/events/0000">這裡</a>報名。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/3/">&larr; Older</a>
@@ -608,6 +1304,10 @@ println("Hello, Swift!")
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
       </li>
     
@@ -643,15 +1343,11 @@ println("Hello, Swift!")
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 110.76923076923077%'>Ruby on Rails(7)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

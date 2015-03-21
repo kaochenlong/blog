@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="為什麼使用Octopress 這個我想xdite的Why Octopress?寫得很清楚了，就不多做說明了。 安裝 請到Octopress的官網官網找下載點，或是到github上也找得到Octopress on github，如果懶得找，請打開你的終端機視窗，然後跟我這樣做： &gt; cd / &hellip;">
+  <meta name="description" content="What is Python? Python的老爸是，Guido van Rossum，聽說是他在1989年的時候的某個聖誕節無聊，然後就設計出這套程式語言，1991年放出來給大家用，到目前已經有將近20年的歷史了。 目前主流的版本是2.x跟3.x系列，最新的版本目前分別是2.7.2版及3.2. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,168 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/12/python-introduction/">Python簡介</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/12/python-introduction/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-12T16:04:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>What is Python?</h2>
+
+<p>Python的老爸是，<a href="http://www.python.org/~guido/">Guido van Rossum</a>，聽說是他在1989年的時候的某個聖誕節無聊，然後就設計出這套程式語言，1991年放出來給大家用，到目前已經有將近20年的歷史了。</p>
+
+<p>目前主流的版本是2.x跟3.x系列，最新的版本目前分別是2.7.2版及3.2.2版，但2.x跟3.x有不少地方是不相容的，各位在使用時還請多留意。</p>
+
+<h2>設計哲學</h2>
+
+<p>在<a href="http://www.python.org/dev/peps/pep-0020/">the Zen of Python</a>裡提到了Python的設計哲學：</p>
+
+<blockquote><p>There should be one&#8211; and preferably only one &#8211;obvious way to do it.</p></blockquote>
+
+
+<p>這與其它程式語言例如Perl的&#8221;There is more than one way to do it&#8221;是完全不同的。</p>
+
+<h2>What can Python do?</h2>
+
+<p>Python是一種物件導向的語言，雖然它被歸類到scripting language一族，但它能做的事情跟一般的程式語言一樣，從數學運算、系統管理到網站開發，它都做得來的，而且都還做得不錯。</p>
+
+<p>有人會覺得嫌Python很慢，老實說，我是不覺得慢到哪裡去。當然拿它跟編譯型的程式語言比當然不公平，不過也就是因為它不用編譯，而且語法很好學好寫，開發速度相對的會比編譯型的語言要來得高。</p>
+
+<h2>Who is using Python?</h2>
+
+<ul>
+<li>Google</li>
+<li>Youtube</li>
+<li>NASA</li>
+<li>..and ME!</li>
+</ul>
+
+
+<h2>Why Python?</h2>
+
+<p>每種程式語言都有它的優缺點，以下是我個人覺得我喜歡Python的一些特點：</p>
+
+<h3>程式碼強制縮排</h3>
+
+<p>在Python寫程式，程式碼強制一定要縮排，長得像這樣：</p>
+
+<figure class='code'><figcaption><span>say hello  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">say_hello</span><span class="p">():</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Hello Python&quot;</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Hello again!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>像這樣，不管你是要用tab或空白(space)都可以，要縮2格或4格都ok，只要對齊就行了。只要程式碼沒有對齊，在執行的時候就會直接出現<code>IndentationError</code>的錯誤訊息而無法繼續執行。</p>
+
+<p>也許有些人不喜歡這種被強制規定的感覺，不過我個人還滿喜歡的。在別的程式語言，有的人喜歡把大括號放在最後面，有人喜歡把大括號放下一行，像這樣：</p>
+
+<figure class='code'><figcaption><span>大括號的位置  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">type1</span><span class="p">(){</span>
+</span><span class='line'>  <span class="c1">// 把大括號放最後面</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">type2</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 把大括號放下一行</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這沒有誰好誰壞的問題，不過這個在Python就比較不會有這樣的困擾，也因為如此，即使你是接手別人的案子，基本上程式碼的長相也不會差太多。</p>
+
+<p>而且我真的遇過程式碼不縮排或亂縮排的工程師..</p>
+
+<h3>支援多個平台</h3>
+
+<p>目前幾乎所有比較主流的平台上面都有支援了，也就是說你在Linux底下寫的程式，搬到Windows上也能執行。(當然前提是沒有用到一些系統特定的模組或method)</p>
+
+<h3>免費取得</h3>
+
+<p>不僅不用錢，而且連Python的原始碼都可以讓你帶回家研究。</p>
+
+<h3>開發工具易取得</h3>
+
+<p>其實寫Python不用什麼特別的開發工具，基本上只要是一般的文字編輯器就可以了。也有一些像<a href="http://pydev.org/">PyDev</a>這種為Python量身打造的IDE(Integrated Development Environment)也不錯用，不過我個人偏好純文字編輯器，例如<code>Vi</code>，至少開啟速度快，而且搭配一些好用的外掛，該有的功能都差不多該有了。</p>
+
+<h2>其它</h2>
+
+<p>電腦程式語言幾乎都是外國人的世界，你有想過用中文可以寫程式嗎? 有個叫做<a href="http://code.google.com/p/zhpy/">周蟒</a>的專案做到了。這是用中文寫出來的Python程式：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env zhpy</span>
+</span><span class='line'><span class="c"># 檔名: if.py</span>
+</span><span class='line'><span class="err">數字</span> <span class="o">=</span> <span class="mi">23</span>
+</span><span class='line'><span class="err">猜測</span> <span class="o">=</span> <span class="err">整數</span><span class="p">(</span><span class="err">輸入</span><span class="p">(</span><span class="s">&#39;輸入一個數字: &#39;</span><span class="p">))</span>
+</span><span class='line'><span class="err">如果</span> <span class="err">猜測</span> <span class="o">==</span> <span class="err">數字</span><span class="p">:</span>
+</span><span class='line'>    <span class="err">印出</span> <span class="s">&#39;恭喜, 你猜對了.&#39;</span> <span class="c"># 一個新區塊的開始</span>
+</span><span class='line'>    <span class="err">印出</span> <span class="s">&#39;(但沒有獎品喔!)&#39;</span> <span class="c"># 新區塊的結束</span>
+</span><span class='line'><span class="err">假使</span> <span class="err">猜測</span> <span class="o">&lt;</span> <span class="err">數字</span><span class="p">:</span>
+</span><span class='line'>    <span class="err">印出</span> <span class="s">&#39;錯了, 數字再大一點.&#39;</span> <span class="c"># 另一個區塊</span>
+</span><span class='line'>    <span class="c"># 你可以在區塊中做任何想做的事 ...</span>
+</span><span class='line'><span class="err">否則</span><span class="p">:</span>
+</span><span class='line'>    <span class="err">印出</span> <span class="s">&#39;錯了, 數字再小一點.&#39;</span>
+</span><span class='line'>    <span class="c"># 只有在猜測 &gt; 數字 的情況下才會跑到這個區塊來</span>
+</span><span class='line'><span class="err">印出</span> <span class="s">&#39;結束&#39;</span>
+</span><span class='line'><span class="c"># 最後一行語句和&quot;如果..假使..否則&quot;語句是無關的，</span>
+</span><span class='line'><span class="c"># 因為最後的&#39;印出&#39;這行在主區塊中出現，所以這行永遠會被執行.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好寫嗎? 這見人見智了，不過挺有趣的，有興趣的朋友可以玩看看 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -816,77 +978,6 @@ To git@heroku.com:happy-octopress.git
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/08/09/how-to-find-a-method-definition-in-ruby/">在Ruby如何找到方法的定義?</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/08/09/how-to-find-a-method-definition-in-ruby/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-08-09T00:04:00+08:00" pubdate>Aug 9<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>剛好昨天有朋友問到，就順便筆記一下。</p>
-
-<p>Ruby官方文件很多，但有時對入門的朋友來說，常會遇到「我想看看XX方法的詳細用法，我該找哪個類別或模組的文件?」的問題。簡單的說，「常翻文件」就是這個問題最好的答案啦，除此之外，你也可以使用”<a href="http://www.ruby-doc.org/core/classes/Object.html#M001038">Object#method</a>“來找。</p>
-
-<p>例如我想要知道<code>puts</code>這個很常用的方法是定義在哪邊的：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">print</span> <span class="nb">method</span><span class="p">(</span><span class="ss">:puts</span><span class="p">)</span>   <span class="c1"># &lt;Method: Object(Kernel)#puts&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>它會回傳一個Method類別的實體，並且寫著<code>Object(Kernel)#puts</code>，表示這個<code>puts</code>方法是被定義在Object的(事實上是在Kernel，透過Mixin混到Object裡的)</p>
-
-<p>回傳的這個Method類別實體其實也可以直接呼叫，例如：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">my_puts</span> <span class="o">=</span> <span class="nb">method</span><span class="p">(</span><span class="ss">:puts</span><span class="p">)</span>
-</span><span class='line'><span class="n">my_puts</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;Hello Ruby&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外在寫Rails的時候，有時候想要知道某個好用的方法或helper是放在哪邊，想看看原始碼是怎麼寫的，也可以透過這個方式(Ruby 1.9限定)：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_support/all&#39;</span>
-</span><span class='line'><span class="nb">puts</span> <span class="mi">10</span><span class="o">.</span><span class="n">day</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:ago</span><span class="p">)</span><span class="o">.</span><span class="n">source_location</span>
-</span><span class='line'><span class="c1"># [&quot;/Users/eddie/.rvm/gems/ruby-1.9.2-p180/gems/activesupport-3.0.9/lib/active_support/core_ext/numeric/time.rb&quot;, 63]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Method#source_location會回傳一個陣列，裡面放著檔名以及在第幾行。</p>
-
-<h3>參考資料：</h3>
-
-<p>Ruby API – <a href="http://www.ruby-doc.org/core/classes/Method.html">Method類別</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/20/">&larr; Older</a>
@@ -938,6 +1029,10 @@ To git@heroku.com:happy-octopress.git
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
       </li>
     
@@ -973,15 +1068,11 @@ To git@heroku.com:happy-octopress.git
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 110.76923076923077%'>Ruby on Rails(7)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="有看過在iPhone裡直接秀出地圖app嗎? 看起來挺酷的吧。猜猜看寫一個把google map載入到iphone的功能要花多少時間? 又要寫幾行程式碼? 如果只是要單純的把地圖拉進iPhone顯示，答案是3分鐘以內(還包含開啟Xcode、interface builder跟編譯的時間， &hellip;">
+  <meta name="description" content="在上一篇練習MapView的時候，發現當把MapView的showsUserLocation打開後，在模擬器上執行的結果，會出現在美國的某個地方： 拉近一看才發現，原來那個發亮的點的地址是在”Infinite Loop”，正是Apple電腦的總部所在地。然後又到google &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,52 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/11/26/infinite-loop/">Apple電腦之無窮迴圈</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/11/26/infinite-loop/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-11-26T18:25:00+08:00" pubdate>Nov 26<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在<a href="/2010/11/26/create-map-application-with-mapkit-framework/">上一篇</a>練習MapView的時候，發現當把MapView的showsUserLocation打開後，在模擬器上執行的結果，會出現在美國的某個地方：</p>
+
+<p><img src="/images/2010/iphone_show_location.jpg" alt="image" /></p>
+
+<p>拉近一看才發現，原來那個發亮的點的地址是在”Infinite Loop”，正是Apple電腦的總部所在地。然後又到google map上看了一下衛星照片：</p>
+
+<p><img src="/images/2010/infinite_loop_map.jpg" alt="image" /></p>
+
+<p>就是一個圈圈的樣子，如果你用google map的街景模式去看，還會看到在入口的地方放了一個”1″：</p>
+
+<p><img src="/images/2010/1_infinite_loop_pic.jpg" alt="image" /></p>
+
+<p>因為他們的門牌號碼就是”1 infinite loop”(無窮迴圈1號)，真有趣 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1173,127 +1219,6 @@ the retain count of n is 1
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/11/16/retaincount-of-nsnumber/">retainCount of NSNumber</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/11/16/retaincount-of-nsnumber/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-11-16T16:49:00+08:00" pubdate>Nov 16<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在Objective-C裡有一種記憶體管理機制叫做<a href="http://en.wikipedia.org/wiki/Reference_counting">Reference Counting</a>，是說當某個物件生成並初始化之後，它的<code>retain count</code>會設定成1。執行該物件的”retain”方法會讓該物件的retain count加1，而<code>release</code>方法會讓retain count減1。當該物件的retain count變成0的時候，這個物件自動會呼叫<code>dealloc</code>方法，然後把記憶體還回來，Objective-C的書上或是官方手冊裡差不多都是這樣教的。</p>
-
-<p>所以，下面的程式碼，2個物件的retain count預期應該會是1：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">10</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">100</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n1 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n1</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n2 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n2</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>輸出結果是：</p>
-
-<pre><code>retain count of n1 is 2
-retain count of n2 is 1
-</code></pre>
-
-<p>n2的retain count是1沒問題，但n1的卻是2，這結果跟我想像的不太一樣，這令我這個初學者很困惑..我知道retainCount不應該被拿來做為流程裡的邏輯判斷的依據，不過我很好奇為什麼會有這樣的差異?</p>
-
-<p>翻了一下網路上的討論，原來是說因為某些數字太常被用到，為了做一些最佳化，所以在系統裡直接就預先產生了一份，再試了一下以下的程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">10</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n1 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n1</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">100</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n2 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n2</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n3</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">100</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n3 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n3</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSNumber</span> <span class="o">*</span><span class="n">n4</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSNumber</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithInt:</span> <span class="mi">10</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;retain count of n4 is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">n4</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>結果是：</p>
-
-<pre><code>retain count of n1 is 2
-retain count of n2 is 1
-retain count of n3 is 1
-retain count of n4 is 3
-</code></pre>
-
-<p>又試著把他們的位址印出來：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// address of nums</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;address of n1 is %p&quot;</span><span class="p">,</span> <span class="n">n1</span><span class="p">);</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;address of n2 is %p&quot;</span><span class="p">,</span> <span class="n">n2</span><span class="p">);</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;address of n3 is %p&quot;</span><span class="p">,</span> <span class="n">n3</span><span class="p">);</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;address of n4 is %p&quot;</span><span class="p">,</span> <span class="n">n4</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>結果是：</p>
-
-<pre><code>address of n1 is 0x100108e20
-address of n2 is 0x10010cb30
-address of n3 is 0x10010cb50
-address of n4 is 0x100108e20
-</code></pre>
-
-<p>這樣似乎就能解釋retain count跟預期不太一樣的原因了，可以看到n1跟n4是指向同一塊記憶體位置，而n2跟n3是不同的位置，retain count都是1，表示n2跟n3在生成的時候是建立一個新的數字，而n1跟n4則是指向一個像是”預先產生而且共享”的數字，所以n1一開始的 retain count是2，n4因為指向跟n1同一個地方，所以retain count變3。而這個最佳化(預先產生)的範圍，似乎是從-1 ~ 12之間。</p>
-
-<p>果然還有很多要學的 :)</p>
-
-<p>新手上路，若有錯誤還請不吝指教!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/30/">&larr; Older</a>
@@ -1345,6 +1270,10 @@ address of n4 is 0x100108e20
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
       </li>
     
@@ -1380,15 +1309,11 @@ address of n4 is 0x100108e20
         <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 110.76923076923077%'>Ruby on Rails(7)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
