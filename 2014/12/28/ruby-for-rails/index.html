@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta property="og:title" content="Rails 之 Ruby 語法放大鏡系列 - 高見龍" />
+  <meta property="og:title" content="Ruby 語法放大鏡 - 高見龍" />
 <meta property="og:author" content="高見龍" />
 <meta property="og:site_name" content="高見龍" />
 <meta property="og:locale" content="en_US" />
@@ -17,11 +17,11 @@
 <meta property="og:type" content="article" />
 
 
-  <title>Rails 之 Ruby 語法放大鏡系列 - 高見龍</title>
+  <title>Ruby 語法放大鏡 - 高見龍</title>
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="大家在學習 Ruby 或 Ruby on Rails(以下簡稱 Rails)的時候，難免會有一些看不懂或是有一些不知道怎麼來的神奇語法，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby/Rails 是怎麼回事。 預計會有以下的文章(持續更新中)： Ruby 相關： 想要學 Ruby &hellip;">
+  <meta name="description" content="大家在學習 Ruby 或 Ruby on Rails(以下簡稱 Rails)的時候，難免會有一些看不懂或是有一些不知道怎麼來的神奇語法，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby/Rails 是怎麼回事。 預計會有以下的文章(持續更新中)： Ruby 相關： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -101,7 +101,7 @@
   
   <header>
     
-      <h1 class="entry-title">Rails 之 Ruby 語法放大鏡系列</h1>
+      <h1 class="entry-title">Ruby 語法放大鏡</h1>
       
         <fb:like href="http://blog.eddie.com.tw/2014/12/28/ruby-for-rails/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
       
@@ -129,24 +129,24 @@
 <h2>Ruby 相關：</h2>
 
 <ol>
-<li>想要學 Ruby 該看哪些書?</li>
+<li><a href="">attr_accessor 是幹嘛的?</a></li>
 <li>有的變數前面有<code>@</code>符號(例如 <code>@users</code> )，這是什麼意思?</li>
-<li>有的變數變前面有一個冒號(例如 <code>:name</code>)，是什麼意思?</li>
-<li><code>attr_accessor</code> 是幹嘛的?</li>
-<li>為什麼 Hash 好像有不同的寫法?</li>
-<li>你知道 <code>require</code> 這個語法幫你做了什麼事嗎?</li>
 <li>有時候會看到有兩個冒號寫法(例如 <code>ActiveRecord::Base</code>)它是什麼意思?</li>
+<li>有的變數變前面有一個冒號(例如 <code>:name</code>)，是什麼意思?</li>
+<li>module 跟 class 有什麼不一樣?</li>
+<li>你知道 <code>require</code> 這個語法幫你做了什麼事嗎?</li>
+<li>為什麼 Hash 好像有不同的寫法?</li>
 <li><code>gem install</code> 之後，那些 gem 安裝到哪裡去了?</li>
+<li>想要學 Ruby 該看哪些書?</li>
 </ol>
 
 
 <h2>Rails 相關</h2>
 
 <ol>
-<li>想要學 Rails 該看哪些書?</li>
-<li>為什麼 form_tag 的參數怎麼那麼難記?</li>
-<li>有一個 Gemfile 了，為什麼還有個 Gemfile.lock? 這個檔案是幹嘛的?</li>
+<li>為什麼 link_to 這個 view helper 的參數個數可長可短?</li>
 <li>在 Rails 專案中，有個檔案叫 <code>schema.rb</code>，它是做什麼的?</li>
+<li>有一個 Gemfile 了，為什麼還有個 Gemfile.lock? 這個檔案是幹嘛的?</li>
 <li>常有時候會需要在指令面前加上 <code>bundle exec</code>，這有加沒加有什麼分別?</li>
 <li>為什麼 <code>2.days.ago</code> 在內建的 irb 會找不到這個方法? 這不是 Ruby 語法嗎?</li>
 <li>常在終端機裡下 <code>rake db:migrate</code> 指令，這個 <code>rake</code> 是什麼，後面那個 <code>db:migrate</code> 又是怎麼回事?</li>
@@ -156,6 +156,7 @@
 <li>在 application controller 裡看到的 <code>protect_from_forgery</code> 是什麼?</li>
 <li>為什麼 model class 看起來空空的，但怎麼有那麼多好用的方法?</li>
 <li>在 Gemfile 裡看到 <code>gem 'sass-rails', '~&gt; 4.0.3'</code> 或是 <code>gem 'uglifier', '&gt;= 1.3.0'</code> 這樣的寫法，那個 <code>~&gt;</code> 跟 <code>&gt;=</code> 各是代表什麼意思?</li>
+<li>想要學 Rails 該看哪些書?</li>
 </ol>
 
 
@@ -259,11 +260,15 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
       </li>
     
       <li class="post">
-        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+        <a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>
       </li>
     
       <li class="post">
@@ -294,15 +299,11 @@
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 109.23076923076923%'>Ruby on Rails(6)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

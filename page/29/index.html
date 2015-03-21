@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在上一篇概略的提到了Objective-C裡的記憶體管理，其實Objective-C其實還滿多這種眉眉角角的地方要注意的，接下來我們來看看關於Autorelease Pool的東西。這篇文章會比較長，而且會比較悶又囉嗦，還請多多擔待。 在開始之前要先看一下這一行程式碼： 1 &hellip;">
+  <meta name="description" content="有看過在iPhone裡直接秀出地圖app嗎? 看起來挺酷的吧。猜猜看寫一個把google map載入到iphone的功能要花多少時間? 又要寫幾行程式碼? 如果只是要單純的把地圖拉進iPhone顯示，答案是3分鐘以內(還包含開啟Xcode、interface builder跟編譯的時間， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,218 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/11/26/create-map-application-with-mapkit-framework/">iPhone app 實作練習 - 地圖 app</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/11/26/create-map-application-with-mapkit-framework/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-11-26T18:10:00+08:00" pubdate>Nov 26<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/mobile_map.jpg" alt="image" /></p>
+
+<p>有看過在iPhone裡直接秀出地圖app嗎? 看起來挺酷的吧。猜猜看寫一個把google map載入到iphone的功能要花多少時間? 又要寫幾行程式碼? 如果只是要單純的把地圖拉進iPhone顯示，答案是3分鐘以內(還包含開啟Xcode、interface builder跟編譯的時間，如果動作快一點，不用1分鐘就搞定了)，而且還不用寫到一行程式碼，你可以親自開Xcode來試試看就知其實並不會太麻煩的。</p>
+
+<p>在iOS 3.0之前要讀取地圖可能得用一些比較麻煩的方法去抓google map進來，但在3.0之後新增了MapKit Framework之後，人生就都變彩色的了。</p>
+
+<p>打開Xcode，新增專案，這裡我先偷懶的選用view-based application，選擇專案名稱，這裡我幫它取名為<code>MapDemo</code>(不一定要取這名稱，只是如果你取的名稱是不同的，後面專案的程式碼檔名可能會有所不同)。</p>
+
+<p><img src="/images/2010/iphone_new_view_based_app.jpg" alt="image" /></p>
+
+<p>專案新增後，打開Resources資料夾裡的MapDemoViewController.xib，它會自動啟動interface builder，接著到Library裡找到一個叫做<code>MapView</code>的元件，把它拖拉到場景上放好對齊。</p>
+
+<p><img src="/images/2010/iphone_mapview.jpg" alt="image" /></p>
+
+<p>存檔，回到xcode環境。接下來看一下你的Frameworks資料夾，因為預設的Framework只放了UIKit、Foundation跟CoreGraphics這三個，如果要用到MapView的話，還需要把MapKit Framework加進來，不然編譯會發生錯誤。在Frameworks資料夾按右鍵->Add->Existing Frameworks..</p>
+
+<p><img src="/images/2010/iphone_add_framework.jpg" alt="image" /></p>
+
+<p>找到MapKit Framework，把它加進來：</p>
+
+<p><img src="/images/2010/iphone_mapkit.png" alt="image" /></p>
+
+<p>你應該就可以在你的Frameworks資料夾裡看到MapKit了：</p>
+
+<p><img src="/images/2010/iphone_framework_add.jpg" alt="image" /></p>
+
+<p>加好之後，執行Build and Run，這樣就完成了!</p>
+
+<p><img src="/images/2010/iphone_mapview_init.jpg" alt="image" /></p>
+
+<p>從開始到現在如果手腳快一點可能還不用一分鐘就搞定了，而且除了一開始你打了<code>MapDemo</code>幾個字母的專案名稱外，應該沒有再需要用到鍵盤輸入任何程式碼。MapView預設是以Google Map為資料來源，而且這個地圖已經有包含放大、縮小、拖拉的功能了。你可以在試著模擬器裡按著option鍵加滑鼠移動可以模擬你在實機上縮放的手勢。</p>
+
+<p>但是，就這樣出現個世界地圖的app似乎沒什麼鳥用，跟之前看到某房仲業推出的手機看屋的app的複雜度還差得多，不過但至少知道其實在iPhone上面加入地圖功能不算是非常難做的功能。</p>
+
+<p>接著來加一下可以依據經緯度座標來定位的功能：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔名：MapDemoViewController.h</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;MapKit/MapKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">MapDemoViewController</span> : <span class="nc">UIViewController</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">IBOutlet</span> <span class="n">MKMapView</span> <span class="o">*</span><span class="n">map_view</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後到interface builder裡，把這個map_view變數”串”到你剛剛拖到場景上的那個MapView，讓我們在程式碼裡面可以透過這個變數去操作場景上的那個元件。這個動作如果不熟悉的話，可以參考前面那篇<a href="/2010/11/23/iphone-app-in-action/">BMI</a> app實作的文章。</p>
+
+<p><img src="/images/2010/iphone_mapview_outlet.jpg" alt="image" /></p>
+
+<p>串完之後，接著就要來開始寫code了，為了展示目的，我直接把程式碼寫在viewDidLoad裡面：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">// 檔名：MapDemoViewController.m</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &quot;MapDemoViewController.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">MapDemoViewController</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 建立一個region，待會要設定給MapView</span>
+</span><span class='line'>    <span class="n">MKCoordinateRegion</span> <span class="n">kaos_digital</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 設定經緯度</span>
+</span><span class='line'>    <span class="n">kaos_digital</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">latitude</span> <span class="o">=</span> <span class="mf">25.01141</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">kaos_digital</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">longitude</span> <span class="o">=</span> <span class="mf">121.42554</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 設定縮放比例</span>
+</span><span class='line'>    <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">latitudeDelta</span> <span class="o">=</span> <span class="mf">0.007</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">kaos_digital</span><span class="p">.</span><span class="n">span</span><span class="p">.</span><span class="n">longitudeDelta</span> <span class="o">=</span> <span class="mf">0.007</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 把region設定給MapView</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">map_view</span> <span class="nl">setRegion:</span><span class="n">kaos_digital</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">dealloc</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>存檔，回到Xcode執行<code>Build and Run</code>，畫面看起來應該比剛剛的好多了。剛我在程式裡設定的那組經緯度是我公司的位置，沒問題的話你看到的地圖應該會在台灣新北市樹林跟新莊的交界處附近。</p>
+
+<p><img src="/images/2010/iphone_map_result.png" alt="image" /></p>
+
+<p>另外，MapView預設的模式是一般的街道地圖的，你可以用程式來調整：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 這是預設的標準模式</span>
+</span><span class='line'><span class="n">map_view</span><span class="p">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="n">MKMapTypeStandard</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 衛星地圖模式</span>
+</span><span class='line'><span class="n">map_view</span><span class="p">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="n">MKMapTypeSatellite</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 混合模式</span>
+</span><span class='line'><span class="n">map_view</span><span class="p">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="n">MKMapTypeHybrid</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是在interface builder環境，從MapView的inspector去調整：</p>
+
+<p><img src="/images/2010/iphone_map_mode.jpg" alt="image" /></p>
+
+<p>如果你想要秀出使用者的所在位置：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">map_view</span><span class="p">.</span><span class="n">showsUserLocation</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是用inspector設定：</p>
+
+<p><img src="/images/2010/iphone_mapview_inspector.jpg" alt="image" /></p>
+
+<p>如果你把這個選項開啟的話，在模擬器裡會出現在美國的某個有趣的地方：</p>
+
+<p><img src="/images/2010/iphone_show_location.jpg" alt="image" /></p>
+
+<p>希望做到目前這個階段對大家還不會太困難，但老實說就算現在這樣其實也沒什麼用，甚至也不知道到底指定的位置在哪裡，想靠它賺大錢還早。不過沒關係下一篇我們會來弄一些比較進階的功能，例如是幫地圖加上大頭針，或是加一些自訂的icon圖示等功能，讓地圖看起來更漂亮、實用些。但因為可能會用到在Objective-C裡的Protocol觀念，所以在正式開始實作之前，會先來說明一下在Objective-C裡的<a href="/2010/12/16/category-in-objective-c/">Category</a>跟<a href="/2010/12/11/protocol-in-objective-c/">Protocol</a>是怎麼回事。</p>
+
+<p>以上，希望對各位有幫助，若有錯誤的地方還請不吝指教，感謝 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1082,87 +1294,6 @@ address of n4 is 0x100108e20
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/10/28/zenburn-color-schema-for-flashbuilder/">Zenburn Color Schema for FlashBuilder</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/10/28/zenburn-color-schema-for-flashbuilder/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-10-28T16:14:00+08:00" pubdate>Oct 28<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我的工作需要長時間看著電腦螢幕，除了用腦袋跟手指頭敲鍵盤之外，眼睛也容易疲勞，低對比(low-contrast)的<a href="http://slinky.imukuppi.org/zenburn/">Zenburn</a>配色一直都是我喜歡的配色方式。近期因為使用Flash Builder在趕案子，雖然說也可以進到設定的地方自己手動一個一個的調顏色，但就是調不出我想要的那個樣子，不過網路上總是有許多強大的善心人士，有人把zenburn的color schema調出來，並做成設定檔可以讓大家來匯入。</p>
-
-<h2>安裝方法：</h2>
-
-<h3>1. 記得千萬一定要先備份你自己的設定檔</h3>
-
-<p>因為下載來的設定檔，跟你自己原來工作的環境可能是不同的，包括快速鍵、workspace…等等的設定，我就是忘了備份就直接匯入別人的設定檔，結果搞得原來的設定都跑掉了，後來去time machine裡把舊的設定檔挖出來再覆蓋回去的..</p>
-
-<p>匯出設定檔：</p>
-
-<p>選擇File -> Export -> Other，點開General，裡面有個Preferences的選項，接著下一步：</p>
-
-<p><img src="/images/2010/flashbuilder_export1.png" alt="image" /></p>
-
-<p>你可以選擇Export All，或是只匯出你想要的設定即可：</p>
-
-<p><img src="/images/2010/flashbuilder_export2.png" alt="image" /></p>
-
-<p>再選擇一下匯出的位置，按下Finish就行了。</p>
-
-<h3>2. 下載zenburn for flash builder的設定檔</h3>
-
-<p><a href="http://github.com/mnem/fb-zenburnish">http://github.com/mnem/fb-zenburnish</a>，在這個頁面底下有說明安裝方法</p>
-
-<p>下載解壓縮後，裡面有個fb-zenburnish.epf跟README檔案(記得要看一下內容)。</p>
-
-<p>如同剛剛匯出的步驟，只是這次是反過來操作。選擇File -> Import -> Other，在General裡找到Preferences選項，選擇你要匯入的epf檔案，沒問題的話按下Finish就完成了。</p>
-
-<p>但 對我來說，因為我想要保留我自己習慣的設定，我只要zenburn的color schema設定就好，所以我的作法是用文字編輯器開啟剛下載的fb-zenburnish.epf後，把內容貼到我自己剛才匯出的設定檔的最後面，最後 再把修改過的設定檔匯回來，這樣我就可以保有我自己的設定以及zenburn的color schema了。</p>
-
-<p>成果照：</p>
-
-<p><img src="/images/2010/zenburn_flashbuilder.png" alt="image" /></p>
-
-<p>對於長時間需要用眼力的人來說，不妨試試看效果，也許會比較輕鬆一些些(未經人體實驗證實，但至少對我來說是有用的)。不過顏色的喜好是很主觀的，也許我覺得喜歡顏色配置的對其它人來說反而可能比預設的更糟或更傷眼..</p>
-
-<p>另外，我也手癢的把Xcode改成zenburn配色了：</p>
-
-<ol>
-<li>下載：<a href="http://mac.softpedia.com/get/Graphics/Xcode-Zenburn-Theme.shtml">http://mac.softpedia.com/get/Graphics/Xcode-Zenburn-Theme.shtml</a></li>
-<li>把下載的xccolortheme檔案複製到 ~/Library/Application Support/Xcode/Color Themes/ 底下</li>
-<li>開啟Xcode，進入Preferences的Fonts &amp; Colors項目，在下拉選單就可以看到zenburn的選項了</li>
-</ol>
-
-
-<p>成果照：</p>
-
-<p><img src="/images/2010/zenburn_xcode.png" alt="image" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/30/">&larr; Older</a>
@@ -1214,11 +1345,15 @@ address of n4 is 0x100108e20
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
       </li>
     
       <li class="post">
-        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+        <a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>
       </li>
     
       <li class="post">
@@ -1249,15 +1384,11 @@ address of n4 is 0x100108e20
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 109.23076923076923%'>Ruby on Rails(6)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

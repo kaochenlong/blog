@@ -1,0 +1,607 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta property="og:title" content="Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」 - 高見龍" />
+<meta property="og:author" content="高見龍" />
+<meta property="og:site_name" content="高見龍" />
+<meta property="og:locale" content="en_US" />
+<meta property="fb:app_id" content="212934732101925" />
+
+<meta property="og:image" content="" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="http://blog.eddie.com.tw/2015/03/21/attr_accessor/" />
+<meta property="og:type" content="article" />
+
+
+  <title>Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」 - 高見龍</title>
+  <meta name="author" content="高見龍">
+
+  
+  <meta name="description" content="「Ruby 語法放大鏡」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。 先說結論： attr_accessor 會幫你在 Ruby 的類別裡產生一對 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.eddie.com.tw/2015/03/21/attr_accessor/">
+  <link href="/images/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <link href="http://feeds.feedburner.com/aquarianboy" rel="alternate" title="高見龍" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-337088-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">高見龍</a></h1>
+  
+    <h2>iOS app/Ruby/Rails Developer, 喜愛非主流的新玩具 :)</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="banner_img"></div>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/aquarianboy" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.eddie.com.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/presentations">Presentations</a></li>
+  <li><a href="/slides">Slides</a></li>
+  <li><a href="/screencasts">Screencasts & Videos</a></li>
+  <li><a href="/about-eddie">About Me</a></li>
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  <p class="meta">
+    
+      <a class="basic-alignment left" href="/2015/01/19/ios-apprentice-wanted/" title="Previous Post: 新年新希望之誠徵 iOS app 開發學徒">&laquo; 新年新希望之誠徵 iOS app 開發學徒</a>
+    
+    
+  </p>
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2015/03/21/attr_accessor/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2015-03-21T12:09:00+08:00" pubdate>Mar 21<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p class="info">
+「<a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。</p>
+
+
+<p>先說結論：</p>
+
+<blockquote><p>attr_accessor 會幫你在 Ruby 的類別裡產生一對 getter 以及 setter 方法。</p></blockquote>
+
+
+<p>不過我想這結論對新手來說有講跟沒講一樣，讓我們繼續往下看。</p>
+
+<p>跟別的程式語言比起來，Ruby 可以省略很多東西，像是呼叫方法的時候可以不用小括號，回傳資料的時候有時候不用特別加 <code>return</code>。</p>
+
+<p>我們先來看一段範例：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Girl</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@age</span> <span class="o">=</span> <span class="n">age</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">mary</span> <span class="o">=</span> <span class="no">Girl</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這是一個簡單的 Ruby 類別，我用 <code>Girl</code> 類別建一個名為 <code>mary</code> 的實體(instance)，並且在初始化的時候就設定她的年紀為 20。<code>Girl</code> 類別裡有一個 <code>@age</code> 這個實體變數(instance variable)，也許你會猜說如果要知道 <code>mary</code> 的年紀的話，只要：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="n">mary</span><span class="o">.</span><span class="n">age</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就行了，但一執行就會發現錯誤訊息：</p>
+
+<pre><code>undefined method `age' for #&lt;Girl:0x007f93a609fa10 @age=20&gt; (NoMethodError)
+</code></pre>
+
+<p>怪了，我是想要存取 <code>age</code> 這個屬性，為什麼錯誤訊息卻是 <code>undefined method</code>?</p>
+
+<p>在解釋之前，要先說明幾個 Ruby 這個程式語言跟別家程式語言在設計上的不同：</p>
+
+<h3>一、Ruby 的方法呼叫，常常會適時的省略小括號：</h3>
+
+<p>舉個例子來說：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">say_hi_to</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">say_hi_to</span><span class="p">(</span><span class="s2">&quot;eddie&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但我們通常會寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">say_hi_to</span> <span class="s2">&quot;eddie&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在呼叫方法的時候省略小括號，這在 Ruby 是很常見的寫法。</p>
+
+<h3>二、Ruby 並沒有「屬性」(property/attribute)這樣的東西：</h3>
+
+<p>雖然 <code>mary</code> 看起來有一個 <code>@age</code> 實體變數，但不表示是可以直接存取的屬性。硬是要用 <code>mary.age</code> 問她年紀，或是要用 <code>mary.age = 18</code> 來設定她的年紀，她都會賞你一巴掌，給你錯誤訊息的。</p>
+
+<p><code>mary.age</code> 你以為是讀取 mary 上的 age 屬性，但事實上是在執行 <code>mary.age()</code> 方法，只是小括號被省略了。<code>mary.age=18</code> 你以為是設定 mary 的 age 屬性，但事實上是執行 <code>mary.age=(18)</code> 方法，只是小括號被省略了。</p>
+
+<p>在 Ruby 裡，很多東西都跟你看到的不太一樣，例如，你以為 <code>1 + 2</code> 是簡單的數學運算嗎? 其實它是 <code>1.+(2)</code>，它是對數字物件 1 送了一個 <code>+</code> 的訊息，並且把數字物件 2 當做參數傳給它。</p>
+
+<p>好啦，即然知道它們都是方法，那要怎麼定義它們呢?</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Girl</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@age</span> <span class="o">=</span> <span class="n">age</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">age</span>
+</span><span class='line'>    <span class="k">return</span> <span class="vi">@age</span>  <span class="c1"># 這個 return 通常會省略</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">age</span><span class="o">=</span><span class="p">(</span><span class="n">new_age</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@age</span> <span class="o">=</span> <span class="n">new_age</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段範例中，第 6 ~ 8 行的方法會回傳 <code>@age</code>，又常稱之 getter；第 10 ~ 12 行的方法它會設定 <code>@age</code> 的值，故又常稱之 setter。</p>
+
+<p>不過&#8230;等一下! 為什麼方法後面有個等號?</p>
+
+<p>請把等號當做一般的字母看待。在 Ruby 定義方法的時候，等號跟其它字元一樣都可以是方法名字的一部份，只是這個特殊字元必須要放在方法名稱的結尾(其實包括問號跟驚嘆號也都一樣)。</p>
+
+<p>這個方法就叫做 <code>age=</code>，要使用它就是用 <code>age=(18)</code>，沒錯，就是連等號一起呼叫它。所以，其實標準形態應該長這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">mary</span><span class="o">.</span><span class="n">age</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>又，因為前面提到，Ruby 可以省略小括號，所以可寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">mary</span><span class="o">.</span><span class="n">age</span><span class="o">=</span><span class="mi">18</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後，Ruby 又有幫忙加了一些語法糖衣，讓你在中間加一些空白字元也是可以的：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">mary</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">18</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最後就會讓你看起來像是在設定 age 屬性了。</p>
+
+<h2>這&#8230;會不會太麻煩了點?</h2>
+
+<p>照這樣說，如果每次想要用類似的屬性寫法，就必須要寫一對方法來回傳、設定，會不會有點太麻煩啊。</p>
+
+<p>是的，就是要這麼麻煩。不過請放心，工程師都很懶的，所以有另外設計了幾個方法可以讓你快速的產生前面提到的 getter/setter。</p>
+
+<p>如果你的 getter/setter 很單純，就只是有回傳、設定實體變數的話，那你可用 Ruby 內建的幾個方法：<code>attr_reader</code>、<code>attr_writer</code> 以及 <code>attr_accessor</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Girl</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:name</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@age</span> <span class="o">=</span> <span class="n">age</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">mary</span> <span class="o">=</span> <span class="no">Girl</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">mary</span><span class="o">.</span><span class="n">age</span>    <span class="c1">#=&gt; 20</span>
+</span><span class='line'><span class="n">mary</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">18</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">mary</span><span class="o">.</span><span class="n">age</span>    <span class="c1">#=&gt; 18</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，<code>attr_reader</code> 只會幫你產生 getter，<code>attr_writer</code> 只會幫你產生，而 <code>attr_accessor</code> 則會幫你產生 getter 及 setter。如果不相信，可以執行下面這行看一下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="no">Girl</span><span class="o">.</span><span class="n">instance_methods</span><span class="p">(</span><span class="kp">false</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>應該會看到以下結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">[</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:name</span><span class="o">=]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>的確是產生了兩個方法，分別是 <code>name</code> 以及 <code>name=</code>。</p>
+
+<h3>用了 attr_accessor 還能自己寫 getter 或 setter 嗎?</h3>
+
+<p>當然可以，例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Girl</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:age</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">age</span><span class="o">=</span><span class="p">(</span><span class="n">new_age</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@age</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_age</span> <span class="o">&gt;</span> <span class="mi">18</span><span class="p">)</span> <span class="p">?</span> <span class="mi">18</span> <span class="p">:</span> <span class="n">new_age</span>  <span class="c1"># 如果大於 18，就只設定 18..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">mary</span> <span class="o">=</span> <span class="no">Girl</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">mary</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">30</span>     <span class="c1"># 即使設定為 30 歲...</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">mary</span><span class="o">.</span><span class="n">age</span>     <span class="c1"># 還是會永保 18 歲 :)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為你重新定義了 <code>age=</code> 方法，在執行的時候 Ruby 會跳出來跟你碎碎唸說 <code>warning: method redefined; discarding old age=</code>，但程式還是可執行。</p>
+
+<p>所以，如果你只是想要客制化自己的 getter 或 setter 的話，可將 <code>attr_accessor</code> 改為 <code>attr_reader</code> 或 <code>attr_writer</code>，就不會有這個警告訊息了。</p>
+
+<p>以上，希望對大家有幫助 :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">高見龍</span></span>
+      
+
+
+
+
+  
+<time datetime="2015-03-21T12:09:00+08:00" pubdate>Mar 21<span>st</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/category/ruby/'>Ruby</a>, <a class='category' href='/category/ruby-on-rails/'>Ruby on Rails</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.eddie.com.tw/2015/03/21/attr_accessor/" data-via="eddiekao" data-counturl="http://blog.eddie.com.tw/2015/03/21/attr_accessor/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2015/01/19/ios-apprentice-wanted/" title="Previous Post: 新年新希望之誠徵 iOS app 開發學徒">&laquo; 新年新希望之誠徵 iOS app 開發學徒</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>高見龍</h1>
+  愛玩又愛現...<a href="/about-eddie">More</a><br />
+  <a href="/about-eddie"><img src="/images/blog/eddie_avatar.png" /></a>
+  <br />
+
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+
+  <li></li>
+  <br />聯絡：<br />eddie (at) digik.com.tw<br />+886-928-617-687<br />
+  
+  Welcome to make a donation if you think this blog is helpful to you :)
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+  <input type="hidden" name="cmd" value="_donations">
+  <input type="hidden" name="business" value="eddie@digik.com.tw">
+  <input type="hidden" name="lc" value="TW">
+  <input type="hidden" name="item_name" value="Eddie Kao">
+  <input type="hidden" name="no_note" value="0">
+  <input type="hidden" name="currency_code" value="USD">
+  <input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest">
+  <input type="image" src="https://www.paypalobjects.com/en_US/TW/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal － 更安全、更簡單的線上付款方式！">
+  </form>
+  
+  <br />
+
+  <img src="/images/blog/badgeSpeaker.png" /><br />
+  <img src="/images/blog/cert-ruby.png" /><br />
+  <img src="/images/blog/cert-adobe.png" /><br />
+  <img src="/images/blog/cert-linux.png" />
+</section>
+
+<section>
+  <h1>最近的文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/10/16/happy-programming-ruby/">Ruby 也可這樣寫</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/08/22/lets-learn-ruby/">「有心人」之 Ruby 課程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 109.23076923076923%'>Ruby on Rails(6)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+</section>
+
+<section>
+  <h1>回應</h1>
+  <script type="text/javascript" src="http://eddie-blog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=48&excerpt_length=50"></script>
+</section>
+<section>
+  <h1>Tweets</h1>
+  <a class="twitter-timeline" href="https://twitter.com/eddiekao" data-widget-id="410520084096884736">Tweets by @eddiekao</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  
+    <a href="http://twitter.com/eddiekao" class="twitter-follow-button" data-width="208px" data-show-count="true">Follow @eddiekao</a>
+  
+</section>
+
+
+<div style="width: 100%; height:375px;"><iframe src="http://www.plurk.com/getWidget?uid=3151385&amp;h=375&amp;w=260&amp;u_info=2&amp;bg=e8e8e8&tl=f2f2f2" width="100%" frameborder="0" height="100%" scrolling="no"></iframe></div>
+<section>
+  <h1>Flash/ASer</h1>
+  <a href="http://blog.cjcat.net/" target="_blank">CJCAT</a>
+    | <a href="http://erinylin.blogspot.com/" target="_blank">Erin</a>
+    | <a href="http://etrex.blogspot.com/" target="_blank">Etrex</a>
+    | <a href="http://grayliao.blogspot.com/" target="_blank">Gray</a>
+    | <a href="http://greenchiou.blogspot.com/" target="_blank">Green</a>
+    | <a href="http://blog.iamjason.com/" target="_blank">Jason</a>
+    | <a href="http://masolin.blogspot.com/" target="_blank">Maso</a>
+    | <a href="http://ticore.blogspot.com/" target="_blank">Ticore</a>
+    | <a href="http://milkmidi.blogspot.com/" target="_blank">奶綠茶</a>
+    | <a href="http://blog.lamb-mei.com/" target="_blank">羊小咩</a>
+    | <a href="http://rhinotw.blogspot.com/" target="_blank">耶書</a>
+    | <a href="http://hayamanotebook.blogspot.com/" target="_blank">葉山</a>
+    | <a href="http://blog.ben.idv.tw/" target="_blank">邦邦</a>
+    | <a href="http://mark-vann.blogspot.com/" target="_blank">馬克凡</a>
+    | <a href="http://qops.blogspot.com/" target="_blank">新德老師</a>
+    | <a href="http://blog.roodo.com/sayaku" target="_blank">阿邪</a>
+
+  <h1>Rubyists</h1>
+    <a href="http://ihower.tw/" target="_blank">ihower</a>
+    | <a href="http://gogojimmy.net/" target="_blank">Jimmy</a>
+    | <a href="http://blog.taian.su/" target="_blank">泰安</a>
+    | <a href="http://blog.hsatac.net/" target="_blank">hSATAC</a>
+
+  <h1>Friends</h1>
+    <a href="http://etblue.blogspot.com/" target="_blank">ETBlue</a>
+    | <a href="http://www.jaceju.net/" target="_blank">Jace</a>
+    | <a href="http://4urs.blogspot.com/" target="_blank">Morris</a>
+    | <a href="http://ricky.ez2.us/" target="_blank">Ricky</a>
+    | <a href="http://blog.sd.idv.tw/" target="_blank">SDPower</a>
+    | <a href="http://lindsayrain.blogspot.com/" target="_blank">謝小雨</a>
+    | <a href="http://blog.hinablue.me/" target="_blank">閃光洽</a>
+    | <a href="http://www.erblah.com" target="_blank">Er.Z</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 高見龍 -
+  <span class="credit">Powered by <a href="http://octopress.org" target="_blank">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'eddie-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.eddie.com.tw/2015/03/21/attr_accessor/';
+        var disqus_url = 'http://blog.eddie.com.tw/2015/03/21/attr_accessor/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

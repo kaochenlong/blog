@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="要安裝CoffeeScript的話，會需要先安裝Node.js以及Node.js的套件管理工具 – npm (Node Package Manager) 說明： 以下將會以Mac及Ubuntu為主要的平台，Windows就對不起了，我沒有機器可以測試..在安裝過程中如果出現權限不足的錯誤訊息， &hellip;">
+  <meta name="description" content="CoffeeScript裝好了，準備來泡咖啡了 假設我寫了一個檔名為app.coffee(內容怎麼寫請見CoffeeScript基礎篇)，現在我想來編譯這個coffee檔： &gt; coffee --watch --compile app.coffee 這行指令會把app. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,102 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/08/03/how-to-use-coffeescript-compiler/">CoffeeScript 使用篇</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/08/03/how-to-use-coffeescript-compiler/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-08-03T16:12:00+08:00" pubdate>Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>裝好了，準備來泡咖啡了</p>
+
+<p>假設我寫了一個檔名為app.coffee(內容怎麼寫請見CoffeeScript基礎篇)，現在我想來編譯這個coffee檔：</p>
+
+<pre><code>&gt; coffee --watch --compile app.coffee
+</code></pre>
+
+<p>這行指令會把<code>app.coffee</code>編譯產生一個同名的<code>app.js</code>。</p>
+
+<p>加上了<code>–watch</code>參數，CoffeeScript的編譯器會一直監看這個檔案，只要檔案一有變動，編譯器就會再重新編譯產生一份新的.js檔案。如果你覺得–watch、–compile太囉嗦或不想打那麼多字，也可以用-w、-c來替代。</p>
+
+<p>如果你希望把幾個coffee檔案在編譯的時候合併成一個.js檔，以減少http request的數量，你可以這樣做：</p>
+
+<pre><code>&gt; coffee --join application.js --compile *.coffee
+</code></pre>
+
+<p>這樣就會把同一個目錄裡的coffee檔編譯並組合成同一個js檔，這裡–join也可以簡寫成-j。</p>
+
+<p>更多內容請見<code>coffee –help</code></p>
+
+<h3>CoffeeScript Console</h3>
+
+<p>CoffeeScript也有像Ruby的irb一樣的REPL，提供一個像shell的互動介面可以讓你試玩，你只要不帶參數的執行CoffeeScript編譯器：</p>
+
+<pre><code>&gt; coffee
+coffee&gt; name = "eddie"
+'eddie'
+</code></pre>
+
+<p>這樣你就可以在這個環境裡面試一些語法。如果你曾經使用過Ruby的irb，你對這個結果應該不陌生。</p>
+
+<h3>一定要編譯成js檔嗎?</h3>
+
+<p>上面講的是如何把coffee檔編譯成js檔，編譯成js檔當然放到網頁上當然沒問題，但是不是一定要編譯呢? 不編譯的話，coffee檔能不能直接拿來用?</p>
+
+<p>當然是可以的，只要先引入一行CoffeeScript的編譯器，就可以在HTML的頁面裡直接寫CoffeeScript：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://jashkenas.github.com/coffee-script/extras/coffee-script.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後你要這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/coffeescript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nx">alert</span> <span class="s1">&#39;test&#39;</span>
+</span><span class='line'><span class="nt">&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是寫在外部檔案：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/coffeescript&quot;</span> <span class="na">src=</span><span class="s">&quot;myapp.coffee&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>都可以，這樣就能讓你的瀏覽器就看得懂CoffeeScript，只是這樣一來的速度一定比直接編譯成.js檔要來得慢，所以實務上還是會先編譯成.js檔再拿來使用。</p>
+
+<p>OK! 可以開始喝咖啡了!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -742,83 +838,6 @@ CoffeeScript version 1.1.1
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/06/25/do-not-forget-your-original-intention/">記住你青春無畏的樣子</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/06/25/do-not-forget-your-original-intention/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-06-25T15:13:00+08:00" pubdate>Jun 25<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2011/eddie_stamp.jpg" alt="image" /></p>
-
-<p>其實只是一篇沒什麼內容的口水文!</p>
-
-<p>最近在整理東西的時候發現一枚我在十多年前刻的印章，這是第一次出來闖江湖用的名號。(認識我十年或以上的朋友也許還記得這個當年自以為是的名號)。</p>
-
-<p>正所謂初生之犢不畏虎，年輕時候在學校幫忙寫校務系統，才剛學會用ASP寫點簡單的資料庫新增、修改、刪除功能，然後就自以為放眼望去沒高手了；連在BBS上回答別人問題，也常丟<a href="http://zh.wikipedia.org/zh-tw/RTFM">RTFM</a>出來(現在好像也差不多，在PTT Flash版也常叫人去翻F1手冊)，現在想想真不知道當年哪來的自信。</p>
-
-<p>不過話說回來，雖然年輕氣盛，但卻很敢試新的玩具，很敢到處挑戰權威，到處筆戰，什麼沒在怕；反而現在年紀大了，不只學習能力跟記憶體有變差的趨勢，不知道是不是喝了太多年的塑化劑，連膽子也都變小顆了。</p>
-
-<p>最近<a href="http://www.104.com.tw/">104人力銀行</a>拍了一個廣告：</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/SVvjCdZh1wY" frameborder="0" allowfullscreen></iframe>
-
-
-<p>廣告中的那句台詞「<strong>記住你青春無畏的樣子</strong>」，整個打到我的點。</p>
-
-<p>可能因為讀的是醫學院的關係，同學大多是去醫院或學校就職，一路上其實沒太多的同學或朋友是可以一起討論。加上我這人又很愛現，學到一點覺得不錯的東西就想找人講，不然會覺得整個不痛快。只可惜我喜歡的東西又通常都不是主流，就算一起工作的同事或主管也不見得有興趣，所以很多時候，我只能把它當做自己下班後的娛樂。</p>
-
-<p>又也許因為工作、小朋友的關係，桌上的書越堆越高，常常覺得怎麼會弄得這麼累，好幾度認真的在考慮也許應該去找家傳統產業的IT部門窩著養老就好。</p>
-
-<p>雖然有了家庭、小孩後，做事情的確是得小心謹慎些，不過這個廣告提醒了我，以前那個熱血年輕人好像還活著，而似乎還沒想這麼早就讓我過爽爽。</p>
-
-<p>感謝活在這個社群媒體(Facebook、twitter、plurk)盛行的時代，加上近來越來越熱絡的實體聚會，以前只能在網路上或書本上遠觀的高手，慢慢的也有機會跟他們交流心得。學習的路上有伴，而且還是高手的伴，的確會讓這條路走得更久一些。</p>
-
-<p>前兩天在網路上看到轉載的影片，主題是「偉大的領導者如何激勵行為」：</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/L1-0TQZaswA" frameborder="0" allowfullscreen></iframe>
-
-
-<p>看了眼淚差點掉下來，真的是太感動了，講者講了好多我需要改進的地方。我雖然相信「相信」這件事可以化為力量，只可惜很容易幾分鐘熱度就退燒了。</p>
-
-<p>曾經有人問我應該怎麼學好程式? 我簡單的說：「<strong>就多練習吧，除非你是天才，不然這一條路沒有捷徑</strong>」，大部份的你我都是從不會開始。</p>
-
-<p>不要花太多時間來評估「應該學哪種程式語言最好」，這世上沒有什麼是”最好的”程式語言。只要肯花時間開始學就會有收獲、有進步。我在第五次的<a href="https://www.facebook.com/thestudygroup">AS讀書會</a>的最後一張投影片寫著：</p>
-
-<blockquote><p>“只要你開始動手做，你一定會變強“</p><footer><strong>高見龍,</strong><cite><a href='http://www.facebook.com/event.php?eid=168070323253534'>第5回AS讀書會</a></cite></footer></blockquote>
-
-
-<p>不要想太多，如同某個運動品牌的口號：「Just Do It!」，去做就是了。</p>
-
-<p>雖然目前離我設定的目標還很遠，不過我是這樣走過來的。我不是天才，我可以，我相信大家應該也都可以。謹以此文提醒自己，也希望自己能永遠記得當年開始寫程式的初衷。</p>
-
-<p>共勉之!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/22/">&larr; Older</a>
@@ -870,11 +889,15 @@ CoffeeScript version 1.1.1
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
       </li>
     
       <li class="post">
-        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+        <a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>
       </li>
     
       <li class="post">
@@ -905,15 +928,11 @@ CoffeeScript version 1.1.1
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 109.23076923076923%'>Ruby on Rails(6)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

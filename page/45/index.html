@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="RedHat宣布不再推出個人免費版本，並把原先RedHat9的相關技術，移至Fedora計劃，目前已推出到Fedora Core3；同時也針對高階伺服器市場推出Red Hat Enterprise Linux(RHEL)。RHEL有AS、ES及WS三種版本，AS是最高階的企業級伺服器， &hellip;">
+  <meta name="description" content="跟cygwin不同的是，它是在Windows的native code,這樣一來，讓 Windows的command line模式變得好用多了。 網址：http://unxutils.sourceforge.net/ 說明： Here are some ports of common GNU &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/03/08/win32-gnu-tools/">Win32 gnu tools</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/03/08/win32-gnu-tools/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-03-08T21:16:00+08:00" pubdate>Mar 8<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>跟cygwin不同的是，它是在Windows的native code,這樣一來，讓 Windows的command line模式變得好用多了。</p>
+
+<p>網址：<a href="http://unxutils.sourceforge.net/">http://unxutils.sourceforge.net/</a></p>
+
+<h3>說明：</h3>
+
+<p>Here are some ports of common GNU utilities to native Win32. In this context, native means the executables do only depend on the Microsoft C-runtime (msvcrt.dll) and not an emulation layer like that provided by Cygwin tools. The following program versions are covered:</p>
+
+<p>bc-1.05, bison-1.28, bzip2-1.0.2, diffutils-2.7, fileutils-3.16, findutils-4.1, flex-2.5.4, gawk-3.1.0, grep-2.4.2, gsar110, gzip-1.2.4, indent-2.2.9, jwhois-2.4.1, less-340, m4-1.4, make-3.78.1, patch-2.5, recode-3.6, rman-3.0.7, sed-3.02, shellutils-1.9.4, tar-1.12, textutils-2.1, unrar-3.00, wget-1.8.2, which-2.4</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -334,150 +376,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2005/02/24/postfix-and-vm-pop3d/">Postfix + Vm-pop3d</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2005/02/24/postfix-and-vm-pop3d/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2005-02-24T20:47:00+08:00" pubdate>Feb 24<span>th</span>, 2005</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>一般架設mail server，通常是在server上開立一個帳號(ex: useradd eddie)，就差不多可以讓使用者來收發信件了。但一部電腦只設定一組domain name的mail，是有些浪費。但如果在同一台機器上要設定兩個以上不同domain name的email，上面這個方式就行不通了，但透過postfix的virtual alias table，還是可以做到這個功能的。</p>
-
-<h3>1. Postfix安裝</h3>
-
-<p>到<a href="http://postfix.wl0.org/en/available-packages/">postfix</a>網站可以找到下載點，有source也有包好的rpm，建議找rpm來安裝會比較順利。(版本可能會隨時間而有所改變)</p>
-
-<pre><code>&gt; rpm -ivh postfix-2.1.5-4.rh9.i386.rpm
-</code></pre>
-
-<p>透過修改<code>/etc/postfix/virtual</code>，可以做到上面提到的功能，檔案內容如下：</p>
-
-<pre><code>eddie.com.tw　　　　　　 eddie
-admin@eddie.com.tw　　　admin
-</code></pre>
-
-<p>這樣一來，寄給<code>admin@eddie.com.tw</code>的信，就會轉到本機admin這個帳號的信箱。但是，如果有另一個domain上也有相同的使用者，這個方式就行不通了，這時，就可以用<code>vm-pop3d</code>來做到多個domain信箱的設定。</p>
-
-<h3>2. vm-pop3d安裝</h3>
-
-<p>在<a href="http://www.reedmedia.net/software/virtualmail-pop3d/">vm-pop3d</a>網站也可以找到rpm安裝：</p>
-
-<pre><code>&gt; rpm -ivh vm-pop3d-1.1.4-1.i386.rpm
-</code></pre>
-
-<p>安裝後需要改一下postfix的設定，修改<code>/etc/postfix/main.cf</code>的內容，加上下面這幾行：</p>
-
-<pre><code>virtual_mailbox_base = /home/virtual
-virtual_mailbox_maps = hash:/etc/postfix/vmailbox
-virtual_mailbox_domains = hash:/etc/postfix/vmaildomains
-virtual_uid_maps = static:8
-virtual_gid_maps = static:12
-virtual_mailbox_lock = dotlock
-virtual_minimum_uid = 8
-</code></pre>
-
-<p>接下來，要設定<code>/etc/postfix/vmaildomains</code>跟<code>/etc/postfix/vmailbox</code>這兩個檔案：</p>
-
-<p>檔案 <code>/etc/postfix/vmaildomains</code></p>
-
-<pre><code>eddie.com.tw　　　　　eddie
-freebsd.com.tw　　　　freebsd
-</code></pre>
-
-<p>檔案 <code>/etc/postfix/vmailbox</code></p>
-
-<pre><code>eddie@eddie.com.tw　　　eddie.com.tw/eddie
-eddie@freebsd.com.tw　　freebsd.com.tw/eddie
-</code></pre>
-
-<p>再把這兩個檔案做成hash格式：</p>
-
-<pre><code>&gt; postmap vmailbox
-&gt; postmap vmaildomains
-</code></pre>
-
-<p>然後，要為這些domain開一個資料夾，好像進來的信件可以分到這些相對應的目錄：</p>
-
-<pre><code>&gt; mkdir -p /home/virtual/eddie.com.tw
-&gt; mkdir -p /home/virtual/freebsd.com.tw
-</code></pre>
-
-<p>再調整一下<code>/home/virtual</code>的權限：</p>
-
-<pre><code>&gt; chown -R mail.mail /home/virtual
-&gt; chmod -R 775 /home/virtual
-</code></pre>
-
-<p>這樣信件才丟的進來。接下來，重新啟動postfix：</p>
-
-<pre><code>&gt; postfix reload
-</code></pre>
-
-<p>這樣外面寄進來的信就會轉到個人的虛擬目錄下面了。因為vm-pop3d會去<code>/var/spool/virtual</code>這個資料夾裡抓信，但我是把virtual mail設定在/home下面，所以要加個link，不然會收不到信</p>
-
-<pre><code>&gt; ln -s /home/virtual /var/spool/virtual
-</code></pre>
-
-<p>再來，就是要幫使用者設定密碼，vm-pop3d是利用apache裡的htpasswd這個工具來做密碼的，密碼檔要放在<code>/etc/virtual/your.domains</code>裡面，如果沒有/etc/virtual這個目錄，就自己建一個吧。就以我機器的例子：</p>
-
-<pre><code>&gt; cd /etc/virtual/eddie.com.tw
-&gt; htpasswd -c passwd eddie
-New password:
-Re-type new password:
-Adding password for user eddie
-</code></pre>
-
-<p>如此一來會產生一個叫做passwd的檔案，並把eddie及密碼寫在裡面。(如果要刪除使用者，直接用文字編輯器把那一行刪除就行了)</p>
-
-<p>大致上這樣就ok了</p>
-
-<h3>測試：</h3>
-
-<pre><code>&gt; telnet localhost 110
-Escape character is ‘^]’.
-+OK POP3 Welcome to vm-pop3d 1.1.4 &lt;26272.1109219984@mail.eddie.com.tw&gt;
-user eddie@eddie.com.tw
-+OK
-pass xxxxx
-+OK opened mailbox for eddie
-quit
-+OK
-Connection closed by foreign host.
-</code></pre>
-
-<p>看到這樣的訊息，就代表設定完成了。如果有什麼錯誤訊息，看一下<code>/var/log/maillog</code>裡面的東西應該可以找到問題。</p>
-
-<p>要注意的是，一般email信箱如eddie@eddie.com.tw，是使用「@」前面的eddie當做使用者id來收信，但透過vm-pop3d，則是把整個eddie@eddie.com.tw都成使用者id，在其它收信軟體設定時要特別注意。</p>
-
-<h3>參考資料：</h3>
-
-<p><a href="http://sonicresolutions.com/tech/howto_postfix_vmpop3d.html">HOW TO Setup Postfix and vm-pop3d with virtual mailboxes</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/46/">&larr; Older</a>
@@ -529,11 +427,15 @@ Connection closed by foreign host.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
       </li>
     
       <li class="post">
-        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+        <a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>
       </li>
     
       <li class="post">
@@ -564,15 +466,11 @@ Connection closed by foreign host.
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 109.23076923076923%'>Ruby on Rails(6)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

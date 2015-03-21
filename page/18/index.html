@@ -21,11 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="變數 在開始講流程控制之前，要先來看一下在Python的變數。 Pytho的變數有幾項特點以及有趣的使用： 不用宣告，可以直接用 x = &#8220;abc&#8221;
-變數名稱沒有型態
-x, y, z = 1, 2, 3 可一口氣指定多個變數
-x, y = y, x 把x跟y的值對調
-x, &hellip;">
+  <meta name="description" content="為什麼要寫method? 程式碼就這樣一行一行的寫不好嗎? 當你的程式碼超過一定的行數的時候，一行一行的寫就不會是個好的寫法。通常我們會用一個抽象的名詞，來把一群連續或複合的動作給包在一起，這樣一來程式碼變得有系統了，心情也會變得比較好，重點是，會寫method，就容易會有種變成高手的錯覺! &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,6 +90,209 @@ x, &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/12/python-method/">Method</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/12/python-method/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-12T17:03:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>為什麼要寫method?</h2>
+
+<p>程式碼就這樣一行一行的寫不好嗎? 當你的程式碼超過一定的行數的時候，一行一行的寫就不會是個好的寫法。通常我們會用一個抽象的名詞，來把一群連續或複合的動作給包在一起，這樣一來程式碼變得有系統了，心情也會變得比較好，重點是，會寫method，就容易會有種變成高手的錯覺!</p>
+
+<p>雖然這也許是玩笑話，但把程式碼整理到method裡，程式碼會變得比較好維護，而且也更容易可以重複使用。</p>
+
+<h2>定義</h2>
+
+<figure class='code'><figcaption><span>method定義  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">calc_method</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">args_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">args</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">kwargs_method</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">kwargs</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第1行的<code>calc_method</code>比較容易懂，這個method會接收2個參數，其中一個還是有預設值的；第4行的<code>args_method</code>後面的參數加了一顆<code>*</code>，表示傳進去的參數<code>args</code>會被集中成一個Tuple；而第7行的<code>kwargs_method</code>則會把傳進去的參數<code>kwargs</code>集中成一個Dictionary。</p>
+
+<h2>pass!! 什麼都不做..?</h2>
+
+<p>前面提到Python的程式是靠縮排來區分code block的，不過如果我們寫了一個method，但裡面目前還沒想到要寫什麼，或是在<code>if..else..</code>的判斷裡面暫時還沒想到要寫什麼內容，如果就這樣空的不理它是不行的，這時候你就需要<code>pass</code>這個什麼事都不做的東西，像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">do_something</span><span class="p">():</span>
+</span><span class='line'>  <span class="k">pass</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或是像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">if</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">pass</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;kid, go back to school!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個<code>pass</code>的用途，就是只放個包包佔位置而已，其它什麼事都不做。也許你會覺得很不習慣，不過這個應該只有像在Python這種依賴縮排的程式語言才看得到的特色(?)吧。</p>
+
+<h2>呼叫/使用</h2>
+
+<figure class='code'><figcaption><span>呼叫/使用  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">calc_method</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="n">calc_method</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="n">calc_method</span><span class="p">(</span><span class="n">b</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">args_method</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="n">kwargs_method</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python的method呼叫是透過小括號<code>()</code>，並且可以在裡面傳參數進去，不過Python的參數還滿自由的，不一定要照著順序傳進去，像是上面這段程式碼的第3行，只要知道變數名稱，用這種方式傳也是行得通的。</p>
+
+<h2>回傳值</h2>
+
+<p>每個method執行結束，可以使用<code>return</code>關鍵字來指定要回傳的值，如果沒有特別指定，則回傳值是<code>None</code>(相當於在別的程式語言的<code>Null</code>或<code>Nil</code>)。所以這段程式碼的的回傳值：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">calc_method</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">print</span> <span class="n">calc_method</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因為<code>calc_method</code>最後並沒明確的指示要回傳什麼值，所以上面這段程式碼的執行結果，會得到在<code>calc_method</code>裡印出的結果<code>10</code>，以及用<code>print</code>把回傳值<code>None</code>給印出來。</p>
+
+<h2>Lambda? 黏巴達?</h2>
+
+<figure class='code'><figcaption><span>Lambda  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">my_profile</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">age</span> <span class="p">:</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> is </span><span class="si">%i</span><span class="s"> years old&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="n">my_profile</span><span class="p">(</span><span class="s">&quot;eddie&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>lambda其實就是一種匿名(anonymous)的method，它不用像一般method使用<code>def</code>來事先定義好。</p>
+
+<h2>Method Decorator</h2>
+
+<p>decorator的意思簡單的說，就是用某個method把你原來的method給包起來，也就是你在執行內層method之前，會先執行外層的method。這個在Python或Django的程式碼還滿常見的，主要有兩種方式來實作：</p>
+
+<p>第一種是使用method來做decorator：</p>
+
+<figure class='code'><figcaption><span>method decorator  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">my_deco</span><span class="p">(</span><span class="n">func_name</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Hello, this is method decorator&quot;</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">wrapper</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">func_name</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">wrapper</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@my_deco</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">real_method</span><span class="p">():</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;This is real method&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">real_method</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另一種是使用類別來做decorator：</p>
+
+<figure class='code'><figcaption><span>method decorator  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">Deco</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">func_name</span> <span class="o">=</span> <span class="n">func_name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;This is a decorator class&quot;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_name</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@Deco</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">real_method</span><span class="p">():</span>
+</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;This is real method&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">real_method</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下來，我們來看看在Python裡面的一些基本的資料型態.. 數字!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -671,185 +870,6 @@ Hello, Python
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/11/how-to-install-octopress-on-heroku/">How to Install Octopress on Heroku</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/11/how-to-install-octopress-on-heroku/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-11T14:15:00+08:00" pubdate>Oct 11<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>為什麼使用Octopress</h2>
-
-<p>這個我想xdite的<a href="http://blog.xdite.net/posts/2011/10/07/what-is-octopress/">Why Octopress?</a>寫得很清楚了，就不多做說明了。</p>
-
-<h2>安裝</h2>
-
-<p>請到Octopress的<a href="http://octopress.org/">官網</a>官網找下載點，或是到github上也找得到<a href="https://github.com/imathis/octopress">Octopress on github</a>，如果懶得找，請打開你的終端機視窗，然後跟我這樣做：</p>
-
-<pre><code>&gt; cd /tmp
-&gt; git clone git://github.com/imathis/octopress.git
-</code></pre>
-
-<p>第一步切換到<code>/tmp</code>只是個人喜好，你可以換成別的。進到下載的資料夾裡，安裝需要的gem：</p>
-
-<pre><code>&gt; cd octopress
-&gt; bundle install
-</code></pre>
-
-<p>沒問題的話..</p>
-
-<pre><code>&gt; rake install
-## Copying classic theme into ./source and ./sass
-</code></pre>
-
-<p>再來..</p>
-
-<pre><code>&gt; rake preview
-</code></pre>
-
-<p>就會在你本機開一個port 4000的web server起來，開瀏覽器起來輸入<a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a>可以看到畫面如下：</p>
-
-<p><img src="/images/2011/octopress-init.png" alt="image" /></p>
-
-<p>不過你會看到一些像是Blog title都是預設值，這些都是可以修改的，基本上修改都是在<code>_config.yml</code>這個檔案裡，相關設定請參考<a href="http://octopress.org/docs/configuring/">這裡</a>。</p>
-
-<p>不難吧! 你已經完成一半的工作囉，接著我們來寫第一篇文章。</p>
-
-<h2>管理介面?</h2>
-
-<p>你是說像wordpress那種有個帳號密碼登入的管理介面嗎? 沒這種東西啦! Octopress的文章都是由markdown檔案轉成靜態html，寫完就丟上去，就這麼單純而已。</p>
-
-<h2>寫文章</h2>
-
-<p>在Octopress，每篇文章就是一個markdown檔，檔案需要放在<code>source/_posts</code>底下，並依照<code>YYYY-MM-DD-post-title.markdown</code>的格式來命名，例如我這篇的檔名就是<code>2011-10-11-how-to-install-octopress.markdown</code>，這樣待會在轉成靜態html的時候才會找得到。</p>
-
-<p>以上這個動作你可以手動自己做，不過我會建議是透過<code>rake</code>指令幫你做：</p>
-
-<pre><code>&gt; rake new_post[how-to-install-octopress]
-Creating new post: source/_posts/2011-10-11-how-to-install-octopress.markdown
-</code></pre>
-
-<p>因為用<code>rake</code>幫你建立的markdown檔，會幫你加一些文章的表頭相關設定。不管你是手動還是rake自動產生的markdown檔，剩下的就是動手寫文章了。</p>
-
-<p>另外，如果你的shell是用<code>zsh</code>的話，上面這個指令可能會讓你出現這樣的狀況：</p>
-
-<pre><code>&gt;   zsh: no matches found: new_post[how-to-install-octopress]
-</code></pre>
-
-<p>如果遇到這個狀況的話，你可改一下你的<code>.zshrc</code>，加上這行：</p>
-
-<pre><code>alias rake="noglob rake"
-</code></pre>
-
-<p>或是改一下原來的rake指令：</p>
-
-<pre><code>&gt; rake "new_post[how-to-install-octopress]"
-</code></pre>
-
-<h2>怎麼寫?</h2>
-
-<p>就跟你平常寫文章一樣啦! 也許你會好奇，用markdown語法來寫文章真的方便嗎? 對我這種喜歡敲鍵盤而且又常需要在文章裡放程式碼的人來說還挺不錯用的。我是覺得只要習慣的話是還滿快的，markdown的語法要記的也沒多少，寫幾次大概就背起來了。事實上你正在看的這篇文章就是用markdown編寫的。</p>
-
-<p>有推薦的編輯器嗎? 我覺得<a href="http://mouapp.com/">Mou</a>挺不錯用的!</p>
-
-<p>不會寫? 這裡有<a href="http://daringfireball.net/projects/markdown/basics">小抄</a>可以參考。</p>
-
-<h2>寫好了，然後..?</h2>
-
-<p>markdown寫好之後，再來就是要把markdown轉成靜態html檔案了：</p>
-
-<pre><code>&gt; rake generate
-## Generating Site with Jekyll
-unchanged sass/screen.scss
-Configuration from /private/tmp/octopress/_config.yml
-Building site: source -&gt; public
-Successfully generated site: source -&gt; public
-</code></pre>
-
-<p>執行這個<code>rake generate</code>要注意的是，你可能會在你的文章裡會插入一些圖檔，請記得你的圖檔是放在<code>source/images</code>這個資料夾裡，而不是<code>public/images</code>，因為在做<code>rake generate</code>的時候會以<code>source</code>資料夾為主，並複製一份到<code>public</code>的相對應資料夾裡，如果你是直接把圖檔放在<code>public</code>裡，在比對的過程中就會被自動砍掉了。</p>
-
-<h2>在上傳之前</h2>
-
-<p>預設<code>.gitignore</code>會把<code>public</code>資料夾給忽略掉而不上傳，這個在一般的環境還ok，因為public資料夾裡的東西如果沒有的話會再自動重生，但因為我們準備把東西傳到Heroku，Heroku的檔案系統是唯讀的，不會讓你做這個動作，所以如果你也是要上傳到Heroku的，請記得修改這個檔案，把<code>public</code>給拿掉，不然你的轉好的內容都會傳不上去而出現<code>Sorry, I cannot find /</code>的錯誤訊息!</p>
-
-<p>當初沒先看文件就亂玩，結果在這邊卡關卡超久..後來是翻heroku logs才發現原因，其實<a href="http://octopress.org/docs/deploying/heroku/">文件</a>根本早就有寫了..orz</p>
-
-<h2>上傳到Heroku</h2>
-
-<p>因為待會我們要把東西丟上<a href="http://www.heroku.com/">Heroku</a>，所以請先上Heroku申請個帳號，Heroku的<a href="http://devcenter.heroku.com/articles/quickstart">Getting Started with Heroku</a>請先翻一下，相關gem也別忘了一起裝起來。</p>
-
-<p>有帳號之後，用<code>heroku</code>來開個專案：</p>
-
-<pre><code>&gt; heroku create happy-octopress
-Creating happy-octopress... done, stack is bamboo-mri-1.9.2
-http://happy-octopress.heroku.com/ | git@heroku.com:happy-octopress.git
-Git remote heroku added
-</code></pre>
-
-<p>這個<code>happy-octopress</code>請改成你自己取的名字。再來就是把剛剛剛好的東西用git丟上去：</p>
-
-<pre><code>&gt; git add .
-&gt; git commit -m 'first commit'
-&gt; git push heroku master
-Counting objects: 3400, done.
-Delta compression using up to 2 threads.
-Compressing objects: 100% (1218/1218), done.
-Writing objects: 100% (3400/3400), 844.84 KiB, done.
-Total 3400 (delta 1949), reused 3352 (delta 1916)
-
------&gt; Heroku receiving push
------&gt; Ruby/Sinatra app detected
------&gt; Gemfile detected, running Bundler version 1.0.7
-       Unresolved dependencies detected; Installing...
-       Using --without development:test
-       Fetching source index for http://rubygems.org/
-       Installing rack (1.3.2) 
-       Installing tilt (1.3.2) 
-       Installing sinatra (1.2.6) 
-       Using bundler (1.0.7) 
-       Your bundle is complete! It was installed into ./.bundle/gems/
------&gt; Compiled slug size is 608K
------&gt; Launching... done, v4
-       http://happy-octopress.heroku.com deployed to Heroku
-
-To git@heroku.com:happy-octopress.git
- * [new branch]      master -&gt; master
-</code></pre>
-
-<p>就這樣，你可以自己打開瀏覽器，輸入網址<a href="http://happy-octopress.heroku.com">http://happy-octopress.heroku.com</a>，或是叫heroku幫你開：</p>
-
-<pre><code>&gt; heroku open
-</code></pre>
-
-<p>沒意外的話，應該就可以看到架好的Octopress，以及你剛剛寫的文章了。</p>
-
-<p>大概就是這樣，更多的說明請參考<a href="http://octopress.org/">Octopress官網</a>。若有任何問題或是有哪邊寫錯了，歡迎一起來討論囉 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/19/">&larr; Older</a>
@@ -901,11 +921,15 @@ To git@heroku.com:happy-octopress.git
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
       </li>
     
       <li class="post">
-        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+        <a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>
       </li>
     
       <li class="post">
@@ -936,15 +960,11 @@ To git@heroku.com:happy-octopress.git
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 109.23076923076923%'>Ruby on Rails(6)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

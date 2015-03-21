@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="今年八月底聚集了一些對Flash有熱好的朋友們，讓大家互相認識一下平常在版上互動的人長什麼樣子，也順便透過幾個專題演講來分享一下心得。 活動照片：https://picasaweb.google.com/108852467279874647445/PTTFlash 這應該算是PTT &hellip;">
+  <meta name="description" content="前言 常聽很多朋友會問：「flash要怎麼樣跟資料庫串接?」。 答案其實很簡單：「不行!目前flash沒辦法直接與資料庫串接」。 那到底別人是怎麼做的? 為什麼他們的Flash可以由後台管理而且更新資料? 其實運作流程是這樣： Flash(*.swf) &lt;–> Server端程式(ASP, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,333 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/03/18/rubyamf/">如何在 Rails 裡使用 AMF</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/03/18/rubyamf/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-03-18T15:10:00+08:00" pubdate>Mar 18<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>前言</h2>
+
+<p>常聽很多朋友會問：「flash要怎麼樣跟資料庫串接?」。</p>
+
+<p>答案其實很簡單：「<strong>不行!</strong>目前flash沒辦法直接與資料庫串接」。</p>
+
+<p>那到底別人是怎麼做的? 為什麼他們的Flash可以由後台管理而且更新資料? 其實運作流程是這樣：</p>
+
+<p>Flash(*.swf) &lt;–> Server端程式(ASP, ASP.NET, PHP..etc) &lt;–> DB</p>
+
+<p>SWF透過HTTP GET/POST的方式送給中間的程式，透過中間的程式，Flash才得以從資料庫中取出/寫入資料。</p>
+
+<p>其中SWF與server端程式溝通的格式，有簡單的純文字組合，或是用JSON或XML來包裝資料，再餵給SWF，最後再呈現在Flash上。特別是XML對AS3還滿友善的，可以簡單的就取出指定節點的資料。</p>
+
+<p>而今天要提的 AMF(<a href="http://en.wikipedia.org/wiki/Action_Message_Format">Action Message Format</a>)，其實做的工作跟上面的JSON或XML差不多，只是它的格式是binary的。</p>
+
+<p>AMF的實作，各家程式語言或Framework都有類似的實作品
+像是PHP就有<a href="http://www.amfphp.org/">AMFPHP</a>/<a href="http://framework.zend.com/">Zend_Amf</a>，Python有<a href="http://pyamf.org/">PyAMF</a>，.NET有<a href="http://www.fluorinefx.com/">FluorineFx</a>，Ruby的話則有<a href="http://code.google.com/p/rubyamf/">RubyAMF</a>。</p>
+
+<p>不過不管是哪家實作的AMF，流程上都差不多：</p>
+
+<ol>
+<li>SWF連上指定的Gateway。</li>
+<li>呼叫/執行Gateway上掛載的service，並把所需的參數以AMF格式傳給它(如果有的話)。</li>
+<li>執行結果回傳。</li>
+</ol>
+
+
+<p>最近手邊有個案子正好是用Rails寫的，剛好有用上AMF，就趁這個機會寫一下心得，免得自己以後忘記(其實在Rails裡面，用respond_to直接render產出xml或json也還滿方便的..)</p>
+
+<h2>環境</h2>
+
+<ul>
+<li>Mac OX 10.6</li>
+<li>Rails 2.3.5</li>
+<li>Ruby 1.8.7</li>
+<li>RubyAMF 1.6.5</li>
+</ul>
+
+
+<h2>安裝</h2>
+
+<p>就不多做Rails的介紹了，直接開個空白的Rails Project來做示範：</p>
+
+<pre><code>&gt; rails rubyamf_demo
+&gt; cd rubyamf_demo
+</code></pre>
+
+<p>接下來，安裝RubyAMF。網址：<a href="https://github.com/victorcoder/rubyamf_plugin">https://github.com/victorcoder/rubyamf_plugin</a></p>
+
+<p>個人比較建議直接用script/plugin來安裝，簡單方便。當然如果要自己下載打包檔再手動放進來也ok的。</p>
+
+<pre><code>&gt; script/plugin install git://github.com/victorcoder/rubyamf_plugin.git
+</code></pre>
+
+<p>沒問題的話，這個動作就會幫你把RubyAMF安裝在<code>vender</code>資料夾裡了。</p>
+
+<p><img src="/images/2010/rubyamf-1.png" alt="image" /></p>
+
+<p>其實這個安裝的過程中，除了把相關檔案裝到vender裡之外，背後有幫忙做了一些事你可能需要知道的：</p>
+
+<h4>1. app/controllers/ 裡多了一個rubyamf_controller.rb</h4>
+
+<p>這是整個RubyAMF的對外窗口，gateway就是寫在這裡了。</p>
+
+<h4>2. config/ 裡多了一個 rubyamf_config.rb</h4>
+
+<p>RubyAMF的設定檔，打開這個檔案應該可以看到許多註解說明，可依情況及個人使用習慣做調整</p>
+
+<h4>3. config/initializers/mime_types.rb多加了一行</h4>
+
+<pre><code>Mime::Type.register "application/x-amf", :amf
+</code></pre>
+
+<p>到時候可以像 <code>render :text =&gt; "hello"</code>一樣，直接用<code>render :amf =&gt; "hello"</code>來輸出</p>
+
+<h4>4. config/route.rb多了一行路徑設定</h4>
+
+<pre><code>map.rubyamf_gateway 'rubyamf_gateway', :controller =&gt; 'rubyamf', :action =&gt; 'gateway'
+</code></pre>
+
+<p>gateway到時候的位置就是<code>http://127.0.0.1:3000/rubyamf/gateway</code>。</p>
+
+<h4>5. public/ 資料夾多了一個 crossdomain.xml</h4>
+
+<p>常用AS在串接外部資料的人應該知道這是幹嘛的了，預設是全開</p>
+
+<pre><code>&lt;allow-access-from domain="*" /&gt;
+</code></pre>
+
+<p>如果有需要調整可直接動手修改。接下來試著啟動server，看看能不能正常運作：</p>
+
+<pre><code>&gt; script/server
+</code></pre>
+
+<p>沒問題的話，接著開瀏覽器看看<code>http://127.0.0.1:3000/rubyamf/gateway/</code>。如果你看到一個黑色的畫面，中間放著一個RubyAMF的logo：</p>
+
+<p><img src="/images/2010/rubyamf-2.png" alt="image" /></p>
+
+<p>恭喜你，目前這樣就算是把RubyAMF安裝起來了。接下來，就要開始準備寫service上去了</p>
+
+<h2>實作</h2>
+
+<h3>Rails部份：</h3>
+
+<p>先建立一個model，待會我們會用來取出/寫入資料用的：</p>
+
+<pre><code>&gt; script/generate model book author:string content:text
+</code></pre>
+
+<p>目前只放了author跟content兩個簡單的欄位(for demo purpose, Model部份沒有特別做驗證)。</p>
+
+<pre><code>&gt; rake db:migrate
+</code></pre>
+
+<p>為了省去另建資料庫的麻煩，這裡直接使用預設的SQLite做為資料庫。table建立後，先塞一筆測試資料進去：</p>
+
+<pre><code>&gt; script/console
+&gt;&gt; Book.create(:author =&gt; "eddie", :content =&gt; "this is a RubyAMF demo")
+</code></pre>
+
+<p>再來新增一個controller，裡面放一個<code>hello_world</code>這個action：</p>
+
+<pre><code>&gt; script/generate controller amf_test hello_world
+</code></pre>
+
+<p>在hello_world這個action裡，我們加一行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">hello_world</span>
+</span><span class='line'>  <span class="n">render</span> <span class="ss">:amf</span> <span class="o">=&gt;</span> <span class="s2">&quot;Hello AMF&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>大部份網路上看到的範例都是用Flex當範例，不過我個人比較偏好Flash。以下我就用Flash當做範例示範(其實沒太大差別啦，純粹個人喜好)。</p>
+
+<h3>Flash部份：</h3>
+
+<p>檔案：amf_hello.fla</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="k">var</span> <span class="nx">nc</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span>
+</span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">objectEncoding</span> <span class="o">=</span> <span class="nb">ObjectEncoding</span><span class="p">.</span><span class="nx">AMF3</span><span class="o">;</span>
+</span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:3000/rubyamf/gateway&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">var</span> <span class="nx">responder</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">onOK</span><span class="o">,</span> <span class="nx">onErr</span><span class="p">);</span>
+</span><span class='line'><span class="nx">nc</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;AmfTestController.hello_world&#39;</span><span class="o">,</span> <span class="nx">responder</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">onOK</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">onErr</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;Error!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中比較需要注意的是<code>nc.call</code>那一段，直接呼叫<code>ControllerName.ActionName</code>就行了。</p>
+
+<p>按下Ctrl+Enter之後，應該就可以看到”Hello AMF”的字樣了，代表你的SWF已經可以成功從AMF Gateway讀資料回來了。如果這裡有發生錯誤，可能檢查一下是不是有打錯字，或是server忘了啟動。</p>
+
+<p>接下來，我們試著送資料給Gateway，讓它寫入資料庫之後再回傳目前資料庫裡的書總共有幾本。</p>
+
+<p>這次我們先做Flash端的介面，我放了一個按鈕跟二個輸入框，instance name分別取名為<code>add_btn</code>、<code>author_txt</code>及<code>content_txt</code>。</p>
+
+<p>檔名：amf_addbook.fla</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="nx">add_btn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nb">MouseEvent</span><span class="p">.</span><span class="nx">CLICK</span><span class="o">,</span> <span class="nx">click_handler</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">click_handler</span><span class="p">(</span><span class="nx">evt</span><span class="o">:</span><span class="nb">MouseEvent</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">nc</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span>
+</span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">objectEncoding</span> <span class="o">=</span> <span class="nb">ObjectEncoding</span><span class="p">.</span><span class="nx">AMF3</span><span class="o">;</span>
+</span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:3000/rubyamf/gateway&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">amf_object</span><span class="o">:</span><span class="nb">Object</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s1">&#39;author&#39;</span><span class="o">:</span> <span class="nx">author_txt</span><span class="p">.</span><span class="nx">text</span><span class="o">,</span>
+</span><span class='line'>    <span class="s1">&#39;content&#39;</span><span class="o">:</span> <span class="nx">content_txt</span><span class="p">.</span><span class="nx">text</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">responder</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">onOK</span><span class="o">,</span> <span class="nx">onErr</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">nc</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;AmfTestController.add_book&#39;</span><span class="o">,</span> <span class="nx">responder</span><span class="o">,</span> <span class="nx">amf_object</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">onOK</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;目前共有&quot;</span> <span class="o">+</span><span class="nx">res</span> <span class="o">+</span><span class="s2">&quot;本書&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">onErr</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="s2">&quot;fail&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其實只是把呼叫的部份放到click handler裡，並且在裡面做了一個object，並且在呼叫的時候：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">nc.call(&#39;AmfTestController.add_book&#39;, responder, amf_object);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把它當做參數傳出去。</p>
+
+<p>接下來，在Rails裡，我們要來加一個<code>add_book</code>這個action，準備接收資料：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">add_book</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">is_amf</span>
+</span><span class='line'>    <span class="no">Book</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:author</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="ss">:author</span><span class="o">]</span><span class="p">,</span> <span class="ss">:content</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="ss">:content</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:amf</span> <span class="o">=&gt;</span> <span class="no">Book</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;error&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡可以用<code>is_amf</code>來檢查傳進來的是不是AMF，傳進來的參數可用 params[0] 取得。</p>
+
+<p>接著執行Flash，沒問題的話，當每次按下Add Book按鈕時，它就會把author跟content資料寫入DB，並回傳目前總筆數。</p>
+
+<p>以上為展示目的，都沒有加資料的驗證，所以就算空白資料也可以送出。</p>
+
+<p>以上是一些個人小小的心得，供大家參考囉</p>
+
+<h3>相關網站：</h3>
+
+<ul>
+<li><a href="http://blog.rubyamf.org/">http://blog.rubyamf.org/</a></li>
+<li><a href="http://code.google.com/p/rubyamf/">http://code.google.com/p/rubyamf/</a></li>
+</ul>
+
+
+<h3>原始檔下載(fla + rails project)：</h3>
+
+<p><a href="http://nayumi.myweb.hinet.net/downloads/sample.zip">http://nayumi.myweb.hinet.net/downloads/sample.zip</a></p>
+
+<p>update: RubyAMF專案已由原本的<a href="http://code.google.com/p/rubyamf/">google code</a>移至<a href="https://github.com/victorcoder/rubyamf_plugin">github</a>。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -641,189 +968,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/10/12/amfphp-tutorial/">AMFPHP - 搭起 Flash 與 PHP 的美麗橋樑</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2008/10/12/amfphp-tutorial/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2008-10-12T11:24:00+08:00" pubdate>Oct 12<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2008/amfphp_logo.gif" alt="image" /></p>
-
-<p>Flash在跟Server在交換資料，比較常見的是一般的文字訊息或是XML，我自己在趕時間的時候，會偷懶的隨便echo一個字出來知會Flash說server程式已經做完了或是程式執行之後的結果，不趕時間且資料量較多的時候，則會乖乖的用XML。不過，最近開始我比較常用的是AMF跟<a href="http://www.json.org/">JSON</a>這兩個方法，其實都還滿方便的，各有其優缺點。</p>
-
-<p>AMF(Action Message Format)，由<a href="http://www.adobe.com/">Adobe</a>公司推出的規格，主要是用來給flash以RPC的方式來交換資料用的，在flash player 6的版本就已經開始支援(AMF0)，直到flash player 9才又推出新規格(AMF3)。其它細節可參考：<a href="http://en.wikipedia.org/wiki/Action_Message_Format">http://en.wikipedia.org/wiki/Action_Message_Format</a></p>
-
-<p>接下來就來個簡單的實作吧 :)</p>
-
-<h4>1. 下載AMF gateway</h4>
-
-<p>找個自己順手的語言</p>
-
-<ul>
-<li><a href="http://www.amfphp.org/">AMFPHP</a>：這是PHP的</li>
-<li><a href="http://pyamf.org/">PyAMF</a>：這是Python的(還不熟，努力學習中)</li>
-<li><a href="http://amfnet.openmymind.net/">AMF.NET</a>：這是.NET的</li>
-</ul>
-
-
-<p>光看名字大概就能猜到它的後端是用什麼做的。其它還有for Java或其它的，有興趣的可以繼續google翻翻看。</p>
-
-<h4>2. 安裝AMF gateway(以AMFPHP為例)</h4>
-
-<p>安裝方法很容易的，只要把下載下來的壓縮檔解開，放在Web server底下一個自己找得到的路徑就行了。我是放在<code>http://127.0.0.1/test/amfphp/</code>底下。</p>
-
-<p>AMFPHP有提供一個很棒的Service Browser，網址是<code>http://127.0.0.1/test/amfphp/browser</code>，這是個用Flex做的介面，可以清楚列出目前在AMF gateway上的服務。</p>
-
-<h4>3. 在AMF gateway上新增一個服務</h4>
-
-<p>我做了一個簡單的php類別檔，存檔為<code>callme.php</code>，並放在AMF gateway的<code>services</code>資料夾裡面(文末有原始檔連結)。PHP不像Java或AS3一樣硬性規定類別名稱一定要跟檔名一樣..至少php5還沒有，但建立這習慣也不錯。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">callme</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">function</span> <span class="nf">callmeplease</span><span class="p">(</span><span class="nv">$text</span><span class="p">)</span>
-</span><span class='line'>      <span class="p">{</span>
-</span><span class='line'>          <span class="k">return</span> <span class="nv">$text</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面，我做了一個<code>callme</code>的類別，然後裡面放了一個<code>callmeplease</code>的方法，這個方法會接收一個參數，執行完成之後，會把傳入的參數return回來。這裡只是簡單直接return而已，更複雜的資料庫存取程式也可以寫在這裡&#8230;</p>
-
-<p>接下來看一下Service Browser，會發現寫寫的那個新的服務在的左手邊的列表裡：</p>
-
-<p><img src="/images/2008/amfphp.gif" alt="image" /></p>
-
-<p>在右邊的Text輸入文字，按一下右邊的「Call」，應該就可以直接看到結果。(中文支持問題請見文末補充)</p>
-
-<h4>4. 新增一個Fla(這裡以AS3.0為例)</h4>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">net</span><span class="p">.</span><span class="o">*;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 新增一個NetConnection物件</span>
-</span><span class='line'><span class="k">var</span> <span class="nx">test</span><span class="o">:</span><span class="nb">NetConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">NetConnection</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 連上AMF gateway</span>
-</span><span class='line'><span class="c1">// 這裡每家AMF gateway的實作方法應該都有差別，細節請記得看該實作說明</span>
-</span><span class='line'><span class="nx">test</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1/test/amfphp/gateway.php&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 準備一個Responder物件來接收事件，用法及參數請參考F1說明</span>
-</span><span class='line'><span class="k">var</span> <span class="nx">returnResult</span><span class="o">:</span><span class="nb">Responder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Responder</span><span class="p">(</span><span class="nx">ok</span><span class="o">,</span> <span class="nx">ng</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">ok</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">ng</span><span class="p">(</span><span class="nx">res</span><span class="o">:</span><span class="nb">Object</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nf">trace</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//以上，我做了ok跟ng兩個簡單小function，分別是trace出它們接收到的物件</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">test</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">&#39;callme.callmeplease&#39;</span><span class="o">,</span> <span class="nx">returnResult</span><span class="o">,</span> <span class="s1">&#39;hi, flash&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="c1">// 這裡是最重要的動作，就是直接用call這個方法</span>
-</span><span class='line'><span class="c1">// &quot;呼叫&quot;在gateway上面的callme這個服務裡的callmeplease這個方法</span>
-</span><span class='line'><span class="c1">// 第二個參數是接收反應的responder，第三個參數是給callmeplease的參數</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以上，<code>callme.callmeplease</code>會把”hi, flash”傳給AMF gateway，然後gateway回傳”hi, flash”回來給flash。順利的話，Ctrl + Enter執行，就會在output視窗看到輸出的東西了。</p>
-
-<p>就這樣，你的Flash已經可以跟各家有支援AMF的gateway”對談”了。</p>
-
-<p>上面提到的原始檔在<a href="http://code.eddie.com.tw/downloads/flash/AMF.rar">這裡</a>可以拿得到(其實沒幾行字，就一個.php跟.fla)</p>
-
-<p>還是看不懂嗎? 沒關係，這裡有個很棒的影音教學，看完跟著作一遍就知道大概是怎麼運作的了
-<a href="http://www.gotoandlearn.com/player.php?id=78">http://www.gotoandlearn.com/player.php?id=78</a></p>
-
-<p>希望對大家有幫助 :)</p>
-
-<h5>補充1：</h5>
-
-<p>AMF不久之後已經可以在Zend Framework裡找到native module了，ZF真的是包山包海了 :) ((而且ZF-AMF就是由AMFPHP裡的主導人Wade Arnold來親自操刀)。</p>
-
-<h5>補充2：</h5>
-
-<p>AMFPHP預設的編碼是不支援中文的(會出現亂碼)，不過只要修改一下gateway的程式碼即可。</p>
-
-<p>使用文字編輯器，開啟AMFPHP資料夾的gateway.php，應該可以找到一段跟字碼有關的：</p>
-
-<pre><code>$gateway-&gt;setCharsetHandler("utf8_decode", "ISO-8859-1", "ISO-8859-1");
-</code></pre>
-
-<p>把它修改成：</p>
-
-<pre><code>$gateway-&gt;setCharsetHandler("utf8_decode", "UTF-8", "UTF-8");
-</code></pre>
-
-<p>或是如果你的PHP模組裡有iconv的話也可以這樣改：</p>
-
-<pre><code>$gateway-&gt;setCharsetHandler("iconv","UTF-8","UTF-8");
-</code></pre>
-
-<p>記得，不要改flash裡的<code>useCodePage = true</code>，雖然可能也ok，但這是走回頭路&#8230;能使用Unicode就盡量使用它吧 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/32/">&larr; Older</a>
@@ -875,11 +1019,15 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/21/attr_accessor/">Ruby 語法放大鏡之「attr_accessor 是幹嘛的?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/01/19/ios-apprentice-wanted/">新年新希望之誠徵 iOS app 開發學徒</a>
       </li>
     
       <li class="post">
-        <a href="/2014/12/28/ruby-for-rails/">Rails 之 Ruby 語法放大鏡系列</a>
+        <a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>
       </li>
     
       <li class="post">
@@ -910,15 +1058,11 @@
         <a href="/2014/03/03/taipei-ruby-group/">Taipei.rb 起步走</a>
       </li>
     
-      <li class="post">
-        <a href="/2013/12/31/hello-2014/">再見 2013，哈囉 2014!</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 141.53846153846155%'>Ruby(27)</a>  <a href='/category/ruby-on-rails' style='font-size: 107.6923076923077%'>Ruby on Rails(5)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 143.0769230769231%'>Ruby(28)</a>  <a href='/category/ruby-on-rails' style='font-size: 109.23076923076923%'>Ruby on Rails(6)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
