@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-03-21T16:43:03+08:00</updated>
+  <updated>2015-03-21T16:56:22+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -237,7 +237,10 @@
     <link href="http://blog.eddie.com.tw/2014/12/28/ruby-for-rails/"/>
     <updated>2014-12-28T14:35:00+08:00</updated>
     <id>http://blog.eddie.com.tw/2014/12/28/ruby-for-rails</id>
-    <content type="html"><![CDATA[<p>大家在學習 Ruby 或 Ruby on Rails(以下簡稱 Rails)的時候，難免會有一些看不懂或是有一些不知道怎麼來的神奇語法，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby/Rails 是怎麼回事。</p>
+    <content type="html"><![CDATA[<p><img src="/images/2014/magnifying_class.jpg" alt="image" />
+photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
+
+<p>大家在學習 Ruby 或 Ruby on Rails(以下簡稱 Rails)的時候，難免會有一些看不懂或是有一些不知道怎麼來的神奇語法，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby/Rails 是怎麼回事。</p>
 
 <p>預計會有以下的文章(持續更新中)：</p>
 
