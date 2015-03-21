@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby on Rails | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby-on-rails/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-03-21T17:01:35+08:00</updated>
+  <updated>2015-03-21T17:05:35+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -247,7 +247,7 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 <h2>Ruby 相關：</h2>
 
 <ol>
-<li><a href="">attr_accessor 是幹嘛的?</a></li>
+<li><a href="/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
 <li>有的變數前面有<code>@</code>符號(例如 <code>@users</code> )，這是什麼意思?</li>
 <li>有時候會看到有兩個冒號寫法(例如 <code>ActiveRecord::Base</code>)它是什麼意思?</li>
 <li>有的變數變前面有一個冒號(例如 <code>:name</code>)，是什麼意思?</li>
