@@ -21,8 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content=" 這是自己5年前(大概二十五、六歲)的照片，那時的下巴只有一層，脖子的線條也都還看得到，笑起來比現在有自信得多；想不到才過5年，多了幾年歷練，腦袋裡面多了一些些微不足道的腦汁，但肚子上也多了幾公斤的肥肉，我要我的青春回來呀!! 以後我拿這照片給我小孩看，他們應該不會相信這就是他們肥肥的老爸了..
-">
+  <meta name="description" content="在ADCAST待了一年多，經手過一些網路活動，其中有些案子很有趣，例如「咖啡聽」、「Dove網路票選活動」…等等，也從中學了不少網路活動的經驗.. 過了一個農曆年，休息了幾個星期，差不多睡飽了，該是外出覓食的時候了!! :) 最近努力的研究Java的東西，Java的世界真有趣，發展空間很廣， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +90,46 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2006/02/22/ready-to-go/">準備，再出發</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2006/02/22/ready-to-go/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2006-02-22T22:33:00+08:00" pubdate>Feb 22<span>nd</span>, 2006</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2006/bicycle.jpg" alt="image" /></p>
+
+<p>在<a href="http://www.adcast.com.tw/">ADCAST</a>待了一年多，經手過一些網路活動，其中有些案子很有趣，例如「<a href="http://www.coffeeting.com/">咖啡聽</a>」、「Dove網路票選活動」…等等，也從中學了不少網路活動的經驗..</p>
+
+<p>過了一個農曆年，休息了幾個星期，差不多睡飽了，該是外出覓食的時候了!! :)</p>
+
+<p>最近努力的研究Java的東西，Java的世界真有趣，發展空間很廣，只可惜相見恨晚呀!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -297,74 +336,6 @@ SUPPORTED=”zh_TW.Big5:zh_TW:zh”
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2005/03/28/yum/">方便的套件更新程式-Yum</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2005/03/28/yum/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2005-03-28T21:22:00+08:00" pubdate>Mar 28<span>th</span>, 2005</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前有提到在linux上，常常會有安裝軟體A之前，需要安裝軟體B的問題，稱之為相依性(dependency)，要解決相依性的問題，除了之前提到的APT外，Yum也是個很好用的工具。</p>
-
-<p>以下以<a href="http://www.centos.org/">CentOS4</a>為例：</p>
-
-<h2>使用方法：</h2>
-
-<h3>Step 1.匯入GPG-KEY：</h3>
-
-<p><a href="http://mirror.centos.org/centos/">http://mirror.centos.org/centos/</a>，找到適合版本的GPG-KEY</p>
-
-<pre><code>&gt; rpm –import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-4
-</code></pre>
-
-<h3>Step 2.修改/etc/yum.conf：</h3>
-
-<p><code>/etc/yum.conf</code>這個檔案，可以設定要取用哪些RPM以及Yum伺服器的位置，可以選台比較近的Yum伺服器進行更新。</p>
-
-<h3>Step 3.操作</h3>
-
-<p>更新套件：</p>
-
-<pre><code>/usr/bin/yum update
-</code></pre>
-
-<p>如果要搜尋某個套件，可用</p>
-
-<pre><code>/usr/bin/yum search someRPM
-</code></pre>
-
-<p>如果要安裝某個套件，可用</p>
-
-<pre><code>/usr/bin/yum install someRPM
-</code></pre>
-
-<p>跟APT一樣，如果安裝A軟體需要B軟體，它會連帶把B軟體下載下來安裝之後，再繼續安裝你要的A軟體。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/45/">&larr; Older</a>
@@ -416,6 +387,10 @@ SUPPORTED=”zh_TW.Big5:zh_TW:zh”
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -451,15 +426,11 @@ SUPPORTED=”zh_TW.Big5:zh_TW:zh”
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

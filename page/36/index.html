@@ -21,7 +21,8 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="Flash的debug是件痛苦的事，因為SWF在瀏覽器中並不會丟出太多的訊息讓開發者知道到底發生了事情，在Flash的IDE中，可以用trace()的方式把一些測試訊息傳出來，但這在發佈成SWF之後又看不到.. 有善心人士(Alessandro Crugnola)開發了一個Firefox的外掛元件 &hellip;">
+  <meta name="description" content="紀錄一下，原本智邦的空間到期了，換個地方住 話說我最近需要一個辦公室，20~30坪左右，台北市，近捷運站，有合適的歡迎推薦!
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +91,42 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2007/11/25/move/">搬家了</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2007/11/25/move/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2007-11-25T09:26:00+08:00" pubdate>Nov 25<span>th</span>, 2007</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>紀錄一下，原本智邦的空間到期了，換個地方住</p>
+
+<p>話說我最近需要一個辦公室，20~30坪左右，台北市，近捷運站，有合適的歡迎推薦!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -503,104 +540,6 @@ RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2007/08/02/create-swf-with-php/">自動產生swf檔</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2007/08/02/create-swf-with-php/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2007-08-02T03:24:00+08:00" pubdate>Aug 2<span>nd</span>, 2007</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我的環境：
-Windows XP Professional(SP2)
-Appserv(Apache 2.2.4, PHP/5.2.3, MySQL 5.0.45)</p>
-
-<p>透過<a href="http://ming.sourceforge.net/">Ming</a>就可以直接產生swf檔</p>
-
-<p>說明：</p>
-
-<blockquote><p>Ming is a C library for generating SWF (”Flash”) format movies, plus a set of wrappers for using the library from C++ and popular scripting languages like PHP, Perl, Python, and Ruby.</p></blockquote>
-
-
-<p>但Appserv預設沒有把Ming module打開，所以需要先修改一下<code>php.ini</code>：</p>
-
-<pre><code>;extension=php_ming.dll
-</code></pre>
-
-<p>找到這一行，然後把前面的分號去掉，存檔，重新啟動Apache!</p>
-
-<p>程式碼：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="cp">&lt;?php</span>
-</span><span class='line'>  <span class="nv">$_fonts</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SWFFont</span><span class="p">(</span><span class="s1">&#39;Arial&#39;</span><span class="p">);</span> <span class="c1">//設定字型</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nv">$_text</span>  <span class="o">=</span> <span class="k">new</span> <span class="nx">SWFTextField</span><span class="p">();</span>   <span class="c1">//建立TextField</span>
-</span><span class='line'>  <span class="nv">$_text</span><span class="o">-&gt;</span><span class="na">setFont</span><span class="p">(</span><span class="nv">$_fonts</span><span class="p">);</span>       <span class="c1">//把字型掛上去</span>
-</span><span class='line'>  <span class="nv">$_text</span><span class="o">-&gt;</span><span class="na">setColor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>        <span class="c1">//設定顏色(R,G,B)</span>
-</span><span class='line'>  <span class="nv">$_text</span><span class="o">-&gt;</span><span class="na">setHeight</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>         <span class="c1">//設定TextField的高度</span>
-</span><span class='line'>  <span class="nv">$_text</span><span class="o">-&gt;</span><span class="na">addString</span><span class="p">(</span><span class="s1">&#39;大家好!&#39;</span><span class="p">);</span>   <span class="c1">//把字串掛上去</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nv">$_movie</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SWFMovie</span><span class="p">();</span>       <span class="c1">//建立一個Movie</span>
-</span><span class='line'>  <span class="nv">$_movie</span><span class="o">-&gt;</span><span class="na">setDimension</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span><span class="mi">600</span><span class="p">);</span> <span class="c1">//設定大小</span>
-</span><span class='line'>  <span class="nv">$_movie</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="nv">$_text</span><span class="p">);</span>           <span class="c1">//把字串加上去</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Content-type: application/x-shockwave-flash&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="nv">$_movie</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>大功告成 :)</p>
-
-<p>如果還要在Server實際產生檔案的話就加這行：</p>
-
-<pre><code>$_movie-&gt;save(’abc.swf’);   //在同目錄底下存檔為abc.swf
-</code></pre>
-
-<p>詳細的使用方法，請見Ming網站。</p>
-
-<p>用Ming做出來的作品集：<a href="http://www.gazbming.com/">http://www.gazbming.com/</a></p>
-
-<p>看看別人的作品集，遠比我上面這個例子好上太多</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/37/">&larr; Older</a>
@@ -652,6 +591,10 @@ Appserv(Apache 2.2.4, PHP/5.2.3, MySQL 5.0.45)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -687,15 +630,11 @@ Appserv(Apache 2.2.4, PHP/5.2.3, MySQL 5.0.45)</p>
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

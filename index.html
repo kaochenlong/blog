@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="「Ruby 語法放大鏡」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。 大家在寫 Rails 專案的時候，一定都有用過 link_to 這個 view &hellip;">
+  <meta name="description" content="「Ruby 語法放大鏡」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。 在網路上常看到一些介紹 Ruby 裡類別(class)跟模組(module)的差別， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,164 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2015/03/24/class-and-module/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2015-03-24T12:09:00+08:00" pubdate>Mar 24<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="info">
+「<a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。</p>
+
+
+<p>在網路上常看到一些介紹 Ruby 裡類別(class)跟模組(module)的差別，有人說他們兩個差別很大，是完全不同的東西。事實上，類別跟模組是很像的。可能很多人不知道，類別跟模組是有血緣關係的，如果你試著這樣做：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="no">Class</span><span class="o">.</span><span class="n">superclass</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你會得到 <code>Module</code> 這個類別。也就是說，在 Ruby 裡，「類別」其實就是「模組」的後代，類別根本就是繼承自模組來的。即然是同一個體系，自然沒有太多的差異。</p>
+
+<h3>那差別是什麼?</h3>
+
+<p>最明顯的差別，當然就是一個是用 <code>class</code> 來定義，一個是用 <code>module</code> 來定義。至於前、後代功能上的差別，我們只要寫幾行簡單的程式就可以看得出來：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># 前、後代的類別方法差異：</span>
+</span><span class='line'><span class="nb">p</span> <span class="no">Class</span><span class="o">.</span><span class="n">methods</span> <span class="o">-</span> <span class="no">Module</span><span class="o">.</span><span class="n">methods</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 或直接這樣寫：</span>
+</span><span class='line'><span class="nb">p</span> <span class="no">Class</span><span class="o">.</span><span class="n">methods</span><span class="p">(</span><span class="kp">false</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段會得到 <code>[]</code> (空陣列)，表示他們在類別方法上並沒有差別。再來看看實體方法的差別：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># 前、後代的實體方法差異：</span>
+</span><span class='line'><span class="nb">p</span> <span class="no">Class</span><span class="o">.</span><span class="n">instance_methods</span> <span class="o">-</span> <span class="no">Module</span><span class="o">.</span><span class="n">instance_methods</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 或直接這樣寫：</span>
+</span><span class='line'><span class="nb">p</span> <span class="no">Class</span><span class="o">.</span><span class="n">instance_methods</span><span class="p">(</span><span class="kp">false</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>會得到以下結果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">[</span><span class="ss">:allocate</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:superclass</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，<code>allocate</code> 跟 <code>new</code> 跟產生實體(instance)有關，<code>superclass</code> 跟繼承有關。</p>
+
+<p>也就是說，類別比模組多了可以產生實體的能力以及繼承能力。</p>
+
+<h3>那用途上有什麼差別?</h3>
+
+<p>請大家先思考一個問題：「如果我有一個小貓類別，我希望這個小貓會飛，你會怎麼做?」</p>
+
+<ol>
+<li>直接寫一個有飛行功能的小鳥類別，然後再叫小貓類別去繼承它?</li>
+<li>直接把飛行功能寫在小貓類別裡?</li>
+</ol>
+
+
+<p>第 1 種做法的設計有點怪怪的，好好的貓不當，為什麼要去當鳥? 為了想要有飛行功能就去當別人家的小孩&#8230;</p>
+
+<p>第 2 種做法看來似乎可行，但如果之後又有個「我希望我的這個小狗類別也會飛!」的需求，那這樣又得在小狗類別裡寫一段飛行功能，程式碼沒辦法共同。</p>
+
+<p>這時候，模組就可以派上用場了。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">module</span> <span class="nn">Flyable</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">fly</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;I can fly!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Cat</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Flyable</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kitty</span> <span class="o">=</span> <span class="no">Cat</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">kitty</span><span class="o">.</span><span class="n">fly</span>        <span class="c1"># =&gt; I can fly!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在上面這段範例中，我做了一個飛行模組(Flyable)，然後小貓類別不用特別寫什麼功能，就只要把這個飛行模組掛上去(include)就搞定了。</p>
+
+<p>如果之後小狗類別也想要會飛的話，只要這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Flyable</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>小狗也會飛了。</p>
+
+<h3>要用繼承還是要用模組?</h3>
+
+<p>基本上，如果你發現你要做的這個功能，它可能在很多不同體系的類別裡都會用得到，那你可以考慮把功能包在模組裡，然後在必要的時候再 include 進來即可。</p>
+
+<p>如果你還是不知道到底類別跟模組有什麼差別，我再舉二個例子。</p>
+
+<p>不知道大家有沒看過<a href="http://zh.wikipedia.org/wiki/%E7%81%AB%E5%BD%B1%E5%BF%8D%E8%80%85">火影忍者</a>這部漫畫，漫畫裡的主人公之一，宇智波佐助，因為他們家族血統的關係，他寫輪眼這個功能是天生就有的，這個功能是從他的家族「繼承」來的。而佐助的老師，旗木卡卡西，他雖然也有寫輪眼功能，但他的寫輪眼並非繼承來的，事實上是他在年輕時候 include 了某個寫輪眼模組，所以才有這個效果。</p>
+
+<p>另一個例子，<a href="http://zh.wikipedia.org/wiki/ONE_PIECE">海賊王</a>漫畫裡，魯夫本來是普通人，但在偶然的機會下，他 include 了橡膠果實之後，他就有了橡膠人的能力了，並不是因為他老爸是橡膠人所以他才是橡膠人。</p>
+
+<p>以上，希望能讓大家在使用類別跟模組時有更進一步的認識 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -414,15 +572,15 @@
 <p>應該會看到以下結果：</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">[</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:name</span><span class="o">=]</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">[</span><span class="ss">:age</span><span class="p">,</span> <span class="ss">:age</span><span class="o">=]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>的確是產生了兩個方法，分別是 <code>name</code> 以及 <code>name=</code>。</p>
+<p>的確是產生了兩個方法，分別是 <code>age</code> 以及 <code>age=</code>。</p>
 
 <h3>用了 attr_accessor 還能自己寫 getter 或 setter 嗎?</h3>
 
-<p>當然可以，例如：</p>
+<p>當然是可以的，例如：</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -591,11 +749,11 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 
 <ol>
 <li><a href="/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
+<li><a href="/2015/03/24/class-and-module/">類別跟模組有什麼不一樣?</a></li>
+<li>有時候會看到有兩個冒號寫法(例如 ActiveRecord::Base)它是什麼意思?</li>
 <li>為什麼 Hash 好像有不同的寫法?</li>
+<li>有的變數變前面有一個冒號(例如 :name)，是什麼意思?</li>
 <li>有的變數前面有 @ 符號(例如  @users )，這是什麼意思?</li>
-<li>有時候會看到有兩個冒號寫法(例如 <code>ActiveRecord::Base</code>)它是什麼意思?</li>
-<li>有的變數變前面有一個冒號(例如 <code>:name</code>)，是什麼意思?</li>
-<li>module 跟 class 有什麼不一樣?</li>
 <li>你知道 <code>require</code> 這個語法幫你做了什麼事嗎?</li>
 <li><code>gem install</code> 之後，那些 gem 安裝到哪裡去了?</li>
 <li>想要學 Ruby 該看哪些書?</li>
@@ -623,156 +781,6 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 
 <p>以上，有的是關於 Ruby 的，有的是關於 Rails 的(嚴格說來其實都是 Ruby 的問題)
 如果想到還有其它的會再繼續補充，或是大家有什麼想要知道也可以直接來信討論或是在本篇底下留言 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2014/10/22/private-setter-in-ruby/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2014-10-22T14:35:00+08:00" pubdate>Oct 22<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2014/private_no_entry.jpg" alt="image" />
-photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
-
-<p>之前在 <a href="/2011/07/26/public-protected-and-private-method-in-ruby/">Public, Protected and Private Method in Ruby</a> 這篇文章提到，在 Ruby 裡使用 private 方法的時候，不能明確的指出 receiver，以下面這段範例來說：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">gossip</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kp">private</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">gossip</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;don&#39;t tell anyone!&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">snoopy</span> <span class="o">=</span> <span class="no">Dog</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">hello</span>        <span class="c1"># =&gt; NoMethodError</span>
-</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">gossip</span>       <span class="c1"># =&gt; NoMethodError</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在上面這段程式碼的第 13 行，因為它明確的指出 receiver (snoopy)，所以執行這行程式碼會出現會出現 <code>NoMethodError</code> 的錯誤；而在第 3 行，即使 receiver 是 <code>self</code> 也一樣是不行的。</p>
-
-<p>這是在 Ruby 裡面 private 方法的設計。</p>
-
-<p>不過，今天剛好有朋友拿了一段程式碼給我看，才發現原來上面這個規則原來也是有例外的，舉個例子來說：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
-</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:name</span>
-</span><span class='line'>  <span class="kp">private</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:name</span><span class="o">=</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">gossip</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">greeting1</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">name</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">greeting2</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Snoopy&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kp">private</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">gossip</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;don&#39;t tell anyone!&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">snoopy</span> <span class="o">=</span> <span class="no">Dog</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">hello</span>         <span class="c1"># =&gt; NoMethodError</span>
-</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">gossip</span>        <span class="c1"># =&gt; NoMethodError</span>
-</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">greeting1</span>     <span class="c1"># =&gt; NoMethodError</span>
-</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">greeting2</span>     <span class="c1"># =&gt; It Works!</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在上面這段範例中用 <code>attr_accessor</code> 做了一個 <code>name</code> 的 getter 跟 setter，並且把 getter/setter 設定成 private。在第 10 行的地方呼叫了 private 的 getter，並且明確的指出 receiver 是 <code>self</code>，照規則來說會出現錯誤不意外，但第 14 行用類似的方法呼叫了 private 的 setter 卻沒有出錯!</p>
-
-<p>的確 private 方法不能指出明確的 receiver，但 setter 算是這個規則的例外。因為你不在前面加 self 的話，像這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="k">def</span> <span class="nf">greeting</span>
-</span><span class='line'>    <span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Snoopy&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這樣這個 <code>name</code> 不就變成區域變數的賦值了嗎?</p>
-
-<p>想想看，如果在這裡呼叫 setter 不加 self 的話，那 Ruby 要怎麼分辨到底你是要呼叫 setter 還是區域變數?</p>
-
-<p>話說回來，通常我們也不會沒事把 getter/setter 設定成 private，因為即然都做了 getter/setter 就是要給別人用的不是嗎? :)</p>
 </div>
   
   
@@ -829,6 +837,10 @@ photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -864,15 +876,11 @@ photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

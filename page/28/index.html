@@ -21,16 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="iOS的記憶體管理真的不少東西要學，在Objective-C裡有時候會看到一些程式碼這樣寫： 1
-2
-3
-4
-5
-6
-7
--(void) someMethod
-{ [mybook release]; mybook = nil; [super dealloc];
-} 先把它release掉了， &hellip;">
+  <meta name="description" content="OOP的精神之一，就是如果你想研發一台新款式的車子，你並不需要重新發明輪子，通常的做法會去繼承某個現有的”車子類別”，然後加上你要的功能跟屬性，改一改就變成一款新的車子可以來騙錢了。 不過有時候你想幫原來的類別加功能，但又不想動到原來的程式碼，例如你可能下載了某款功能超強的2D物理引擎程式碼， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,6 +90,130 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/12/16/category-in-objective-c/">Category in Objective-C</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2010/12/16/category-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2010-12-16T23:55:00+08:00" pubdate>Dec 16<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2010/plugIn.jpg" alt="image" /></p>
+
+<p>OOP的精神之一，就是如果你想研發一台新款式的車子，你並不需要重新發明輪子，通常的做法會去繼承某個現有的”車子類別”，然後加上你要的功能跟屬性，改一改就變成一款新的車子可以來騙錢了。</p>
+
+<p>不過有時候你想幫原來的類別加功能，但又不想動到原來的程式碼，例如你可能下載了某款功能超強的2D物理引擎程式碼，但因為某些小地方寫的不合你的需求，於是你便動手改原始碼來加功能。這當然沒問題，但萬一原作出新的版本，你要不就選擇維持自己原來的版本不update，不然就是update之後，你原來加在舊版本的程式碼得再重貼一次到新版。</p>
+
+<p>Objective-C裡有個叫做<code>category</code>的東西可以幫你在現有的類別加上新功能，這樣一來上面這個問題就可以搞定了。跟別的程式語言比較起來，category的觀念有點像是在Ruby的mixin或是Python的open class，都是在不影響或修改原來的類別或模組的情況下去修改原有的功能。</p>
+
+<p>舉個例子，因為NSObject是所有物件的源頭，但我想要加一個方法讓所有的子類別都可用(把要加的功能放在繼承階層的最源頭並不是好的設計，在這裡只是舉個例子而已)。程式碼這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// interface</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">NSObject</span><span class="nl">(MySuperObject)</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printRetainCount</span><span class="p">;</span>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">sayHello</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// implementation</span>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">NSObject</span><span class="nl">(MySuperObject)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printRetainCount</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;The retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">self</span> <span class="n">retainCount</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">sayHello</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello everybody!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡用的是在後面加個小括號以及category的名稱。要注意的是category只能加method(instance method或是class method都行)，沒辦法增加instance variable(其實也不是完全不行，只是可能要用一些怪招，不過如果要做到這種程度，是不是該考慮直接用一般的繼承就好?)。使用起來的樣子：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 建立Book物件</span>
+</span><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// instance method from category</span>
+</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="n">printRetainCount</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 用完放掉</span>
+</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// class method from category</span>
+</span><span class='line'><span class="p">[</span><span class="n">Book</span> <span class="n">sayHello</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面這段程式碼如果一般的情況下，在編譯階段就會跳出警告(認不得printRetainCount跟sayHello這兩個方法)，硬是執行的話就會直接錯誤。但因為我們已經有了category的加持，所以執行結果會是：</p>
+
+<pre><code>The retain count is 1
+Hello everybody!
+</code></pre>
+
+<p>因為category是在原來的類別裡加功能，所以你可能會想萬一原來的類別裡有個跟你的category同名的方法怎麼辦? 答案是，<strong>會以category的定義為主</strong>，也就是原來類別裡的那個方法就被你蓋掉了，當然這不見得是你想要的結果。所以通常這種方法擴充的，會建議可以在前面加個prefix，避免跟原來的方法有重複而造成不幸的結果。</p>
+
+<p>另外，前面有篇提到<a href="/2010/12/11/protocol-in-objective-c/">protocol</a>的文章，也提到了<code>informal protocol</code>，其實它就是一種依附在NSObject上，但是沒有把功能實作出來的category。一般的protocol必需乖乖實作所有@required的方法(在Objective-C 2.0以前全部預設都是@required)，但在informal protocol並沒有強制規定全部都要實作出來。事實上，在Objective-C 2.0之後才在protocol裡加進來的@optional語法，就是打算用來取代informal protocol的，在比較新版本的SDK大多都是用標準的protocol在寫了。</p>
+
+<p><a href="/downloads/files/2010/category_demo.zip">範例原始檔下載</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -841,221 +956,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/01/oop-in-objective-c/">OOP in Objective-C</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/12/01/oop-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-12-01T21:54:00+08:00" pubdate>Dec 1<span>st</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>這回來我們來看看在Objective-C裡的物件導向程式(Object-Oriented Programming)的東西，不過有些像是”何謂物件導向”以及”物件導向的優缺點”之類的基礎觀念就不特別提了，網路上應該可以找到更多更詳細的參考資料，我假設你曾經在別的程式語言有寫過OOP，大概知道繼承、封裝是怎麼回事。</p>
-
-<p>在別的程式語言裡，會用關鍵字<code>class</code>來定義類別，在Objective-C的話則是用<code>@interface</code>這個關鍵字來定義。不要搞混這個@interface跟其它程式語言的interface，它們講的是不同的東西(其它程式語言的interface在Objective-C裡比較像是Protocol，之後會再做說明)。為了讓環境單純一點，我們直接開一個Command Line Tool的專案來練習手感：</p>
-
-<p><img src="/images/2010/objc_new_cmd_project.jpg" alt="image" /></p>
-
-<p>下一步設定專案名稱，我取名為<code>OOPTest</code>。再來我們要來新增個類別，在Source資料夾上按右鍵，新增檔案：</p>
-
-<p><img src="/images/2010/objc_add_new_file.png" alt="image" /></p>
-
-<p>選擇一個Objective-C Class，Subclass的地方選擇NSObject：</p>
-
-<p><img src="/images/2010/objc_new_class.jpg" alt="image" /></p>
-
-<p>再來因為我要來寫個Book的類別，所以我就把它取名為<code>Book.m</code>，這邊要注意的是，這裡有個”Also create Book.h”也把它勾起來，它會一起幫忙產生header檔：</p>
-
-<p><img src="/images/2010/objc_file_naming.png" alt="image" /></p>
-
-<p>要特別說明的是，在Java/AS3裡，類別名稱跟檔案的名稱(*.java、*.as)是要同名的，但在Objective-C裡卻沒這樣的強制規定，不過為了方便維護起見，我會習慣把類別跟檔名取一樣的名字。另外這邊的”.m”跟”.h”檔，.h檔是它的”h”eader定義檔(放@interface的地方)，.m則是它的i”m”plementation實作檔(放@implementation的地方)，其實你要放在同一個檔裡，甚至是全部直接寫在main裡也ok，但為了好維護，通常我們會另外把它拆成兩個檔案來寫。接著我們就要來Book.h裡放類別的定義：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">Book</span> : <span class="nc">NSObject</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span><span class="p">;</span>
-</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printBookInfo</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其實這個類別定義，用翻譯成一般話就是說「<strong>我定義了一個叫做Book的類別，在這個類別裡有一個price的整數變數，並寫了一對的getter跟setter，還有一個叫做printBookInfo的class method</strong>」。為什麼需要getter跟setter? 在 Objective-C 裡的實體變數(instance variable，可簡稱為ivar)預設是 protected 的，所以你沒辦法從外部直接存取。當然也是可以透過 @public 語法來設定成公開的屬性，但這並不是好的 OOP 實作方法。</p>
-
-<p>這裡有幾個比較陌生的字，<code>NSObject</code>是Objective-C裡最上層的類別，所有的物件都是繼承自它。要繼承的話，只要用一個冒號”:”即可，後面放的是要繼承的父類別名稱。有注意到前面的加號(+)跟減號(-)了嗎? 它也是有特別意義的，加號代表這個方法是屬於類別方法(class method)，減號則表示這個方法是實體方法(instance method)。有什麼不同? class method是針對類別本身呼叫的，不需要產生instance即可使用，像這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">Book</span> <span class="n">printBookInfo</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>而instance method則需要先由類別產生物件，再由物件來呼叫：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">book</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">book</span> <span class="nl">setPrice:</span> <span class="mi">20</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">book</span> <span class="n">price</span><span class="p">]);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在Java/AS3裡，類別的定義跟實作是寫在一起的，但在Objective-C裡則是分開寫的。到目前為止，我們只用了@interface只是”定義”了類別的骨頭，但還沒實際把肉填進去，要填肉的話，用的是<code>@implementation</code>語法，接著切換到Book.m(你可以用<code>command + option + 上鍵</code>來切換)：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;Book.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">Book</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nf">price</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">price</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setPrice:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">price</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">printBookInfo</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello, This is a book&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>記得我們在@interface裡有定義了2個instance method跟1個class method，在@implementation就要把它實作出來。補充一下，這裡的#import跟在c/c++裡出現的#include有類似的用途，都是把東西給匯進來使用，但這兩個語法最大的差別是<strong>#import只會匯入一次</strong>，所以你可能會在c/c++的程式碼裡常看到#ifdef之類的用法來做檢查，但如果用#import就不用擔心這問題了。</p>
-
-<p>最後回來我們整個程式的進入點，在這個範例裡是OOPTest.m(如果你的專案取名字跟我的不同，這個檔名也會不同)</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
-</span><span class='line'><span class="cp">#import &quot;Book.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSAutoreleasePool</span> <span class="o">*</span> <span class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// 新增一個Book實體</span>
-</span><span class='line'>  <span class="n">Book</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// 設定價錢</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">b</span> <span class="nl">setPrice:</span><span class="mi">20</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// 把價錢印出來</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;the price of the book is %i&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">b</span> <span class="n">price</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// 用完記得放掉</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">b</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// 這是類別方法</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">Book</span> <span class="n">printBookInfo</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>按下”Build and Run”之後的執行結果：</p>
-
-<pre><code>the price of the book is 20
-Hello, This is a book
-</code></pre>
-
-<p>如果你的程式在編譯過程有發生錯誤而沒辦法正常的執行，那可能是有程式碼打錯字，再回頭檢查看看，常見的錯誤是大小寫打錯，還有每行程式碼最後面記得要加分號。</p>
-
-<p>你也許會好奇，Book哪裡來的<code>alloc</code>跟<code>init</code>，還有<code>release</code>方法? 因為這些方法都是繼承來的，不用特別寫就有了。</p>
-
-<p>不過每次為了某個變數就要寫一對getter/setter應該覺得很煩人吧，Objective-C有提供了<code>@property</code>跟<code>@synthesize</code>語法，之後會再特別說明相關用法。另外，Objective-C是單一繼承的，可以靠<a href="/2010/12/11/protocol-in-objective-c/">Protocol</a>以及<a href="/2010/12/16/category-in-objective-c/">Category</a>來補足這部份的不足。下一篇，我們會來看看@property跟@synthesize是怎麼回事。</p>
-
-<h3>建議閱讀：</h3>
-
-<ul>
-<li><a href="http://www.stanford.edu/class/cs193p/">Stanford University CS193P課程</a></li>
-<li><a href="http://www.amazon.com/Programming-Objective-C-2-0-Stephen-Kochan/dp/0321566157">Programming in Objective-C 2.0</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/29/">&larr; Older</a>
@@ -1107,6 +1007,10 @@ Hello, This is a book
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -1142,15 +1046,11 @@ Hello, This is a book
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

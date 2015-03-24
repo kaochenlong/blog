@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="提供一點近期我自己讀過、正在讀或是打算要讀，覺得不錯的iOS開發工具書及網路資源供大家參考。我個人對這些工具書的作者並沒有利益關係，他們賣再多本我也抽不到趴，僅以我個人的角度提供一些的看法(也可能不夠客觀)，至於我沒讀過或沒翻過的書我就沒辦法了。 工具書： Programming in &hellip;">
+  <meta name="description" content="身為一個阿宅，開一個黑黑的terminal視窗(而且可能要同時開好幾個)，手指頭快速的敲打指令，看著terminal不斷的噴log出來，就會有種強者上身的錯覺，至少電影裡都是這樣演的。二年前，我換到了Mac的作業環境之後，terminal還是我工作上不可或缺的重要工具之一。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,62 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/01/06/using-terminal-in-mac-os/">Using Terminal in Mac OS</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/01/06/using-terminal-in-mac-os/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-01-06T01:53:00+08:00" pubdate>Jan 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2011/terminal.jpg" alt="image" /></p>
+
+<p>身為一個阿宅，開一個黑黑的terminal視窗(而且可能要同時開好幾個)，手指頭快速的敲打指令，看著terminal不斷的噴log出來，就會有種強者上身的錯覺，至少電影裡都是這樣演的。二年前，我換到了Mac的作業環境之後，terminal還是我工作上不可或缺的重要工具之一。不過內建的terminal我用不太習慣，在看了許多人的推薦下就換用<a href="http://iterm.sourceforge.net/">iTerm</a>了，原來那個就不知道丟哪邊去了。</p>
+
+<p>不過有時候為了要切換到某個比較深層的目錄，得一直cd(change directory)下去，特別是萬一遇到中文目錄，cd起來更痛苦。還好有個方便小工具叫做”<a href="http://homepage.mac.com/thomasw/OpenTerminal/">openterminal</a>“，可以很快的就切換到你要去的地方。</p>
+
+<p>像這樣，我是把它放在Finder上面的工具列裡，然後先在Finder裡選擇我要去的目錄，再點一下openterminal的按鈕：</p>
+
+<p><img src="/images/2011/openterminal1.jpg" alt="image" /></p>
+
+<p>它會自動幫我開一個terminal視窗，並且自動cd到我要去的目錄：</p>
+
+<p><img src="/images/2011/openterminal2.png" alt="image" /></p>
+
+<p>這樣快多了!! 另外最近還發現一個方法，例如我先開一個terminal，然後在terminal裡打<code>cd</code>兩個字，再來把我要去的資料夾拖到terminal視窗放掉：</p>
+
+<p><img src="/images/2011/path1.jpg" alt="image" /></p>
+
+<p>terminal會自動帶出那個資料夾的所在路徑：</p>
+
+<p><img src="/images/2011/path2.jpg" alt="image" /></p>
+
+<p>以上一些小小心得，供大家參考 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -636,130 +692,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/16/category-in-objective-c/">Category in Objective-C</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2010/12/16/category-in-objective-c/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2010-12-16T23:55:00+08:00" pubdate>Dec 16<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2010/plugIn.jpg" alt="image" /></p>
-
-<p>OOP的精神之一，就是如果你想研發一台新款式的車子，你並不需要重新發明輪子，通常的做法會去繼承某個現有的”車子類別”，然後加上你要的功能跟屬性，改一改就變成一款新的車子可以來騙錢了。</p>
-
-<p>不過有時候你想幫原來的類別加功能，但又不想動到原來的程式碼，例如你可能下載了某款功能超強的2D物理引擎程式碼，但因為某些小地方寫的不合你的需求，於是你便動手改原始碼來加功能。這當然沒問題，但萬一原作出新的版本，你要不就選擇維持自己原來的版本不update，不然就是update之後，你原來加在舊版本的程式碼得再重貼一次到新版。</p>
-
-<p>Objective-C裡有個叫做<code>category</code>的東西可以幫你在現有的類別加上新功能，這樣一來上面這個問題就可以搞定了。跟別的程式語言比較起來，category的觀念有點像是在Ruby的mixin或是Python的open class，都是在不影響或修改原來的類別或模組的情況下去修改原有的功能。</p>
-
-<p>舉個例子，因為NSObject是所有物件的源頭，但我想要加一個方法讓所有的子類別都可用(把要加的功能放在繼承階層的最源頭並不是好的設計，在這裡只是舉個例子而已)。程式碼這樣寫：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// interface</span>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">NSObject</span><span class="nl">(MySuperObject)</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printRetainCount</span><span class="p">;</span>
-</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">sayHello</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// implementation</span>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">NSObject</span><span class="nl">(MySuperObject)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">printRetainCount</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;The retain count is %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">self</span> <span class="n">retainCount</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">+</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">sayHello</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Hello everybody!&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡用的是在後面加個小括號以及category的名稱。要注意的是category只能加method(instance method或是class method都行)，沒辦法增加instance variable(其實也不是完全不行，只是可能要用一些怪招，不過如果要做到這種程度，是不是該考慮直接用一般的繼承就好?)。使用起來的樣子：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 建立Book物件</span>
-</span><span class='line'><span class="n">Book</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Book</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// instance method from category</span>
-</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="n">printRetainCount</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 用完放掉</span>
-</span><span class='line'><span class="p">[</span><span class="n">b</span> <span class="n">release</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// class method from category</span>
-</span><span class='line'><span class="p">[</span><span class="n">Book</span> <span class="n">sayHello</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面這段程式碼如果一般的情況下，在編譯階段就會跳出警告(認不得printRetainCount跟sayHello這兩個方法)，硬是執行的話就會直接錯誤。但因為我們已經有了category的加持，所以執行結果會是：</p>
-
-<pre><code>The retain count is 1
-Hello everybody!
-</code></pre>
-
-<p>因為category是在原來的類別裡加功能，所以你可能會想萬一原來的類別裡有個跟你的category同名的方法怎麼辦? 答案是，<strong>會以category的定義為主</strong>，也就是原來類別裡的那個方法就被你蓋掉了，當然這不見得是你想要的結果。所以通常這種方法擴充的，會建議可以在前面加個prefix，避免跟原來的方法有重複而造成不幸的結果。</p>
-
-<p>另外，前面有篇提到<a href="/2010/12/11/protocol-in-objective-c/">protocol</a>的文章，也提到了<code>informal protocol</code>，其實它就是一種依附在NSObject上，但是沒有把功能實作出來的category。一般的protocol必需乖乖實作所有@required的方法(在Objective-C 2.0以前全部預設都是@required)，但在informal protocol並沒有強制規定全部都要實作出來。事實上，在Objective-C 2.0之後才在protocol裡加進來的@optional語法，就是打算用來取代informal protocol的，在比較新版本的SDK大多都是用標準的protocol在寫了。</p>
-
-<p><a href="/downloads/files/2010/category_demo.zip">範例原始檔下載</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/28/">&larr; Older</a>
@@ -811,6 +743,10 @@ Hello everybody!
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -846,15 +782,11 @@ Hello everybody!
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

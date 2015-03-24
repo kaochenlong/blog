@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="What is Python? Python的老爸是，Guido van Rossum，聽說是他在1989年的時候的某個聖誕節無聊，然後就設計出這套程式語言，1991年放出來給大家用，到目前已經有將近20年的歷史了。 目前主流的版本是2.x跟3.x系列，最新的版本目前分別是2.7.2版及3.2. &hellip;">
+  <meta name="description" content="不管你用的Linux/FreeBSD/MacOS/Windows..etc，目前Python均有實作品，請至http://python.org/getit/找到適合的平台並下載安裝。 不過，我不得小小抱怨一下，Python在Windows上實在是不怎麼友善，包括我們之後要講的Django， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,101 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/12/python-install/">安裝Python</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/12/python-install/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-12T16:06:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>不管你用的Linux/FreeBSD/MacOS/Windows..etc，目前Python均有實作品，請至<a href="http://python.org/getit/">http://python.org/getit/</a>找到適合的平台並下載安裝。</p>
+
+<p>不過，我不得小小抱怨一下，Python在Windows上實在是不怎麼友善，包括我們之後要講的Django，原本也有給Windows的懶人安裝包(Instant Django)，但專案似乎也斷頭了。不過也不是沒有解決方法，如果只是要在Windows做練習的話，可參考<a href="/2011/10/12/install-cygwin-on-windows/">下一章</a>。</p>
+
+<p>如果你安裝完成，請打開你的終端機視窗，輸入<code>python</code>就可以進入interactive shell來試玩一下：</p>
+
+<pre><code>&gt; python
+Python 2.6.1 (r261:67515, Jun 24 2010, 21:47:49)
+[GCC 4.2.1 (Apple Inc. build 5646)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; "hello python"
+'hello python'
+&gt;&gt;&gt; 1 + 2
+3
+</code></pre>
+
+<p>在這個shell裡面，你可以很容易的就測試一些簡單的程式碼，看看執行結果是不是跟你想像的是一樣的。有趣的是，如果你在shell裡輸入<code>import this</code>的話：</p>
+
+<pre><code>&gt;&gt;&gt; import this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+</code></pre>
+
+<p>你可以看到Tim Peters寫的The Zen of Python，內文大概說明了Python世界的設計哲學。至於<code>import</code>是做什麼用的，我們在後面的單元會再做說明。</p>
+
+<p>除了shell之外，我們更常把程式碼儲存成一個檔案，附檔名是<code>.py</code>，例如我們把下面這段很簡單的程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/python</span>
+</span><span class='line'><span class="k">print</span> <span class="s">&quot;Hello, Python&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用任何文字編輯器打完之後，存檔為<code>hello.py</code>，然後回到終端機視窗，輸入<code>python hello.py</code>：</p>
+
+<pre><code>&gt; python test.py
+Hello, Python
+</code></pre>
+
+<p>每種程式語言一定都要不免俗的來一下Hello World打個招呼的，如果在Java，你可能為了要輸出一行簡單的字，還得寫個類別或方法才行，在Python，只要一行<code>print</code>就搞定了，相當簡單吧 :)</p>
+
+<p>其實老是Hello World也沒什麼意義，接下來我們來看一點稍微複雜一點的..</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -674,310 +769,6 @@ To git@heroku.com:happy-octopress.git
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/09/10/introduction-to-easeljs/">EaselJS新手上路</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/09/10/introduction-to-easeljs/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-09-10T00:10:00+08:00" pubdate>Sep 10<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>前言</h2>
-
-<p>我一直都沒有忘記我是個閃客(Flasher)的身份，不過近年來因為貪圖紅寶石(Ruby)的漂亮，所以同時也把它一併收到工具箱裡，當做自己謀生的工具之一。</p>
-
-<p>也許你會好奇，Flash/AS寫得好好的，幹嘛學人家用什麼HTML5+JavaScript?
-問的好! 簡單的答案是：因為我高興；複雜一點的答案是：我本來就喜歡一些冷門的玩具，而且AS的部份我覺得目前學的能力暫時夠混飯吃了，想來試點別的。雖然HTML5的規格都還沒標準化，瀏覽器的支援程度也都不太一樣，但如果要等到它真的紅的時候再進場，大概也輪不到我了，所以趁專案的空檔來研究一下，若學有所成的話，之後也可以試著引進到自己或客戶的專案裡。</p>
-
-<p>Canvas是HTML5新進的東西，如果以Flash/AS的角度來看，它有點像是Bitmap或是BitmapData，不過操作起來可不像在AS裡那麼簡單。感謝我心目中的偶像 – <a href="http://gskinner.com/blog">Grant Skinner</a>大神開發了一個叫做<a href="http://easeljs.com/">EaselJS</a>的framework，可以讓Canvas的操作變得簡單許多，而且有Flash-like的API可以用，讓Flash/AS Developer可以比較無痛的上手。衝著這點以及GS大神的名號，於是選擇了它來當做我的第一個入門framework。</p>
-
-<p>首先就要來面臨一個最現實的問題了：瀏覽器的支援程度(或該說是客戶電腦的瀏覽器是不是支援?)。這在Flash Player上幾乎沒這個困擾，但在HTML5就不是這麼回事了。目前比較新版本的瀏覽器，例如Firefox、Safari、Chrome以及Opera幾個大廠牌的支援都還算OK。不過我想那些不是重點，你我關注的還是那老兵不死的IE!! 版本新一點的IE也許還OK，但至於舊一點的.. 這個嘛，我想這部份的細節就讓大家自行體會了，對於這個問題，我只能說「<strong>I DON’T CARE</strong>」。</p>
-
-<h2>安裝</h2>
-
-<p>基本上不用什麼特別的安裝，到EaselJS的<a href="https://github.com/gskinner/EaselJS">github repo</a>上把壓縮檔下載回來，解壓縮後把lib資料夾裡的easel.js拿出來，放到適當的目錄就能用了。EaselJS是open source的，而且還是MIT授權，所以你可以放心的使用。在這個當下取得的release版本是0.3.2。</p>
-
-<h2>上路之前</h2>
-
-<p>在開始之前，建議最好對HTML以及JavaScript有些基礎的認識，不然可能容易迷路。接下來，在EaselJS裡有幾個主要的類別你也會需要花點時間了解一下：</p>
-
-<h3>DisplayObject體系</h3>
-
-<h4>DisplayObject</h4>
-
-<p>寫過AS3的朋友應該不陌生這個名詞(如果覺得陌生的話，不要跟別人說你會寫AS3喔)，它是所有可視物件(例如Bitmap、Shape、Text等)的最上層的父類別，定義一些基本屬性及方法，例如X、Y座標、放大縮小、旋轉、透明度等，更多細節請參閱文件<a href="http://easeljs.com/docs/DisplayObject.html">DisplayObject章節</a>。</p>
-
-<h4>Stage</h4>
-
-<p>閃客們，有回家的感覺了嗎? 這個在AS3就是整個場景的最上層(root)，但如果你從上往下看的話，也可以說是最下層的物件。Stage把Canvas包起來，然後在呼叫Stage的<code>tick()</code>或<code>update()</code>的時候會render被包起來的Canvas。不過跟AS3不同的是，在AS3裡Stage只會有一個，在EaselJS可以有一個以上。細節請參閱<a href="http://easeljs.com/docs/Stage.html">文件Stage章節</a>，或是看看底下的程式範例。</p>
-
-<h4>Container</h4>
-
-<p>這個在AS3是DisplayObjectContainer，在這邊名字變短了，但功能是差不多的，就是可以把一些DisplayObject包起來，以方便操作；當然你想要像在Flash裡面的一樣的一層包一層的巢狀結構也是可以的。在AS3裡常用的<code>addChild</code>、<code>addChildAt</code>、<code>removeChild</code>、<code>getNumChildren</code>等方法，以及碰撞偵測hitTest也都是在這個類別定義的。細節請見<a href="http://easeljs.com/docs/Container.html">Container章節</a>。</p>
-
-<h4>Bitmap</h4>
-
-<p>拿來裝圖片跟影片用的，請參閱文件<a href="http://easeljs.com/docs/Bitmap.html">Bitmap章節</a>。</p>
-
-<h4>BitmapSequence</h4>
-
-<p>這個可能會比較陌生一些了，你可以暫時先把它想像成跟Flash的時間軸差不多的東西，這個類別定義了在Flash裡很常用的<code>gotoAndPlay()</code>跟<code>gotoAndStop()</code>，也許之後透過一些實作會更清楚它是幹嘛的。細節請參閱文件<a href="http://easeljs.com/docs/BitmapSequence.html">BitmapSequence章節</a>。</p>
-
-<h4>Shape</h4>
-
-<p>底下會提到的Graphics類別其實是沒辦法把向量圖形直接畫到Canvas上的，得透過Shape類別的包裝，並放到Stage上才行。細節請見文件<a href="http://easeljs.com/docs/Shape.html">Shape章節</a>，或見底下的範例。</p>
-
-<h4>Text</h4>
-
-<p>看名字就知道它是用來處理文字的類別，請參閱文件<a href="http://easeljs.com/docs/Text.html">Text章節</a>。</p>
-
-<p>附上一個我自己畫的DisplayObject類別關係圖：</p>
-
-<p><img src="/images/2011/easeljs-displayobject.png" alt="image" /></p>
-
-<h3>其它類別</h3>
-
-<h4>Graphics</h4>
-
-<p>提供了方便的API，讓你可以畫一些向量圖形用的，這個類別還滿重要的，詳細內容請參閱文件<a href="http://easeljs.com/docs/Graphics.html">Graphics章節</a>。</p>
-
-<h4>SpriteSheet</h4>
-
-<p>在Flash裡如果我們要做一個角色在跑步的MovieClip是很容易的，大概就是勞請設計師幫忙畫在跑步中的各個動作圖，然後使用關鍵影格，把各張圖片包在MovieClip就行了。這邊GS利用SpriteSheet來達到類似的功能，透過這個類別，你可以把一連串的圖片包成一個SpriteSheet來連續播放，看起來就有類似的動畫效果。細節請參閱文件<a href="http://easeljs.com/docs/SpriteSheet.html">SpriteSheet章節</a>。</p>
-
-<h4>Ticker</h4>
-
-<p>有點類似在Flash/AS裡ENTER_FRAME的東西，讓你可以在每個frame/interval做一些事情，細節請參閱<a href="http://easeljs.com/docs/Ticker.html">Ticker章節</a>。</p>
-
-<p>整體來看，EaselJS的類別不到20個，建議花點時間看一下文件或原始碼，如果你曾經或現在是個Flash Developer、自認AS3還算ok，也許EaselJS對你來說也不會太難上手的。
-來寫code吧</p>
-
-<p>講再多沒來個範例一定沒感覺的，來做個會旋轉的正方形好了(我知道這範例還滿無聊的，沒比Hello World強到哪裡去，but just for demo purpose)：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
-</span><span class='line'><span class="nt">&lt;html&gt;</span>
-</span><span class='line'><span class="nt">&lt;head&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;title&gt;</span>EaselJS Demo 001<span class="nt">&lt;/title&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;easel.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">media=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nf">#my_canvas</span><span class="p">{</span>
-</span><span class='line'>      <span class="k">background-color</span><span class="o">:</span> <span class="nb">gray</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="nt">&lt;/style&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">stage</span><span class="p">;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">box</span><span class="p">;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">box_width</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;my_canvas&quot;</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">stage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Stage</span><span class="p">(</span><span class="nx">canvas</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">graphics</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Graphics</span><span class="p">();</span>
-</span><span class='line'>      <span class="nx">graphics</span><span class="p">.</span><span class="nx">setStrokeStyle</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">graphics</span><span class="p">.</span><span class="nx">beginStroke</span><span class="p">(</span><span class="nx">Graphics</span><span class="p">.</span><span class="nx">getRGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mf">0.8</span><span class="p">));</span>
-</span><span class='line'>      <span class="nx">graphics</span><span class="p">.</span><span class="nx">drawRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">box_width</span><span class="p">,</span> <span class="nx">box_width</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">box</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Shape</span><span class="p">(</span><span class="nx">graphics</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">box</span><span class="p">.</span><span class="nx">regX</span> <span class="o">=</span> <span class="nx">box</span><span class="p">.</span><span class="nx">regY</span> <span class="o">=</span> <span class="nx">box_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class='line'>      <span class="nx">box</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class='line'>      <span class="nx">box</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">stage</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">box</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">stage</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">Ticker</span><span class="p">.</span><span class="nx">setFPS</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">Ticker</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">function</span> <span class="nx">tick</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>      <span class="nx">box</span><span class="p">.</span><span class="nx">rotation</span> <span class="o">+=</span> <span class="mi">4</span><span class="p">;</span>
-</span><span class='line'>      <span class="nx">stage</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="nt">&lt;/script&gt;</span>
-</span><span class='line'><span class="nt">&lt;/head&gt;</span>
-</span><span class='line'><span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;javascript:init();&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'><span class="nt">&lt;canvas</span> <span class="na">width=</span><span class="s">&quot;300&quot;</span> <span class="na">height=</span><span class="s">&quot;300&quot;</span> <span class="na">id=</span><span class="s">&quot;my_canvas&quot;</span><span class="nt">&gt;&lt;/canvas&gt;</span>
-</span><span class='line'><span class="nt">&lt;/body&gt;</span>
-</span><span class='line'><span class="nt">&lt;/html&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>效果如下：</p>
-
-<iframe src="http://www.eddie.com.tw/labs/easeljs/001.html" width="320" height="320" frameborder="0"></iframe>
-
-
-<p>或按<a href="http://www.eddie.com.tw/labs/easeljs/001.html">這裡</a>檢視效果。</p>
-
-<p>HTML的部份就不多解釋，JavaScript的部份則是把剛才下載回來的easel.js給引進來，然後在body的onload的地方呼叫自己寫的init()。不一定要這樣做，甚至你想把jQuery也引進來用也沒問題，要注意的是，因為這裡僅是做個示範，所以這個簡單的範例沒有特別檢查該瀏覽器是否支援Canvas。</p>
-
-<p>上面這個範例需要說明的大概就是init()裡的那幾行程式碼了：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;my_canvas&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">stage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Stage</span><span class="p">(</span><span class="nx">canvas</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>取得canvas，並把canvas用stage包起來。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">graphics</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Graphics</span><span class="p">();</span>
-</span><span class='line'><span class="nx">graphics</span><span class="p">.</span><span class="nx">setStrokeStyle</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-</span><span class='line'><span class="nx">graphics</span><span class="p">.</span><span class="nx">beginStroke</span><span class="p">(</span><span class="nx">Graphics</span><span class="p">.</span><span class="nx">getRGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mf">0.8</span><span class="p">));</span>
-</span><span class='line'><span class="nx">graphics</span><span class="p">.</span><span class="nx">drawRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">box_width</span><span class="p">,</span> <span class="nx">box_width</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>利用Graphics類別把方塊畫出來，Graphics的method幾乎都是會回傳Graphics的instance回來，也就是說上面幾行例如setStrokeStyle()或是drawRect()等方法是可以直接串起來寫的。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">box</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Shape</span><span class="p">(</span><span class="nx">graphics</span><span class="p">);</span>
-</span><span class='line'><span class="nx">box</span><span class="p">.</span><span class="nx">regX</span> <span class="o">=</span> <span class="nx">box</span><span class="p">.</span><span class="nx">regY</span> <span class="o">=</span> <span class="nx">box_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class='line'><span class="nx">box</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class='line'><span class="nx">box</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>因為Graphics畫完即使加到stage上，也還是看不到(因為它不是DisplayObject，請見上面的類別圖)，所以你需要再用個Shape類別把它包起來，待會要把它放到stage裡。這裡的regX跟regY指的是這個shape的註冊點。如果你不知道註冊點是什麼，你可以試著把設定註冊點那行程式碼拿掉，再看看旋轉效果如何就知道了。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">stage</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">box</span><span class="p">);</span>
-</span><span class='line'><span class="nx">stage</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>呼叫addChild()把剛剛建立的box加到stage上，再呼叫update()來把上面的可視物件給render到canvas上。只有在stage叫呼update()或tick()方法的時候，canvas才會重畫。事實上，當stage呼叫update()的時候，會呼叫所有被這個stage包起來的instance的tick()方法。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">Ticker</span><span class="p">.</span><span class="nx">setFPS</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
-</span><span class='line'><span class="nx">Ticker</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>利用Ticker來設定FPS(每秒30格)，並加上listener。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">tick</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nx">box</span><span class="p">.</span><span class="nx">rotation</span> <span class="o">+=</span> <span class="mi">4</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">stage</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在每個interval把box轉動4度，然後重畫canvas。這個function一定要取名做tick()嗎? 別的名字不行嗎? 我們在前面請Ticker去監聽，Ticker在每個intereval就會去呼叫被監聽的物件上的tick()方法，所以你如果取做別的名字是沒用的。</p>
-
-<p>如果你是AS3的閃客，應該不會覺得太難上手，如果不是，我想上面這程式也沒多難懂才是。</p>
-
-<h2>結論</h2>
-
-<ol>
-<li>目前EaselJS仍是alpha版的，即使是GS大神非常神，但還是不敢保證在使用過程中不會遇到些神奇的狀況。我個人覺得以入門來說，這套用起來算是不會太難，況且GS大神自己也用這套framework幫微軟做了款守城遊戲(<a href="http://pirateslovedaisies.com/">Pirates Love Daisies</a>)，而且當初用的還只是0.1版的EaselJS。(我真的覺得像這樣可以吃自己做的狗食超棒!)</li>
-<li>我沒有評估過或使用過市面上所有類似的framework，不確定在效能或功能上EaselJS是不是最佳選擇，不過目前看起來效能不至於到非常差，而且入門門檻對閃客來說也不算高。如果各位有能力，也可以直接到EaselJS的github repo去fork一份原始碼來研究看看，說不定也能幫忙貢獻一些心力。</li>
-<li>目前網路上找得到的相關資料似乎不太多，所以官方文件將會是你最好的朋友，最好也跟原始碼做一下朋友。</li>
-</ol>
-
-
-<p>之後應該還會再實做幾個例子，順便再來幾篇文章，來分享一些更進階的心得。</p>
-
-<h3>參考文件：</h3>
-
-<ul>
-<li>EaselJS的線上文件 <a href="http://easeljs.com/docs/">http://easeljs.com/docs/</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/20/">&larr; Older</a>
@@ -1029,6 +820,10 @@ To git@heroku.com:happy-octopress.git
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -1064,15 +859,11 @@ To git@heroku.com:happy-octopress.git
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

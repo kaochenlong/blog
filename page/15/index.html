@@ -21,8 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在上一個章節的Shell操作過程中，如果你有注意到的話，你會發現一段長得像這樣的東西： &gt;&gt;&gt; Profile.objects.all()
-[&lt;Profile: Profile object&gt;] 但如果你想讓這個object能夠一眼就看得出來它是什麼內容的話， &hellip;">
+  <meta name="description" content="在Django新增Model是很容易的，只要建立一個繼承自models.Model的類別就行了。但比較麻煩的問題是，如果在syncdb之後還需要調整欄位的話，即使在修改Model屬性再做一次syncdb，會發現Django對於已經sync過的Model會忽略掉。所以如果在syncdb之後要再新增/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +90,158 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/19/django-db-migration-with-south/">在Django裡做Database Migration</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-db-migration-with-south/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-19T02:12:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在Django新增Model是很容易的，只要建立一個繼承自<code>models.Model</code>的類別就行了。但比較麻煩的問題是，如果在<code>syncdb</code>之後還需要調整欄位的話，即使在修改Model屬性再做一次syncdb，會發現Django對於已經sync過的Model會忽略掉。所以如果在syncdb之後要再新增/修改/刪除欄位的話，大致上有兩種做法：</p>
+
+<ol>
+<li>砍掉重練，砍掉之後再重新syncdb。</li>
+<li>手動修改資料庫的欄位以符合Model的屬性。</li>
+</ol>
+
+
+<p>如果在開發初期，第一種做法還滿簡單的。但萬一已經是在線上運作的系統就不能用這種方式；第二種做法雖然可行，但每次都得手動改，其實也滿麻煩的。</p>
+
+<p>這時候，如果可以有資料庫的Migration功能就很方便了。為什麼資料庫需要做Migration? 直接修改資料庫欄位有什麼不好? 一來手工修改麻煩，二來如果同時有多人一起開發的時候，你手動修改了資料庫欄位，可能會造成別人寫的程式出現錯誤。最大的好處是，有了DB Migration，資料庫也可以做版本控制了。</p>
+
+<p>在Ruby on Rails有內建的DB Migration的機制，在Django並沒有，不過可以透過另外的模組：<a href="http://south.aeracode.org/">south</a>，來完成這個功能。</p>
+
+<h2>安裝</h2>
+
+<p>如果你有<code>apt-get</code>可以用：</p>
+
+<pre><code>&gt; apt-get install python-django-south
+</code></pre>
+
+<p>或是使用<a href="http://pypi.python.org/pypi/setuptools#downloads">easy_install</a>來安裝：</p>
+
+<pre><code>&gt; easy_install South
+</code></pre>
+
+<p>或是到<a href="http://www.aeracode.org/releases/south/">這裡</a>，直接下載整個壓縮檔，解壓縮之後進到該目錄裡，執行：</p>
+
+<pre><code>&gt; python setup.py install
+</code></pre>
+
+<p><br /></p>
+
+<p><span class="warning">請注意，使用<code>apt-get</code>或是<code>easy_install</code>可能都會需要root權限!</span></p>
+
+<p><br />
+安裝完成之後，請把south加入到專案的<code>INSTALLED_APPS</code>裡：</p>
+
+<pre><code>INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Uncomment the next line to enable the admin:
+    'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
+    'author',
+    'south',
+)
+</code></pre>
+
+<p>再來請執行一次<code>syncdb</code>，Django會幫你產生一個資料表<code>south_migrationhistory</code>，用來紀錄Migration的歷史紀錄：</p>
+
+<pre><code>&gt; python manage.py syncdb
+Syncing...
+Creating tables ...
+Creating table south_migrationhistory
+Installing custom SQL ...
+Installing indexes ...
+No fixtures found.
+
+Synced:
+ &gt; django.contrib.auth
+ &gt; django.contrib.contenttypes
+ &gt; django.contrib.sessions
+ &gt; django.contrib.sites
+ &gt; django.contrib.messages
+ &gt; django.contrib.staticfiles
+ &gt; django.contrib.admin
+ &gt; author
+ &gt; south
+
+Not synced (use migrations):
+</code></pre>
+
+<h2>使用</h2>
+
+<p>如果要把之前建好的author這個app加進Migration裡：</p>
+
+<pre><code>&gt; python manage.py convert_to_south author
+</code></pre>
+
+<p>然後你會發現在author資料夾裡面多了一個叫做<code>migrations</code>的目錄，裡面放了一個<code>0001_initial.py</code>。</p>
+
+<p>接下來，當你在Model做任何欄位修改之後，只要執行這行：</p>
+
+<pre><code>&gt; python manage.py schemamigration author add_mobile_column --auto
+</code></pre>
+
+<p>它就會幫你找出你做了哪些欄位上的修改。如果你的欄位沒有指定預設值並且不允許NULL的話，過程中south會問你一些問題，請你指定預設值給它。順利的話，它應該會在migrations資料夾底下產生一個<code>0002_add_mobile_column.py</code>。</p>
+
+<p>但做到這裡並還沒有正式的修改到資料庫，接下來請執行<code>python manage.py migrate</code>：</p>
+
+<pre><code>&gt; python manage.py migrate
+Running migrations for author:
+ - Migrating forwards to 0002_add_mobile_column.
+ &gt; author:0002_add_mobile_column
+ - Loading initial data for author.
+No fixtures found.
+</code></pre>
+
+<p>這樣就會把剛剛做的異動正式寫入資料庫了。</p>
+
+<h2>回復</h2>
+
+<p>前面提到，資料庫有做Migration最大的好處就是隨時可以回到某一個版本，例如我們想要回到最一開始的版本的話：</p>
+
+<pre><code>&gt; python manage.py migrate author 0001
+ - Soft matched migration 0001 to 0001_initial.
+Running migrations for author:
+ - Migrating backwards to just after 0001_initial.
+ &lt; author:0003_change_table_name
+ &lt; author:0002_add_mobile_column
+</code></pre>
+
+<p>這樣就搞定了，跟手動修改資料欄位比較起來，方便許多。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -787,64 +938,6 @@ No fixtures found.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/14/django-install/">安裝Django</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/14/django-install/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-14T11:43:00+08:00" pubdate>Oct 14<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>取得Django</h2>
-
-<p>要注意的是，目前的Django支援Python 2.4到2.7的版本，Python3.x目前並不支援。</p>
-
-<p>請到<a href="https://www.djangoproject.com/download/">Django網站</a>取得最新版stable版本的程式碼(目前是1.3.1版)。如果你對Django的發展有興趣，想要提早體驗發展中的功能，也可以透過svn去取得開發版本。</p>
-
-<h2>安裝</h2>
-
-<pre><code>&gt; wget --no-check-certificate http://www.djangoproject.com/download/1.3.1/tarball/ -O Django-1.3.1.tar.gz
-&gt; tar xzvf Django-1.3.1.tar.gz
-&gt; cd Django-1.3.1
-&gt; sudo python setup.py install
-</code></pre>
-
-<p>如果過程中沒出現錯誤訊息，應該這樣就安裝完成了，你可以進到Python shell裡看一下版本對不對：</p>
-
-<pre><code>Python 2.6.1 (r261:67515, Jun 24 2010, 21:47:49) 
-[GCC 4.2.1 (Apple Inc. build 5646)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; import django
-&gt;&gt;&gt; django.get_version()
-'1.3.1'
-</code></pre>
-
-<p>如果秀出來的結果跟你安裝版本不一樣，請檢查看看是不是裝到舊的版本囉。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/16/">&larr; Older</a>
@@ -896,6 +989,10 @@ Type "help", "copyright", "credits" or "license" for more information.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -931,15 +1028,11 @@ Type "help", "copyright", "credits" or "license" for more information.
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

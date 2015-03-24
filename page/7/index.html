@@ -21,8 +21,9 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="建議直接到 youtube 並切換至 HD 畫質觀看。另外也傳了一份到 vimeo 以及 youku 影片內提到的相關連結： Vim
-我的Vimrc設定參考 shell指令 Ctrll: 清除畫面 Ctrlw: 一次刪除一個字(word) Ctrlu: 刪除一整行 Ctrlr: 搜尋 &hellip;">
+  <meta name="description" content="建議直接到 Youtube 並切換至 HD 畫質觀看。另外也傳了一份到 Vimeo 以及 youku Vim plugin for other Apps Vimium for Chrome
+Xvim for XCode
+Vrapper for Eclipse serial editor 檔案開啟 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +92,94 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/05/11/screencast-2-file-window-and-buffer/">爽爽快快學Vim(2)</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2012/05/11/screencast-2-file-window-and-buffer/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2012-05-11T08:29:00+08:00" pubdate>May 11<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><iframe width="420" height="315" src="http://www.youtube.com/embed/D8fQMtPdurY" frameborder="0" allowfullscreen></iframe>
+
+
+<p>建議直接到 <a href="http://www.youtube.com/watch?v=D8fQMtPdurY">Youtube</a> 並切換至 HD 畫質觀看。另外也傳了一份到 <a href="https://vimeo.com/41953763">Vimeo</a> 以及 <a href="http://v.youku.com/v_show/id_XMzk0NTMwNzE2.html">youku</a></p>
+
+<h2>Vim plugin for other Apps</h2>
+
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/dbepggeogbaibhgnhhndojpepiihcmeb">Vimium</a> for Chrome</li>
+<li><a href="https://github.com/JugglerShu/XVim">Xvim</a> for XCode</li>
+<li><a href="http://vrapper.sourceforge.net/home/">Vrapper</a> for Eclipse serial editor</li>
+</ul>
+
+
+<h2>檔案開啟</h2>
+
+<p><code>vi -o a.rb b.rb</code> 以水平分割視窗同時開啟檔案。</p>
+
+<p><code>vi -O a.rb b.rb</code> 以垂直分割視窗同時開啟檔案。</p>
+
+<p><code>vi -p a.rb b.rb</code> 以 tab 視窗同時開啟檔案。</p>
+
+<p><code>vi http://www.eddie.com.tw</code> 可直接開啟網址並將網頁原始碼讀進 Vim 編輯器。</p>
+
+<h2>編輯</h2>
+
+<p>部份在 shell 指令在 insert mode也適用，例如<kbd>Ctrl</kbd><kbd>w</kbd>及<kbd>Ctrl</kbd><kbd>u</kbd>。</p>
+
+<p><kbd>r</kbd> 取代目前游標所在字元，<kbd>R</kbd> 連續取代。</p>
+
+<p><kbd>J</kbd> 組合游標所在的這行與下一行, <kbd>3</kbd><kbd>J</kbd> 將連續3行都組合起來。</p>
+
+<p><kbd>Ctrl</kbd><kbd>v</kbd> 進入 visual block 模式。</p>
+
+<h2>視窗</h2>
+
+<p><kbd>:</kbd><kbd>new</kbd> 新增一個水平分割視窗， <kbd>:</kbd><kbd>vnew</kbd> 新增一個垂直分割視窗。</p>
+
+<p><kbd>Ctrl</kbd><kbd>w</kbd> hjkl 可在分割視窗間切換。</p>
+
+<p><kbd>:</kbd><kbd>b</kbd><kbd>p</kbd> 上一個已經開啟的檔案，<kbd>:</kbd><kbd>b</kbd><kbd>n</kbd> 下一個已經開啟的檔案。</p>
+
+<p><kbd>:</kbd><kbd>l</kbd><kbd>s</kbd> 查看目前 buffer 裡有哪些檔案。</p>
+
+<p><kbd>:</kbd><kbd>b</kbd><kbd>d</kbd> 關閉一個已經開啟的 buffer。</p>
+
+<p><kbd>:</kbd><kbd>b</kbd><kbd>3</kbd> 切換至在 buffer 裡編號為 3 號的檔案。</p>
+
+<p><kbd>:</kbd><kbd>b</kbd> test.rb 切換至在 buffer 裡檔名為 <code>test.rb</code> 的檔案。</p>
+
+<p><kbd>:</kbd><kbd>tab ba</kbd> 可將開啟的 buffer 轉以 tab 展開。</p>
+
+<h2>小結</h2>
+
+<p>咬字跟口條還是像在含魯蛋，有待加強。下一集將會跟大家分享一些我自己工作上有在用的 vim plugin，以及簡單的說明 vimrc 裡的一些設定。另外，如果內容有哪邊講錯的，還請先進、前輩們不吝指導 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -490,53 +579,6 @@ inoremap &lt;RIGHt&gt; &lt;NOP&gt;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/03/14/switch-to-presentation-mode/">Switch to Presentation Mode</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2012/03/14/switch-to-presentation-mode/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2012-03-14T13:33:00+08:00" pubdate>Mar 14<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I think I&#8217;m a show-off person, and usually do presentations to my friends. In this <a href="/2011/03/28/learn-presentation-skills-from-masters/">post</a> I mentioned it&#8217;s cool to make slide with dark theme or something, but sometimes it won&#8217;t be clear enough while putting on projector, and I have to change various settings everytime, that looks not cool and not professional at all.</p>
-
-<p>Thanks for <a href="https://github.com/skalnik">Mike Skalnik</a>, I stole this idea from his Vim config :)</p>
-
-<p>I recorded this video to demonstrate how it looks like. (You might need to change the video to higher resolution if you wanna know what I typed.)</p>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/WqyF4tET7-s" frameborder="0" allowfullscreen></iframe>
-
-
-<p>Just press <code>&lt;leader&gt;z</code>, I can toggle between working mode and presentation mode in a second.</p>
-
-<p>It&#8217;s actually not a very big deal, you can check the <a href="https://github.com/kaochenlong/eddie-vim/blob/master/plugin/settings/PresentationMode.vim">source code</a> to see how to do it. Althought it only works on GUI version Vim (cause I don&#8217;t know how to modify font size in terminal version Vim programmatically), but still quite convenient for myself.</p>
-
-<p>I&#8217;m really SHOW-OFF, huh? :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/8/">&larr; Older</a>
@@ -588,6 +630,10 @@ inoremap &lt;RIGHt&gt; &lt;NOP&gt;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -623,15 +669,11 @@ inoremap &lt;RIGHt&gt; &lt;NOP&gt;
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

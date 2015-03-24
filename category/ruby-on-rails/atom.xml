@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby on Rails | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby-on-rails/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-03-22T06:54:58+08:00</updated>
+  <updated>2015-03-24T18:14:40+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,149 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」]]></title>
+    <link href="http://blog.eddie.com.tw/2015/03/24/class-and-module/"/>
+    <updated>2015-03-24T12:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2015/03/24/class-and-module</id>
+    <content type="html"><![CDATA[<p class="info">
+「<a href="http://blog.eddie.com.tw/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。</p>
+
+
+<p>在網路上常看到一些介紹 Ruby 裡類別(class)跟模組(module)的差別，有人說他們兩個差別很大，是完全不同的東西。事實上，類別跟模組是很像的。可能很多人不知道，類別跟模組是有血緣關係的，如果你試著這樣做：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">puts</span> <span class="no">Class</span><span class="o">.</span><span class="n">superclass</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>你會得到 <code>Module</code> 這個類別。也就是說，在 Ruby 裡，「類別」其實就是「模組」的後代，類別根本就是繼承自模組來的。即然是同一個體系，自然沒有太多的差異。</p>
+
+<h3>那差別是什麼?</h3>
+
+<p>最明顯的差別，當然就是一個是用 <code>class</code> 來定義，一個是用 <code>module</code> 來定義。至於前、後代功能上的差別，我們只要寫幾行簡單的程式就可以看得出來：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;前、後代的類別方法差異：&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="nb">p</span> <span class="no">Class</span><span class="o">.</span><span class="n">methods</span> <span class="o">-</span> <span class="no">Module</span><span class="o">.</span><span class="n">methods</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;或直接這樣寫：&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="nb">p</span> <span class="no">Class</span><span class="o">.</span><span class="n">methods</span><span class="p">(</span><span class="kp">false</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>上面這段會得到 <code>[]</code> (空陣列)，表示他們在類別方法上並沒有差別。再來看看實體方法的差別：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;前、後代的實體方法差異：&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="nb">p</span> <span class="no">Class</span><span class="o">.</span><span class="n">instance_methods</span> <span class="o">-</span> <span class="no">Module</span><span class="o">.</span><span class="n">instance_methods</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;或直接這樣寫：&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="nb">p</span> <span class="no">Class</span><span class="o">.</span><span class="n">instance_methods</span><span class="p">(</span><span class="kp">false</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>會得到以下結果：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">[</span><span class="ss">:allocate</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:superclass</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>其中，<code>allocate</code> 跟 <code>new</code> 跟產生實體(instance)有關，<code>superclass</code> 跟繼承有關。</p>
+
+<p>也就是說，類別比模組多了可以產生實體的能力以及繼承能力。</p>
+
+<h3>那用途上有什麼差別?</h3>
+
+<p>請大家先思考一個問題：「如果我有一個小貓類別，我希望這個小貓會飛，你會怎麼做?」</p>
+
+<ol>
+<li>直接寫一個有飛行功能的小鳥類別，然後再叫小貓類別去繼承它?</li>
+<li>直接把飛行功能寫在小貓類別裡?</li>
+</ol>
+
+
+<p>第 1 種做法的設計有點怪怪的，好好的貓不當，為什麼要去當鳥? 為了想要有飛行功能就去當別人家的小孩...</p>
+
+<p>第 2 種做法看來似乎可行，但如果之後又有個「我希望我的這個小狗類別也會飛!」的需求，那這樣又得在小狗類別裡寫一段飛行功能，程式碼沒辦法共同。</p>
+
+<p>這時候，模組就可以派上用場了。</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">module</span> <span class="nn">Flyable</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">fly</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;I can fly!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;class Cat</span>
+</span><span class='line'><span class="sr">  include Flyable</span>
+</span><span class='line'><span class="sr">end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">kitty</span> <span class="o">=</span> <span class="no">Cat</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">kitty</span><span class="o">.</span><span class="n">fly</span>        <span class="c1"># =&gt; I can fly!</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在上面這段範例中，我做了一個飛行模組(Flyable)，然後小貓類別不用特別寫什麼功能，就只要把這個飛行模組掛上去(include)就搞定了。</p>
+
+<p>如果之後小狗類別也想要會飛的話，只要這樣：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Flyable</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>小狗也會飛了。</p>
+
+<h3>要用繼承還是要用模組?</h3>
+
+<p>基本上，如果你發現你要做的這個功能，它可能在很多不同體系的類別裡都會用得到，那你可以考慮把功能包在模組裡，然後在必要的時候再 include 進來即可。</p>
+
+<p>如果你還是不知道到底類別跟模組有什麼差別，我再舉二個例子。</p>
+
+<p>不知道大家有沒看過<a href="http://zh.wikipedia.org/wiki/%E7%81%AB%E5%BD%B1%E5%BF%8D%E8%80%85">火影忍者</a>這部漫畫，漫畫裡的主人公之一，宇智波佐助，因為他們家族血統的關係，他寫輪眼這個功能是天生就有的，這個功能是從他的家族「繼承」來的。而佐助的老師，旗木卡卡西，他雖然也有寫輪眼功能，但他的寫輪眼並非繼承來的，事實上是他在年輕時候 include 了某個寫輪眼模組，所以才有這個效果。</p>
+
+<p>另一個例子，<a href="http://zh.wikipedia.org/wiki/ONE_PIECE">海賊王</a>漫畫裡，魯夫本來是普通人，但在偶然的機會下，他 include 了橡膠果實之後，他就有了橡膠人的能力了，並不是因為他老爸是橡膠人所以他才是橡膠人。</p>
+
+<p>以上，希望能讓大家在使用類別跟模組時有更進一步的認識 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby 語法放大鏡之「Ruby 的參數」]]></title>
@@ -261,15 +404,16 @@
 <p>應該會看到以下結果：</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">[</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:name</span><span class="o">=]</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="o">[</span><span class="ss">:age</span><span class="p">,</span> <span class="ss">:age</span><span class="o">=]</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>的確是產生了兩個方法，分別是 <code>name</code> 以及 <code>name=</code>。</p>
+<p>的確是產生了兩個方法，分別是 <code>age</code> 以及 <code>age=</code>。</p>
 
 <h3>用了 attr_accessor 還能自己寫 getter 或 setter 嗎?</h3>
 
-<p>當然可以，例如：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>當然是可以的，例如：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -317,11 +461,11 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 
 <ol>
 <li><a href="/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
+<li><a href="/2015/03/24/class-and-module/">類別跟模組有什麼不一樣?</a></li>
+<li>有時候會看到有兩個冒號寫法(例如 ActiveRecord::Base)它是什麼意思?</li>
 <li>為什麼 Hash 好像有不同的寫法?</li>
+<li>有的變數變前面有一個冒號(例如 :name)，是什麼意思?</li>
 <li>有的變數前面有 @ 符號(例如  @users )，這是什麼意思?</li>
-<li>有時候會看到有兩個冒號寫法(例如 <code>ActiveRecord::Base</code>)它是什麼意思?</li>
-<li>有的變數變前面有一個冒號(例如 <code>:name</code>)，是什麼意思?</li>
-<li>module 跟 class 有什麼不一樣?</li>
 <li>你知道 <code>require</code> 這個語法幫你做了什麼事嗎?</li>
 <li><code>gem install</code> 之後，那些 gem 安裝到哪裡去了?</li>
 <li>想要學 Ruby 該看哪些書?</li>
@@ -629,29 +773,6 @@ WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users
 <h4>參考資料：</h4>
 
 <p><a href="http://rvm.beginrescueend.com/gemsets/">RVM官網手冊</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Misunderstanding about Flash]]></title>
-    <link href="http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash/"/>
-    <updated>2010-10-27T16:09:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2010/10/27/misunderstanding-about-flash</id>
-    <content type="html"><![CDATA[<p>今晚在<a href="http://groups.google.com/group/zf-tw/">PHP讀書會</a>上分享的主題：</p>
-
-<div style="width:425px" id="__ss_5576350"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/amf-5576350" title="AMF" target="_blank">AMF</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5576350" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
-
-
-<p><a href="/downloads/files/2010/amf_demo.zip">範例程式碼下載</a></p>
-
-<p>範例裡用的只是單純的傳過去的資料給return回來而已，不過應該可以發現其實不管是跟哪一家的程式語言串接，Flash端的實作方法幾乎都是不需要改變的。</p>
-
-<p>另外同場加映：</p>
-
-<div style="width:425px" id="__ss_5575369"> <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/aquarianboy/misunderstanding-about-flash" title="Misunderstanding about flash" target="_blank">Misunderstanding about flash</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/5575369" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> <div style="padding:5px 0 12px"> View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/aquarianboy" target="_blank">Eddie Kao</a> </div> </div>
-
-
-<p>若內容有誤還請不吝指教</p>
 ]]></content>
   </entry>
   

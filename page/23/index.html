@@ -21,14 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="話說在Ruby裡，Block可以用do..end的方式來寫，也可以用大括號來寫，例如用do..end的方式寫： 1
-2
-3
-(1..5).each do |i| puts i # 得到1 2 3 4 5
-end 用大括號的方式寫的話： 1
-2
-3
-(1..5).each { |i| puts i &hellip;">
+  <meta name="description" content="其實Ruby 1.9已經推出N年，也算有點年紀的東西了。我想Ruby 1.8跟1.9的版本差別，對一般的developer來說，比較關心的點也許是這兩個版本在語法上有沒有哪邊不同? 是不是在1.8版寫的程式到1.9版都能完全不出問題? 讓我們繼續看下去&#8230; Gems變內建的了 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +90,297 @@ end 用大括號的方式寫的話： 1
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/06/13/some-differences-between-ruby-1-8-and-1-9/">Ruby 1.8 v.s. 1.9</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/06/13/some-differences-between-ruby-1-8-and-1-9/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-06-13T14:54:00+08:00" pubdate>Jun 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2011/ruby_logo.png" alt="image" /></p>
+
+<p>其實Ruby 1.9已經推出N年，也算有點年紀的東西了。我想Ruby 1.8跟1.9的版本差別，對一般的developer來說，比較關心的點也許是這兩個版本在語法上有沒有哪邊不同? 是不是在1.8版寫的程式到1.9版都能完全不出問題? 讓我們繼續看下去&#8230;</p>
+
+<h3>Gems變內建的了</h3>
+
+<p>Rubygems在1.8版需要另外安裝，但在1.9安裝的時候也會一併裝進去，另外在1.8版可能偶爾會需要來一行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">require</span> <span class="s2">&quot;rubygems&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這個在1.9也可以不需要了。</p>
+
+<h3>載入的路徑”有一點”不</h3>
+
+<p>在1.9版，預設的載入路徑把”.”(小數點一點，也就是目前的同錄)給拿掉了，所以在require的時候可能要注意一下。</p>
+
+<h3>支援Unicode</h3>
+
+<p>因為1.9起開始支援unicode，所以tr跟Regexp也都開始看得懂unicode了</p>
+
+<h3>老祖宗變了</h3>
+
+<p>直接來段程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Test</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ver 1.8</span>
+</span><span class='line'><span class="nb">p</span> <span class="no">Test</span><span class="o">.</span><span class="n">ancestors</span> <span class="c1"># [Test, Object, Kernel]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ver 1.9</span>
+</span><span class='line'><span class="nb">p</span> <span class="no">Test</span><span class="o">.</span><span class="n">ancestors</span> <span class="c1"># [Test, Object, Kernel, BasicObject]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ruby 1.9版在Object上面還多了個BasicObject：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
+</span><span class='line'><span class="nb">p</span> <span class="no">Object</span><span class="o">.</span><span class="n">superclass</span> <span class="c1"># nil</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ver 1.9</span>
+</span><span class='line'><span class="nb">p</span> <span class="no">Object</span><span class="o">.</span><span class="n">superclass</span> <span class="c1"># BasicObject</span>
+</span><span class='line'><span class="nb">p</span> <span class="no">BasicObject</span><span class="o">.</span><span class="n">superclass</span> <span class="c1"># nil</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>BasicObject變成 1.9版的最上層類別了。</p>
+
+<h3>字串處理</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
+</span><span class='line'><span class="nb">p</span> <span class="s2">&quot;hello&quot;</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>   <span class="c1"># 得到101</span>
+</span><span class='line'><span class="nb">p</span> <span class="sc">?a</span>           <span class="c1"># 得到97</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ver 1.9</span>
+</span><span class='line'><span class="nb">p</span> <span class="s2">&quot;hello&quot;</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>   <span class="c1"># 得到&quot;e&quot;</span>
+</span><span class='line'><span class="nb">p</span> <span class="sc">?a</span>           <span class="c1"># 得到&quot;a&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外，String#each這個方法在1.9已經被拿掉囉，請改用<a href="http://ruby-doc.org/core/classes/String.html#M001209">String#each_byte</a>、<a href="http://ruby-doc.org/core/classes/String.html#M001210">String#each_char</a>以及<a href="http://ruby-doc.org/core/classes/String.html#M001208">String#each_line</a>。</p>
+
+<h3>陣列</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
+</span><span class='line'><span class="nb">p</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">].</span><span class="n">to_s</span>  <span class="c1"># 得到&quot;12345&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ver 1.9</span>
+</span><span class='line'><span class="nb">p</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">].</span><span class="n">to_s</span>  <span class="c1"># 得到&quot;[1, 2, 3, 4, 5]&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>印出來的結果不一樣了</p>
+
+<h3>Hash</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">me</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;eddie&#39;</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="mi">18</span><span class="p">,</span> <span class="ss">:gender</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ver 1.8</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">me</span> <span class="c1"># 得到 {:age=&gt;18, :gender=&gt;1, :name=&gt;&quot;eddie&quot;}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ver 1.9</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">me</span> <span class="c1"># 得到 {:name=&gt;&quot;eddie&quot;, :age=&gt;18, :gender=&gt;1}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在1.9版的hash，不管是新建立或是後來再附加上去，它都變得有”順序”了</p>
+
+<p>另外1.9版有支援新的寫法，上面這段就可以改寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">me</span> <span class="o">=</span> <span class="p">{</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;eddie&quot;</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="n">gender</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它會很聰明的自動把key轉成symbol。在Rails裡常用到的redirect_to，原本這樣寫：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">redirect_to</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="n">index</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也可以改寫成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">redirect_to</span> <span class="n">action</span><span class="p">:</span> <span class="n">index</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Block</h3>
+
+<p>看一下這段程式碼：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">i</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># do something</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">i</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在1.8版本，最後一行會印出數字5，但在1.9則是印出數字0，block裡的區域變數不會影響到外部的變數了。</p>
+
+<h3>Method</h3>
+
+<p>使用methods方法可以印出該類別或物件的方法：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
+</span><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">sort</span>
+</span><span class='line'><span class="o">[</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;=&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;===&quot;</span><span class="p">,</span> <span class="s2">&quot;=~&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;__id__&quot;</span><span class="p">,</span> <span class="s2">&quot;__send__&quot;</span><span class="p">,</span> <span class="s2">&quot;allocate&quot;</span><span class="p">,</span> <span class="s2">&quot;ancestors&quot;</span><span class="p">,</span> <span class="s2">&quot;autoload&quot;</span><span class="p">,</span> <span class="s2">&quot;autoload?&quot;</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="s2">&quot;class_eval&quot;</span><span class="p">,</span> <span class="s2">&quot;class_exec&quot;</span><span class="p">,</span> <span class="s2">&quot;class_variable_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;class_variables&quot;</span><span class="p">,</span> <span class="s2">&quot;clone&quot;</span><span class="p">,</span> <span class="s2">&quot;const_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;const_get&quot;</span><span class="p">,</span> <span class="s2">&quot;const_missing&quot;</span><span class="p">,</span> <span class="s2">&quot;const_set&quot;</span><span class="p">,</span> <span class="s2">&quot;constants&quot;</span><span class="p">,</span> <span class="s2">&quot;display&quot;</span><span class="p">,</span> <span class="s2">&quot;dup&quot;</span><span class="p">,</span> <span class="s2">&quot;enum_for&quot;</span><span class="p">,</span> <span class="s2">&quot;eql?&quot;</span><span class="p">,</span> <span class="s2">&quot;equal?&quot;</span><span class="p">,</span> <span class="s2">&quot;extend&quot;</span><span class="p">,</span> <span class="s2">&quot;freeze&quot;</span><span class="p">,</span> <span class="s2">&quot;frozen?&quot;</span><span class="p">,</span> <span class="s2">&quot;hash&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;include?&quot;</span><span class="p">,</span> <span class="s2">&quot;included_modules&quot;</span><span class="p">,</span> <span class="s2">&quot;inspect&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_eval&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_exec&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_method&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_of?&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_variable_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_variable_get&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_variable_set&quot;</span><span class="p">,</span> <span class="s2">&quot;instance_variables&quot;</span><span class="p">,</span> <span class="s2">&quot;is_a?&quot;</span><span class="p">,</span> <span class="s2">&quot;kind_of?&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;method_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;methods&quot;</span><span class="p">,</span> <span class="s2">&quot;module_eval&quot;</span><span class="p">,</span> <span class="s2">&quot;module_exec&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;new&quot;</span><span class="p">,</span> <span class="s2">&quot;nil?&quot;</span><span class="p">,</span> <span class="s2">&quot;object_id&quot;</span><span class="p">,</span> <span class="s2">&quot;private_class_method&quot;</span><span class="p">,</span> <span class="s2">&quot;private_instance_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;private_method_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;private_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;protected_instance_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;protected_method_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;protected_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;public_class_method&quot;</span><span class="p">,</span> <span class="s2">&quot;public_instance_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;public_method_defined?&quot;</span><span class="p">,</span> <span class="s2">&quot;public_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;respond_to?&quot;</span><span class="p">,</span> <span class="s2">&quot;send&quot;</span><span class="p">,</span> <span class="s2">&quot;singleton_methods&quot;</span><span class="p">,</span> <span class="s2">&quot;superclass&quot;</span><span class="p">,</span> <span class="s2">&quot;taint&quot;</span><span class="p">,</span> <span class="s2">&quot;tainted?&quot;</span><span class="p">,</span> <span class="s2">&quot;tap&quot;</span><span class="p">,</span> <span class="s2">&quot;to_a&quot;</span><span class="p">,</span> <span class="s2">&quot;to_enum&quot;</span><span class="p">,</span> <span class="s2">&quot;to_s&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;untaint&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>回傳的是方法的字串陣列。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">sort</span>
+</span><span class='line'><span class="c1"># ver 1.9</span>
+</span><span class='line'><span class="o">[</span><span class="p">:</span><span class="o">!</span><span class="p">,</span> <span class="p">:</span><span class="o">!=</span><span class="p">,</span> <span class="p">:</span><span class="o">!~</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;=</span><span class="p">,</span> <span class="ss">:&lt;=&gt;</span><span class="p">,</span> <span class="ss">:==</span><span class="p">,</span> <span class="ss">:===</span><span class="p">,</span> <span class="p">:</span><span class="o">=~</span><span class="p">,</span> <span class="ss">:&gt;</span><span class="p">,</span> <span class="ss">:&gt;=</span><span class="p">,</span> <span class="ss">:__id__</span><span class="p">,</span> <span class="ss">:__send__</span><span class="p">,</span> <span class="ss">:allocate</span><span class="p">,</span> <span class="ss">:ancestors</span><span class="p">,</span> <span class="ss">:autoload</span><span class="p">,</span> <span class="ss">:autoload?</span><span class="p">,</span> <span class="ss">:class</span><span class="p">,</span> <span class="ss">:class_eval</span><span class="p">,</span> <span class="ss">:class_exec</span><span class="p">,</span> <span class="ss">:class_variable_defined?</span><span class="p">,</span> <span class="ss">:class_variable_get</span><span class="p">,</span> <span class="ss">:class_variable_set</span><span class="p">,</span> <span class="ss">:class_variables</span><span class="p">,</span> <span class="ss">:clone</span><span class="p">,</span> <span class="ss">:const_defined?</span><span class="p">,</span> <span class="ss">:const_get</span><span class="p">,</span> <span class="ss">:const_missing</span><span class="p">,</span> <span class="ss">:const_set</span><span class="p">,</span> <span class="ss">:constants</span><span class="p">,</span> <span class="ss">:define_singleton_method</span><span class="p">,</span> <span class="ss">:display</span><span class="p">,</span> <span class="ss">:dup</span><span class="p">,</span> <span class="ss">:enum_for</span><span class="p">,</span> <span class="ss">:eql?</span><span class="p">,</span> <span class="ss">:equal?</span><span class="p">,</span> <span class="ss">:extend</span><span class="p">,</span> <span class="ss">:freeze</span><span class="p">,</span> <span class="ss">:frozen?</span><span class="p">,</span> <span class="ss">:hash</span><span class="p">,</span> <span class="ss">:include?</span><span class="p">,</span> <span class="ss">:included_modules</span><span class="p">,</span> <span class="ss">:initialize_clone</span><span class="p">,</span> <span class="ss">:initialize_dup</span><span class="p">,</span> <span class="ss">:inspect</span><span class="p">,</span> <span class="ss">:instance_eval</span><span class="p">,</span> <span class="ss">:instance_exec</span><span class="p">,</span> <span class="ss">:instance_method</span><span class="p">,</span> <span class="ss">:instance_methods</span><span class="p">,</span> <span class="ss">:instance_of?</span><span class="p">,</span> <span class="ss">:instance_variable_defined?</span><span class="p">,</span> <span class="ss">:instance_variable_get</span><span class="p">,</span> <span class="ss">:instance_variable_set</span><span class="p">,</span> <span class="ss">:instance_variables</span><span class="p">,</span> <span class="ss">:is_a?</span><span class="p">,</span> <span class="ss">:kind_of?</span><span class="p">,</span> <span class="ss">:method</span><span class="p">,</span> <span class="ss">:method_defined?</span><span class="p">,</span> <span class="ss">:methods</span><span class="p">,</span> <span class="ss">:module_eval</span><span class="p">,</span> <span class="ss">:module_exec</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:nil?</span><span class="p">,</span> <span class="ss">:object_id</span><span class="p">,</span> <span class="ss">:private_class_method</span><span class="p">,</span> <span class="ss">:private_instance_methods</span><span class="p">,</span> <span class="ss">:private_method_defined?</span><span class="p">,</span> <span class="ss">:private_methods</span><span class="p">,</span> <span class="ss">:protected_instance_methods</span><span class="p">,</span> <span class="ss">:protected_method_defined?</span><span class="p">,</span> <span class="ss">:protected_methods</span><span class="p">,</span> <span class="ss">:public_class_method</span><span class="p">,</span> <span class="ss">:public_instance_method</span><span class="p">,</span> <span class="ss">:public_instance_methods</span><span class="p">,</span> <span class="ss">:public_method</span><span class="p">,</span> <span class="ss">:public_method_defined?</span><span class="p">,</span> <span class="ss">:public_methods</span><span class="p">,</span> <span class="ss">:public_send</span><span class="p">,</span> <span class="ss">:remove_class_variable</span><span class="p">,</span> <span class="ss">:respond_to?</span><span class="p">,</span> <span class="ss">:respond_to_missing?</span><span class="p">,</span> <span class="ss">:send</span><span class="p">,</span> <span class="ss">:singleton_class</span><span class="p">,</span> <span class="ss">:singleton_methods</span><span class="p">,</span> <span class="ss">:superclass</span><span class="p">,</span> <span class="ss">:taint</span><span class="p">,</span> <span class="ss">:tainted?</span><span class="p">,</span> <span class="ss">:tap</span><span class="p">,</span> <span class="ss">:to_enum</span><span class="p">,</span> <span class="ss">:to_s</span><span class="p">,</span> <span class="ss">:trust</span><span class="p">,</span> <span class="ss">:try_convert</span><span class="p">,</span> <span class="ss">:untaint</span><span class="p">,</span> <span class="ss">:untrust</span><span class="p">,</span> <span class="ss">:untrusted?</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在1.9變成回傳symbol的陣列了。那會有什麼影響? 如果你有寫到這樣的程式碼來判斷某個類別是否有實作某個方法的話：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">include?</span> <span class="s2">&quot;to_s&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在1.8會是true，但在1.9就會是false了。所以如果你要做這樣的判斷，請使用<code>respond_to?</code>或<code>method_defined?</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">respond_to?</span> <span class="s2">&quot;to_s&quot;</span>
+</span><span class='line'><span class="nb">p</span> <span class="nb">String</span><span class="o">.</span><span class="n">method_defined?</span> <span class="s2">&quot;to_s&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Lambda</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1"># ver 1.8</span>
+</span><span class='line'><span class="n">my_calc</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="p">}</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">my_calc</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ver 1.9</span>
+</span><span class='line'><span class="n">my_calc2</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="p">{</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="p">}</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">my_calc2</span><span class="o">.</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在1.9版的lambda可以用上面這個方法來寫，而且call方法也可以省略。</p>
+
+<h3>預設參數</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">p</span> <span class="n">hello</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>        <span class="c1"># ArgumentError</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">hello</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>     <span class="c1"># [1, 10, 2]</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">hello</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># [1, 2, 3]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在1.9版在參數個數不夠的時候，可以直接填給沒有預設參數的部份。</p>
+
+<h3>結論</h3>
+
+<p>其實這兩個版本的差異當然不只這樣，我僅就我個人比較常用到的部份做個筆記，順便也提醒自己。以上內容若有任何錯誤再請讓我知道，感謝。</p>
+
+<h4>參考資料：</h4>
+
+<ul>
+<li><a href="http://slideshow.rubyforge.org/ruby19.html">Ruby 1.9: What to Expect</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -930,85 +1214,6 @@ Generated configuration file in '/Users/eddie/Backup/config.rb'
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/21/something-about-the-as-study-group/">關於AS讀書會</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/05/21/something-about-the-as-study-group/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-05-21T14:22:00+08:00" pubdate>May 21<span>st</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2011/as-study-group-speakers.jpg" alt="image" /></p>
-
-<p>昨天是第四回的AS讀書會，沒想到竟然能辦到第四回，真的太感謝大家的支持，到目前為止，每回的報名人數都一直在<strong>90~110人</strong>之間，比我想像的多很多。</p>
-
-<p>沒關係，人多也有人多的玩法。</p>
-
-<p>其實我沒特別跟大家說明，不過如果大家有注意到的話，每次上台分享的講者，我會刻意安排一位前輩搭配相對比較不那麼老鳥的新鳥。老鳥們通常有豐富的業界或講課的經驗，通常可以給我們帶來很完整的演出，而新鳥雖然也許講話會緊張，或可能會有些小狀況，但也常帶來一些”原來可以這樣玩”的新想法。</p>
-
-<p><img src="/images/2011/as-study-group-attendees.jpg" alt="image" /></p>
-
-<blockquote><p>上台表演跟坐在底下聽，真的是完全兩個不同的世界</p></blockquote>
-
-
-<p>會這樣安排的原因是我想讓新鳥也有磨練的舞台，希望讓他們有一天也變成老鳥，然後再來提攜新的新鳥，這樣循環下去。我真心的希望可以藉由這樣的形式來達到另一種的“<strong>人人有功練</strong>”的理想，所以每次在向老鳥取經的同時，若新鳥們在表演時有些小的狀況的話，也還請各位多多包涵。</p>
-
-<p>如果你也想上台分享心得，或是對某個主題/神人有興趣的，請別客氣的跟我說，狀況許可的話我再來幫忙橋時間。</p>
-
-<p>我想這樣的聚會除了聽大家心得分享之外，會中、會後的時間，同好交流才是我覺得最重要的。我看到大家在休息時間大多不會只是坐在椅子上休息，而會起來找人聊天，這樣很棒!</p>
-
-<p><img src="/images/2011/as-study-group-communication.jpg" alt="image" /></p>
-
-<p>你也想認識高手神人們嗎? 下次別害羞，名片拿上手，上前去說聲「<strong>您好，我是XXX，久仰大名..</strong>」，別擔心碰壁，這些高手神人們都很nice的。</p>
-
-<p>而辦這個聚會對我個人我有什麼好處? 其實我賺很大：</p>
-
-<ul>
-<li>講話似乎有比較不會抖，人也比較不會晃、也不會飄來飄去</li>
-<li>見識到老鳥們是怎麼”表演”的</li>
-<li>學到不少辦活動的眉角，例如橋人、橋時間、橋場地等..</li>
-</ul>
-
-
-<p>這些經驗值都不是花錢去上課就學得到的，我真的賺到了!!</p>
-
-<h3>最後</h3>
-
-<ul>
-<li>只要大家願意繼續支持，我們就讓這個聚會繼續辦下去。</li>
-<li>希望可以在一年內辦超過12場次。</li>
-<li>誠徵願意跟大家分享心得的講者。</li>
-</ul>
-
-
-<p>若有任何建議或想法，請別客氣的讓我知道。</p>
-
-<p>感謝大家的支持!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/24/">&larr; Older</a>
@@ -1060,6 +1265,10 @@ Generated configuration file in '/Users/eddie/Backup/config.rb'
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -1095,15 +1304,11 @@ Generated configuration file in '/Users/eddie/Backup/config.rb'
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

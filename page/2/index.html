@@ -21,7 +21,15 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="很榮幸有機會能受邀參加 Livehouse.in 舉辦的 Combo! 8 週連擊 活動，本次的講題是「Ruby 也可這樣寫」，主要是來聊聊一些 Ruby 有趣(或奇怪)的語法，以及可以用 Ruby 做些什麼事 (without Rails)。 投影片連結：https://speakerdeck. &hellip;">
+  <meta name="description" content="photo by Brad Higham 之前在 Public, Protected and Private Method in Ruby 這篇文章提到，在 Ruby 裡使用 private 方法的時候，不能明確的指出 receiver，以下面這段範例來說： 1
+2
+3
+4
+5
+6
+7
+8
+9 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +98,156 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/10/22/private-setter-in-ruby/">Private Setter in Ruby</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2014/10/22/private-setter-in-ruby/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2014-10-22T14:35:00+08:00" pubdate>Oct 22<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2014/private_no_entry.jpg" alt="image" />
+photo by <a href="https://www.flickr.com/photos/bradhigham/">Brad Higham</a></p>
+
+<p>之前在 <a href="/2011/07/26/public-protected-and-private-method-in-ruby/">Public, Protected and Private Method in Ruby</a> 這篇文章提到，在 Ruby 裡使用 private 方法的時候，不能明確的指出 receiver，以下面這段範例來說：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">gossip</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">gossip</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;don&#39;t tell anyone!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">snoopy</span> <span class="o">=</span> <span class="no">Dog</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">hello</span>        <span class="c1"># =&gt; NoMethodError</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">gossip</span>       <span class="c1"># =&gt; NoMethodError</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在上面這段程式碼的第 13 行，因為它明確的指出 receiver (snoopy)，所以執行這行程式碼會出現會出現 <code>NoMethodError</code> 的錯誤；而在第 3 行，即使 receiver 是 <code>self</code> 也一樣是不行的。</p>
+
+<p>這是在 Ruby 裡面 private 方法的設計。</p>
+
+<p>不過，今天剛好有朋友拿了一段程式碼給我看，才發現原來上面這個規則原來也是有例外的，舉個例子來說：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Dog</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:name</span>
+</span><span class='line'>  <span class="kp">private</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:name</span><span class="o">=</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">gossip</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">greeting1</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">greeting2</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Snoopy&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">gossip</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;don&#39;t tell anyone!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">snoopy</span> <span class="o">=</span> <span class="no">Dog</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">hello</span>         <span class="c1"># =&gt; NoMethodError</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">gossip</span>        <span class="c1"># =&gt; NoMethodError</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">greeting1</span>     <span class="c1"># =&gt; NoMethodError</span>
+</span><span class='line'><span class="n">snoopy</span><span class="o">.</span><span class="n">greeting2</span>     <span class="c1"># =&gt; It Works!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在上面這段範例中用 <code>attr_accessor</code> 做了一個 <code>name</code> 的 getter 跟 setter，並且把 getter/setter 設定成 private。在第 10 行的地方呼叫了 private 的 getter，並且明確的指出 receiver 是 <code>self</code>，照規則來說會出現錯誤不意外，但第 14 行用類似的方法呼叫了 private 的 setter 卻沒有出錯!</p>
+
+<p>的確 private 方法不能指出明確的 receiver，但 setter 算是這個規則的例外。因為你不在前面加 self 的話，像這樣：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'>  <span class="k">def</span> <span class="nf">greeting</span>
+</span><span class='line'>    <span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Snoopy&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣這個 <code>name</code> 不就變成區域變數的賦值了嗎?</p>
+
+<p>想想看，如果在這裡呼叫 setter 不加 self 的話，那 Ruby 要怎麼分辨到底你是要呼叫 setter 還是區域變數?</p>
+
+<p>話說回來，通常我們也不會沒事把 getter/setter 設定成 private，因為即然都做了 getter/setter 就是要給別人用的不是嗎? :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1174,85 +1332,6 @@ println("Hello, Swift!")
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2014/04/30/rails-girls-in-taipei/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2014-04-30T21:00:00+08:00" pubdate>Apr 30<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.slideshare.net/aquarianboy/rails-girls-in-taipei" target="_blank"><img src="/images/2014/rails_girls_logo.png" alt="image" /></a></p>
-
-<p>This is my lightning talk slide on RubyConf Taiwan 2014:<br />
-<a href="http://www.slideshare.net/aquarianboy/rails-girls-in-taipei">http://www.slideshare.net/aquarianboy/rails-girls-in-taipei</a></p>
-
-<p>Hi, I’m Eddie, one of the organizers of <a href="http://railsgirls.com/taipei">Rails Girls Taipei</a>. Last year, I went to <a href="http://rubykaigi.org/2013">RubyKaigi</a> in Japan, and visited the Rails Girls event in Ruby Hiroba(広場). I found that the attendees were divided into “beginner” level and the other level which might be a little familiar with programming, and every coach take care 2 or 3 attendees, so they can coaching them one by one.</p>
-
-<p>We thought it might be interesting if we can also have this event in Taiwan. So, <a href="https://twitter.com/taiansu">Taian</a>, <a href="https://twitter.com/ryudoawaru">Ryudo</a>, and <a href="https://twitter.com/eddiekao">me</a>, we three decided to host a Rails Girls event in Taiwan, just give it a try.</p>
-
-<p>Our first event is on last September. We recruited about 10 to 15 coaches and discuss the detail, but we totally have no experience about this event.</p>
-
-<p>We thought there won’t be any girl willing to join this kind of nerdy event. But surprisingly, there’re more than 300 girls signed up just in one day.</p>
-
-<p>We eventually didn’t pick neither CS students or web developers, instead, we prefer those who are totally new to programming, we wanna see what will happen if we try to bring Ruby and Rails to them.</p>
-
-<p>Looks like they all have a good time :)</p>
-
-<p><img src="/images/2014/rails_girls_taipei_4.jpg" alt="image" />
-<img src="/images/2014/rails_girls_taipei_2.jpg" alt="image" /></p>
-
-<p>And our second event is on last November. Still, more than 300 girls signed up again, and this time we recruited about 25 coaches and 75 attendees. You might have also noticed that, several coaches are also the speakers in conference this year.</p>
-
-<p><img src="/images/2014/rails_girls_taipei_1.jpg" alt="image" />
-<img src="/images/2014/rails_girls_taipei_3.jpg" alt="image" /></p>
-
-<p>you can visit <a href="https://www.facebook.com/railsgirlstw/photos_albums">here</a> to see more photos. It’s awesome for me to see them open a terminal window and run some commands on they computer, it’s really cool.</p>
-
-<p>Last month, we had the third event. Until now, we have more than 150 rails girls already.</p>
-
-<p>Durning RubyConf Taiwan 2014, there are about 20 female volunteers in check-in counter or at the booths are from Rails Girls, they did help a lot in this conference.</p>
-
-<p>Of course, you know, it’s not quite possible to learn Ruby on Rails just in a 2-day workshop, so some girls asked:”is there any other course to learn more?” Well, then we decided to have a weekly event for them, named “<a href="http://ltrt.kktix.cc/">Let’s Try Rails Tuesday</a>”, a.k.a “LTRT”.  Which is mainly hosted by <a href="https://twitter.com/ManicLF">manic</a>, also the speaker in this conference.</p>
-
-<p>Currently, we’ve already had 16 LTRT events, and about 20 attendees per week, even in the rainy days.</p>
-
-<p><img src="/images/2014/rails_girls_taipei_5.jpg" alt="image" /></p>
-
-<p>Beside that, we also tried to do some promotions in high school or university, hope more people can understand what we were doing :)</p>
-
-<p>Anyway, I have to thank all our coaches, it won’t work without your help.</p>
-
-<p>We will have more Rails Girls event in the future if possible, so we&#8217;ll need more coaches, please let me know if you’re interested in being a coach.</p>
-
-<p>Of course, we need more sponsorship :)</p>
-
-<p>At last, this is our <a href="https://www.facebook.com/railsgirlstw">fan page</a> on Facebook, feel free to join us for more information. Please don&#8217;t be hesitate to contact me if you have any question, any comment will be appreciated.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/3/">&larr; Older</a>
@@ -1304,6 +1383,10 @@ println("Hello, Swift!")
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/22/parameters/">Ruby 語法放大鏡之「Ruby 的參數」</a>
       </li>
     
@@ -1339,15 +1422,11 @@ println("Hello, Swift!")
         <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/04/30/rails-girls-in-taipei/">Rails Girls in Taipei</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 144.6153846153846%'>Ruby(29)</a>  <a href='/category/ruby-on-rails' style='font-size: 112.3076923076923%'>Ruby on Rails(8)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
