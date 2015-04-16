@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-03-24T18:14:40+08:00</updated>
+  <updated>2015-04-16T11:20:20+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -383,7 +383,7 @@
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="k">class</span> <span class="nc">Girl</span>
-</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:name</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:age</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
 </span><span class='line'>    <span class="vi">@age</span> <span class="o">=</span> <span class="n">age</span>
 </span><span class='line'>  <span class="k">end</span>
@@ -462,7 +462,7 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 <ol>
 <li><a href="/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
 <li><a href="/2015/03/24/class-and-module/">類別跟模組有什麼不一樣?</a></li>
-<li>有時候會看到有兩個冒號寫法(例如 ActiveRecord::Base)它是什麼意思?</li>
+<li><a href="/2015/03/24/namespace/">有時候會看到有兩個冒號寫法(例如 ActiveRecord::Base)它是什麼意思?</a></li>
 <li>為什麼 Hash 好像有不同的寫法?</li>
 <li>有的變數變前面有一個冒號(例如 :name)，是什麼意思?</li>
 <li>有的變數前面有 @ 符號(例如  @users )，這是什麼意思?</li>
