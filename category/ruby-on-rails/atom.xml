@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby on Rails | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby-on-rails/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-04-19T19:55:28+08:00</updated>
+  <updated>2015-04-19T19:57:14+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -58,9 +58,9 @@ end
 
 <p>要 include 那個 Flyable 模組，就必須連名帶姓的 include，也就是「樹林::金城武」、「三重::劉德華」的概念。</p>
 
-<p>除此之外，其實你也可把常數包在 namespace 裡</p>
-
-<pre><code class="ruby">module Utility
+<p>除此之外，其實你也可把常數包在 namespace 裡：
+```ruby
+module Utility
   TaxRate = 10
   module Flyable
     Speed = 20
@@ -68,13 +68,12 @@ end
       # ....
     end
   end
-end
+end</p>
 
-puts Utility::TaxRate          # =&gt; 10
-puts Utility::Flyable::Speed   # =&gt; 20
-</code></pre>
-
-<p>要使用這些常數，也是一樣要提供完整的路徑給才行。(如果你知道的話，其實不管是類別或模組，它們的名字基本上也就是常數而已)</p>
+<p>puts Utility::TaxRate          # => 10
+puts Utility::Flyable::Speed   # => 20
+```
+要使用這些常數，也是一樣要提供完整的路徑給才行。(如果你知道的話，其實不管是類別或模組，它們的名字基本上也就是常數而已)</p>
 
 <p>所以，原來這段程式範例：
 <code>ruby
