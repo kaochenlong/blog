@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="Django的功能很多，但假設其實你根本不需要這麼多資料庫相關的功能，你只是想做個簡單的個人簡介頁面，然後有個簡單的後台管理介面可以讓你更新內容就好，那你也許可以使用Django的Flatpage就行了。 使用方式很簡單，只要把一些module加上去就行了。請打開settings.py， &hellip;">
+  <meta name="description" content="官網的文件一定要讀!! 如果你之後會把Django當做你主力的開發工具的話，目前坊間的書因為版本幾乎都沒跟上，所以大概可以先放旁邊，不過至少要把官網的資料讀過一遍。那如果文件看完怎麼辦? 閱讀原始碼啊!! Django本身是open source的，而且是用純Python寫的， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/19/django-conclusion/">小結</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-conclusion/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-19T15:32:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>官網的文件一定要讀!!</h2>
+
+<p>如果你之後會把Django當做你主力的開發工具的話，目前坊間的書因為版本幾乎都沒跟上，所以大概可以先放旁邊，不過至少要把官網的資料讀過一遍。那如果文件看完怎麼辦? 閱讀原始碼啊!!</p>
+
+<p>Django本身是open source的，而且是用純Python寫的，所以閱讀Django的原始碼，保證可以讓你的Python增加不少，而且當遇到一些文件上沒提到的問題的時候，通常也只有原始碼可以救你了。</p>
+
+<p>養成閱讀文件及原始碼的習慣，可以讓你在這條路上走的更順利!</p>
+
+<h2>還有哪些主題沒講到的?</h2>
+
+<p>其實還滿多的，例如怎麼<a href="https://docs.djangoproject.com/en/1.3/topics/email/">寄Email</a>、<a href="https://docs.djangoproject.com/en/1.3/topics/forms/">表單的處理</a>、<a href="https://docs.djangoproject.com/en/1.3/ref/validators/">資料驗證</a>、<a href="https://docs.djangoproject.com/en/1.3/ref/contrib/admin/">Admin模組的客製化</a>等等，都是很常用而且很重要的主題。</p>
+
+<h2>這還沒有結束!!</h2>
+
+<p>如果時間許可，我會繼續把這個系列寫完的。</p>
+
+<p>如果內容有哪邊寫錯了，還請歡迎來信跟我說 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1149,156 +1199,6 @@ urlpatterns = patterns('',
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/10/19/django-model-relationship/">資料表的關連</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/10/19/django-model-relationship/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-10-19T09:59:00+08:00" pubdate>Oct 19<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我們在開發資料庫相關的網站的時候，通常會用到許多資料表，而且這些資料表之間彼此都有關連性，接著我們就來看看在Django的Model要怎麼實作。</p>
-
-<p>我們現在再來新增一個App：</p>
-
-<pre><code>&gt; python manage.py startapp book
-</code></pre>
-
-<p><code>book/models.py</code>的內容長得像這樣：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">author.models</span> <span class="kn">import</span> <span class="n">Profile</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">title</span>        <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">150</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">page</span>         <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">price</span>        <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">author</span>       <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Profile</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">publish_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">db_table</span> <span class="o">=</span> <span class="s">&quot;book&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">BookAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">pass</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Book</span><span class="p">,</span> <span class="n">BookAdmin</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>這裡用到了<code>ForeignKey</code>，對應到了我們之前建的<code>Profile類別</code>，表示這本書的作者資料是指向<code>profile</code>的某一筆資料，書對作者來說是一個<code>一對一</code>的關係，但是一個作者可能會寫多本書，作者對書來說就是<code>多對一</code>的關係(雖然現實上一本書可能有超過一個以上的作者，不過我們就把它單純化，讓生活暫時美好一下..)</p>
-
-<p>別忘了把<code>book</code>這個App也設定到<code>settings.py</code>的<code>INSTALLED_APP</code>：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="c"># Uncomment the next line to enable the admin:</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="c"># Uncomment the next line to enable admin documentation:</span>
-</span><span class='line'>    <span class="c"># &#39;django.contrib.admindocs&#39;,</span>
-</span><span class='line'>    <span class="s">&#39;author&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;book&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行<code>python manage.py sql book</code>，看一下它轉換出來的SQL語法：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">BEGIN</span><span class="p">;</span>
-</span><span class='line'><span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s">&quot;book&quot;</span> <span class="p">(</span>
-</span><span class='line'>    <span class="s">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&quot;title&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&quot;page&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&quot;price&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&quot;author_id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">REFERENCES</span> <span class="s">&quot;profile&quot;</span> <span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">),</span>
-</span><span class='line'>    <span class="s">&quot;publish_date&quot;</span> <span class="n">date</span> <span class="n">NOT</span> <span class="n">NULL</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'><span class="p">;</span>
-</span><span class='line'><span class="n">COMMIT</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>執行<code>python manage.py syncdb</code>，把這個<code>Book類別</code>也轉成資料表。因為我們剛才也把<code>Book類別</code>也註冊到Admin模組了，所以我們到後台也可以看得到它。你可以在新增<code>Book</code>資料時候發現它的Author欄位在後台變成下拉選單了：</p>
-
-<p><img src="/images/django/admin_book_and_author.png" alt="image" /></p>
-
-<p>方便吧 :)</p>
-
-<p>Model其實還有很多東西可以介紹的，不過因為我們的目的是為了快速看過一遍Django這個web framework大概是怎麼回事，所以細節還請各位參考<a href="https://docs.djangoproject.com/en/1.3/">官網文件</a>(一定要看!!)。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/15/">&larr; Older</a>
@@ -1350,6 +1250,10 @@ urlpatterns = patterns('',
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/04/19/namespace/">Ruby 語法放大鏡之「有時候會看到有兩個冒號寫法是什麼意思?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
       </li>
     
@@ -1385,15 +1289,11 @@ urlpatterns = patterns('',
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 147.69230769230768%'>Ruby(31)</a>  <a href='/category/ruby-on-rails' style='font-size: 115.38461538461539%'>Ruby on Rails(10)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -21,7 +21,10 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="「Ruby 語法放大鏡」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。 在網路上常看到一些介紹 Ruby 裡類別(class)跟模組(module)的差別， &hellip;">
+  <meta name="description" content="「Ruby 語法放大鏡」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。 隨便打開你 Rails 專案裡的 model 檔案，它可能會長得像這樣： 1
+2
+3
+4 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +93,174 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/04/19/namespace/">Ruby 語法放大鏡之「有時候會看到有兩個冒號寫法是什麼意思?」</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2015/04/19/namespace/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2015-04-19T18:09:00+08:00" pubdate>Apr 19<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p class="info">
+「<a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。</p>
+
+
+<p>隨便打開你 Rails 專案裡的 model 檔案，它可能會長得像這樣：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:category</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一行後面那個 <code>ActiveRecord::Base</code> 裡面的 2 個冒號 <code>::</code>，各位知道是什麼意思嗎?</p>
+
+<h2>菜市場名</h2>
+
+<p>也許你也叫金城武(或自己覺得自己長得像金城武)，然後我也剛好也很巧叫金城武，這樣在大街上大叫一聲帥哥就一堆人回頭了，不太好。</p>
+
+<p>寫程式偶爾也會遇到這樣的狀況，舉例來說，如果大家剛好都有一個叫做 <code>Animal</code> 的類別或是 <code>Flyable</code> 的模組，放在同一個專案裡就會打架了。所以 Ruby 有設計 namespace 來解決這個問題。</p>
+
+<p>在 Ruby 裡，因為 <code>module</code> 或 <code>class</code> 可以有巢狀結構(類別裡可以包模組，模組裡面可以包類別，就是大腸包小腸的概念啦)，剛好可以拿來做 namespace 的包裝，例如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Utility</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Flyable</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">fly</span>
+</span><span class='line'>      <span class="c1"># ....</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣一來，如果要使用 <code>Flyable</code> 這個類別的話：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Cat</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Utility</span><span class="o">::</span><span class="no">Flyable</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要 include 那個 Flyable 模組，就必須連名帶姓的 include。</p>
+
+<p>除此之外，其實你也可把常數包在 namespace 裡</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Utility</span>
+</span><span class='line'>  <span class="no">TaxRate</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Flyable</span>
+</span><span class='line'>    <span class="no">Speed</span> <span class="o">=</span> <span class="mi">20</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">fly</span>
+</span><span class='line'>      <span class="c1"># ....</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="no">Utility</span><span class="o">::</span><span class="no">TaxRate</span>          <span class="c1"># =&gt; 10</span>
+</span><span class='line'><span class="nb">puts</span> <span class="no">Utility</span><span class="o">::</span><span class="no">Flyable</span><span class="o">::</span><span class="no">Speed</span>   <span class="c1"># =&gt; 20</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要使用這些常數，也是一樣要提供完整的路徑給才行。(如果你知道的話，其實不管是類別或模組，它們的名字基本上也就是常數而已)</p>
+
+<p>所以，原來這段程式範例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:category</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它的意思就是說有一個叫做 <code>Post</code> 的類別，它是繼承自某個放在 <code>ActiveRecord</code> 的模組(或類別)裡的 <code>Base</code> 類別。如果去 github 上翻 Rails 的原始碼的話(<a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/base.rb" target="_blank">連結</a>)，應該可以看到這段：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveRecord</span>
+</span><span class='line'>  <span class="c1"># .....</span>
+</span><span class='line'>  <span class="c1"># 中略</span>
+</span><span class='line'>  <span class="c1"># .....</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Base</span>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Naming</span>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Benchmarkable</span>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">DescendantsTracker</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">ConnectionHandling</span>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">QueryCache</span><span class="o">::</span><span class="no">ClassMethods</span>
+</span><span class='line'>    <span class="c1"># ... 略</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>的確是有一個 <code>ActiveRecord</code> 的模組，裡面包了一個 <code>Base</code> 的類別沒錯 :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -712,82 +883,6 @@ photo by <a href="https://www.flickr.com/photos/joceykinghorn/" target="_blank">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2014/12/28/ruby-for-rails/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2014-12-28T14:35:00+08:00" pubdate>Dec 28<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/2014/magnifying_glass.jpg" alt="image" />
-photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
-
-<p>大家在學習 Ruby 或 Ruby on Rails(以下簡稱 Rails)的時候，難免會有一些看不懂或是有一些不知道怎麼來的神奇語法，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby/Rails 是怎麼回事。</p>
-
-<p>預計會有以下的文章(持續更新中)：</p>
-
-<h2>Ruby 相關：</h2>
-
-<ol>
-<li><a href="/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
-<li><a href="/2015/03/24/class-and-module/">類別跟模組有什麼不一樣?</a></li>
-<li><a href="/2015/03/24/namespace/">有時候會看到有兩個冒號寫法(例如 ActiveRecord::Base)它是什麼意思?</a></li>
-<li>為什麼 Hash 好像有不同的寫法?</li>
-<li>有的變數變前面有一個冒號(例如 :name)，是什麼意思?</li>
-<li>有的變數前面有 @ 符號(例如  @users )，這是什麼意思?</li>
-<li>你知道 <code>require</code> 這個語法幫你做了什麼事嗎?</li>
-<li><code>gem install</code> 之後，那些 gem 安裝到哪裡去了?</li>
-<li>想要學 Ruby 該看哪些書?</li>
-</ol>
-
-
-<h2>Rails 相關</h2>
-
-<ol>
-<li><a href="/2015/03/22/parameters/">為什麼 link_to 這個 view helper 的參數個數可長可短?</a></li>
-<li>在 Rails 專案中，有個檔案叫 <code>schema.rb</code>，它是做什麼的?</li>
-<li>有一個 Gemfile 了，為什麼還有個 Gemfile.lock? 這個檔案是幹嘛的?</li>
-<li>常有時候會需要在指令面前加上 <code>bundle exec</code>，這有加沒加有什麼分別?</li>
-<li>為什麼 <code>2.days.ago</code> 在內建的 irb 會找不到這個方法? 這不是 Ruby 語法嗎?</li>
-<li>常在終端機裡下 <code>rake db:migrate</code> 指令，這個 <code>rake</code> 是什麼，後面那個 <code>db:migrate</code> 又是怎麼回事?</li>
-<li>Strong Parameters 是什麼用途?</li>
-<li>自己寫了一些的 view helper，有辦法也在 controller 裡使用嗎?</li>
-<li>常在 controller 裡使用 <code>before_action</code>，它是一個方法嗎? 跟一般我們用 def 定義的有何不同?</li>
-<li>在 application controller 裡看到的 <code>protect_from_forgery</code> 是什麼?</li>
-<li>為什麼 model class 看起來空空的，但怎麼有那麼多好用的方法?</li>
-<li>在 Gemfile 裡看到 <code>gem 'sass-rails', '~&gt; 4.0.3'</code> 或是 <code>gem 'uglifier', '&gt;= 1.3.0'</code> 這樣的寫法，那個 <code>~&gt;</code> 跟 <code>&gt;=</code> 各是代表什麼意思?</li>
-<li>想要學 Rails 該看哪些書?</li>
-</ol>
-
-
-<p>以上，有的是關於 Ruby 的，有的是關於 Rails 的(嚴格說來其實都是 Ruby 的問題)
-如果想到還有其它的會再繼續補充，或是大家有什麼想要知道也可以直接來信討論或是在本篇底下留言 :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/2/">&larr; Older</a>
@@ -837,6 +932,10 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/04/19/namespace/">Ruby 語法放大鏡之「有時候會看到有兩個冒號寫法是什麼意思?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
       </li>
     
@@ -872,15 +971,11 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 147.69230769230768%'>Ruby(31)</a>  <a href='/category/ruby-on-rails' style='font-size: 115.38461538461539%'>Ruby on Rails(10)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

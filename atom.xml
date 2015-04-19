@@ -4,7 +4,7 @@
   <title><![CDATA[高見龍]]></title>
   <link href="http://blog.eddie.com.tw/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-04-16T11:20:20+08:00</updated>
+  <updated>2015-04-19T19:50:18+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,149 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby 語法放大鏡之「有時候會看到有兩個冒號寫法是什麼意思?」]]></title>
+    <link href="http://blog.eddie.com.tw/2015/04/19/namespace/"/>
+    <updated>2015-04-19T18:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2015/04/19/namespace</id>
+    <content type="html"><![CDATA[<p class="info">
+「<a href="http://blog.eddie.com.tw/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。</p>
+
+
+<p>隨便打開你 Rails 專案裡的 model 檔案，它可能會長得像這樣：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:category</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一行後面那個 <code>ActiveRecord::Base</code> 裡面的 2 個冒號 <code>::</code>，各位知道是什麼意思嗎?</p>
+
+<h2>菜市場名</h2>
+
+<p>也許你也叫金城武(或自己覺得自己長得像金城武)，然後我也剛好也很巧叫金城武，這樣在大街上大叫一聲帥哥就一堆人回頭了，不太好。</p>
+
+<p>寫程式偶爾也會遇到這樣的狀況，舉例來說，如果大家剛好都有一個叫做 <code>Animal</code> 的類別或是 <code>Flyable</code> 的模組，放在同一個專案裡就會打架了。所以 Ruby 有設計 namespace 來解決這個問題。</p>
+
+<p>在 Ruby 裡，因為 <code>module</code> 或 <code>class</code> 可以有巢狀結構(類別裡可以包模組，模組裡面可以包類別，就是大腸包小腸的概念啦)，剛好可以拿來做 namespace 的包裝，例如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Utility</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Flyable</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">fly</span>
+</span><span class='line'>      <span class="c1"># ....</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣一來，如果要使用 <code>Flyable</code> 這個類別的話：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Cat</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Utility</span><span class="o">::</span><span class="no">Flyable</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要 include 那個 Flyable 模組，就必須連名帶姓的 include。</p>
+
+<p>除此之外，其實你也可把常數包在 namespace 裡</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Utility</span>
+</span><span class='line'>  <span class="no">TaxRate</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Flyable</span>
+</span><span class='line'>    <span class="no">Speed</span> <span class="o">=</span> <span class="mi">20</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">fly</span>
+</span><span class='line'>      <span class="c1"># ....</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="no">Utility</span><span class="o">::</span><span class="no">TaxRate</span>          <span class="c1"># =&gt; 10</span>
+</span><span class='line'><span class="nb">puts</span> <span class="no">Utility</span><span class="o">::</span><span class="no">Flyable</span><span class="o">::</span><span class="no">Speed</span>   <span class="c1"># =&gt; 20</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要使用這些常數，也是一樣要提供完整的路徑給才行。(如果你知道的話，其實不管是類別或模組，它們的名字基本上也就是常數而已)</p>
+
+<p>所以，原來這段程式範例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:category</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它的意思就是說有一個叫做 <code>Post</code> 的類別，它是繼承自某個放在 <code>ActiveRecord</code> 的模組(或類別)裡的 <code>Base</code> 類別。如果去 github 上翻 Rails 的原始碼的話(<a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/base.rb" target="_blank">連結</a>)，應該可以看到這段：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ActiveRecord</span>
+</span><span class='line'>  <span class="c1"># .....</span>
+</span><span class='line'>  <span class="c1"># 中略</span>
+</span><span class='line'>  <span class="c1"># .....</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Base</span>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Naming</span>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Benchmarkable</span>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">DescendantsTracker</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">ConnectionHandling</span>
+</span><span class='line'>    <span class="kp">extend</span> <span class="no">QueryCache</span><span class="o">::</span><span class="no">ClassMethods</span>
+</span><span class='line'>    <span class="c1"># ... 略</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>的確是有一個 <code>ActiveRecord</code> 的模組，裡面包了一個 <code>Base</code> 的類別沒錯 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」]]></title>
@@ -551,7 +694,7 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 <ol>
 <li><a href="http://blog.eddie.com.tw/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
 <li><a href="http://blog.eddie.com.tw/2015/03/24/class-and-module/">類別跟模組有什麼不一樣?</a></li>
-<li><a href="http://blog.eddie.com.tw/2015/03/24/namespace/">有時候會看到有兩個冒號寫法(例如 ActiveRecord::Base)它是什麼意思?</a></li>
+<li><a href="http://blog.eddie.com.tw/2015/04/19/namespace/">有時候會看到有兩個冒號寫法(例如 ActiveRecord::Base)它是什麼意思?</a></li>
 <li>為什麼 Hash 好像有不同的寫法?</li>
 <li>有的變數變前面有一個冒號(例如 :name)，是什麼意思?</li>
 <li>有的變數前面有 @ 符號(例如  @users )，這是什麼意思?</li>
@@ -2799,25 +2942,6 @@ Anyway, I learned a lot on this trip to Japan, and I&#8217;ll write them down in
 </span></p>
 
 <p>Thank you all, RubyKaigi team, you&#8217;re all AWESOME!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[HHKB Pro 2 鍵盤入手]]></title>
-    <link href="http://blog.eddie.com.tw/2013/06/03/hhkb-pro2-keyboard/"/>
-    <updated>2013-06-03T01:55:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2013/06/03/hhkb-pro2-keyboard</id>
-    <content type="html"><![CDATA[<p><img src="http://blog.eddie.com.tw/images/2013/hhkb-pro2-1.jpg" alt="image" /></p>
-
-<p>其實沒什麼，只是敗家紀錄一下，就前幾天去日本參加 <a href="http://rubykaigi.org/2013" target="_blank">RubyKaigi</a> 時候順便帶回來的。而且還特別挑了個無刻的回來：</p>
-
-<p><img src="http://blog.eddie.com.tw/images/2013/hhkb-pro2-2.jpg" alt="image" /></p>
-
-<p>鍵盤很小一個，只有 60 顆鍵帽；沒有上下左右鍵，沒有 <kbd>Page Up</kbd>、<kbd>Page Down</kbd> 鍵；<kbd>Ctrl</kbd> 鍵的位置不一樣(跟日本鍵盤一樣，在一般鍵盤的 <kbd>Caps Lock</kbd> 的位置)，<kbd>ESC</kbd> 鍵在數字 <kbd>1</kbd> 的左手邊；沒有最上面一排的 <kbd>F1</kbd> ~ <kbd>F12</kbd> 等種種跟一般鍵盤的差異，我也不太懂為什麼我要練這種折磨人的鍵盤，因為練這個可能得把之前的習慣整個砍掉重練，跟練 Vim 有點像，一但只要習慣它，就沒辦法習慣一般鍵盤了。</p>
-
-<p>不過我很喜歡它打起來的手感，所以.. 喜歡就不需要太多理由了，還在習慣中 :)</p>
-
-<p><a href="http://blog.eddie.com.tw/2013/06/29/about-hhkb-pro2/">一個月後的使用心得</a></p>
 ]]></content>
   </entry>
   

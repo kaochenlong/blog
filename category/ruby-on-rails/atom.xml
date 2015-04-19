@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby on Rails | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby-on-rails/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-04-16T11:20:20+08:00</updated>
+  <updated>2015-04-19T19:50:18+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby 語法放大鏡之「有時候會看到有兩個冒號寫法是什麼意思?」]]></title>
+    <link href="http://blog.eddie.com.tw/2015/04/19/namespace/"/>
+    <updated>2015-04-19T18:09:00+08:00</updated>
+    <id>http://blog.eddie.com.tw/2015/04/19/namespace</id>
+    <content type="html"><![CDATA[<p class="info">
+「<a href="http://blog.eddie.com.tw/2014/12/28/ruby-for-rails/">Ruby 語法放大鏡</a>」系列短文主要是針對在大家學習 Ruby 或 Rails 時看到一些神奇但不知道用途的語法介紹，希望可以藉由這一系列的短文幫大家更容易的了解到底 Ruby 或 Rails 是怎麼回事。</p>
+
+
+<p>隨便打開你 Rails 專案裡的 model 檔案，它可能會長得像這樣：</p>
+
+<pre><code class="ruby">class Post &lt; ActiveRecord::Base
+  belongs_to :user
+  belongs_to :category
+end
+</code></pre>
+
+<p>第一行後面那個 <code>ActiveRecord::Base</code> 裡面的 2 個冒號 <code>::</code>，各位知道是什麼意思嗎?</p>
+
+<h2>菜市場名</h2>
+
+<p>也許你也叫金城武(或自己覺得自己長得像金城武)，然後我也剛好也很巧叫金城武，這樣在大街上大叫一聲帥哥就一堆人回頭了，不太好。</p>
+
+<p>寫程式偶爾也會遇到這樣的狀況，舉例來說，如果大家剛好都有一個叫做 <code>Animal</code> 的類別或是 <code>Flyable</code> 的模組，放在同一個專案裡就會打架了。所以 Ruby 有設計 namespace 來解決這個問題。</p>
+
+<p>在 Ruby 裡，因為 <code>module</code> 或 <code>class</code> 可以有巢狀結構(類別裡可以包模組，模組裡面可以包類別，就是大腸包小腸的概念啦)，剛好可以拿來做 namespace 的包裝，例如：</p>
+
+<pre><code class="ruby">module Utility
+  module Flyable
+    def fly
+      # ....
+    end
+  end
+end
+</code></pre>
+
+<p>這樣一來，如果要使用 <code>Flyable</code> 這個類別的話：</p>
+
+<pre><code class="ruby">class Cat
+  include Utility::Flyable
+end
+</code></pre>
+
+<p>要 include 那個 Flyable 模組，就必須連名帶姓的 include。</p>
+
+<p>除此之外，其實你也可把常數包在 namespace 裡</p>
+
+<pre><code class="ruby">module Utility
+  TaxRate = 10
+  module Flyable
+    Speed = 20
+    def fly
+      # ....
+    end
+  end
+end
+
+puts Utility::TaxRate          # =&gt; 10
+puts Utility::Flyable::Speed   # =&gt; 20
+</code></pre>
+
+<p>要使用這些常數，也是一樣要提供完整的路徑給才行。(如果你知道的話，其實不管是類別或模組，它們的名字基本上也就是常數而已)</p>
+
+<p>所以，原來這段程式範例：
+<code>ruby
+class Post &lt; ActiveRecord::Base
+  belongs_to :user
+  belongs_to :category
+end
+</code></p>
+
+<p>它的意思就是說有一個叫做 <code>Post</code> 的類別，它是繼承自某個放在 <code>ActiveRecord</code> 的模組(或類別)裡的 <code>Base</code> 類別。如果去 github 上翻 Rails 的原始碼的話(<a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/base.rb" target="_blank">連結</a>)，應該可以看到這段：</p>
+
+<pre><code class="ruby">module ActiveRecord
+  # .....
+  # 中略
+  # .....
+  class Base
+    extend ActiveModel::Naming
+    extend ActiveSupport::Benchmarkable
+    extend ActiveSupport::DescendantsTracker
+
+    extend ConnectionHandling
+    extend QueryCache::ClassMethods
+    # ... 略
+  end
+end
+</code></pre>
+
+<p>的確是有一個 <code>ActiveRecord</code> 的模組，裡面包了一個 <code>Base</code> 的類別沒錯 :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」]]></title>
@@ -462,7 +555,7 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 <ol>
 <li><a href="/2015/03/21/attr_accessor/">attr_accessor 是幹嘛的?</a></li>
 <li><a href="/2015/03/24/class-and-module/">類別跟模組有什麼不一樣?</a></li>
-<li><a href="/2015/03/24/namespace/">有時候會看到有兩個冒號寫法(例如 ActiveRecord::Base)它是什麼意思?</a></li>
+<li><a href="/2015/04/19/namespace/">有時候會看到有兩個冒號寫法(例如 ActiveRecord::Base)它是什麼意思?</a></li>
 <li>為什麼 Hash 好像有不同的寫法?</li>
 <li>有的變數變前面有一個冒號(例如 :name)，是什麼意思?</li>
 <li>有的變數前面有 @ 符號(例如  @users )，這是什麼意思?</li>
@@ -493,286 +586,6 @@ photo by <a href="https://www.flickr.com/photos/puuikibeach/">davidd</a></p>
 
 <p>以上，有的是關於 Ruby 的，有的是關於 Rails 的(嚴格說來其實都是 Ruby 的問題)
 如果想到還有其它的會再繼續補充，或是大家有什麼想要知道也可以直接來信討論或是在本篇底下留言 :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[RVM and Gemsets]]></title>
-    <link href="http://blog.eddie.com.tw/2011/04/08/rvm-and-gemsets/"/>
-    <updated>2011-04-08T13:24:00+08:00</updated>
-    <id>http://blog.eddie.com.tw/2011/04/08/rvm-and-gemsets</id>
-    <content type="html"><![CDATA[<p><img src="/images/2011/rvm_logo.png" alt="image" /></p>
-
-<p>“Living on the edge, stay in the beta world”是件有趣的事，可以試一些新玩具、新想法，但也很怕把系統弄爛又要花時間重灌，以前可能會用virtual machine來建立不同的環境，不過實在有點麻煩。在Ruby有個東西叫做<a href="http://rvm.beginrescueend.com/">RVM</a>(Ruby Version Manager)，可以讓你同時安裝多個不同版本的Ruby，看您是想要裝MRI版本的Ruby，或是REE(Ruby Enterprise Edition)、JRuby、MacRuby，都可以裝在RVM裡指後歡樂的切換。RVM裡每個版本的Ruby的gem也都是分開裝的，所以像之前Rails 3還沒正式release，想裝又不知道會不會怕把原來工作的環境搞爛，但不裝又覺得手很癢，這時候用RVM就對了。</p>
-
-<h3>安裝</h3>
-
-<p>安裝RVM會至少需要兩項工具：curl跟git，你可以檢查一下你電腦裡是否已經安裝，如果沒有的話就把這兩個裝起來吧，反正這兩個也是很棒也很常用的工具。
-如果上面這兩個都已經安裝好的話，打開你的終端機，貼上這行：</p>
-
-<pre><code>bash &lt; &lt;(curl -s https://rvm.beginrescueend.com/install/rvm)
-</code></pre>
-
-<p>它應該就會開始去下載RVM的檔案回來安裝了。安裝完還需要做一下簡單的設定，看你用的shell是哪一套而要要改不同的檔案，例如zsh就改<code>.zshrc</code>，bash就改<code>.bashrc</code>，以此類推，把下面這行加進去：</p>
-
-<pre><code>[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; source "$HOME/.rvm/scripts/rvm"
-</code></pre>
-
-<p>假設你用的是ubuntu預設的bash shell的話，那可以直接貼下面這行：</p>
-
-<pre><code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; source "$HOME/.rvm/scripts/rvm"' &gt;&gt; ~/.bashrc
-</code></pre>
-
-<p>更詳細的安裝說明可以參考<a href="https://rvm.beginrescueend.com/">官網</a>說明。</p>
-
-<h3>使用方法</h3>
-
-<p>簡單介紹幾個常用的RVM指令。</p>
-
-<p>看看目前有哪些可以安裝的列表：</p>
-
-<pre><code>&gt; rvm list known
-</code></pre>
-
-<p>安裝特定版本的Ruby：</p>
-
-<pre><code>&gt; rvm install 1.8.7
-</code></pre>
-
-<p>會自動找1.8.7的最新版來裝，如果想再指定小版本：</p>
-
-<pre><code>&gt; rvm install ruby-1.8.7-p334
-</code></pre>
-
-<p>列出目前已經安裝在RVM裡的Ruby版本：</p>
-
-<pre><code>&gt; rvm list
-
-rvm rubies
-
-     jruby-1.6.0 [ darwin-x86_64-java ]
-     ree-1.8.7-2010.02 [ x86_64 ]
-     ruby-1.8.7-p334 [ x86_64 ]
-=&gt; ruby-1.9.2-p0 [ x86_64 ]
-</code></pre>
-
-<p>可以看到我電腦上目前裝了4套(RVM的) + 1套(系統內建)的Ruby，目前正切換到1.9.2版本。如果要切換到Ruby 1.8.7的版本：</p>
-
-<pre><code>&gt; rvm use 1.8.7
-</code></pre>
-
-<p>如果要切換到Ruby-1.8.7-p334的版本：</p>
-
-<pre><code>&gt; rvm use ruby-1.8.7-p334
-</code></pre>
-
-<p><code>use</code>也可以省略：</p>
-
-<pre><code>&gt; rvm 1.8.7
-</code></pre>
-
-<p>但RVM會在下次terminal重開的時候會回到預設值(就是回到你系統內建的Ruby版本)。如果你希望每次開terminal的時候都會切到ruby-1.8.7的話：</p>
-
-<pre><code>&gt; rvm 1.8.7 --default
-</code></pre>
-
-<p>這樣你每次開termnal就會自動切換到1.8.7版了。如果想切回到原來系統內建的版本：</p>
-
-<pre><code>&gt; rvm system
-</code></pre>
-
-<p>不過今天要看的是RVM裡的gemset。</p>
-
-<p>因為其實套件的版本可能一直有在變，所以可能同一個套件就裝了二、三個以上的版本，看了很討厭，而且也可知道會不會遇到版本衝突的問題，而gemset就是可以讓你在RVM裡面再建立獨立的空間來安裝套件用的。假設我想同時在REE-1.8.7版本的ruby底下同時安裝Rails 2.3.9跟3.0.6版本，來看看怎麼做：</p>
-
-<p>先切換到REE之後，建立一個準備要來裝Rails 2.3.9版的gemset：</p>
-
-<pre><code>&gt; rvm gemset create r239
-'r239' gemset created (/Users/eddie/.rvm/gems/ree-1.8.7-2010.02@r239).
-</code></pre>
-
-<p>再來建一個給Rails 3.0.6版的：</p>
-
-<pre><code>&gt; rvm gemset create r306
-'r306' gemset created (/Users/eddie/.rvm/gems/ree-1.8.7-2010.02@r306).
-</code></pre>
-
-<p>看一下目前的已經建立的gemset：</p>
-
-<pre><code>&gt; rvm gemset list
-
-gemsets for ree-1.8.7-2010.02 (found in /Users/eddie/.rvm/gems/ ree-1.8.7-2010.02)
-    r239
-    r306
-</code></pre>
-
-<p>現在有2個gemset了，我們先切換到r239：</p>
-
-<pre><code>&gt; rvm gemset use r239
-Now using gemset 'r239'
-</code></pre>
-
-<p>來安裝一下Rails 2.3.9版：</p>
-
-<pre><code>&gt; gem install rails -v='2.3.9' --no-rdoc --no-ri
-Fetching: rake-0.8.7.gem (100%)
-Fetching: activesupport-2.3.9.gem (100%)
-Fetching: activerecord-2.3.9.gem (100%)
-Fetching: rack-1.1.2.gem (100%)
-Fetching: actionpack-2.3.9.gem (100%)
-Fetching: actionmailer-2.3.9.gem (100%)
-Fetching: activeresource-2.3.9.gem (100%)
-Fetching: rails-2.3.9.gem (100%)
-Successfully installed rake-0.8.7
-Successfully installed activesupport-2.3.9
-Successfully installed activerecord-2.3.9
-Successfully installed rack-1.1.2
-Successfully installed actionpack-2.3.9
-Successfully installed actionmailer-2.3.9
-Successfully installed activeresource-2.3.9
-Successfully installed rails-2.3.9
-8 gems installed
-</code></pre>
-
-<p>安裝完成，看起來沒問題，再來切換到r306：</p>
-
-<pre><code>&gt; rvm gemset use r306
-Now using gemset 'r306'
-</code></pre>
-
-<p>再來做一樣的動作，只是版號改成3.0.6：</p>
-
-<pre><code>&gt; gem install rails -v='3.0.6' --no-rdoc --no-ri
-Fetching: activesupport-3.0.6.gem (100%)
-Fetching: builder-2.1.2.gem (100%)
-Fetching: i18n-0.5.0.gem (100%)
-Fetching: activemodel-3.0.6.gem (100%)
-Fetching: rack-1.2.2.gem (100%)
-Fetching: rack-test-0.5.7.gem (100%)
-Fetching: rack-mount-0.6.14.gem (100%)
-Fetching: tzinfo-0.3.26.gem (100%)
-Fetching: abstract-1.0.0.gem (100%)
-Fetching: erubis-2.6.6.gem (100%)
-Fetching: actionpack-3.0.6.gem (100%)
-Fetching: arel-2.0.9.gem (100%)
-Fetching: activerecord-3.0.6.gem (100%)
-Fetching: activeresource-3.0.6.gem (100%)
-Fetching: mime-types-1.16.gem (100%)
-Fetching: polyglot-0.3.1.gem (100%)
-Fetching: treetop-1.4.9.gem (100%)
-Fetching: mail-2.2.15.gem (100%)
-Fetching: actionmailer-3.0.6.gem (100%)
-Fetching: rake-0.8.7.gem (100%)
-Fetching: thor-0.14.6.gem (100%)
-Fetching: railties-3.0.6.gem (100%)
-Fetching: bundler-1.0.11.gem (100%)
-Fetching: rails-3.0.6.gem (100%)
-Successfully installed activesupport-3.0.6
-Successfully installed builder-2.1.2
-Successfully installed i18n-0.5.0
-Successfully installed activemodel-3.0.6
-Successfully installed rack-1.2.2
-Successfully installed rack-test-0.5.7
-Successfully installed rack-mount-0.6.14
-Successfully installed tzinfo-0.3.26
-Successfully installed abstract-1.0.0
-Successfully installed erubis-2.6.6
-Successfully installed actionpack-3.0.6
-Successfully installed arel-2.0.9
-Successfully installed activerecord-3.0.6
-Successfully installed activeresource-3.0.6
-Successfully installed mime-types-1.16
-Successfully installed polyglot-0.3.1
-Successfully installed treetop-1.4.9
-Successfully installed mail-2.2.15
-Successfully installed actionmailer-3.0.6
-Successfully installed rake-0.8.7
-Successfully installed thor-0.14.6
-Successfully installed railties-3.0.6
-Successfully installed bundler-1.0.11
-Successfully installed rails-3.0.6
-24 gems installed
-</code></pre>
-
-<p>跟2.3.9不一樣，Rails 3.0.6版裝了一堆東西..兩個gemset都裝好了，如果你要從別的版本的Ruby直接切換到指定的gemset：</p>
-
-<pre><code>&gt; rvm ree-1.8.7-2010.02@r239
-</code></pre>
-
-<p>看一下安裝的gem：</p>
-
-<pre><code>&gt; gem list
-
-*** LOCAL GEMS ***
-
-actionmailer (2.3.9)
-actionpack (2.3.9)
-activerecord (2.3.9)
-activeresource (2.3.9)
-activesupport (2.3.9)
-rack (1.1.2)
-rails (2.3.9)
-rake (0.8.7)
-</code></pre>
-
-<p>是2.3.9版的沒錯，再試著換到另一個gemset：</p>
-
-<pre><code>&gt; rvm gemset use r306
-Now using gemset 'r306'
-
-&gt; gem list
-
-*** LOCAL GEMS ***
-
-abstract (1.0.0)
-actionmailer (3.0.6)
-actionpack (3.0.6)
-activemodel (3.0.6)
-activerecord (3.0.6)
-activeresource (3.0.6)
-activesupport (3.0.6)
-arel (2.0.9)
-builder (2.1.2)
-bundler (1.0.11)
-erubis (2.6.6)
-i18n (0.5.0)
-mail (2.2.15)
-mime-types (1.16)
-polyglot (0.3.1)
-rack (1.2.2)
-rack-mount (0.6.14)
-rack-test (0.5.7)
-rails (3.0.6)
-railties (3.0.6)
-rake (0.8.7)
-thor (0.14.6)
-treetop (1.4.9)
-tzinfo (0.3.26)
-</code></pre>
-
-<p>Good! 看起來沒問題。</p>
-
-<p>你可以隨你高興的建立、切換gemset，各個gemset都是獨立的。如果玩膩了或玩爛了，想要把r239這個gemset清空的話：</p>
-
-<pre><code>&gt; rvm gemset empty r239
-WARN: Are you SURE you wish to remove the installed gemset for gemset 'ree-1.8.7-2010.02@r306' (/Users/eddie/.rvm/gems/ree-1.8.7-2010.02@r306)?
-(anything other than 'yes' will cancel) &gt; yes
-</code></pre>
-
-<p>清空只會把安裝的gem砍掉，gemset的名字還會在；如果想把整個gemset刪掉：</p>
-
-<pre><code>&gt; rvm gemset delete r239
-WARN: Are you SURE you wish to remove the entire gemset directory 'r239' (/Users/eddie/.rvm/gems/ree-1.8.7-2010.02@r239)?
-(anything other than 'yes' will cancel) &gt; yes
-</code></pre>
-
-<p>大概是這樣，RVM對我這種愛玩新玩具的人真的福音啊!</p>
-
-<p><strong>好RVM，不裝嗎?</strong></p>
-
-<h4>參考資料：</h4>
-
-<p><a href="http://rvm.beginrescueend.com/gemsets/">RVM官網手冊</a></p>
 ]]></content>
   </entry>
   

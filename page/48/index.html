@@ -21,8 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="在Linux系統，crontab跟at都是可以用來做排程，但這兩者的差異是： at：工作僅執行一次後就會系統中的排程中取消，工作排程會寫入到/var/spool/at目錄下。
-crontab：工作將持續例行性的執行，工作排程會寫入 /var/spool/cron。 at的使用方法： &gt; at &hellip;">
+  <meta name="description" content="Sendmail在Un*x系統已行之久遠，是一套功能強大的MTA郵件系統(Mail Transfer Agent)，但設定的複雜程度，使人望之怯步，也因為常容易被找到漏洞，所以市面上也推出一些新的MTA軟體，如QMail跟Postfix。我個人覺 得Postfix是目前在效能上也是相當出色的， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +90,101 @@ crontab：工作將持續例行性的執行，工作排程會寫入 /var/spool/c
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2005/01/19/install-postfix/">Postfix安裝</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2005/01/19/install-postfix/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2005-01-19T17:46:00+08:00" pubdate>Jan 19<span>th</span>, 2005</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Sendmail在Un*x系統已行之久遠，是一套功能強大的MTA郵件系統(Mail Transfer Agent)，但設定的複雜程度，使人望之怯步，也因為常容易被找到漏洞，所以市面上也推出一些新的MTA軟體，如QMail跟Postfix。我個人覺 得Postfix是目前在效能上也是相當出色的，設定也較容易，如果您也覺得sendmail太複雜，倒是可考慮用postfix來當作MTA。</p>
+
+<h3>Step 1 停止 Sendmail 運作：</h3>
+
+<pre><code>&gt; /etc/rc.d/init.d/sendmail stop
+&gt; kill -9 `cat /var/run/sendmail.pid`
+&gt; killall sendmail
+</code></pre>
+
+<h3>Step 2 備份Sendmail 設定：</h3>
+
+<pre><code>&gt; mkdir /root/sendmail-old
+&gt; cp /etc/aliases /root/sendmail-old/
+&gt; cp /etc/sendmail.cf /root/sendmail-old/
+&gt; cp /etc/sendmail.cw /root/sendmail-old/
+&gt; cp /etc/mail/* /root/sendmail-old/
+</code></pre>
+
+<h3>Step 3 取得postfix的rpm：</h3>
+
+<p>可至rpmfind網站搜尋適合的版本</p>
+
+<h3>Step 4 安裝 rpm：</h3>
+
+<pre><code>&gt; rpm -ivh postfix-xxx-x.i386.rpm
+
+Preparing… ######################################## [100%]
+1:postfix ######################################### [100%]
+postalias: fatal: My hostname proxy is not a fully qualified name – set myhostname or mydomain in /etc/postfix/main.cf
+</code></pre>
+
+<h3>Step 5 修改 /etc/postfix/main.cf 主要設定檔：</h3>
+
+<pre><code>&gt; vi /etc/postfix/main.cf
+</code></pre>
+
+<p>把myhostname、mydomain改成自己機器的hostname跟domain name。另外，postfix預設值只會接受localhost的smtp，如果要對外服務，記得修改<code>inet_interfaces=all</code>。</p>
+
+<h3>Step 6 啟動 Postfix：</h3>
+
+<pre><code>&gt; /usr/sbin/postfix start
+</code></pre>
+
+<p>or</p>
+
+<pre><code>&gt; service postfix start
+</code></pre>
+
+<p>以上是大致的安裝流程，細節部份可再參考下列網站：</p>
+
+<ul>
+<li><a href="http://www.postfix.org/docs.html">http://www.postfix.org/docs.html</a></li>
+<li><a href="http://linux.tnc.edu.tw/techdoc/postfix-howto.htm">http://linux.tnc.edu.tw/techdoc/postfix-howto.htm</a></li>
+<li><a href="http://www.redhat.com/support/resources/faqs/RH-postfix-FAQ/book1.html">http://www.redhat.com/support/resources/faqs/RH-postfix-FAQ/book1.html</a></li>
+</ul>
+
+
+<h3>初始化相關資料庫:</h3>
+
+<pre><code>postmap hash:/etc/postfix/access
+postalias hash:/etc/postfix/aliases
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -292,6 +386,10 @@ mysql&gt; FLUSH PRIVILEGES;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/04/19/namespace/">Ruby 語法放大鏡之「有時候會看到有兩個冒號寫法是什麼意思?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
       </li>
     
@@ -327,15 +425,11 @@ mysql&gt; FLUSH PRIVILEGES;
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 147.69230769230768%'>Ruby(31)</a>  <a href='/category/ruby-on-rails' style='font-size: 115.38461538461539%'>Ruby on Rails(10)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>

@@ -21,7 +21,7 @@
   <meta name="author" content="高見龍">
 
   
-  <meta name="description" content="不管你用的Linux/FreeBSD/MacOS/Windows..etc，目前Python均有實作品，請至http://python.org/getit/找到適合的平台並下載安裝。 不過，我不得小小抱怨一下，Python在Windows上實在是不怎麼友善，包括我們之後要講的Django， &hellip;">
+  <meta name="description" content="在Windows安裝Python很難嗎? 就安裝的話，一點都不難，因為Python已經有幫Windows做好安裝檔了，檔案下載回來之後點一點、下一步的按鈕按一按差不多就搞定了。 其實在Windows上寫Python，Python本身沒什麼問題，倒是環境比較痛苦。特別是之後的Django， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,74 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/10/12/install-cygwin-on-windows/">如果你是使用Windows作業系統的話..</a></h1>
+      
+        <fb:like href="http://blog.eddie.com.tw/2011/10/12/install-cygwin-on-windows/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
+      
+    
+
+    
+      <p class="meta">
+        
+
+
+
+
+  
+<time datetime="2011-10-12T16:16:00+08:00" pubdate>Oct 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>在Windows安裝Python很難嗎?</h2>
+
+<p>就安裝的話，一點都不難，因為Python已經有幫Windows做好安裝檔了，檔案<a href="http://python.org/download/">下載</a>回來之後點一點、下一步的按鈕按一按差不多就搞定了。</p>
+
+<p>其實在Windows上寫Python，Python本身沒什麼問題，倒是環境比較痛苦。特別是之後的Django，它的懶人安裝包(Instant Django)專案也已經消失了，在Windows上練習寫Django的麻煩度就又增加了..</p>
+
+<h2>有比較完美的解決方法嗎?</h2>
+
+<p>最完美的解決方法就是 - <strong>不要用Windows</strong>，不過我想那對正在用Windows的人來還滿困難的。</p>
+
+<p>如果你因為工作或是其它因素不得不用它，那也許可以考慮安裝雙系統，或是像<a href="https://www.virtualbox.org/">VirtualBox</a>在Windows上模擬Linux的作業環境。我之前試過VirtualBox的這個解決方案，其實還滿完美的，之前在中研院<a href="http://www.openfoundry.org/">OpenFoundry</a>的工作坊講課的時候就是用它搭配Ubuntu，還滿ok的，但可惜就是速度會慢了點，遇到硬體設備比較差的電腦跑起來會有點辛苦。</p>
+
+<p>如果你不想重灌或安裝VirtualBox，我自己試了一下，大概安裝<a href="http://www.cygwin.com/">Cygwin</a>是比較簡單的解決方法了。</p>
+
+<p>Cygwin的<a href="http://www.cygwin.com/">官網</a>一進去就看到&#8221;Get that Linux feeling - on Windows!&#8221;，雖然離真正的Linux還是有點距離，但光是這個feeling，大概就可以讓我們在上面練習Python跟Django了。</p>
+
+<p>在安裝Cygwin的過程中，請順便勾選<code>Python</code>跟<code>wget</code>這兩個工具選項，在安裝Cygwin的過程中也會一併把這些工具一起裝進Cygwin的系統裡。</p>
+
+<p>它所有的軟體都會安裝在Cygwin自己的資料夾裡，所以如果你不要用的話，整個資料夾砍掉就行了。</p>
+
+<p>安裝完Cygwin之後，因為我們可能從Windows貼一些指令到Cygwin，如果你發現你的Cygwin沒辦法接受滑鼠右鍵貼上的話，請改一下視窗的設定：</p>
+
+<p>在視窗的上面按一下滑鼠右鍵，選擇「內容」：</p>
+
+<p><img src="/images/cygwin/window_settings.png" alt="image" /></p>
+
+<p>把「快速編輯模式」打勾：</p>
+
+<p><img src="/images/cygwin/quick_edit_mode.png" alt="image" /></p>
+
+<p>這樣就搞定了!</p>
+
+<h2>編輯器呢?</h2>
+
+<p>雖然說Python程式碼用記事本就可以寫了沒錯，但因為記事本功能太陽春，通常那是最不得已才會開它起來改程式。我想現在文字編輯器的牌子不少，每款軟體用起來的手感也不太一樣，大家可以多比較看看哪些編輯器。如果你懶得比較，那就直接抓<a href="http://notepad-plus-plus.org/">Notepad++</a>來用吧，至少它該有的程式碼顏色功能都有了。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -565,210 +633,6 @@ To git@heroku.com:happy-octopress.git
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/09/11/zoe/">Zoë – 從SWF匯出SpriteSheet的方便工具</a></h1>
-      
-        <fb:like href="http://blog.eddie.com.tw/2011/09/11/zoe/" layout="button_count" show_faces="false" action="like" colorscheme="light"></fb:like>
-      
-    
-
-    
-      <p class="meta">
-        
-
-
-
-
-  
-<time datetime="2011-09-11T00:49:00+08:00" pubdate>Sep 11<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/2011/09/10/introduction-to-easeljs/">前一篇</a>簡單的介紹了一下<a href="http://easeljs.com/">EaselJS</a>，其中有個類別叫做<a href="http://easeljs.com/docs/SpriteSheet.html">SpriteSheet</a>，其實它就是把一些連續動作的圖片排排站的集合拼成一張圖，把檔案及相關的frame data包成SpriteSheet之後，再讓這些連續圖檔連續播放，感覺就會像動畫了。在之後的文章應該還會有更多關於SpriteSheet的說明，如果你還是沒辦法想像Spritesheet是怎麼回事，你可以回想一下設計師在Flash做動畫的時候，會在時間軸上安插一堆的關鍵影格(Key Frame)，然後讓每個關鍵影格的動作都稍微有些變化，大概就是這樣的概念，只是HTML5並沒有時間軸可以用。</p>
-
-<p>一個跑步的角色的SpriteSheet圖片可能會長這樣：</p>
-
-<p><img src="/images/2011/easeljs-hero-spritesheet.png" alt="image" /></p>
-
-<p>感謝<a href="http://masolin.blogspot.com/">Maso哥</a>提供!</p>
-
-<p>若你之前曾經用Flash做過些小遊戲，有些動態效果你已經做成MovieClip了，你當然可以打開繪圖軟體來一塊一塊的拼貼成SpriteSheet圖檔，然後還得自己寫frame data，這樣實在有些辛苦。有鑑於此，<a href="http://gskinner.com/blog">Grant Skinner</a>大神用Adobe AIR寫了個叫做<a href="http://easeljs.com/zoe.html">Zoë</a>小工具，可以讓你很容易的把SWF裡的東西轉成SpriteSheet圖檔，而且還順便幫你產生一個給EaselJS用的frame data。(GS大神請受我一拜!)</p>
-
-<h2>安裝</h2>
-
-<p>請到<a href="http://easeljs.com/zoe.html">Zoë</a>的下載頁面下載相關檔案，再來解壓縮、安裝，應該沒什麼太大的難度。(Zoë是用Adobe AIR寫的，所以你的電腦也需要安裝AIR的runtime)</p>
-
-<h2>使用</h2>
-
-<p>打開安裝好的Zoë，然後把SWF拖進去，它會自動開始幫你算邊界(bound)，或是你也可以自己切到Bounds功能按下Calculate按鈕：</p>
-
-<p><img src="/images/2011/easeljs-zoe-bounds.png" alt="image" /></p>
-
-<p>再切到Export功能，勾選EaselJS，按下Export按鈕：</p>
-
-<p><img src="/images/2011/easeljs-zoe-export.png" alt="image" /></p>
-
-<p>然後，你會得到一張拼好的png圖檔像這樣：</p>
-
-<p><img src="/images/2011/easeljs-hero-spritesheet.png" alt="image" /></p>
-
-<p>同時你還會得到一個同名的js檔，內容如下：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">frameData</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">run</span><span class="o">:</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">()</span>
-</span><span class='line'><span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;hero.png&quot;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">spriteSheet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SpriteSheet</span><span class="p">(</span><span class="nx">img</span><span class="p">,</span><span class="mi">48</span><span class="p">,</span><span class="mi">68</span><span class="p">,</span><span class="nx">frameData</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果你發現你的frameData裡面是空的，可能是因為你少了label關係，這是我在Flash IDE裡的樣子：</p>
-
-<p><img src="/images/2011/easeljs-flash-label.png" alt="image" /></p>
-
-<p>老實說這軟體沒什麼好介紹的，就是執行、匯出..就這樣。</p>
-
-<p>用這樣轉檔有什麼好處? 首先，如果你之前有做好的動態，至少不用再手工拼貼連續圖。就算是從頭開始做，對設計師來說，在Flash使用關鍵影格來做動態也是很方便的(這是Flash的強項啊)。</p>
-
-<h2>動手寫code了</h2>
-
-<p>接下來，來試著讓這個SpriteSheet動起來!</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
-</span><span class='line'><span class="nt">&lt;html&gt;</span>
-</span><span class='line'><span class="nt">&lt;head&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;title&gt;</span>SpriteSheet Demo<span class="nt">&lt;/title&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;easel.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">media=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nf">#my_canvas</span><span class="p">{</span>
-</span><span class='line'>      <span class="k">background-color</span><span class="o">:</span> <span class="nb">gray</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="nt">&lt;/style&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">stage</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;my_canvas&quot;</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">stage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Stage</span><span class="p">(</span><span class="nx">canvas</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">frameData</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">run</span><span class="o">:</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
-</span><span class='line'>      <span class="p">};</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">()</span>
-</span><span class='line'>      <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;hero.png&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">spriteSheet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SpriteSheet</span><span class="p">(</span><span class="nx">img</span><span class="p">,</span><span class="mi">48</span><span class="p">,</span><span class="mi">68</span><span class="p">,</span><span class="nx">frameData</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">hero</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BitmapSequence</span><span class="p">(</span><span class="nx">spriteSheet</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">hero</span><span class="p">.</span><span class="nx">gotoAndPlay</span><span class="p">(</span><span class="s2">&quot;run&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">stage</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">hero</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">stage</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">Ticker</span><span class="p">.</span><span class="nx">setFPS</span><span class="p">(</span><span class="mi">24</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">Ticker</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">function</span> <span class="nx">tick</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>      <span class="nx">stage</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="nt">&lt;/script&gt;</span>
-</span><span class='line'><span class="nt">&lt;/head&gt;</span>
-</span><span class='line'><span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;javascript:init();&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'><span class="nt">&lt;canvas</span> <span class="na">width=</span><span class="s">&quot;200&quot;</span> <span class="na">height=</span><span class="s">&quot;80&quot;</span> <span class="na">id=</span><span class="s">&quot;my_canvas&quot;</span><span class="nt">&gt;&lt;/canvas&gt;</span>
-</span><span class='line'><span class="nt">&lt;/body&gt;</span>
-</span><span class='line'><span class="nt">&lt;/html&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>效果如下：</p>
-
-<iframe src="http://www.eddie.com.tw/labs/easeljs/002.html" width="225" height="100" frameborder="0"></iframe>
-
-
-<p>或按<a href="http://www.eddie.com.tw/labs/easeljs/002.html">這裡</a>檢視。</p>
-
-<p>程式碼跟上一個範例沒有太大的差別，中間那段SpriteSheet的內容是從剛剛產出的同名js剪過來的。但SpriteSheet本身並不是DisplayObject的一種，所以需要來個<a href="http://easeljs.com/docs/BitmapSequence.html">BitmapSequence</a>來把它包起來，然後執行閃客們都很熟悉的gotoAndPlay()：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">hero</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BitmapSequence</span><span class="p">(</span><span class="nx">spriteSheet</span><span class="p">);</span>
-</span><span class='line'><span class="nx">hero</span><span class="p">.</span><span class="nx">gotoAndPlay</span><span class="p">(</span><span class="s2">&quot;run&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>看吧，不用幾行程式碼就能讓帥氣的廖添丁動起來了!!</p>
-
-<p>最後，要再感謝一下Maso哥提供的原始檔。至於會不會在不久的將來就會看到HTML5版的廖添丁呢.. 也許大家可以期待一下囉。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/20/">&larr; Older</a>
@@ -820,6 +684,10 @@ To git@heroku.com:happy-octopress.git
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/04/19/namespace/">Ruby 語法放大鏡之「有時候會看到有兩個冒號寫法是什麼意思?」</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/03/24/class-and-module/">Ruby 語法放大鏡之「類別跟模組有什麼不一樣?」</a>
       </li>
     
@@ -855,15 +723,11 @@ To git@heroku.com:happy-octopress.git
         <a href="/2014/08/07/code-swift-with-vim/">Code Swift with Vim</a>
       </li>
     
-      <li class="post">
-        <a href="/2014/05/29/5xruby/">五倍祝福，五倍的紅寶石</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 146.15384615384616%'>Ruby(30)</a>  <a href='/category/ruby-on-rails' style='font-size: 113.84615384615384%'>Ruby on Rails(9)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
+<span class='categories_tag'> <a href='/category/5xruby' style='font-size: 101.53846153846153%'>5xRuby(1)</a>  <a href='/category/actionscript' style='font-size: 136.9230769230769%'>ActionScript(24)</a>  <a href='/category/asp' style='font-size: 103.07692307692308%'>ASP(2)</a>  <a href='/category/aws' style='font-size: 101.53846153846153%'>AWS(1)</a>  <a href='/category/book' style='font-size: 101.53846153846153%'>Book(1)</a>  <a href='/category/browser' style='font-size: 103.07692307692308%'>Browser(2)</a>  <a href='/category/cocos2d' style='font-size: 101.53846153846153%'>Cocos2D(1)</a>  <a href='/category/coffeescript' style='font-size: 124.61538461538461%'>CoffeeScript(16)</a>  <a href='/category/css' style='font-size: 101.53846153846153%'>CSS(1)</a>  <a href='/category/diary' style='font-size: 160.0%'>Diary(39)</a>  <a href='/category/django' style='font-size: 121.53846153846155%'>Django(14)</a>  <a href='/category/dojo' style='font-size: 101.53846153846153%'>Dojo(1)</a>  <a href='/category/easeljs' style='font-size: 104.61538461538461%'>EaselJS(3)</a>  <a href='/category/flash' style='font-size: 158.46153846153845%'>Flash(38)</a>  <a href='/category/funny' style='font-size: 106.15384615384616%'>Funny(4)</a>  <a href='/category/happy-ruby' style='font-size: 103.07692307692308%'>Happy Ruby(2)</a>  <a href='/category/html5' style='font-size: 104.61538461538461%'>HTML5(3)</a>  <a href='/category/ios' style='font-size: 101.53846153846153%'>iOS(1)</a>  <a href='/category/ios-app-development' style='font-size: 135.3846153846154%'>iOS App Development(23)</a>  <a href='/category/javascript' style='font-size: 101.53846153846153%'>Javascript(1)</a>  <a href='/category/javascript' style='font-size: 138.46153846153845%'>JavaScript(25)</a>  <a href='/category/jquery' style='font-size: 101.53846153846153%'>jQuery(1)</a>  <a href='/category/jsdc' style='font-size: 103.07692307692308%'>JSDC(2)</a>  <a href='/category/linux' style='font-size: 123.07692307692308%'>Linux(15)</a>  <a href='/category/mysql' style='font-size: 101.53846153846153%'>MySQL(1)</a>  <a href='/category/objective-c' style='font-size: 126.15384615384616%'>Objective-C(17)</a>  <a href='/category/octopress' style='font-size: 106.15384615384616%'>Octopress(4)</a>  <a href='/category/party' style='font-size: 127.6923076923077%'>Party(18)</a>  <a href='/category/party' style='font-size: 101.53846153846153%'>party(1)</a>  <a href='/category/php' style='font-size: 133.84615384615384%'>PHP(22)</a>  <a href='/category/phpconf' style='font-size: 103.07692307692308%'>PHPConf(2)</a>  <a href='/category/phpconf-taiwan' style='font-size: 103.07692307692308%'>PHPConf Taiwan(2)</a>  <a href='/category/presentation' style='font-size: 116.92307692307692%'>Presentation(11)</a>  <a href='/category/programming' style='font-size: 104.61538461538461%'>Programming(3)</a>  <a href='/category/python' style='font-size: 146.15384615384616%'>Python(30)</a>  <a href='/category/rails' style='font-size: 101.53846153846153%'>Rails(1)</a>  <a href='/category/railsgirls' style='font-size: 101.53846153846153%'>RailsGirls(1)</a>  <a href='/category/robotlegs' style='font-size: 103.07692307692308%'>Robotlegs(2)</a>  <a href='/category/ruby' style='font-size: 147.69230769230768%'>Ruby(31)</a>  <a href='/category/ruby-on-rails' style='font-size: 115.38461538461539%'>Ruby on Rails(10)</a>  <a href='/category/rubykaigi' style='font-size: 103.07692307692308%'>RubyKaigi(2)</a>  <a href='/category/screencast' style='font-size: 106.15384615384616%'>Screencast(4)</a>  <a href='/category/security' style='font-size: 101.53846153846153%'>Security(1)</a>  <a href='/category/smarty' style='font-size: 101.53846153846153%'>Smarty(1)</a>  <a href='/category/swift' style='font-size: 101.53846153846153%'>Swift(1)</a>  <a href='/category/test' style='font-size: 101.53846153846153%'>Test(1)</a>  <a href='/category/tools' style='font-size: 143.0769230769231%'>Tools(28)</a>  <a href='/category/vim' style='font-size: 115.38461538461539%'>Vim(10)</a>  <a href='/category/webconf' style='font-size: 101.53846153846153%'>WebConf(1)</a>  <a href='/category/windows' style='font-size: 104.61538461538461%'>Windows(3)</a>  <a href='/category/zend-framework' style='font-size: 113.84615384615384%'>Zend Framework(9)</a> </span>
 </section>
 
 <section>
