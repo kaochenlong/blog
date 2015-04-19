@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | 高見龍]]></title>
   <link href="http://blog.eddie.com.tw/category/ruby/atom.xml" rel="self"/>
   <link href="http://blog.eddie.com.tw/"/>
-  <updated>2015-04-19T19:50:18+08:00</updated>
+  <updated>2015-04-19T19:55:28+08:00</updated>
   <id>http://blog.eddie.com.tw/</id>
   <author>
     <name><![CDATA[高見龍]]></name>
@@ -56,7 +56,7 @@ end
 end
 </code></pre>
 
-<p>要 include 那個 Flyable 模組，就必須連名帶姓的 include。</p>
+<p>要 include 那個 Flyable 模組，就必須連名帶姓的 include，也就是「樹林::金城武」、「三重::劉德華」的概念。</p>
 
 <p>除此之外，其實你也可把常數包在 namespace 裡</p>
 
